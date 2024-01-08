@@ -38,11 +38,11 @@
     <Content Include="index.html">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="src\setup\services\BudgetAccountDataService.js" />
-    <Content Include="src\setup\services\BankAccountDataService.js" />
-    <Content Include="src\setup\services\BudgetCategoryDataService.js" />
-    <Content Include="src\setup\services\CommonDataService.js" />
-    <Content Include="src\setup\services\BankDataService.js" />
+    <Content Include="src\setup\budgetAccount\data\BudgetAccountDataService.js" />
+    <Content Include="src\setup\bankAccount\data\BankAccountDataService.js" />
+    <Content Include="src\setup\budgetCategory\data\BudgetCategoryDataService.js" />
+    <Content Include="src\setup\common\data\CommonDataService.js" />
+    <Content Include="src\setup\bank\data\BankDataService.js" />
     <Content Include="src\AxiosCommon.js" />
     <Content Include="main.css">
       <SubType>Code</SubType>
@@ -50,8 +50,8 @@
     <Content Include="server.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
-    <Content Include="src\setup\services\TutorialService.js" />
-    <Content Include="src\setup\views\ViewTools.js" />
+    <Content Include="src\setup\tutorial\services\TutorialService.js" />
+    <Content Include="src\setup\common\views\ViewTools.js" />
     <Content Include="tsconfig.json">
       <SubType>Code</SubType>
     </Content>
@@ -60,35 +60,35 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="src\setup\viewmodels\budgetAccount\BudgetAccountDetailsViewModel.tsx" />
-    <TypeScriptCompile Include="src\setup\viewmodels\budgetAccount\BudgetAccountEditViewModel.tsx" />
-    <TypeScriptCompile Include="src\setup\viewmodels\budgetAccount\BudgetAccountViewModel.tsx" />
-    <TypeScriptCompile Include="src\setup\viewmodels\budgetCategory\BudgetCategoryDetailsViewModel.tsx" />
-    <TypeScriptCompile Include="src\setup\viewmodels\CommonEditViewModel.tsx" />
-    <TypeScriptCompile Include="src\setup\viewmodels\CommonDetailsViewModel.tsx" />
-    <TypeScriptCompile Include="src\setup\viewmodels\budgetCategory\BudgetCategoryEditViewModel.tsx" />
-    <TypeScriptCompile Include="src\setup\viewmodels\budgetCategory\BudgetCategoryViewModel.tsx" />
-    <TypeScriptCompile Include="src\setup\viewmodels\bankAccount\BankAccountDetailsViewModel.tsx" />
-    <TypeScriptCompile Include="src\setup\viewmodels\bankAccount\BankAccountEditViewModel.tsx" />
-    <TypeScriptCompile Include="src\setup\viewmodels\bankAccount\BankAccountViewModel.tsx" />
-    <TypeScriptCompile Include="src\setup\viewmodels\CommonViewModel.tsx" />
-    <TypeScriptCompile Include="src\setup\viewmodels\bank\BankDetailsViewModel.tsx" />
-    <TypeScriptCompile Include="src\setup\viewmodels\bank\BankEditViewModel.tsx" />
-    <TypeScriptCompile Include="src\setup\viewmodels\bank\BankViewModel.tsx" />
-    <TypeScriptCompile Include="src\setup\views\bankAccount\BankAccountDetailsView.tsx" />
-    <TypeScriptCompile Include="src\setup\views\bankAccount\BankAccountEditView.tsx" />
-    <TypeScriptCompile Include="src\setup\views\bankAccount\BankAccountView.tsx" />
-    <TypeScriptCompile Include="src\setup\views\budgetAccount\BudgetAccountDetailsView.tsx" />
-    <TypeScriptCompile Include="src\setup\views\budgetAccount\BudgetAccountEditView.tsx" />
-    <TypeScriptCompile Include="src\setup\views\budgetAccount\BudgetAccountView.tsx" />
-    <TypeScriptCompile Include="src\setup\views\budgetCategory\BudgetCategoryDetailsView.tsx" />
-    <TypeScriptCompile Include="src\setup\views\budgetCategory\BudgetCategoryEditView.tsx" />
-    <TypeScriptCompile Include="src\setup\views\budgetCategory\BudgetCategoryView.tsx" />
-    <TypeScriptCompile Include="src\setup\views\CommonView.tsx" />
-    <TypeScriptCompile Include="src\setup\views\bank\BankDetailsView.tsx" />
+    <TypeScriptCompile Include="src\setup\budgetAccount\viewModels\BudgetAccountDetailsViewModel.tsx" />
+    <TypeScriptCompile Include="src\setup\budgetAccount\viewModels\BudgetAccountEditViewModel.tsx" />
+    <TypeScriptCompile Include="src\setup\budgetAccount\viewModels\BudgetAccountViewModel.tsx" />
+    <TypeScriptCompile Include="src\setup\budgetCategory\viewModels\BudgetCategoryDetailsViewModel.tsx" />
+    <TypeScriptCompile Include="src\setup\common\viewModels\CommonEditViewModel.tsx" />
+    <TypeScriptCompile Include="src\setup\common\viewModels\CommonDetailsViewModel.tsx" />
+    <TypeScriptCompile Include="src\setup\budgetCategory\viewModels\BudgetCategoryEditViewModel.tsx" />
+    <TypeScriptCompile Include="src\setup\budgetCategory\viewModels\BudgetCategoryViewModel.tsx" />
+    <TypeScriptCompile Include="src\setup\bankAccount\viewModels\BankAccountDetailsViewModel.tsx" />
+    <TypeScriptCompile Include="src\setup\bankAccount\viewModels\BankAccountEditViewModel.tsx" />
+    <TypeScriptCompile Include="src\setup\bankAccount\viewModels\BankAccountViewModel.tsx" />
+    <TypeScriptCompile Include="src\setup\common\viewModels\CommonViewModel.tsx" />
+    <TypeScriptCompile Include="src\setup\bank\viewModels\BankDetailsViewModel.tsx" />
+    <TypeScriptCompile Include="src\setup\bank\viewModels\BankEditViewModel.tsx" />
+    <TypeScriptCompile Include="src\setup\bank\viewModels\BankViewModel.tsx" />
+    <TypeScriptCompile Include="src\setup\bankAccount\views\BankAccountDetailsView.tsx" />
+    <TypeScriptCompile Include="src\setup\bankAccount\views\BankAccountEditView.tsx" />
+    <TypeScriptCompile Include="src\setup\bankAccount\views\BankAccountView.tsx" />
+    <TypeScriptCompile Include="src\setup\budgetAccount\views\BudgetAccountDetailsView.tsx" />
+    <TypeScriptCompile Include="src\setup\budgetAccount\views\BudgetAccountEditView.tsx" />
+    <TypeScriptCompile Include="src\setup\budgetAccount\views\BudgetAccountView.tsx" />
+    <TypeScriptCompile Include="src\setup\budgetCategory\views\BudgetCategoryDetailsView.tsx" />
+    <TypeScriptCompile Include="src\setup\budgetCategory\views\BudgetCategoryEditView.tsx" />
+    <TypeScriptCompile Include="src\setup\budgetCategory\views\BudgetCategoryView.tsx" />
+    <TypeScriptCompile Include="src\setup\common\views\CommonView.tsx" />
+    <TypeScriptCompile Include="src\setup\bank\views\BankDetailsView.tsx" />
     <TypeScriptCompile Include="src\components\Footer.tsx" />
-    <TypeScriptCompile Include="src\setup\views\bank\BankEditView.tsx" />
-    <TypeScriptCompile Include="src\setup\views\bank\BankView.tsx" />
+    <TypeScriptCompile Include="src\setup\bank\views\BankEditView.tsx" />
+    <TypeScriptCompile Include="src\setup\bank\views\BankView.tsx" />
     <TypeScriptCompile Include="src\components\NavBar.tsx" />
     <TypeScriptCompile Include="src\components\SocialLinks.tsx" />
     <TypeScriptCompile Include="src\components\Header.tsx" />
@@ -101,29 +101,40 @@
     <TypeScriptCompile Include="src\pages\TransactionEntry.tsx" />
     <TypeScriptCompile Include="src\pages\ReportByPeriod.tsx" />
     <TypeScriptCompile Include="src\pages\BudgetView.tsx" />
-    <TypeScriptCompile Include="src\pages\budgetEdit\views\BudgetWorksheetView.tsx" />
+    <TypeScriptCompile Include="src\pages\budgetWorksheet\views\BudgetWorksheetView.tsx" />
     <TypeScriptCompile Include="src\pages\Dashboard.tsx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dist\" />
     <Folder Include="src\components\" />
     <Folder Include="src\" />
-    <Folder Include="src\pages\budgetEdit\" />
-    <Folder Include="src\pages\budgetEdit\views\" />
-    <Folder Include="src\pages\budgetEdit\viewModels\" />
+    <Folder Include="src\pages\budgetWorksheet\" />
+    <Folder Include="src\pages\budgetWorksheet\views\" />
+    <Folder Include="src\pages\budgetWorksheet\viewModels\" />
     <Folder Include="src\setup\" />
-    <Folder Include="src\setup\viewmodels\budgetCategory\" />
-    <Folder Include="src\setup\viewmodels\bank\" />
-    <Folder Include="src\setup\viewmodels\bankAccount\" />
-    <Folder Include="src\setup\viewmodels\budgetAccount\" />
-    <Folder Include="src\setup\views\bank\" />
-    <Folder Include="src\setup\views\" />
-    <Folder Include="src\setup\viewmodels\" />
-    <Folder Include="src\setup\services\" />
+    <Folder Include="src\setup\bankAccount\data\" />
+    <Folder Include="src\setup\bankAccount\viewModels\" />
+    <Folder Include="src\setup\bankAccount\views\" />
+    <Folder Include="src\setup\bank\data\" />
+    <Folder Include="src\setup\budgetAccount\data\" />
+    <Folder Include="src\setup\budgetAccount\viewModels\" />
+    <Folder Include="src\setup\budgetAccount\views\" />
+    <Folder Include="src\setup\budgetCategory\data\" />
+    <Folder Include="src\setup\budgetCategory\viewModels\" />
+    <Folder Include="src\setup\budgetCategory\views\" />
+    <Folder Include="src\setup\common\" />
+    <Folder Include="src\setup\bank\" />
+    <Folder Include="src\setup\bankAccount\" />
+    <Folder Include="src\setup\budgetCategory\" />
+    <Folder Include="src\setup\budgetAccount\" />
+    <Folder Include="src\setup\common\data\" />
+    <Folder Include="src\setup\common\views\" />
+    <Folder Include="src\setup\common\viewModels\" />
+    <Folder Include="src\setup\tutorial\" />
+    <Folder Include="src\setup\bank\viewModels\" />
+    <Folder Include="src\setup\bank\views\" />
+    <Folder Include="src\setup\tutorial\services\" />
     <Folder Include="src\pages\" />
-    <Folder Include="src\setup\views\bankAccount\" />
-    <Folder Include="src\setup\views\budgetCategory\" />
-    <Folder Include="src\setup\views\budgetAccount\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
   <ProjectExtensions>

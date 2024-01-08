@@ -6,7 +6,7 @@ import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 
 import Dashboard from './pages/Dashboard';
-import BudgetWorksheetView from './pages/budgetEdit/views/BudgetWorksheetView';
+import BudgetWorksheetView from './pages/budgetWorksheet/views/BudgetWorksheetView';
 import BudgetView from './pages/BudgetView';
 
 import TransactionEntry from './pages/TransactionEntry';
@@ -15,15 +15,17 @@ import TransactionImport from './pages/TransactionImport';
 import ReportByPeriod from './pages/ReportByPeriod';
 import ReportByAccount from './pages/ReportByAccount';
 
-import BankViewModel from './setup/viewModels/bank/BankViewModel';
-import BankAccountViewModel from './setup/viewModels/bankAccount/BankAccountViewModel';
-import BudgetCategoryViewModel from './setup/viewModels/budgetCategory/BudgetCategoryViewModel';
-import BudgetAccountViewModel from './setup/viewModels/budgetAccount/BudgetAccountViewModel';
+import BankViewModel from './setup/bank/viewModels/BankViewModel';
+import BankView from './setup/bank/views/BankView';
 
-import BankView from './setup/views/bank/BankView';
-import BankAccountView from './setup/views/bankAccount/BankAccountView';
-import BudgetCategoryView from './setup/views/budgetCategory/BudgetCategoryView';
-import BudgetAccountView from './setup/views/budgetAccount/BudgetAccountView';
+import BankAccountViewModel from './setup/bankAccount/viewModels/BankAccountViewModel';
+import BankAccountView from './setup/bankAccount/views/BankAccountView';
+
+import BudgetCategoryViewModel from './setup/budgetCategory/viewModels/BudgetCategoryViewModel';
+import BudgetCategoryView from './setup/budgetCategory/views/BudgetCategoryView';
+
+import BudgetAccountViewModel from './setup/budgetAccount/viewModels/BudgetAccountViewModel';
+import BudgetAccountView from './setup/budgetAccount/views/BudgetAccountView';
 
 //import BatesList from './test/BatesList';
 //import CitiesList from './test/CitiesList';
