@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    //"baseUrl": "src",
+    "noImplicitAny": false,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "es5",
+    "jsx": "react",
+    "esModuleInterop": true
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  //"include": [
+  //  "src"
+  //],
+  "files": [
+    "main.tsx"
+  ]
+}

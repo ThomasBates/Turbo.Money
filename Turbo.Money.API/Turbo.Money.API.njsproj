@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>Turbo.Money.API</Name>
+    <RootNamespace>Turbo.Money.API</RootNamespace>
+    <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>7b578470-1fa6-41cf-bc1d-7d5815d1d9c1</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>server.js</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <NodejsPort>8080</NodejsPort>
+    <StartWebBrowser>True</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="app.js" />
+    <Content Include="app\business\BudgetAccountBusiness.js" />
+    <Content Include="app\business\BudgetCategoryBusiness.js" />
+    <Content Include="app\business\CommonBusiness.js" />
+    <Content Include="app\business\BankBusiness.js" />
+    <Content Include="app\business\BankAccountBusiness.js" />
+    <Content Include="app\business\index.js" />
+    <Content Include="app\config\db.config.js" />
+    <Content Include="app\controllers\BudgetAccountController.js" />
+    <Content Include="app\controllers\BudgetCategoryController.js" />
+    <Content Include="app\controllers\CommonController.js" />
+    <Content Include="app\controllers\BankController.js" />
+    <Content Include="app\controllers\BankAccountController.js" />
+    <Content Include="app\controllers\index.js" />
+    <Content Include="app\routes\budgetAccount.routes.js" />
+    <Content Include="app\routes\budgetCategory.routes.js" />
+    <Content Include="app\routes\bankAccount.routes.js" />
+    <Content Include="app\routes\bank.routes.js" />
+    <Content Include="app\routes\index.js" />
+    <Content Include="app\sequelize\data\BudgetAccountData.js" />
+    <Content Include="app\sequelize\data\BankAccountData.js" />
+    <Content Include="app\sequelize\data\BudgetCategoryData.js" />
+    <Content Include="app\sequelize\data\CommonData.js" />
+    <Content Include="app\sequelize\data\BankData.js" />
+    <Content Include="app\sequelize\data\index.js" />
+    <Content Include="app\sequelize\data\tutorial.controller.js" />
+    <Content Include="app\sequelize\models\BudgetAccountModel.js" />
+    <Content Include="app\sequelize\models\BankAccountModel.js" />
+    <Content Include="app\sequelize\models\BankModel.js" />
+    <Content Include="app\sequelize\models\index.js" />
+    <Content Include="app\sequelize\models\BudgetCategoryModel.js" />
+    <Content Include="app\sequelize\models\tutorial.model.js" />
+    <Content Include="app\routes\tutorial.routes.js" />
+    <Content Include="routes\index.js" />
+    <Content Include="routes\users.js" />
+    <Content Include="package.json" />
+    <Content Include="public\stylesheets\main.css" />
+    <Content Include="README.md" />
+    <Content Include="server.js" />
+    <Content Include="views\index.pug" />
+    <Content Include="views\layout.pug" />
+    <Content Include="views\error.pug" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="app\" />
+    <Folder Include="app\config\" />
+    <Folder Include="app\business\" />
+    <Folder Include="app\controllers\" />
+    <Folder Include="app\sequelize\data\" />
+    <Folder Include="app\sequelize\models\" />
+    <Folder Include="app\sequelize\" />
+    <Folder Include="app\routes\" />
+    <Folder Include="public\" />
+    <Folder Include="public\images\" />
+    <Folder Include="public\javascripts\" />
+    <Folder Include="public\stylesheets\" />
+    <Folder Include="routes\" />
+    <Folder Include="views\" />
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
