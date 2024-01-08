@@ -133,3 +133,5 @@ dist
 .vs/
 bin
 obj
+*.user
+package-lock.json
