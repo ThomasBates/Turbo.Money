@@ -5,7 +5,7 @@ module.exports = (data) => {
     const validate = async (testAccount, callback) => {
         console.log("BudgetAccountBusiness.validate: testAccount = ", testAccount);
 
-        let [error, accounts] = await data.findAll();
+        let [error, accounts] = await data.getList();
         if (error) {
             return error;
         }

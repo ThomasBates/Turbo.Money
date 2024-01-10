@@ -1,9 +1,9 @@
 module.exports = (sequelize, Sequelize) => {
     const Bank = sequelize.define("bank", {
-        activeFrom: {
+        active_from: {
             type: Sequelize.DATE
         },
-        activeTo: {
+        active_to: {
             type: Sequelize.DATE
         },
         name: {
@@ -14,6 +14,9 @@ module.exports = (sequelize, Sequelize) => {
         },
         transit: {
             type: Sequelize.STRING
+        },
+        display_order: {
+            type: Sequelize.INTEGER
         },
         tag: {
             type: Sequelize.STRING

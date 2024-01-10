@@ -1,7 +1,7 @@
 
 module.exports = (business) => {
 
-    const decode = async (data) => {
+    const decode = (data) => {
         if (!data)
             return ["parse error: data is not defined.", null];
         if (!data.name)
@@ -32,11 +32,11 @@ module.exports = (business) => {
         return [null, account];
     }
 
-    const encode = async (account) => {
+    const encode = (account) => {
         return [null, account];
     }
 
-    const encodeList = async (accountList) => {
+    const encodeList = (accountList) => {
         let dataList = accountList.map(account => {
             return { id: account.id, name: account.name }
         });

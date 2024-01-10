@@ -1,27 +1,27 @@
 
 module.exports = (table) => {
 
-    const encode = async (category) => {
+    const encode = (category) => {
         const data = {
             id: category.id,
             name: category.name,
             description: category.description,
-            direction: category.direction
+            section_id: category.sectionId
         };
         return [null, data];
     }
 
-    const decode = async (data) => {
+    const decode = (data) => {
         const category = {
             id: data.id,
             name: data.name,
             description: data.description,
-            direction: data.direction
+            sectionId: data.section_id
         };
         return [null, category];
     }
 
-    const decodeList = async (data) => {
+    const decodeList = (data) => {
         const categories = data.map(item => {
             return { id: item.id, name: item.name }
         });
@@ -29,7 +29,7 @@ module.exports = (table) => {
     }
 
     const validate = (category) => {
-        if (!category.name || !category.direction) {
+        if (!category.name || !category.sectionId) {
             return "Content can not be empty!";
         }
         return null

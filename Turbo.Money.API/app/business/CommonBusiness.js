@@ -6,12 +6,16 @@ module.exports = (data) => {
         return await data.create(businessObject);
     }
 
-    const findAll = async () => {
-        return await data.findAll();
+    const getAll = async () => {
+        return await data.getAll();
     }
 
-    const findById = async (id) => {
-        return await data.findOne(id);
+    const getList = async () => {
+        return await data.getList();
+    }
+
+    const getOne = async (id) => {
+        return await data.getOne(id);
     }
 
     const update = async (businessObject) => {
@@ -28,8 +32,9 @@ module.exports = (data) => {
 
     return {
         create,
-        findAll,
-        findById,
+        getAll,
+        getList,
+        getOne,
         update,
         deleteById,
         deleteAll

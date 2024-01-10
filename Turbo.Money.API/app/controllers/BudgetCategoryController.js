@@ -1,31 +1,33 @@
 
 module.exports = (business) => {
 
-    const decode = async (data) => {
+    const decode = (data) => {
         if (!data)
             return ["parse error: data is not defined.", null];
         if (!data.name)
             return ["parse error: data.name is not defined.", null];
         if (!data.description)
             return ["parse error: data.description is not defined.", null];
-        if (!data.direction)
-            return ["parse error: data.direction is not defined.", null];
+        if (!data.sectionId)
+            return ["parse error: data.sectionId is not defined.", null];
+        if (isNaN(data.sectionId))
+            return ["parse error: data.sectionId must be a number.", null];
 
         const category = {
             id: data.id,
             name: data.name,
             description: data.description,
-            direction: data.direction
+            sectionId: parseInt(data.sectionId)
         };
 
         return [null, category];
     }
 
-    const encode = async (category) => {
+    const encode = (category) => {
         return [null, category];
     }
 
-    const encodeList = async (categoryList) => {
+    const encodeList = (categoryList) => {
         let dataList = categoryList.map(category => {
             return { id: category.id, name: category.name }
         });

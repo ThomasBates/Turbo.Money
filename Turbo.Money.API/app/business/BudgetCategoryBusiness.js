@@ -4,7 +4,7 @@ module.exports = (data) => {
     // Validate Budget Category data
     const validate = async (testCategory) => {
         console.log("BudgetCategoryBusiness.validate: testCategory = ", testCategory);
-        let [error, categories] = await data.findAll();
+        let [error, categories] = await data.getList();
         if (error) {
             return error;
         }

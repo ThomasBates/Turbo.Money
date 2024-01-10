@@ -1,7 +1,7 @@
 
 module.exports = (table) => {
 
-    const encode = async (bank) => {
+    const encode = (bank) => {
         const data = {
             id: bank.id,
             name: bank.name,
@@ -11,7 +11,7 @@ module.exports = (table) => {
         return [null, data];
     }
 
-    const decode = async (data) => {
+    const decode = (data) => {
         const bank = {
             id: data.id,
             name: data.name,
@@ -21,7 +21,7 @@ module.exports = (table) => {
         return [null, bank];
     }
 
-    const decodeList = async (data) => {
+    const decodeList = (data) => {
 
         const banks = data.map(item => {
             return { id: item.id, name: item.name }

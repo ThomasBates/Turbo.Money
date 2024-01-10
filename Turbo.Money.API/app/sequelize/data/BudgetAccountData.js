@@ -27,7 +27,7 @@ module.exports = (table) => {
         return [null, account];
     }
 
-    const decodeList = async (data) => {
+    const decodeList = (data) => {
 
         const accounts = data.map(item => {
             return { id: item.id, name: item.name }

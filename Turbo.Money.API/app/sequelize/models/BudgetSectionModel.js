@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const BankAccount = sequelize.define("bank_account", {
+    const Bank = sequelize.define("budget_section", {
         active_from: {
             type: Sequelize.DATE
         },
@@ -9,10 +9,10 @@ module.exports = (sequelize, Sequelize) => {
         name: {
             type: Sequelize.STRING
         },
-        bank_id: {
-            type: Sequelize.INTEGER
-            },
-        number: {
+        description: {
+            type: Sequelize.STRING
+        },
+        direction: {
             type: Sequelize.STRING
         },
         display_order: {
@@ -23,5 +23,5 @@ module.exports = (sequelize, Sequelize) => {
         },
     });
 
-    return BankAccount;
+    return Bank;
 };

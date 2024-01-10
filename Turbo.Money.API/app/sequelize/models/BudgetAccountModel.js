@@ -1,9 +1,9 @@
 module.exports = (sequelize, Sequelize) => {
     const BudgetAccount = sequelize.define("budget_account", {
-        activeFrom: {
+        active_from: {
             type: Sequelize.DATE
         },
-        activeTo: {
+        active_to: {
             type: Sequelize.DATE
         },
         name: {
@@ -18,10 +18,10 @@ module.exports = (sequelize, Sequelize) => {
         amount: {
             type: Sequelize.DECIMAL(10,2).UNSIGNED
         },
-        method: {
+        type: {
             type: Sequelize.STRING
         },
-        type: {
+        method: {
             type: Sequelize.STRING
         },
         display_order: {

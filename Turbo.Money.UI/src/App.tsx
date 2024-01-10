@@ -6,6 +6,7 @@ import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 
 import Dashboard from './pages/Dashboard';
+import BudgetWorksheetViewModel from './pages/budgetWorksheet/viewModels/BudgetWorksheetViewModel';
 import BudgetWorksheetView from './pages/budgetWorksheet/views/BudgetWorksheetView';
 import BudgetView from './pages/BudgetView';
 
@@ -44,10 +45,10 @@ function App() {
             <NavBar />
             <Routes>
                 {/*<Route index element={<Dashboard />} />*/}
-                <Route index element={<BudgetAccountView viewModel={BudgetAccountViewModel} />} />
+                <Route index element={<BudgetWorksheetView viewModel={BudgetWorksheetViewModel} />} />
 
                 {/*Budget*/}
-                <Route path="/BudgetWorksheetView" element={<BudgetWorksheetView />} />
+                <Route path="/BudgetWorksheetView" element={<BudgetWorksheetView viewModel={BudgetWorksheetViewModel} />} />
                 <Route path="/BudgetView" element={<BudgetView />} />
 
                 {/*Transactions*/}

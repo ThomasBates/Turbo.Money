@@ -15,7 +15,7 @@ module.exports = (owner, business, decode, encode, encodeList) => {
     // Create and save a new object record
     const create = async (req, res) => {
         console.log(`${owner}.create: req.body = `, req.body);
-        let [error, businessObject] = await decode(req.body);
+        let [error, businessObject] = decode(req.body);
         if (handleError("create", res, 400, error))
             return;
         console.log(`${owner}.create: businessObject = `, businessObject);
@@ -29,7 +29,7 @@ module.exports = (owner, business, decode, encode, encodeList) => {
             return;
 
         console.log(`${owner}.create: returnObject = `, returnObject);
-        [error, data] = await encode(returnObject);
+        [error, data] = encode(returnObject);
         if (handleError("create", res, 500, error))
             return;
         console.log(`${owner}.create: data = `, data);
@@ -37,30 +37,30 @@ module.exports = (owner, business, decode, encode, encodeList) => {
     };
 
     // Retrieve all objects from the database.
-    const findAll = async (req, res) => {
-        let [error, returnList] = await business.findAll();
-        if (handleError("findAll", res, 500, error))
+    const getList = async (req, res) => {
+        let [error, returnList] = await business.getList();
+        if (handleError("getList", res, 500, error))
             return;
 
-        console.log(`${owner}.findAll: returnList = `, returnList);
-        [error, dataList] = await encodeList(returnList);
-        if (handleError("findAll", res, 500, error))
+        console.log(`${owner}.getList: returnList = `, returnList);
+        [error, dataList] = encodeList(returnList);
+        if (handleError("getList", res, 500, error))
             return;
 
-        console.log(`${owner}.findAll: dataList = `, dataList);
+        console.log(`${owner}.getList: dataList = `, dataList);
         res.send(dataList);
     };
 
     // Find a single object with an id
-    const findOne = async (req, res) => {
+    const getOne = async (req, res) => {
         const id = req.params.id;
 
-        let [error, businessObject] = await business.findById(id);
-        if (handleError("findOne", res, 500, error))
+        let [error, businessObject] = await business.getOne(id);
+        if (handleError("getOne", res, 500, error))
             return;
 
-        [error, data] = await encode(businessObject);
-        if (handleError("findOne", res, 500, error))
+        [error, data] = encode(businessObject);
+        if (handleError("getOne", res, 500, error))
             return;
         res.send(data);
     };
@@ -71,7 +71,7 @@ module.exports = (owner, business, decode, encode, encodeList) => {
         console.log(`${owner}.update: id = ${id}`);
 
         console.log(`${owner}.update: req.body = `, req.body);
-        let [error, businessObject] = await decode(req.body);
+        let [error, businessObject] = decode(req.body);
         if (handleError("update", res, 400, error))
             return;
         console.log(`${owner}.update: businessObject = `, businessObject);
@@ -85,7 +85,7 @@ module.exports = (owner, business, decode, encode, encodeList) => {
             return;
 
         console.log(`${owner}.update: returnObject = `, returnObject);
-        [error, data] = await encode(returnObject);
+        [error, data] = encode(returnObject);
         if (handleError("update", res, 500, error))
             return;
         console.log(`${owner}.update: data = `, data);
@@ -100,7 +100,7 @@ module.exports = (owner, business, decode, encode, encodeList) => {
         if (handleError("deleteOne", res, 500, error))
             return;
 
-        [error, data] = await encode(deletedObject);
+        [error, data] = encode(deletedObject);
         if (handleError("deleteOne", res, 500, error))
             return;
 
@@ -114,7 +114,7 @@ module.exports = (owner, business, decode, encode, encodeList) => {
             return;
 
         let dataList = deletedList.map(async (deletedObject) => {
-            [error, item] = await encode(deletedObject);
+            [error, item] = encode(deletedObject);
             return item;
         });
 
@@ -126,8 +126,8 @@ module.exports = (owner, business, decode, encode, encodeList) => {
 
     return {
         create,
-        findAll,
-        findOne,
+        getList,
+        getOne,
         update,
         deleteOne,
         deleteAll

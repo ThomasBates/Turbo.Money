@@ -1,9 +1,9 @@
 module.exports = (sequelize, Sequelize) => {
     const Bank = sequelize.define("budget_category", {
-        activeFrom: {
+        active_from: {
             type: Sequelize.DATE
         },
-        activeTo: {
+        active_to: {
             type: Sequelize.DATE
         },
         name: {
@@ -12,8 +12,11 @@ module.exports = (sequelize, Sequelize) => {
         description: {
             type: Sequelize.STRING
         },
-        direction: {
-            type: Sequelize.STRING
+        section_id: {
+            type: Sequelize.INTEGER
+        },
+        display_order: {
+            type: Sequelize.INTEGER
         },
         tag: {
             type: Sequelize.STRING

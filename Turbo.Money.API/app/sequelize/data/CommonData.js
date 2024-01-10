@@ -13,7 +13,7 @@ module.exports = (owner, table, encode, decode, decodeList, validate) => {
         }
 
         // transform business object to data object.
-        [error, dataObject] = await encode(businessObject);
+        [error, dataObject] = encode(businessObject);
         if (error) {
             console.log(`${owner}.create: error = `, error);
             return [error, null];
@@ -26,7 +26,7 @@ module.exports = (owner, table, encode, decode, decodeList, validate) => {
             console.log(`${owner}.create: data.dataValues = `, data.dataValues);
 
             // transform returned data object to return business object.
-            [error, returnObject] = await decode(data.dataValues);
+            [error, returnObject] = decode(data.dataValues);
             if (error) {
                 console.log(`${owner}.create: error = `, error);
                 return [error, null];
@@ -43,41 +43,77 @@ module.exports = (owner, table, encode, decode, decodeList, validate) => {
     };
 
     // Retrieve all business objects from the database.
-    const findAll = async () => {
+    const getAll = async () => {
         try {
-            let data = await table.findAll();
-            //console.log(`${owner}.findAll: data = `, data);
+            let dataList = await table.findAll();
+            //console.log(`${owner}.getAll: data = `, data);
 
-            let [error, returnList] = await decodeList(data);
+            let error;
+            let returnList;
+
+            returnList = dataList.map(dataItem => {
+                if (error) {
+                    return error;
+                }
+                [error, item] = decode(dataItem);
+                if (error) {
+                    console.log(`${owner}.getAll: error = `, error);
+                    return error;
+                }
+                return item;
+            })
+
             if (error) {
-                console.log(`${owner}.findAll: error = `, error);
+                console.log(`${owner}.getAll: error = `, error);
                 return [error, null];
             }
 
-            console.log(`${owner}.findAll: returnList = `, returnList);
+            console.log(`${owner}.getAll: returnList = `, returnList);
             return [null, returnList];
         }
         catch (ex) {
             let error = ex.message || "Unknown error occurred while finding all database records.";
-            console.log(`${owner}.findAll: error = `, error);
+            console.log(`${owner}.getAll: error = `, error);
+            return [error, null];
+        }
+    };
+
+    // Retrieve all business objects from the database.
+    const getList = async () => {
+        try {
+            let data = await table.findAll();
+            //console.log(`${owner}.getList: data = `, data);
+
+            let [error, returnList] = decodeList(data);
+            if (error) {
+                console.log(`${owner}.getList: error = `, error);
+                return [error, null];
+            }
+
+            console.log(`${owner}.getList: returnList = `, returnList);
+            return [null, returnList];
+        }
+        catch (ex) {
+            let error = ex.message || "Unknown error occurred while finding all database records.";
+            console.log(`${owner}.getList: error = `, error);
             return [error, null];
         }
     };
 
     // Find a single Bank with an id
-    const findOne = async (id) => {
+    const getOne = async (id) => {
         try {
             let data = await table.findByPk(id);
 
             if (data) {
-                return await decode(data);
+                return decode(data);
             }
 
             return [`Cannot find data object with id=${id}.`, null];
         }
         catch (ex) {
             let error = ex.message || "Unknown error occurred while finding one database record.";
-            console.log(`${owner}.findOne: error = `, error);
+            console.log(`${owner}.getOne: error = `, error);
             return [error, null];
         }
     };
@@ -94,7 +130,7 @@ module.exports = (owner, table, encode, decode, decodeList, validate) => {
         }
 
         // transform business object to data object.
-        [error, dataObject] = await encode(businessObject);
+        [error, dataObject] = encode(businessObject);
         if (error) {
             console.log(`${owner}.update: error = `, error);
             return [error, null];
@@ -108,7 +144,7 @@ module.exports = (owner, table, encode, decode, decodeList, validate) => {
                 });
 
             if (num == 1) {
-                return await findOne(dataObject.id);
+                return await getOne(dataObject.id);
             } else {
                 return [`Cannot update Bank with id=${dataObject.id}. Maybe Bank was not found or req.body is empty!`, null];
             }
@@ -123,7 +159,7 @@ module.exports = (owner, table, encode, decode, decodeList, validate) => {
     // Delete a Bank with the specified id in the request
     const deleteOne = async (id) => {
 
-        let [error, returnObject] = await findOne(id);
+        let [error, returnObject] = await getOne(id);
         if (error) {
             console.log(`${owner}.deleteOne: error = `, error);
         }
@@ -149,7 +185,7 @@ module.exports = (owner, table, encode, decode, decodeList, validate) => {
     // Delete all Banks from the database.
     const deleteAll = async () => {
 
-        let [error, returnList] = await findAll();
+        let [error, returnList] = await getList();
         if (error) {
             console.log(`${owner}.deleteAll: error = `, error);
         }
@@ -171,8 +207,9 @@ module.exports = (owner, table, encode, decode, decodeList, validate) => {
 
     return {
         create,
-        findAll,
-        findOne,
+        getAll,
+        getList,
+        getOne,
         update,
         deleteOne,
         deleteAll
