@@ -11,10 +11,19 @@ export default (account) => {
     };
     const typeName = account && amountTypes[account.type];
 
+    const amountValue = Number(account.amount);
+
+    const localeFormat = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+    });
+
+    const formattedAmount = localeFormat.format(amountValue);
+
     return {
         name: account.name,
         description: account.description,
-        amount: account.amount,
+        amount: formattedAmount,
         typeName: typeName,
         method: account.method
     }
