@@ -5,8 +5,8 @@ import CommonDetailsViewModel from "../../common/viewModels/CommonDetailsViewMod
 export default ({ mode, item, onSubmitted, onCancelled }) => {
 
     return CommonDetailsViewModel(
-        "Bank",
-        "Bank",
+        "Budget Section",
+        "BudgetSection",
         mode,
         item,
         onSubmitted,

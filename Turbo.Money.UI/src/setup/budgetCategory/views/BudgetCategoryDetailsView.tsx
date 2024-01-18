@@ -24,9 +24,9 @@ const BankDetailsView = ({ viewModel }) => {
                         </div>
                         <div>
                             <label>
-                                <strong>Income/Expenses:</strong>
+                                <strong>Section:</strong>
                             </label>{" "}
-                            {viewModel.item.direction == "in" ? "Income" : "Expenses"}
+                            {viewModel.sectionName}
                         </div>
                     </div>
 
@@ -38,6 +38,10 @@ const BankDetailsView = ({ viewModel }) => {
                             Cancel
                         </Button>
                     </>}
+                    {viewModel.showOKButton &&
+                        <Button variant="primary" onClick={viewModel.cancel}>
+                            OK
+                        </Button>}
                 </>
             ) : (
                 <div>

@@ -29,6 +29,7 @@ const BankAccountEditView = ({ viewModel }) => {
                     <Form.Group>
                         <Form.Label>Description</Form.Label>
                         <Form.Control
+                            required
                             type="text"
                             id="description"
                             name="description"
@@ -39,6 +40,7 @@ const BankAccountEditView = ({ viewModel }) => {
                     <Form.Group>
                         <Form.Label>Category</Form.Label>
                         <Form.Select
+                            required
                             id="categoryId"
                             name="categoryId"
                             value={viewModel.item.categoryId}
@@ -57,6 +59,8 @@ const BankAccountEditView = ({ viewModel }) => {
                     <Form.Group>
                         <Form.Label>Budgeted Amount</Form.Label>
                         <Form.Control
+                            required
+                            type="number"
                             id="amount"
                             name="amount"
                             value={viewModel.item.amount}
@@ -80,6 +84,8 @@ const BankAccountEditView = ({ viewModel }) => {
                     <Form.Group>
                         <Form.Label>Payment Method</Form.Label>
                         <Form.Control
+                            required
+                            type="text"
                             id="method"
                             name="method"
                             value={viewModel.item.method}

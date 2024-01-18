@@ -1,6 +1,6 @@
 import http from "../../../AxiosCommon";
 
-export default () => {
+const BudgetWorksheetDataService = () => {
     const api = "budgetWorksheet";
 
     const getAll = () => {
@@ -12,3 +12,4 @@ export default () => {
     };
 };
 
+export default BudgetWorksheetDataService;

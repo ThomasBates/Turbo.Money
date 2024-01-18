@@ -42,6 +42,7 @@
     <Content Include="src\setup\budgetAccount\data\BudgetAccountDataService.js" />
     <Content Include="src\setup\bankAccount\data\BankAccountDataService.js" />
     <Content Include="src\setup\budgetCategory\data\BudgetCategoryDataService.js" />
+    <Content Include="src\setup\budgetSection\data\BudgetSectionDataService.js" />
     <Content Include="src\setup\common\data\CommonDataService.js" />
     <Content Include="src\setup\bank\data\BankDataService.js" />
     <Content Include="src\AxiosCommon.js" />
@@ -61,6 +62,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="src\pages\budgetWorksheet\components\BudgetWorksheetButton.tsx" />
+    <TypeScriptCompile Include="src\pages\budgetWorksheet\components\BudgetWorksheetTooltip.tsx" />
+    <TypeScriptCompile Include="src\pages\budgetWorksheet\components\BudgetWorksheetModal.tsx" />
     <TypeScriptCompile Include="src\pages\budgetWorksheet\viewModels\BudgetWorksheetAccountViewModel.tsx" />
     <TypeScriptCompile Include="src\pages\budgetWorksheet\viewModels\BudgetWorksheetCategoryViewModel.tsx" />
     <TypeScriptCompile Include="src\pages\budgetWorksheet\viewModels\BudgetWorksheetSectionViewModel.tsx" />
@@ -72,6 +76,12 @@
     <TypeScriptCompile Include="src\setup\budgetAccount\viewModels\BudgetAccountEditViewModel.tsx" />
     <TypeScriptCompile Include="src\setup\budgetAccount\viewModels\BudgetAccountViewModel.tsx" />
     <TypeScriptCompile Include="src\setup\budgetCategory\viewModels\BudgetCategoryDetailsViewModel.tsx" />
+    <TypeScriptCompile Include="src\setup\budgetSection\viewModels\BudgetSectionDetailsViewModel.tsx" />
+    <TypeScriptCompile Include="src\setup\budgetSection\viewModels\BudgetSectionEditViewModel.tsx" />
+    <TypeScriptCompile Include="src\setup\budgetSection\viewModels\BudgetSectionViewModel.tsx" />
+    <TypeScriptCompile Include="src\setup\budgetSection\views\BudgetSectionDetailsView.tsx" />
+    <TypeScriptCompile Include="src\setup\budgetSection\views\BudgetSectionEditView.tsx" />
+    <TypeScriptCompile Include="src\setup\budgetSection\views\BudgetSectionView.tsx" />
     <TypeScriptCompile Include="src\setup\common\viewModels\CommonEditViewModel.tsx" />
     <TypeScriptCompile Include="src\setup\common\viewModels\CommonDetailsViewModel.tsx" />
     <TypeScriptCompile Include="src\setup\budgetCategory\viewModels\BudgetCategoryEditViewModel.tsx" />
@@ -118,6 +128,7 @@
     <Folder Include="src\" />
     <Folder Include="src\pages\budgetWorksheet\" />
     <Folder Include="src\pages\budgetWorksheet\data\" />
+    <Folder Include="src\pages\budgetWorksheet\components\" />
     <Folder Include="src\pages\budgetWorksheet\views\" />
     <Folder Include="src\pages\budgetWorksheet\viewModels\" />
     <Folder Include="src\setup\" />
@@ -131,6 +142,9 @@
     <Folder Include="src\setup\budgetCategory\data\" />
     <Folder Include="src\setup\budgetCategory\viewModels\" />
     <Folder Include="src\setup\budgetCategory\views\" />
+    <Folder Include="src\setup\budgetSection\data\" />
+    <Folder Include="src\setup\budgetSection\views\" />
+    <Folder Include="src\setup\budgetSection\viewModels\" />
     <Folder Include="src\setup\common\" />
     <Folder Include="src\setup\bank\" />
     <Folder Include="src\setup\bankAccount\" />
@@ -139,6 +153,7 @@
     <Folder Include="src\setup\common\data\" />
     <Folder Include="src\setup\common\views\" />
     <Folder Include="src\setup\common\viewModels\" />
+    <Folder Include="src\setup\budgetSection\" />
     <Folder Include="src\setup\tutorial\" />
     <Folder Include="src\setup\bank\viewModels\" />
     <Folder Include="src\setup\bank\views\" />

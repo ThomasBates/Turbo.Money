@@ -22,6 +22,9 @@ import BankView from './setup/bank/views/BankView';
 import BankAccountViewModel from './setup/bankAccount/viewModels/BankAccountViewModel';
 import BankAccountView from './setup/bankAccount/views/BankAccountView';
 
+import BudgetSectionViewModel from './setup/budgetSection/viewModels/BudgetSectionViewModel';
+import BudgetSectionView from './setup/budgetSection/views/BudgetSectionView';
+
 import BudgetCategoryViewModel from './setup/budgetCategory/viewModels/BudgetCategoryViewModel';
 import BudgetCategoryView from './setup/budgetCategory/views/BudgetCategoryView';
 
@@ -45,10 +48,10 @@ function App() {
             <NavBar />
             <Routes>
                 {/*<Route index element={<Dashboard />} />*/}
-                <Route index element={<BudgetWorksheetView viewModel={BudgetWorksheetViewModel} />} />
+                <Route index element={<BudgetWorksheetView viewModel={BudgetWorksheetViewModel()} />} />
 
                 {/*Budget*/}
-                <Route path="/BudgetWorksheetView" element={<BudgetWorksheetView viewModel={BudgetWorksheetViewModel} />} />
+                <Route path="/BudgetWorksheetView" element={<BudgetWorksheetView viewModel={BudgetWorksheetViewModel()} />} />
                 <Route path="/BudgetView" element={<BudgetView />} />
 
                 {/*Transactions*/}
@@ -62,6 +65,7 @@ function App() {
                 {/*Setup*/}
                 <Route path="/BankView" element={<BankView viewModel={BankViewModel} />} />
                 <Route path="/BankAccountView" element={<BankAccountView viewModel={BankAccountViewModel} />} />
+                <Route path="/BudgetSectionView" element={<BudgetSectionView viewModel={BudgetSectionViewModel} />} />
                 <Route path="/BudgetCategoryView" element={<BudgetCategoryView viewModel={BudgetCategoryViewModel} />} />
                 <Route path="/BudgetAccountView" element={<BudgetAccountView viewModel={BudgetAccountViewModel} />} />
 

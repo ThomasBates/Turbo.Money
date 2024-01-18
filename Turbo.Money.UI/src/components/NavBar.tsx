@@ -33,6 +33,7 @@ function NavBar() {
                         <NavDropdown title="Setup" id="basic-nav-dropdown">
                             <NavDropdown.Item as={Link} to="/BankView">Bank Setup</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/BankAccountView">Bank Account Setup</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/BudgetSectionView">Budget Section Setup</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/BudgetCategoryView">Budget Category Setup</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/BudgetAccountView">Budget Account Setup</NavDropdown.Item>
                         </NavDropdown>

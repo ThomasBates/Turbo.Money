@@ -1,25 +1,28 @@
 import React from "react";
 
-export default (mode, title, item?, onSubmitted?, onCancelled?) => {
+export default (title, entity, mode, item, onSubmitted, onCancelled) => {
 
     title = mode === "delete" ? `Delete ${title}:` : `${title} Details:`;
     const showDetails = (item && item.id);
     const showButtons = (mode === "delete");
+    const showOKButton = (mode === "show");
 
     const submit = () => {
-        onSubmitted();
+        onSubmitted(item);
     }
 
     const cancel = () => {
-        onCancelled();
+        onCancelled(item);
     };
 
     return {
-        mode,
         title,
+        entity,
+        mode,
         item,
         showDetails,
         showButtons,
+        showOKButton,
 
         submit,
         cancel

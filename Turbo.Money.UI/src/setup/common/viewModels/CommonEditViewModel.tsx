@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (title, mode, item, setItem, onSubmitted, onCancelled) => {
+export default (title, entity, mode, item, setItem, onSubmitted, onCancelled) => {
     title = mode === "edit" ? `Edit ${title}:` : `Add ${title}:`;
 
     const setProperty = (name, value) => {
@@ -8,16 +8,17 @@ export default (title, mode, item, setItem, onSubmitted, onCancelled) => {
     };
 
     const submit = () => {
-        onSubmitted();
+        onSubmitted(item);
     }
 
     const cancel = () => {
-        onCancelled();
+        onCancelled(item);
     };
 
     return {
-        mode,
         title,
+        entity,
+        mode,
         item,
 
         setProperty,

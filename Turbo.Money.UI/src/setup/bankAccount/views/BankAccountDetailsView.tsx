@@ -38,6 +38,10 @@ const BankDetailsView = ({ viewModel }) => {
                             Cancel
                         </Button>
                     </>}
+                    {viewModel.showOKButton &&
+                        <Button variant="primary" onClick={viewModel.cancel}>
+                            OK
+                        </Button>}
                 </>
             ) : (
                 <div>

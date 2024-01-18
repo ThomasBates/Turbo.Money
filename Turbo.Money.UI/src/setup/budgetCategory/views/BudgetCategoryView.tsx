@@ -5,7 +5,6 @@ import CommonView from '../../common/views/CommonView';
 import BudgetCategoryDetailsView from './BudgetCategoryDetailsView';
 import BudgetCategoryEditView from './BudgetCategoryEditView';
 
-
 const modeViews = {
     details: BudgetCategoryDetailsView,
     add: BudgetCategoryEditView,

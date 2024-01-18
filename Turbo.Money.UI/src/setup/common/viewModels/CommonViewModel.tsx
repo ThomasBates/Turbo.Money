@@ -213,38 +213,48 @@ export default (title, dataService, initialItem, detailsViewModel, editViewModel
     let modeViewModel = null;
     switch (mode) {
         case "details":
-            modeViewModel = detailsViewModel(
-                mode,
-                modeItem);
+            modeViewModel = detailsViewModel({
+                mode: mode,
+                item: modeItem,
+                onSubmitted: null,
+                onCancelled: null,
+            });
             break;
         case "add":
-            modeViewModel = editViewModel(
-                mode,
-                modeItem,
-                setModeItem,
-                list,
-                onAddSubmitted,
-                onAddCancelled);
+            modeViewModel = editViewModel({
+                mode: mode,
+                item: modeItem,
+                setItem: setModeItem,
+                list: list,
+                onSubmitted: onAddSubmitted,
+                onCancelled: onAddCancelled
+            });
             break;
         case "edit":
-            modeViewModel = editViewModel(
-                mode,
-                modeItem,
-                setModeItem,
-                list,
-                onEditSubmitted,
-                onEditCancelled);
+            modeViewModel = editViewModel({
+                mode: mode,
+                item: modeItem,
+                setItem: setModeItem,
+                list: list,
+                onSubmitted: onEditSubmitted,
+                onCancelled: onEditCancelled
+            });
             break;
         case "delete":
-            modeViewModel = detailsViewModel(
-                mode,
-                modeItem,
-                onDeleteSubmitted,
-                onDeleteCancelled);
+            modeViewModel = detailsViewModel({
+                mode: mode,
+                item: modeItem,
+                onSubmitted: onDeleteSubmitted,
+                onCancelled: onDeleteCancelled
+            });
             break;
         default:
-            modeViewModel = detailsViewModel(
-                mode);
+            modeViewModel = detailsViewModel({
+                mode: mode,
+                item: null,
+                onSubmitted: null,
+                onCancelled: null
+            });
             break;
     }
 

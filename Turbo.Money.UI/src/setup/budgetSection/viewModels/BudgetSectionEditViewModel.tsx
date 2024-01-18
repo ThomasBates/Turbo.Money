@@ -2,11 +2,11 @@ import React from "react";
 
 import CommonEditViewModel from "../../common/viewModels/CommonEditViewModel";
 
-export default ({ mode, item, setItem, list, sections, onSubmitted, onCancelled }) => {
+export default ({ mode, item, setItem, list, onSubmitted, onCancelled }) => {
 
     const common = CommonEditViewModel(
-        "Budget Category",
-        "BudgetCategory",
+        "Budget Section",
+        "BudgetSection",
         mode,
         item,
         setItem,
@@ -24,29 +24,33 @@ export default ({ mode, item, setItem, list, sections, onSubmitted, onCancelled 
         return true;
     }
 
-    const getIsValidSectionId = () => {
-        //if (!item.sectionId)
-        //    return false;
-        if (isNaN(+item.sectionId))
+    const getIsValidDescription = () => {
+        if (!item.description)
             return false;
-        if (!sections.find(c => c.id == item.sectionId))
+        if (item.description.length == 0)
             return false;
         return true;
     }
 
+    const getIsValidDirection = () => {
+        if (!item.direction)
+            return false;
+        if (item.direction == "in" || item.direction == "out")
+            return true;
+        return false;
+    }
+
     const isValidName = getIsValidName();
-    const isValidDescription = item.description && item.description.length > 0;
-    const isValidSectionId = getIsValidSectionId();
-    const canSubmit = isValidName && isValidDescription && isValidSectionId;
+    const isValidDescription = getIsValidDirection();
+    const isValidDirection = getIsValidDirection();
+    const canSubmit = isValidName && isValidDescription && isValidDirection;
 
     return {
         ...common,
 
-        sections,
-
         isValidName,
         isValidDescription,
-        isValidSectionId,
+        isValidDirection,
         canSubmit
     }
 };

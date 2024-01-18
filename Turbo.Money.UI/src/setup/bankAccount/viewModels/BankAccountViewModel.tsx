@@ -51,12 +51,12 @@ export default () => {
             });
     };
 
-    const detailsViewModel = (mode, account?, onSubmitted?, onCancelled?) => {
-        return BankAccountDetailsViewModel(mode, account, banks, onSubmitted, onCancelled);
+    const detailsViewModel = (props) => {
+        return BankAccountDetailsViewModel({ ...props, banks: banks });
     };
 
-    const editViewModel = (mode, account, setAccount, accounts, onSubmitted, onCancelled) => {
-        return BankAccountEditViewModel(mode, account, setAccount, accounts, banks, onSubmitted, onCancelled);
+    const editViewModel = (props) => {
+        return BankAccountEditViewModel({ ...props, banks: banks });
     };
 
     return CommonViewModel(

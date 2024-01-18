@@ -1,26 +1,51 @@
 import React from "react";
 
+import BudgetWorksheetButton from "../components/BudgetWorksheetButton";
+
 import BudgetWorksheetCategoryView from "./BudgetWorksheetCategoryView";
 
-export default ({ viewModel }) => {
-
+const BudgetWorksheetSectionView = ({ viewModel }) => {
     return (
         <>
-            <tr>
-                <td colSpan={3} className="text-info">{viewModel.name}</td>
-                <td colSpan={3}></td>
+            <tr className="tb-worksheet-row">
+                <td colSpan={5} className="text-info">{viewModel.name}</td>
+                <td className="tb-worksheet-buttons">
+                    <BudgetWorksheetButton
+                        type="delete"
+                        placement="right"
+                        tooltip="Delete this Budget Section"
+                        onClick={viewModel.deleteSection} />
+                    <BudgetWorksheetButton
+                        type="edit"
+                        placement="right"
+                        tooltip="Edit this Budget Section"
+                        onClick={viewModel.editSection} />
+                    <BudgetWorksheetButton
+                        type="show"
+                        placement="right"
+                        tooltip="Show Details of this Budget Section"
+                        onClick={viewModel.showSection} />
+                </td>
             </tr>
+
             {viewModel.categoryViewModels.map(vm => (
                 <BudgetWorksheetCategoryView key={vm.name} viewModel={vm} />
             ))}
-            <tr>
-                <td colSpan={3} className="text-info">{"Total " + viewModel.name}</td>
+
+            <tr className="tb-worksheet-row">
+                <td></td>
+                <td colSpan={2} className="tb-worksheet-buttons">
+                    <BudgetWorksheetButton
+                        type="add"
+                        placement="left"
+                        tooltip="Create New Budget Category"
+                        onClick={viewModel.addCategory} />
+                </td>
                 <td className="text-end text-info">{viewModel.total}</td>
-                <td colSpan={2}></td>
-            </tr>
-            <tr>
-                <td colSpan={6}></td>
+                <td colSpan={2} className="text-info">{"Total " + viewModel.name}</td>
             </tr>
         </>
     );
 };
+
+export default BudgetWorksheetSectionView;

@@ -2,7 +2,7 @@ import React from "react";
 
 import CommonEditViewModel from "../../common/viewModels/CommonEditViewModel";
 
-export default (mode, item, setItem, accounts, categories, onSubmitted, onCancelled) => {
+export default ({ mode, item, setItem, list, categories, onSubmitted, onCancelled }) => {
 
     const amountTypes = [
         { value: "min", text: "Minimum" },
@@ -14,6 +14,7 @@ export default (mode, item, setItem, accounts, categories, onSubmitted, onCancel
 
     const common = CommonEditViewModel(
         "Budget Account",
+        "BudgetAccount",
         mode,
         item,
         setItem,
@@ -23,19 +24,18 @@ export default (mode, item, setItem, accounts, categories, onSubmitted, onCancel
     const getIsValidName = () => {
         if (!item.name || item.name.length == 0)
             return false;
-        const matching = accounts.find(b => b.name.toUpperCase() == item.name.toUpperCase() && b.id != item.id);
+        const matching = list.find(b => b.name.toUpperCase() == item.name.toUpperCase() && b.id != item.id);
         if (matching)
             return false;
         return true;
     }
 
     const getIsValidCategoryId = () => {
-        if (!item.categoryId || item.categoryId <= 0)
-            return false;
+        //if (!item.categoryId || item.categoryId <= 0)
+        //    return false;
         if (isNaN(+item.categoryId))
             return false;
-        const matching = accounts.find(a => a.number == item.number && a.categoryId == item.categoryId && a.id != item.id);
-        if (matching)
+        if (!categories.find(c => c.id == item.categoryId))
             return false;
         return true;
     }

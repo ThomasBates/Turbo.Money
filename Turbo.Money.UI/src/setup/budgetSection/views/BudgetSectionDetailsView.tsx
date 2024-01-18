@@ -12,21 +12,21 @@ const BankDetailsView = ({ viewModel }) => {
                         <h4>{viewModel.title}</h4>
                         <div>
                             <label>
-                                <strong>Bank Name:</strong>
+                                <strong>Section Name:</strong>
                             </label>{" "}
                             {viewModel.item.name}
                         </div>
                         <div>
                             <label>
-                                <strong>Bank Number:</strong>
+                                <strong>Description:</strong>
                             </label>{" "}
-                            {viewModel.item.number}
+                            {viewModel.item.description}
                         </div>
                         <div>
                             <label>
-                                <strong>Branch Number:</strong>
+                                <strong>Income/Expenses:</strong>
                             </label>{" "}
-                            {viewModel.item.transit}
+                            {viewModel.item.direction == "in" ? "Income" : "Expenses"}
                         </div>
                     </div>
 
@@ -46,7 +46,7 @@ const BankDetailsView = ({ viewModel }) => {
             ) : (
                 <div>
                     <br />
-                    <p>No Bank selected</p>
+                    <p>No Budget Section selected</p>
                 </div>
 
             )}

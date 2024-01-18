@@ -3,7 +3,7 @@ import React from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-const BudgetCategoryEditView = ({ viewModel }) => {
+const BudgetSectionEditView = ({ viewModel }) => {
 
     const handleInputChange = event => {
         const { name, value } = event.target;
@@ -16,10 +16,11 @@ const BudgetCategoryEditView = ({ viewModel }) => {
                 <h4>{viewModel.title}</h4>
                 <Form>
                     <Form.Group>
-                        <Form.Label>Category Name</Form.Label>
+                        <Form.Label>Section Name</Form.Label>
                         <Form.Control
                             required
                             type="text"
+                            placeholder=""
                             id="name"
                             name="name"
                             value={viewModel.item.name}
@@ -29,8 +30,6 @@ const BudgetCategoryEditView = ({ viewModel }) => {
                     <Form.Group>
                         <Form.Label>Description</Form.Label>
                         <Form.Control
-                            required
-                            type="text"
                             id="description"
                             name="description"
                             value={viewModel.item.description}
@@ -38,22 +37,15 @@ const BudgetCategoryEditView = ({ viewModel }) => {
                             onChange={handleInputChange} />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Section</Form.Label>
+                        <Form.Label>Income/Expenses</Form.Label>
                         <Form.Select
-                            required
-                            id="sectionId"
-                            name="sectionId"
-                            value={viewModel.item.sectionId}
-                            isValid={viewModel.isValidSectionId}
-                            onChange={handleInputChange} >
-                            <option value="0" key="0">
-                                Select a Section
-                            </option>
-                            {viewModel.sections.map(section => (
-                                <option value={section.id} key={section.id} >
-                                    {section.name}
-                                </option>
-                            ))}
+                            id="direction"
+                            name="direction"
+                            value={viewModel.item.direction}
+                            isValid={viewModel.isValidDirection}
+                            onChange={handleInputChange}>
+                            <option value="out" key="out">Expenses</option>
+                            <option value="in" key="in">Income</option>
                         </Form.Select>
                     </Form.Group>
                 </Form>
@@ -73,4 +65,4 @@ const BudgetCategoryEditView = ({ viewModel }) => {
     );
 };
 
-export default BudgetCategoryEditView;
+export default BudgetSectionEditView;

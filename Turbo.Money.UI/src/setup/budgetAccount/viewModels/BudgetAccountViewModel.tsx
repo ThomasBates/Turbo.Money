@@ -15,8 +15,8 @@ export default () => {
         description: "",
         categoryId: 0,
         amount: 0,
+        type: "max",
         method: "",
-        type: "max"
     };
 
     const [categories, setCategories] = useState([]);
@@ -54,12 +54,12 @@ export default () => {
             });
     };
 
-    const detailsViewModel = (mode, account?, onSubmitted?, onCancelled?) => {
-        return BudgetAccountDetailsViewModel(mode, account, categories, onSubmitted, onCancelled);
+    const detailsViewModel = (props) => {
+        return BudgetAccountDetailsViewModel({ ...props, categories: categories });
     };
 
-    const editViewModel = (mode, account, setAccount, accounts, onSubmitted, onCancelled) => {
-        return BudgetAccountEditViewModel(mode, account, setAccount, accounts, categories, onSubmitted, onCancelled);
+    const editViewModel = (props) => {
+        return BudgetAccountEditViewModel({ ...props, categories: categories });
     };
 
     return CommonViewModel(

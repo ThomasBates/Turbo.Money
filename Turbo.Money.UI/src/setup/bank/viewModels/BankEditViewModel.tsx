@@ -2,9 +2,10 @@ import React from "react";
 
 import CommonEditViewModel from "../../common/viewModels/CommonEditViewModel";
 
-export default (mode, item, setItem, banks, onSubmitted, onCancelled) => {
+export default ({ mode, item, setItem, list, onSubmitted, onCancelled }) => {
 
     const common = CommonEditViewModel(
+        "Bank",
         "Bank",
         mode,
         item,
@@ -15,7 +16,7 @@ export default (mode, item, setItem, banks, onSubmitted, onCancelled) => {
     const getIsValidName = () => {
         if (!item.name || item.name.length == 0)
             return false;
-        const matching = banks.find(b => b.name.toUpperCase() == item.name.toUpperCase() && b.id != item.id);
+        const matching = list.find(b => b.name.toUpperCase() == item.name.toUpperCase() && b.id != item.id);
         if (matching)
             return false;
         return true;
@@ -26,7 +27,7 @@ export default (mode, item, setItem, banks, onSubmitted, onCancelled) => {
             return false;
         if (isNaN(+item.number))
             return false;
-        const matching = banks.find(b => b.number == item.number && b.transit == item.transit && b.id != item.id);
+        const matching = list.find(b => b.number == item.number && b.transit == item.transit && b.id != item.id);
         if (matching)
             return false;
         return true;
@@ -37,7 +38,7 @@ export default (mode, item, setItem, banks, onSubmitted, onCancelled) => {
             return false;
         if (isNaN(+item.transit))
             return false;
-        const matching = banks.find(b => b.number == item.number && b.transit == item.transit && b.id != item.id);
+        const matching = list.find(b => b.number == item.number && b.transit == item.transit && b.id != item.id);
         if (matching)
             return false;
         return true;
