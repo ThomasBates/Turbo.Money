@@ -6,7 +6,7 @@ module.exports = (table) => {
             return ["BudgetSectionData.encode: section is not defined", null];
 
         const data = {
-            id: section.id,
+            //id: section.id,
             name: section.name,
             description: section.description,
             direction: section.direction < 0 ? "in" : section.direction > 0 ? "out" : "other"

@@ -3,7 +3,7 @@ module.exports = (table) => {
 
     const encode = (account) => {
         const data = {
-            id: account.id,
+            //id: account.id,
             name: account.name,
             description: account.description,
             category_id: account.categoryId,

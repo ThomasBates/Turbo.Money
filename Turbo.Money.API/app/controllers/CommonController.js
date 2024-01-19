@@ -37,6 +37,33 @@ module.exports = (owner, business, decode, encode, encodeList) => {
     };
 
     // Retrieve all objects from the database.
+    const getAll = async (req, res) => {
+        let [error, returnList] = await business.getAll();
+        if (handleError("getAll", res, 500, error))
+            return;
+
+        console.log(`${owner}.getAll: returnList = `, returnList);
+
+        let dataList = returnList.map(businessObject => {
+            if (error) {
+                return error;
+            }
+            [error, item] = encode(businessObject);
+            if (error) {
+                console.log(`${owner}.getAll: error = `, error);
+                return error;
+            }
+            return item;
+        });
+
+        if (handleError("getAll", res, 500, error))
+            return;
+
+        console.log(`${owner}.getAll: dataList = `, dataList);
+        res.send(dataList);
+    };
+
+    // Retrieve all objects from the database.
     const getList = async (req, res) => {
         let [error, returnList] = await business.getList();
         if (handleError("getList", res, 500, error))
@@ -126,6 +153,7 @@ module.exports = (owner, business, decode, encode, encodeList) => {
 
     return {
         create,
+        getAll,
         getList,
         getOne,
         update,

@@ -79,7 +79,7 @@ db.prepopulate = async () => {
         { name: "Dates", description: "Dates", categoryName: "Important", amount: 100.00, type: "max", method: "Debit" },
         { name: "Allowance", description: "Allowance", categoryName: "Important", amount: 100.00, type: "fix", method: "Automated transfer" },
 
-        { name: "Entertainment", description: "Concerts, plays, movies, etc.", categoryName: "fun", amount: 100.00, type: "avg", method: "TD Cashback" },
+        { name: "Entertainment", description: "Concerts, plays, movies, etc.", categoryName: "Fun", amount: 100.00, type: "avg", method: "TD Cashback" },
 
         { name: "Car Maintenance", description: "Oil changes, winter tires, etc.", categoryName: "Irregular", amount: 50.00, type: "fix", method: "Automated transfer" },
         { name: "Home Maintenance", description: "Home & yard function & beauty", categoryName: "Irregular", amount: 50.00, type: "max", method: "Debit" },

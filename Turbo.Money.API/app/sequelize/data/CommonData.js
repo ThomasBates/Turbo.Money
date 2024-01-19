@@ -140,13 +140,13 @@ module.exports = (owner, table, encode, decode, decodeList, validate) => {
         try {
             let num = await table.update(dataObject,
                 {
-                    where: { id: dataObject.id }
+                    where: { id: businessObject.id }
                 });
 
             if (num == 1) {
-                return await getOne(dataObject.id);
+                return await getOne(businessObject.id);
             } else {
-                return [`Cannot update Bank with id=${dataObject.id}. Maybe Bank was not found or req.body is empty!`, null];
+                return [`Cannot update Bank with id=${businessObject.id}. Maybe Bank was not found or req.body is empty!`, null];
             }
         }
         catch (ex) {

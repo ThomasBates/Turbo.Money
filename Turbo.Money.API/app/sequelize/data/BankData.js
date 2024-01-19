@@ -3,7 +3,7 @@ module.exports = (table) => {
 
     const encode = (bank) => {
         const data = {
-            id: bank.id,
+            //id: bank.id,
             name: bank.name,
             number: bank.number,
             transit: bank.transit
