@@ -2,7 +2,7 @@ import React from "react";
 
 import CommonEditViewModel from "../../common/viewModels/CommonEditViewModel";
 
-export default ({ mode, item, setItem, list, categories, onSubmitted, onCancelled }) => {
+const BudgetAccountEditViewModel = ({ mode, item, setItem, list, categories, onSubmitted, onCancelled }) => {
 
     const amountTypes = [
         { value: "min", text: "Minimum" },
@@ -31,8 +31,6 @@ export default ({ mode, item, setItem, list, categories, onSubmitted, onCancelle
     }
 
     const getIsValidCategoryId = () => {
-        //if (!item.categoryId || item.categoryId <= 0)
-        //    return false;
         if (isNaN(+item.categoryId))
             return false;
         if (!categories.find(c => c.id == item.categoryId))
@@ -70,3 +68,5 @@ export default ({ mode, item, setItem, list, categories, onSubmitted, onCancelle
         canSubmit
     }
 };
+
+export default BudgetAccountEditViewModel;

@@ -37,121 +37,36 @@ const BudgetWorksheetViewModel = () => {
 
     const [modeViewModelProps, setModeViewModelProps] = useState(null);
 
-    const [sections, setSections] = useState([]);
-
-    const [sectionList, setSectionList] = useState([]);
-    const [categoryList, setCategoryList] = useState([]);
-    const [accountList, setAccountList] = useState([]);
-
     const [modeItem, setModeItem] = useState(null);
-
-    useEffect(() => {
-        retrieveAllItems();
-    }, []);
-
-    const compareSections = (section1, section2) => {
-
-        if (section1.direction > section2.direction) {
-            return 1;
-        }
-        if (section1.direction < section2.direction) { 
-            return -1;
-        }
-
-        const name1 = section1.name.toUpperCase();
-        const name2 = section2.name.toUpperCase();
-        if (name1 > name2) {
-            return 1;
-        }
-        if (name1 < name2) {
-            return -1;
-        }
-        return 0;
-    }
-
-    //  Data Service Methods
-
-    const retrieveAllItems = () => {
-        dataService.getAll()
-            .then(response => {
-                console.log("retrieveAllItems: ", response.data);
-                setSections(response.data);
-                extractValidationLists(response.data);
-            })
-            .catch(e => {
-                console.log(e);
-            });
-    };
-
-    const writeAllItems = () => {
-        dataService.writeAll(sections)
-            .then(() => {
-            })
-            .catch(e => {
-                console.log(e);
-            });
-    };
-
-    const extractValidationLists = (sections) => {
-        let newSectionList = [];
-        let newCategoryList = [];
-        let newAccountList = [];
-
-        sections.map(section => {
-            if (section.state === "deleted") {
-                return;
-            }
-            newSectionList.push({
-                id: section.id,
-                name: section.name
-            });
-            section.categories.map(category => {
-                if (category.state === "deleted") {
-                    return;
-                }
-                newCategoryList.push({
-                    id: category.id,
-                    name: category.name
-                });
-                category.accounts.map(account => {
-                    if (account.state === "deleted") {
-                        return;
-                    }
-                    newAccountList.push({
-                        id: account.id,
-                        name: account.name
-                    });
-                });
-            });
-        });
-
-        setSectionList(newSectionList);
-        setCategoryList(newCategoryList);
-        setAccountList(newAccountList);
-    };
 
     const internalSetModeItem = (item) => {
         setModeItem(item);
-        setModeViewModelProps(prevProps => prevProps ? { ...prevProps, item: item } : prevProps);
-    }
+        setModeViewModelProps(prevProps => prevProps
+            ? {
+                ...prevProps,
+                item: item
+            }
+            : prevProps);
+    };
 
     const internalSetModeViewModelProps = (props) => {
         setModeViewModelProps(props);
-        if (!props) {   // a mode form was closed.
-            extractValidationLists(sections);
-        }
     }
 
-    const sectionViewModels = sections &&
-        sections
-            .filter(section => section.state != "deleted")
-            .map(section => BudgetWorksheetSectionViewModel(
-                section,
-                sectionList,
-                categoryList,
-                accountList,
-                internalSetModeItem,
-                internalSetModeViewModelProps));
+    const sectionViewModels = dataService.listBudgetSections()
+        .map(section => BudgetWorksheetSectionViewModel(
+            section,
+            dataService,
+            internalSetModeItem,
+            internalSetModeViewModelProps));
+
+    const loadBudget = () => {
+        dataService.loadBudget();
+    };
+
+    const saveBudget = () => {
+        dataService.saveBudget();
+    };
 
     const addSection = () => {
         let sectionToAdd = {
@@ -166,22 +81,14 @@ const BudgetWorksheetViewModel = () => {
             mode: "add",
             item: sectionToAdd,
             setItem: internalSetModeItem,
-            list: sectionList,
+            list: dataService.listBudgetSectionNames(),
             onSubmitted: onAddSubmitted,
             onCancelled: onAddCancelled
         });
     };
 
     const onAddSubmitted = (sectionToAdd) => {
-        const minID = sectionList.reduce(
-            (min, section) => Number(min) < Number(section.id) ? Number(min) : Number(section.id), 0);
-        sectionToAdd.id = minID - 1;
-        sectionToAdd.categories = [];
-        sectionToAdd.state = "created";
-
-        let newList = [...sections, sectionToAdd].sort(compareSections);
-        setSections(newList);
-
+        dataService.createBudgetSection(sectionToAdd);
         internalSetModeViewModelProps(null);
     };
 
@@ -196,7 +103,10 @@ const BudgetWorksheetViewModel = () => {
         title: "Budget Worksheet",
         sectionViewModels,
         modeViewModel,
+        total: dataService.getBudgetTotal(),
 
+        loadBudget,
+        saveBudget,
         addSection
     }
 };

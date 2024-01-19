@@ -8,7 +8,7 @@ const BudgetWorksheetSectionView = ({ viewModel }) => {
     return (
         <>
             <tr className="tb-worksheet-row">
-                <td colSpan={5} className="text-info">{viewModel.name}</td>
+                <td colSpan={5} className="tb-worksheet-section-text">{viewModel.name}</td>
                 <td className="tb-worksheet-buttons">
                     <BudgetWorksheetButton
                         type="delete"
@@ -41,8 +41,8 @@ const BudgetWorksheetSectionView = ({ viewModel }) => {
                         tooltip="Create New Budget Category"
                         onClick={viewModel.addCategory} />
                 </td>
-                <td className="text-end text-info">{viewModel.total}</td>
-                <td colSpan={2} className="text-info">{"Total " + viewModel.name}</td>
+                <td className="tb-worksheet-section-currency">{viewModel.total}</td>
+                <td colSpan={2} className="tb-worksheet-section-text">{"Total " + viewModel.name}</td>
             </tr>
         </>
     );

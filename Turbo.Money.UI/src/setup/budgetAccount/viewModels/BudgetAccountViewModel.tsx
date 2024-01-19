@@ -8,7 +8,7 @@ import BudgetAccountDataService from "../data/BudgetAccountDataService";
 import BudgetAccountDetailsViewModel from "./BudgetAccountDetailsViewModel";
 import BudgetAccountEditViewModel from "./BudgetAccountEditViewModel";
 
-export default () => {
+const BudgetAccountViewModel = () => {
     const initialAccount = {
         id: null,
         name: "",
@@ -38,7 +38,7 @@ export default () => {
     }
 
     const retrieveAllCategories = () => {
-        BudgetCategoryDataService.getAll()
+        BudgetCategoryDataService.getList()
             .then(response => {
                 console.log("retrieveAllCategories: ", response.data);
                 const newCategories = response.data.map(category => {
@@ -69,3 +69,5 @@ export default () => {
         detailsViewModel,
         editViewModel);
 };
+
+export default BudgetAccountViewModel;

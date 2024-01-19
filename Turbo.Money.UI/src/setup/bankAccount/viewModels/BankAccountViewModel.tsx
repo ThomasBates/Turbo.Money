@@ -8,7 +8,7 @@ import BankAccountDataService from "../data/BankAccountDataService";
 import BankAccountDetailsViewModel from "./BankAccountDetailsViewModel";
 import BankAccountEditViewModel from "./BankAccountEditViewModel";
 
-export default () => {
+const BankAccountViewModel = () => {
     const initialAccount = {
         id: null,
         name: "",
@@ -35,7 +35,7 @@ export default () => {
     }
 
     const retrieveAllBanks = () => {
-        BankDataService.getAll()
+        BankDataService.getList()
             .then(response => {
                 console.log("retrieveAllBanks: ", response.data);
                 const newBanks = response.data.map(bank => {
@@ -66,3 +66,5 @@ export default () => {
         detailsViewModel,
         editViewModel);
 };
+
+export default BankAccountViewModel;

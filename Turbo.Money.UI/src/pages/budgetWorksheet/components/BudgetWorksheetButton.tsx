@@ -11,6 +11,14 @@ const BudgetWorksheetButton = ({ type, placement, tooltip, onClick }) => {
     let variant;
     let icon;
     switch (type) {
+        case "load":
+            variant = "primary";
+            icon = "bi-arrow-clockwise";
+            break;
+        case "save":
+            variant = "success";
+            icon = "bi-save";
+            break;
         case "add":
             variant = "success";
             icon = "bi-plus";

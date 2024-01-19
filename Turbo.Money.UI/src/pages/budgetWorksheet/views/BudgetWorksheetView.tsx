@@ -57,9 +57,30 @@ const ModeView = ({ viewModel }) => {
 const BudgetWorksheetView = ({ viewModel }) => {
     return (
         <div className="app">
-            <h1>{viewModel.title}</h1>
+            {/*<h1>{viewModel.title}</h1>*/}
             <Table size="sm" variant="dark" responsive borderless hover>
                 <tbody>
+                    <tr>
+                        <td colSpan={6} className="tb-worksheet-title"><h1>{viewModel.title}</h1></td>
+                    </tr>
+                    <tr>
+                        <td colSpan={3}></td>
+                        <td className="tb-worksheet-currency">{viewModel.total}</td>
+                        <td className="tb-worksheet-text">Budget Balance</td>
+                        <td colSpan={3} className="tb-worksheet-buttons">
+                            <BudgetWorksheetButton
+                                type="save"
+                                placement="right"
+                                tooltip="Save Budget"
+                                onClick={viewModel.saveBudget} />
+                            <BudgetWorksheetButton
+                                type="load"
+                                placement="right"
+                                tooltip="Reload Budget"
+                                onClick={viewModel.loadBudget} />
+                        </td>
+                    </tr>
+
                     {viewModel.sectionViewModels &&
                         viewModel.sectionViewModels.map(vm => (
                             <BudgetWorksheetSectionView key={vm.name} viewModel={vm} />
@@ -67,13 +88,15 @@ const BudgetWorksheetView = ({ viewModel }) => {
                     }
 
                     <tr>
-                        <td colSpan={6} className="tb-worksheet-buttons">
+                        <td colSpan={3} className="tb-worksheet-buttons">
                             <BudgetWorksheetButton
                                 type="add"
                                 placement="left"
                                 tooltip="Create New Budget Section"
                                 onClick={viewModel.addSection} />
                         </td>
+                        <td className="tb-worksheet-currency">{viewModel.total}</td>
+                        <td colSpan={2} className="tb-worksheet-text">Budget Balance</td>
                     </tr>
                 </tbody>
             </Table>

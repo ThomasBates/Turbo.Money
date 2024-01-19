@@ -2,7 +2,7 @@ import React from "react";
 
 import CommonDetailsViewModel from "../../common/viewModels/CommonDetailsViewModel";
 
-export default ({ mode, item, categories, onSubmitted, onCancelled }) => {
+const BudgetAccountDetailsViewModel = ({ mode, item, categories, onSubmitted, onCancelled }) => {
 
     const matching = item && categories && categories.find(category => category.id === item.categoryId);
     const categoryName = matching ? matching.name :
@@ -31,3 +31,5 @@ export default ({ mode, item, categories, onSubmitted, onCancelled }) => {
         typeName,
     };
 };
+
+export default BudgetAccountDetailsViewModel;

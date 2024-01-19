@@ -38,7 +38,8 @@
     <Content Include="index.html">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="src\pages\budgetWorksheet\data\BudgetWorksheetDataService.js" />
+    <Content Include="src\pages\budgetWorksheet\data\BudgetWorksheetDataProvider.js" />
+    <Content Include="src\pages\budgetWorksheet\data\BudgetWorksheetDataService.tsx" />
     <Content Include="src\setup\budgetAccount\data\BudgetAccountDataService.js" />
     <Content Include="src\setup\bankAccount\data\BankAccountDataService.js" />
     <Content Include="src\setup\budgetCategory\data\BudgetCategoryDataService.js" />

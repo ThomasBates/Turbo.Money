@@ -2,7 +2,7 @@ import React from "react";
 
 import CommonEditViewModel from "../../common/viewModels/CommonEditViewModel";
 
-export default ({ mode, item, setItem, list, onSubmitted, onCancelled }) => {
+const BankEditViewModel = ({ mode, item, setItem, list, onSubmitted, onCancelled }) => {
 
     const common = CommonEditViewModel(
         "Bank",
@@ -58,3 +58,5 @@ export default ({ mode, item, setItem, list, onSubmitted, onCancelled }) => {
         canSubmit
     }
 };
+
+export default BankEditViewModel;

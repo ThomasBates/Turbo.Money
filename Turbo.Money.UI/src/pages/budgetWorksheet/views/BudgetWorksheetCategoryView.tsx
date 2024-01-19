@@ -9,7 +9,7 @@ const BudgetWorksheetCategoryView = ({ viewModel }) => {
         <>
             <tr className="tb-worksheet-row">
                 <td></td>
-                <td colSpan={4} className="text-success">{viewModel.name}</td>
+                <td colSpan={4} className="tb-worksheet-category-text">{viewModel.name}</td>
                 <td className="tb-worksheet-buttons">
                     <BudgetWorksheetButton
                         type="delete"
@@ -28,9 +28,11 @@ const BudgetWorksheetCategoryView = ({ viewModel }) => {
                         onClick={viewModel.showCategory} />
                 </td>
             </tr>
+
             {viewModel.accountViewModels.map(vm => (
                 <BudgetWorksheetAccountView key={vm.name} viewModel={vm} />
             ))}
+
             <tr className="tb-worksheet-row">
                 <td colSpan={2}></td>
                 <td className="tb-worksheet-buttons">
@@ -40,8 +42,8 @@ const BudgetWorksheetCategoryView = ({ viewModel }) => {
                         tooltip="Create New Budget Account"
                         onClick={viewModel.addAccount} />
                 </td>
-                <td className="text-end text-success">{viewModel.total}</td>
-                <td colSpan={2} className="text-success">{"Total for " + viewModel.name}</td>
+                <td className="tb-worksheet-category-currency">{viewModel.total}</td>
+                <td colSpan={2} className="tb-worksheet-category-text">{"Total for " + viewModel.name}</td>
             </tr>
         </>
     );

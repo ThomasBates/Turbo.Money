@@ -11,7 +11,11 @@ const CommonDataService = (api) => {
     };
 
     const getAll = () => {
-        return http.get(`/${api}`);
+        return http.get(`/${api}/all`);
+    };
+
+    const getList = () => {
+        return http.get(`/${api}/list`);
     };
 
     const update = (id, data) => {

@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (title, entity, mode, item, setItem, onSubmitted, onCancelled) => {
+const CommonEditViewModel = (title, entity, mode, item, setItem, onSubmitted, onCancelled) => {
     title = mode === "edit" ? `Edit ${title}:` : `Add ${title}:`;
 
     const setProperty = (name, value) => {
@@ -26,3 +26,5 @@ export default (title, entity, mode, item, setItem, onSubmitted, onCancelled) =>
         cancel
     }
 };
+
+export default CommonEditViewModel;

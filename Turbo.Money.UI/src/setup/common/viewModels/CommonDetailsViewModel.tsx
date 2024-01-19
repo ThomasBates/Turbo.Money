@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (title, entity, mode, item, onSubmitted, onCancelled) => {
+const CommonDetailsViewModel = (title, entity, mode, item, onSubmitted, onCancelled) => {
 
     title = mode === "delete" ? `Delete ${title}:` : `${title} Details:`;
     const showDetails = (item && item.id);
@@ -28,3 +28,5 @@ export default (title, entity, mode, item, onSubmitted, onCancelled) => {
         cancel
     };
 };
+
+export default CommonDetailsViewModel;

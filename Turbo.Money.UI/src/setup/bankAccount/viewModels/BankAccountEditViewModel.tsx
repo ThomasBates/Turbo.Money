@@ -2,7 +2,7 @@ import React from "react";
 
 import CommonEditViewModel from "../../common/viewModels/CommonEditViewModel";
 
-export default ({ mode, item, setItem, list, banks, onSubmitted, onCancelled }) => {
+const BankAccountEditViewModel = ({ mode, item, setItem, list, banks, onSubmitted, onCancelled }) => {
 
     const common = CommonEditViewModel(
         "Bank Account",
@@ -23,8 +23,6 @@ export default ({ mode, item, setItem, list, banks, onSubmitted, onCancelled }) 
     }
 
     const getIsValidBankId = () => {
-        //if (!item.bankId || item.bankId <= 0)
-        //    return false;
         if (isNaN(+item.bankId))
             return false;
         const matching = list.find(a => a.number == item.number && a.bankId == item.bankId && a.id != item.id);
@@ -60,3 +58,5 @@ export default ({ mode, item, setItem, list, banks, onSubmitted, onCancelled }) 
         canSubmit
     }
 };
+
+export default BankAccountEditViewModel;

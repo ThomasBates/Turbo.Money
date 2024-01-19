@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-export default (title, dataService, initialItem, detailsViewModel, editViewModel) => {
+const CommonViewModel = (title, dataService, initialItem, detailsViewModel, editViewModel) => {
     const [list, setList] = useState([]);
     const [selectedIndex, setSelectedIndex] = useState(null);
     const [mode, setMode] = useState("none");
@@ -37,7 +37,7 @@ export default (title, dataService, initialItem, detailsViewModel, editViewModel
     //  Data Service Methods
 
     const retrieveAllItems = () => {
-        dataService.getAll()
+        dataService.getList()
             .then(response => {
                 console.log("retrieveAllItems: ", response.data);
                 const newList = response.data.sort(compareItems);
@@ -276,3 +276,5 @@ export default (title, dataService, initialItem, detailsViewModel, editViewModel
         deleteItem
     }
 };
+
+export default CommonViewModel;

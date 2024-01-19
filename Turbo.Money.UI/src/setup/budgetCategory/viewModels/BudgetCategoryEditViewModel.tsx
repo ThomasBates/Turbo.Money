@@ -2,7 +2,7 @@ import React from "react";
 
 import CommonEditViewModel from "../../common/viewModels/CommonEditViewModel";
 
-export default ({ mode, item, setItem, list, sections, onSubmitted, onCancelled }) => {
+const BudgetCategoryEditViewModel = ({ mode, item, setItem, list, sections, onSubmitted, onCancelled }) => {
 
     const common = CommonEditViewModel(
         "Budget Category",
@@ -25,8 +25,6 @@ export default ({ mode, item, setItem, list, sections, onSubmitted, onCancelled 
     }
 
     const getIsValidSectionId = () => {
-        //if (!item.sectionId)
-        //    return false;
         if (isNaN(+item.sectionId))
             return false;
         if (!sections.find(c => c.id == item.sectionId))
@@ -50,3 +48,5 @@ export default ({ mode, item, setItem, list, sections, onSubmitted, onCancelled 
         canSubmit
     }
 };
+
+export default BudgetCategoryEditViewModel;

@@ -32,7 +32,7 @@ body {
     height: 25px;
     padding: 0px 2px;
     margin: 0px 2px;
-    opacity: 0;
+    opacity: 0.2;
     float: left;
 }
 
@@ -40,7 +40,7 @@ body {
     height: 25px;
     padding: 0px 2px;
     margin: 0px 2px;
-    opacity: 0;
+    opacity: 0.2;
     float: right;
 }
 
@@ -65,6 +65,55 @@ tr:hover .tb-worksheet-button-right {
     color: white;
     border-radius: 3px;
 }
+/*
+.tb-worksheet-title {
+    color: #800000 !important;
+    text-align: center !important;
+    text-shadow: 0 0 3px #ffffff;
+}
+*/
+.tb-worksheet-title {
+    color: #ffffff !important;
+    text-align: center !important;
+    text-shadow: 0 0 5px #ff0000;
+}
+
+.tb-worksheet-text {
+    color: #808080 !important;
+}
+
+.tb-worksheet-currency {
+    color: #ffffff !important;
+    text-align: right !important;
+}
+
+.tb-worksheet-section-text {
+    color: #008080 !important;
+}
+
+.tb-worksheet-section-currency {
+    color: #00ffff !important;
+    text-align: right !important;
+}
+
+.tb-worksheet-category-text {
+    color: #008000 !important;
+}
+
+.tb-worksheet-category-currency {
+    color: #00cc00 !important;
+    text-align: right !important;
+}
+
+.tb-worksheet-account-text {
+    color: #c0c080 !important;
+}
+
+.tb-worksheet-account-currency {
+    color: #ffff00 !important;
+    text-align: right !important;
+}
+
 
 .edit-form {
     max-width: 300px;

@@ -4,43 +4,16 @@ import BudgetWorksheetAccountViewModel from "./BudgetWorksheetAccountViewModel";
 
 const BudgetWorksheetCategoryViewModel = (
     category,
-    sectionList,
-    categoryList,
-    accountList,
+    dataService,
     setModeItem,
     setModeViewModelProps) => {
 
-    const accountViewModels = category.accounts &&
-        category.accounts
-            .filter(account => account.state != "deleted")
+    const accountViewModels = dataService.listBudgetAccounts(category)
             .map(account => BudgetWorksheetAccountViewModel(
                 account,
-                categoryList,
-                accountList,
+                dataService,
                 setModeItem,
                 setModeViewModelProps));
-
-    let totalValue = category.accounts.reduce(
-        (sum, account) => Number(sum) + Number(account.amount), 0);
-
-    const localeFormat = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD'
-    });
-
-    const formattedTotal = localeFormat.format(totalValue);
-
-    const compareAccounts = (account1, account2) => {
-        const name1 = account1.name.toUpperCase();
-        const name2 = account2.name.toUpperCase();
-        if (name1 > name2) {
-            return 1;
-        }
-        if (name1 < name2) {
-            return -1;
-        }
-        return 0;
-    }
 
     const showCategory = () => {
         var categoryToShow = {
@@ -54,7 +27,7 @@ const BudgetWorksheetCategoryViewModel = (
             entity: "BudgetCategory",
             mode: "show",
             item: categoryToShow,
-            sections: sectionList,
+            sections: dataService.listBudgetSectionNames(),
             onSubmitted: null,
             onCancelled: onModeCancelled
         });
@@ -77,19 +50,15 @@ const BudgetWorksheetCategoryViewModel = (
             mode: "edit",
             item: categoryToEdit,
             setItem: setModeItem,
-            list: categoryList,
-            sections: sectionList,
+            list: dataService.listBudgetCategoryNames(),
+            sections: dataService.listBudgetSectionNames(),
             onSubmitted: onEditSubmitted,
             onCancelled: onModeCancelled
         });
     }
 
     const onEditSubmitted = (editedCategory) => {
-        category.name = editedCategory.name;
-        category.description = editedCategory.description;
-        category.direction = editedCategory.direction;
-        category.state = "updated";
-
+        dataService.updateBudgetCategory(editedCategory);
         setModeViewModelProps(null);
     };
 
@@ -105,15 +74,14 @@ const BudgetWorksheetCategoryViewModel = (
             entity: "BudgetCategory",
             mode: "delete",
             item: categoryToDelete,
-            sections: sectionList,
+            sections: dataService.listBudgetSectionNames(),
             onSubmitted: onDeleteSubmitted,
             onCancelled: onModeCancelled
         });
     }
 
     const onDeleteSubmitted = (categoryToDelete) => {
-        category.state = "deleted";
-
+        dataService.deleteBudgetCategory(categoryToDelete);
         setModeViewModelProps(null);
     };
 
@@ -134,28 +102,22 @@ const BudgetWorksheetCategoryViewModel = (
             mode: "add",
             item: accountToAdd,
             setItem: setModeItem,
-            list: accountList,
-            categories: categoryList,
+            list: dataService.listBudgetAccountNames(),
+            categories: dataService.listBudgetCategoryNames(),
             onSubmitted: onAddSubmitted,
             onCancelled: onModeCancelled
         });
     };
 
     const onAddSubmitted = (accountToAdd) => {
-        const minID = accountList.reduce(
-            (min, account) => Number(min) < Number(account.id) ? Number(min) : Number(account.id), 0);
-        accountToAdd.id = minID - 1;
-        accountToAdd.state = "created";
-
-        category.accounts = [...category.accounts, accountToAdd].sort(compareAccounts);
-
+        dataService.createBudgetAccount(accountToAdd);
         setModeViewModelProps(null);
     };
 
     return {
         name: category.name,
         accountViewModels,
-        total: formattedTotal,
+        total: dataService.getBudgetCategoryTotal(category),
 
         showCategory,
         editCategory,

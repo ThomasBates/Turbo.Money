@@ -8,9 +8,9 @@ const BudgetWorksheetAccountView = ({ viewModel }) => {
             <tr className="tb-worksheet-row">
                 <td></td>
                 <td></td>
-                <td>{viewModel.name}</td>
-                <td className="text-warning text-end">{viewModel.amount}</td>
-                <td>{viewModel.typeName}</td>
+                <td className="tb-worksheet-account-text">{viewModel.name}</td>
+                <td className="tb-worksheet-account-currency">{viewModel.amount}</td>
+                <td className="tb-worksheet-account-text">{viewModel.typeName}</td>
                 <td className="tb-worksheet-buttons">
                     <BudgetWorksheetButton
                         type="delete"
