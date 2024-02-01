@@ -1,14 +1,20 @@
-declare var require: any
-var React = require('react');
+import React from "react";
 
-function SocialLinks() {
+function SocialLink({ icon, href }) {
     return (
-        <div>
-            <a className="btn btn-dark" role="button" target="_blank" href="https://twitter.com/RoboTurbo2">X</a>
-            <a className="btn btn-dark" role="button" target="_blank" href="https://turbobutterfly.wordpress.com/">W</a>
-            <a className="btn btn-dark" role="button" target="_blank" href="https://www.youtube.com/@turbobutterfly1974/videos">&gt;</a>
-            <a className="btn btn-dark" role="button" target="_blank" href="https://www.instagram.com/roboturbo2/">o</a>
-            <a className="btn btn-dark" role="button" target="_blank" href="https://www.facebook.com/Turboflygames">f</a>
+        //<a className={`btn btn-dark tb-social-link bi-${icon}`} role="button" target="_blank" href={href} />
+        <a className={`tb-social-link bi-${icon}`} target="_blank" href={href} />
+    );
+}
+
+function SocialLinks({ className }) {
+    return (
+        <div className={"tb-social-links " + className}>
+            <SocialLink icon="twitter-x" href="https://twitter.com/RoboTurbo2"/>
+            <SocialLink icon="wordpress" href="https://turbobutterfly.wordpress.com/"/>
+            <SocialLink icon="youtube"   href="https://www.youtube.com/@turbobutterfly1974/videos"/>
+            <SocialLink icon="instagram" href="https://www.instagram.com/roboturbo2/"/>
+            <SocialLink icon="facebook"  href="https://www.facebook.com/Turboflygames"/>
         </div>
     );
 }

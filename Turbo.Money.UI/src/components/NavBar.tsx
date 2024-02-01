@@ -1,64 +1,92 @@
-declare var require: any
-var React = require('react');
+import React, { useEffect, useState } from "react";
 
-const Link = require("react-router-dom").Link;
-
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import NavBarTop from "./NavBarTop";
+import NavBarSide from "./NavBarSide";
 
 function NavBar() {
+    const query = window.matchMedia("(hover:hover) and (pointer:fine)");
+
+    //const [desktop, setDesktop] = useState(query.matches);
+    const desktop = query.matches;
+
+    //useEffect(() => {
+    //    query.addEventListener("change", e => setDesktop(e.matches));
+    //}, []);
+
+    const MyNavBar = desktop ? NavBarTop : NavBarSide;
+    
+    const navData = [
+        {
+            content: (<img src="/assets/images/logo.png" alt="TurboButterfly" width="200" />),
+            to: "/",
+        },
+        {
+            content: "Budget",
+            list: [
+                { content: "Budget Worksheet", to: "/BudgetWorksheetView" },
+                { content: "View Budget", to: "/budgetView" }
+            ]
+        },
+        {
+            content: "Transactions",
+            list: [
+                { content: "Record Transactions", to: "/TransactionEntry" },
+                { content: "Import Bank Transactions", to: "/TransactionImport" }
+            ]
+        },
+        {
+            content: "Reports",
+            list: [
+                { content: "Report by Period", to: "/ReportByPeriod" },
+                { content: "Report by Account", to: "/ReportByAccount" }
+            ]
+        },
+        {
+            content: "Setup",
+            list: [
+                { content: "Bank Setup", to: "/BankView" },
+                { content: "Bank Account Setup", to: "/BankAccountView" },
+                { content: "Budget Section Setup", to: "/BudgetSectionView" },
+                { content: "Budget Category Setup", to: "/BudgetCategoryView" },
+                { content: "Budget Account Setup", to: "/BudgetAccountView" }
+            ]
+        },
+        {
+            content: "About",
+            to: "/about"
+        }
+    ];
+
+    return (<MyNavBar data={navData} />);
+/*
     return (
-        <Navbar expand="lg" className="bg-dark" data-bs-theme="dark">
-            <Container>
-                <Navbar.Brand as={Link} to="/" >
-                    <img src="/assets/images/logo.png" alt="TurboButterfly" width="199" />
-                </Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav" role="">
-                    <Nav className="me-auto">
-                        <NavDropdown title="Budget" id="basic-nav-dropdown">
-                            <NavDropdown.Item as={Link} to="/BudgetWorksheetView">Budget Worksheet</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/BudgetView">View Budget</NavDropdown.Item>
-                        </NavDropdown>
-                        <NavDropdown title="Transactions" id="basic-nav-dropdown">
-                            <NavDropdown.Item as={Link} to="/TransactionEntry">Record Transactions</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/TransactionImport">Import Bank Transactions</NavDropdown.Item>
-                        </NavDropdown>
-                        <NavDropdown title="Reports" id="basic-nav-dropdown">
-                            <NavDropdown.Item as={Link} to="/ReportByPeriod">Report by Period</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/ReportByAccount">Report by Account</NavDropdown.Item>
-                        </NavDropdown>
-                        <NavDropdown title="Setup" id="basic-nav-dropdown">
-                            <NavDropdown.Item as={Link} to="/BankView">Bank Setup</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/BankAccountView">Bank Account Setup</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/BudgetSectionView">Budget Section Setup</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/BudgetCategoryView">Budget Category Setup</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/BudgetAccountView">Budget Account Setup</NavDropdown.Item>
-                        </NavDropdown>
-                        {/*
-                        <NavDropdown title="Test" id="basic-nav-dropdown">
-                            <NavDropdown.Item as={Link} to="/BatesList">Bates List</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/CitiesList">Cities List</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item as={Link} to="/ButtonTest">Button Test</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item as={Link} to="/FetchTest">Fetch Test</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/AxiosTest">Axios Test</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item as={Link} to="/AddTest">Add Test</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item as={Link} to="/TutorialsList">List Tutorials</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/AddTutorial">Add Tutorial</NavDropdown.Item>
-                        </NavDropdown>
-                        */}
-                        <Nav.Link as={Link} to="/about">About</Nav.Link>
-                    </Nav>
-                </Navbar.Collapse>
-            </Container>
-        </Navbar>
+        <MyNavBar>
+            <MyNavBar.Brand to="/" >
+                <img src="/assets/images/logo.png" alt="TurboButterfly" width="200" />
+            </MyNavBar.Brand>
+            <MyNavBar.Dropdown text="Budget">
+                <MyNavBar.Item text="Budget Worksheet" to="/BudgetWorksheetView" />
+                <MyNavBar.Item text="View Budget" to="/BudgetView" />
+            </MyNavBar.Dropdown>
+            <MyNavBar.Dropdown text="Transactions">
+                <MyNavBar.Item text="Record Transactions" to="/TransactionEntry" />
+                <MyNavBar.Item text="Import Bank Transactions" to="/TransactionImport" />
+            </MyNavBar.Dropdown>
+            <MyNavBar.Dropdown text="Reports">
+                <MyNavBar.Item text="Report by Period" to="/ReportByPeriod" />
+                <MyNavBar.Item text="Report by Account" to="/ReportByAccount" />
+            </MyNavBar.Dropdown>
+            <MyNavBar.Dropdown text="Setup">
+                <MyNavBar.Item text="Bank Setup" to="/BankView" />
+                <MyNavBar.Item text="Bank Account Setup" to="/BankAccountView" />
+                <MyNavBar.Item text="Budget Section Setup" to="/BudgetSectionView" />
+                <MyNavBar.Item text="Budget Category Setup" to="/BudgetCategoryView" />
+                <MyNavBar.Item text="Budget Account Setup" to="/BudgetAccountView" />
+            </MyNavBar.Dropdown>
+            <MyNavBar.Item text="About" to="/about" />
+        </MyNavBar>
     );
+    */
 }
 
 export default NavBar;

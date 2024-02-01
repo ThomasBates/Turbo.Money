@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import Modal from 'react-bootstrap/Modal';
 import Table from 'react-bootstrap/Table';
@@ -10,7 +10,8 @@ import BudgetCategoryEditView from "../../../setup/budgetCategory/views/BudgetCa
 import BudgetAccountDetailsView from "../../../setup/budgetAccount/views/BudgetAccountDetailsView";
 import BudgetAccountEditView from "../../../setup/budgetAccount/views/BudgetAccountEditView";
 
-import BudgetWorksheetButton from "../components/BudgetWorksheetButton";
+import BudgetWorksheetMenu from "../components/BudgetWorksheetMenuDropdown";
+import BudgetWorksheetMenuItem from "../components/BudgetWorksheetMenuDropdownItem";
 
 import BudgetWorksheetSectionView from "./BudgetWorksheetSectionView";
 
@@ -36,70 +37,70 @@ const modeViews = {
 }
 
 const ModeView = ({ viewModel }) => {
-    //console.log(`ModeView: viewModel: `, viewModel);
-    //if (!viewModel)
-    //    return null;
-
-    //const entitySet = modeViews[viewModel.entity];
-    //console.log(`ModeView: entitySet: `, entitySet);
-
-    //if (!entitySet)
-    //    return null;
-
-    //const modeView = entitySet[viewModel.mode];
-    //console.log(`ModeView: modeView: `, modeView);
-
-    //return modeView({ viewModel })
-
     return modeViews[viewModel.entity][viewModel.mode]({ viewModel })
 };
 
-const BudgetWorksheetView = ({ viewModel }) => {
+function Menu({ viewModel }) {
     return (
-        <div className="app">
-            {/*<h1>{viewModel.title}</h1>*/}
-            <Table size="sm" variant="dark" responsive borderless hover>
-                <tbody>
-                    <tr>
-                        <td colSpan={6} className="tb-worksheet-title"><h1>{viewModel.title}</h1></td>
-                    </tr>
-                    <tr>
-                        <td colSpan={3}></td>
-                        <td className="tb-worksheet-currency">{viewModel.total}</td>
-                        <td className="tb-worksheet-text">Budget Balance</td>
-                        <td colSpan={3} className="tb-worksheet-buttons">
-                            <BudgetWorksheetButton
-                                type="save"
-                                placement="right"
-                                tooltip="Save Budget"
-                                onClick={viewModel.saveBudget} />
-                            <BudgetWorksheetButton
-                                type="load"
-                                placement="right"
-                                tooltip="Reload Budget"
-                                onClick={viewModel.loadBudget} />
-                        </td>
-                    </tr>
+        <BudgetWorksheetMenu tooltip="Budget Actions" >
+            <BudgetWorksheetMenuItem
+                icon="add"
+                text="Create New Budget Section"
+                onClick={viewModel.addSection} />
+            <BudgetWorksheetMenuItem
+                icon="load"
+                text="Reload Budget"
+                onClick={viewModel.loadBudget} />
+            <BudgetWorksheetMenuItem
+                icon="save"
+                text="Save Budget"
+                onClick={viewModel.saveBudget} />
+        </BudgetWorksheetMenu>
+    );
+};
 
-                    {viewModel.sectionViewModels &&
-                        viewModel.sectionViewModels.map(vm => (
-                            <BudgetWorksheetSectionView key={vm.name} viewModel={vm} />
-                        ))
-                    }
+const BudgetWorksheetView = ({ viewModel }) => {
+    const query = window.matchMedia("(min-width:641px)");
+    const [wide, setWide] = useState(query.matches);
+    useEffect(() => {
+        query.addEventListener("change", e => setWide(e.matches));
+    }, []);
 
-                    <tr>
-                        <td colSpan={3} className="tb-worksheet-buttons">
-                            <BudgetWorksheetButton
-                                type="add"
-                                placement="left"
-                                tooltip="Create New Budget Section"
-                                onClick={viewModel.addSection} />
-                        </td>
-                        <td className="tb-worksheet-currency">{viewModel.total}</td>
-                        <td colSpan={2} className="tb-worksheet-text">Budget Balance</td>
-                    </tr>
-                </tbody>
-            </Table>
+    return (
+        <>
+            <div>
+            {/* <Table size="sm" variant="dark" responsive borderless hover> */}
+                <Table size="sm" variant="dark" responsive bordered hover>
+                    <tbody>
+                        <tr>
+                            <td colSpan={6} className="tb-worksheet-title"><h1>{viewModel.title}</h1></td>
+                        </tr>
+                        <tr>
+                            <td colSpan={3}></td>
+                            <td className="tb-worksheet-currency">{viewModel.total}</td>
+                            <td className="tb-worksheet-text">{(wide ? "Budget " : "") + (viewModel.total < 0 ? "Deficit" : "Surplus")}</td>
+                            <td className="tb-worksheet-buttons">
+                                <Menu viewModel={viewModel} />
+                            </td>
+                        </tr>
+
+                        {viewModel.sectionViewModels &&
+                            viewModel.sectionViewModels.map(vm => (
+                                <BudgetWorksheetSectionView key={vm.name} viewModel={vm} />
+                            ))
+                        }
+
+                        <tr>
+                            <td colSpan={3}></td>
+                            <td className="tb-worksheet-currency">{viewModel.total}</td>
+                            <td className="tb-worksheet-text">{(wide ? "Budget " : "") + (viewModel.total < 0 ? "Deficit" : "Surplus")}</td>
+                            <td className="tb-worksheet-buttons">
+                                <Menu viewModel={viewModel} />
+                            </td>
+                        </tr>
+                    </tbody>
+                </Table>
+            </div>
 
             {viewModel.modeViewModel &&       //  backdrop="static"
                 <Modal show={true} centered animation={false}>
@@ -108,7 +109,7 @@ const BudgetWorksheetView = ({ viewModel }) => {
                     </Modal.Body>
                 </Modal>
             }
-        </div>
+        </>
     );
 };
 

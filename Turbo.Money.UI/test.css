@@ -1,0 +1,122 @@
+
+.test-size-0 {
+    display: none;
+}
+
+.test-size-1 {
+    display: none;
+}
+
+.test-size-2 {
+    display: none;
+}
+
+.test-size-3 {
+    display: none;
+}
+
+.test-size-4 {
+    display: none;
+}
+
+.test-size-5 {
+    display: none;
+}
+
+.test-size-6 {
+    display: none;
+}
+
+.test-hover-0 {
+    display: none;
+}
+
+.test-hover-1 {
+    display: none;
+}
+
+.test-pointer-0 {
+    display: none;
+}
+
+.test-pointer-1 {
+    display: none;
+}
+
+.test-pointer-2 {
+    display: none;
+}
+
+/* nothing */
+@media (min-width: 0px) and (max-width: 320px) {
+    .test-size-0 {
+        display: initial;
+    }
+}
+/* smartphones, iPhone, portrait 480x320 phones */
+@media (min-width: 321px) and (max-width: 480px) {
+    .test-size-1 {
+        display: initial;
+    }
+}
+/* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide */
+@media (min-width: 481px) and (max-width: 640px) {
+    .test-size-2 {
+        display: initial;
+    }
+}
+/* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+@media (min-width: 641px) and (max-width: 960px) {
+    .test-size-3 {
+        display: initial;
+    }
+}
+/* tablet, landscape iPad, lo-res laptops ands desktops */
+@media (min-width: 961px) and (max-width:1024px) {
+    .test-size-4 {
+        display: initial;
+    }
+}
+/* big landscape tablets, laptops, and desktops */
+@media (min-width:1025px) and (max-width:1280px) {
+    .test-size-5 {
+        display: initial;
+    }
+}
+/* hi-res laptops and desktops */
+@media (min-width:1281px) and (max-width:2000px) {
+    .test-size-6 {
+        display: initial;
+    }
+}
+/* Does not support hover */
+@media (hover:none ) {
+    .test-hover-0 {
+        display: initial;
+    }
+}
+/* Supports hover */
+@media (hover:hover ) {
+    .test-hover-1 {
+        display: initial;
+    }
+}
+/* no pointer */
+@media (pointer:none) {
+    .test-pointer-0 {
+        display: initial;
+    }
+}
+/* coarse pointer */
+@media (pointer:coarse) {
+    .test-pointer-1 {
+        display: initial;
+    }
+}
+/* fine pointer */
+@media (pointer:fine) {
+    .test-pointer-2 {
+        display: initial;
+    }
+}
+

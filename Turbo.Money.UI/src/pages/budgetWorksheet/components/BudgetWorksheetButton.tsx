@@ -1,5 +1,12 @@
 import React, { useRef, useState } from "react";
 
+//import 'bootstrap-icons/icons/arrow-clockwise.svg';
+//import 'bootstrap-icons/icons/save.svg';
+//import 'bootstrap-icons/icons/plus.svg';
+//import 'bootstrap-icons/icons/info.svg';
+//import 'bootstrap-icons/icons/pencil-fill.svg';
+//import 'bootstrap-icons/icons/trash.svg';
+
 import Button from 'react-bootstrap/Button';
 
 import BudgetWorksheetTooltip from "./BudgetWorksheetTooltip";
@@ -11,6 +18,10 @@ const BudgetWorksheetButton = ({ type, placement, tooltip, onClick }) => {
     let variant;
     let icon;
     switch (type) {
+        case "menu":
+            variant = "dark";
+            icon = "bi-list";
+            break;
         case "load":
             variant = "primary";
             icon = "bi-arrow-clockwise";

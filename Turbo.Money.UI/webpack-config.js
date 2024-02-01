@@ -3,7 +3,9 @@ module.exports = {
     entry: "./main.tsx",
     mode: "development",
     output: {
-        filename: "./app-bundle.js"
+        //filename: "./app-bundle.js"
+        path: "Z:/Sites/money/money/config/html/dist/"
+        //filename: "Z:/Sites/money/money/config/html/dist/app-bundle.js"
     },
     resolve: {
         extensions: ['.Webpack.js', '.web.js', '.ts', '.js', '.jsx', '.tsx']
@@ -20,7 +22,13 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']
-            }
+            },
+            {
+                test: /\.svg$/,
+                use: {
+                    loader: 'svg-inline-loader'
+                }
+            },
         ]
     }
 }

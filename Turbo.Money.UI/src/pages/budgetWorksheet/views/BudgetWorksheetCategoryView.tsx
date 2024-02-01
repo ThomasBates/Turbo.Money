@@ -1,31 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import BudgetWorksheetButton from "../components/BudgetWorksheetButton";
+import BudgetWorksheetMenu from "../components/BudgetWorksheetMenuDropdown";
+import BudgetWorksheetMenuItem from "../components/BudgetWorksheetMenuDropdownItem";
 
 import BudgetWorksheetAccountView from "./BudgetWorksheetAccountView";
 
+function Menu({ viewModel }) {
+    return (
+        <BudgetWorksheetMenu tooltip="Budget Category Actions" >
+            <BudgetWorksheetMenuItem
+                icon="show"
+                text="Show details of this budget category"
+                onClick={viewModel.showCategory} />
+            <BudgetWorksheetMenuItem
+                icon="edit"
+                text="Edit this budget category"
+                onClick={viewModel.editCategory} />
+            <BudgetWorksheetMenuItem
+                icon="add"
+                text="Create New budget account"
+                onClick={viewModel.addAccount} />
+            <BudgetWorksheetMenuItem
+                icon="delete"
+                text="Delete this budget category"
+                onClick={viewModel.deleteCategory} />
+        </BudgetWorksheetMenu>
+    );
+};
+
 const BudgetWorksheetCategoryView = ({ viewModel }) => {
+    const query = window.matchMedia("(min-width:641px)");
+    const [wide, setWide] = useState(query.matches);
+    useEffect(() => {
+        query.addEventListener("change", e => setWide(e.matches));
+    }, []);
+
     return (
         <>
             <tr className="tb-worksheet-row">
                 <td></td>
                 <td colSpan={4} className="tb-worksheet-category-text">{viewModel.name}</td>
                 <td className="tb-worksheet-buttons">
-                    <BudgetWorksheetButton
-                        type="delete"
-                        placement="right"
-                        tooltip="Delete this Budget Category"
-                        onClick={viewModel.deleteCategory} />
-                    <BudgetWorksheetButton
-                        type="edit"
-                        placement="right"
-                        tooltip="Edit this Budget Category"
-                        onClick={viewModel.editCategory} />
-                    <BudgetWorksheetButton
-                        type="show"
-                        placement="right"
-                        tooltip="Show Details of this Budget Category"
-                        onClick={viewModel.showCategory} />
+                    <Menu viewModel={viewModel} />
                 </td>
             </tr>
 
@@ -34,16 +50,12 @@ const BudgetWorksheetCategoryView = ({ viewModel }) => {
             ))}
 
             <tr className="tb-worksheet-row">
-                <td colSpan={2}></td>
-                <td className="tb-worksheet-buttons">
-                    <BudgetWorksheetButton
-                        type="add"
-                        placement="left"
-                        tooltip="Create New Budget Account"
-                        onClick={viewModel.addAccount} />
-                </td>
+                <td colSpan={3}></td>
                 <td className="tb-worksheet-category-currency">{viewModel.total}</td>
-                <td colSpan={2} className="tb-worksheet-category-text">{"Total for " + viewModel.name}</td>
+                <td className="tb-worksheet-category-text">{wide ? "Total for " + viewModel.name : "Total"}</td>
+                <td className="tb-worksheet-buttons">
+                    <Menu viewModel={viewModel} />
+                </td>
             </tr>
         </>
     );

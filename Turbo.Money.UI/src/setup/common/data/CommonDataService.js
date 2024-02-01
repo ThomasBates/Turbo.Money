@@ -30,6 +30,7 @@ const CommonDataService = (api) => {
         create,
         get,
         getAll,
+        getList,
         update,
         remove
     };

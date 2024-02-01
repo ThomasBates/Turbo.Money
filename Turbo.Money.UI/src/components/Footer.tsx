@@ -1,15 +1,12 @@
-//import React from "react";
-declare var require: any
-
-var React = require('react');
-//import 'bootstrap/dist/css/bootstrap.css'
+import React from "react";
 
 import SocialLinks from './SocialLinks';
 
 function Footer() {
-
     return (
-        <SocialLinks />
+        <footer className="tb-footer">
+            <SocialLinks className="tb-footer-links" />
+        </footer>
     );
 }
 

@@ -1,6 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import BudgetWorksheetButton from "../components/BudgetWorksheetButton";
+import BudgetWorksheetMenu from "../components/BudgetWorksheetMenuDropdown";
+import BudgetWorksheetMenuItem from "../components/BudgetWorksheetMenuDropdownItem";
+
+function Menu({ viewModel }) {
+    return (
+        <BudgetWorksheetMenu tooltip="Budget Account Actions" >
+            <BudgetWorksheetMenuItem
+                icon="show"
+                text="Show details of this budget account"
+                onClick={viewModel.showAccount} />
+            <BudgetWorksheetMenuItem
+                icon="edit"
+                text="Edit this budget account"
+                onClick={viewModel.editAccount} />
+            <BudgetWorksheetMenuItem
+                icon="delete"
+                text="Delete this budget account"
+                onClick={viewModel.deleteAccount} />
+        </BudgetWorksheetMenu>
+    );
+};
 
 const BudgetWorksheetAccountView = ({ viewModel }) => {
     return (
@@ -12,21 +32,7 @@ const BudgetWorksheetAccountView = ({ viewModel }) => {
                 <td className="tb-worksheet-account-currency">{viewModel.amount}</td>
                 <td className="tb-worksheet-account-text">{viewModel.typeName}</td>
                 <td className="tb-worksheet-buttons">
-                    <BudgetWorksheetButton
-                        type="delete"
-                        placement="right"
-                        tooltip="Delete this Budget Account"
-                        onClick={viewModel.deleteAccount} />
-                    <BudgetWorksheetButton
-                        type="edit"
-                        placement="right"
-                        tooltip="Edit this Budget Account"
-                        onClick={viewModel.editAccount} />
-                    <BudgetWorksheetButton
-                        type="show"
-                        placement="right"
-                        tooltip="Show Details of this Budget Account"
-                        onClick={viewModel.showAccount} />
+                    <Menu viewModel={viewModel} />
                 </td>
             </tr>
         </>
