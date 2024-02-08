@@ -4,7 +4,7 @@ import SocialLinks from './SocialLinks';
 import Settings from './Settings';
 
 function Header() {
-    const test = 78;
+    const test = 80;
     const title = "It's My Money";
 
     return (

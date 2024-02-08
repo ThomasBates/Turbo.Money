@@ -30,46 +30,33 @@ import BudgetAccountView from '../setup/budgetAccount/views/BudgetAccountView';
 
 import About from '../pages/About';
 
-function RoutesPanel() {
+function RoutesPanel({ navData }) {
     return (
         <div className="tb-main">
             <Routes>
-                {/*<Route index element={<Dashboard />} />*/}
-                <Route index element={<BudgetWorksheetView viewModel={BudgetWorksheetViewModel()} />} />
+                <Route index element={<Dashboard />} />
+                {/*<Route index element={<BudgetWorksheetView viewModel={BudgetWorksheetViewModel()} />} />*/}
 
-                {/*Budget*/}
+                {/* Budget */}
                 <Route path="/BudgetWorksheetView" element={<BudgetWorksheetView viewModel={BudgetWorksheetViewModel()} />} />
                 <Route path="/BudgetView" element={<BudgetView />} />
 
-                {/*Transactions*/}
+                {/* Transactions */}
                 <Route path="/TransactionEntry" element={<TransactionEntry />} />
                 <Route path="/TransactionImport" element={<TransactionImport />} />
 
-                {/*Reports*/}
+                {/* Reports */}
                 <Route path="/ReportByPeriod" element={<ReportByPeriod />} />
                 <Route path="/ReportByAccount" element={<ReportByAccount />} />
 
-                {/*Setup*/}
+                {/* Setup */}
                 <Route path="/BankView" element={<BankView viewModel={BankViewModel} />} />
                 <Route path="/BankAccountView" element={<BankAccountView viewModel={BankAccountViewModel} />} />
                 <Route path="/BudgetSectionView" element={<BudgetSectionView viewModel={BudgetSectionViewModel} />} />
                 <Route path="/BudgetCategoryView" element={<BudgetCategoryView viewModel={BudgetCategoryViewModel} />} />
                 <Route path="/BudgetAccountView" element={<BudgetAccountView viewModel={BudgetAccountViewModel} />} />
 
-                {/*Test*/}
-                {/*
-                <Route path="/BatesList" element={<BatesList />} />
-                <Route path="/CitiesList" element={<CitiesList/>} />
-                <Route path="/ButtonTest" element={<ButtonTest/>} />
-                <Route path="/FetchTest" element={<FetchTest />} />
-                <Route path="/AxiosTest" element={<AxiosTest />} />
-                <Route path="/AddTest" element={<AddTest />} />
-
-                <Route path="/TutorialsList" element={<TutorialsList />} />
-                <Route path="/AddTutorial" element={<AddTutorial />} />
-                <Route path="/Tutorial/:id" element={<Tutorial />} />
-                */}
-
+                {/* About */}
                 <Route path="/about" element={<About />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>

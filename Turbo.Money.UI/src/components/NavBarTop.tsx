@@ -1,77 +1,100 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const Link = require("react-router-dom").Link;
 
-interface BrandProps {
-    to: string;
-    children?: React.ReactNode;
+function NavBarItem({ item, top, onClick }) {
+    if ("list" in item)
+        return (<NavBarList item={item} top={top} onClick={onClick} />);
+    else if ("to" in item)
+        return (<NavBarLink item={item} top={top} onClick={onClick} />);
+    else
+        return (<NavBarText item={item} top={top} />);
 }
 
-interface ItemProps {
-    text: string;
-    to: string;
-}
+function NavBarList({ item, top, onClick }) {
+    const [showList, setShowList] = useState(false);
 
-interface DropdownProps {
-    text: string;
-    children?: React.ReactNode[],
-}
+    const handleMouseEnter = () => {
+        setShowList(true);
+    }
 
-interface NavBarProps {
-    children?: React.ReactNode[];
-}
+    const handleMouseLeave = () => {
+        setShowList(false);
+    }
 
-type BrandComponent = React.FunctionComponent<BrandProps>;
-type ItemComponent = React.FunctionComponent<ItemProps>;
-type DropdownComponent = React.FunctionComponent<DropdownProps>;
-type NavBarComponent = React.FunctionComponent<NavBarProps>
-    & { Brand: BrandComponent }
-    & { Item: ItemComponent }
-    & { Dropdown: DropdownComponent };
+    const handleItemClick = () => {
+        setShowList(false);
+        onClick();
+    }
 
-const Brand: BrandComponent = ({ to, children }: BrandProps): JSX.Element => {
+    const className = top ? "tb-navbar-list-below" : "tb-navbar-list-beside";
+    const iconClass = top ? "bi-caret-down-fill" : "bi-caret-right-fill";
+
     return (
-        <li>
-            <Link className="tb-navbar-brand" to={to}>
-                {children}
-            </Link>
-        </li>
-    );
-};
-
-const Item: ItemComponent = ({ text, to }: ItemProps): JSX.Element => {
-    return (
-        <li>
-            <Link className="tb-navbar-item" to={to}>
-                {text}
-            </Link>
-        </li>
-    );
-}
-
-const Dropdown: DropdownComponent = ({ text, children }: DropdownProps): JSX.Element => {
-    return (
-        <>
-            <li className="tb-navbar-dropdown">
-                {text + " +"}
-                <ul className="tb-navbar-dropdown-content">
-                    {children}
-                </ul>
-            </li>
-        </>
+        <div
+            className="tb-navbar-item"
+            key={item.content}
+            data-value="list"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+        >
+            <span className={iconClass} />{item.content}
+            {showList && (
+                <div
+                    className={className}
+                >
+                    {item.list.map(item => (
+                        <NavBarItem item={item} top={false} key={item.content} onClick={handleItemClick} />
+                    ))}
+                </div>
+            )}
+        </div>
     );
 }
 
-const NavBarTop: NavBarComponent = ({ children }: NavBarProps): JSX.Element => {
-    return (
-        <ul className="tb-navbar">
-            {children}
-        </ul>
-    );
-};
+function NavBarLink({ item, top, onClick }) {
+    const isText = (typeof item.content === 'string');
+    const className = isText ? "tb-navbar-item" : "tb-navbar-logo";
+    const iconClass = isText ? "bi-record-fill" : "";
 
-NavBarTop.Brand = Brand;
-NavBarTop.Item = Item;
-NavBarTop.Dropdown = Dropdown;
+    return (
+        <Link
+            className={className}
+            to={item.to}
+            key={item.content}
+            onClick={() => onClick()}
+            data-value="item"
+        >
+            <span className={iconClass} />{item.content}
+        </Link>
+    );
+
+}
+
+function NavBarText({ item, top }) {
+    const isText = (typeof item.content !== 'string');
+    const className = isText ? "tb-navbar-item" : "tb-navbar-logo";
+    const iconClass = isText ? "" : "";
+
+    return (
+        <div
+            className={className}
+            key={item.content}
+            data-value="item"
+        >
+            <span className={iconClass} />{item.content}
+        </div>
+    );
+}
+
+function NavBarTop({ data }) {
+    return (
+        <nav className="tb-navbar">
+            {data.map(item => (
+                <NavBarItem item={item} top={true} key={item.content} onClick={() => { }} />
+            ))}
+        </nav>
+    );
+}
 
 export default NavBarTop;

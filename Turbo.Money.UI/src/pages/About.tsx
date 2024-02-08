@@ -12,6 +12,11 @@ function About() {
     return (
         <div className="tb-about" >
             <h1>It's My Money</h1>
+            <h3>Development:</h3>
+            <p>Front-end: JavaScript, React, Axios<br /></p>
+            <p>Middle-end: Node.js, Express, Sequelize<br /></p>
+            <p>Back-end: MySQL (mariadb)<br /></p>
+            <h3>Device:</h3>
             <p>{dimensions}<br/></p>
             <p className="test-size-0">    0 -  320: nothing<br /></p>
             <p className="test-size-1">  321 -  480: smartphones, iPhone, portrait 480x320 phones<br/></p>

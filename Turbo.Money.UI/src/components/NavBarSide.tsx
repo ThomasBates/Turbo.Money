@@ -2,12 +2,36 @@ import React, { useEffect, useRef, useState } from "react";
 
 const Link = require("react-router-dom").Link;
 
-function Div({ children, ...props }) {
-    return (
-        <div {...props}>
-            {children}
+function NavBarItem({ item, onClick }) {
+    let iconClass = "";
+    if ("list" in item)
+        iconClass = "bi-caret-right-fill";
+    if (("to" in item) && (typeof item.content === 'string'))
+        iconClass = "bi-record-fill";
+    if ("backList" in item)
+        iconClass = "bi-caret-left-fill";
+
+    return ("to" in item) ? (
+        <Link
+            className={`tb-navbar-side-item`}
+            to={item.to}
+            key={item.content}
+            onClick={() => onClick(item)}
+            data-value="item"
+        >
+            <span className={iconClass} />{item.content}
+        </Link>
+    ) : (
+        <div
+            className={`tb-navbar-side-item`}
+            key={item.content}
+            onClick={() => onClick(item)}
+            data-value="item"
+        >
+            <span className={iconClass} />{item.content}
         </div>
     );
+
 }
 
 function NavBarSide({ data }) {
@@ -51,7 +75,7 @@ function NavBarSide({ data }) {
             return;
         }
 
-        if (item.content === "Back") {
+        if ("backList" in item) {
             setList(item.backList);
             return;
         }
@@ -69,44 +93,20 @@ function NavBarSide({ data }) {
     }
 
     return (
-        <>
-            <div
-                ref={divRef}
-                className="tb-navbar-side bi-list"
-                onClick={handleMainClick}
-                data-value="main"
-            >
-                {list && (
-                    <div className="tb-navbar-side-dropdown-content">
-                        {list.map(item => {
-                            const Element = ("to" in item) ? Link : Div;
-                            let content = ("lst" in item) ? item.content + " +" : item.content;
-
-                            let iconClass = "";
-                            if ("list" in item)
-                                iconClass = "bi-caret-right-fill";
-                            if (("to" in item) && (typeof item.content === 'string'))
-                                iconClass = "bi-record-fill";
-                            if (content === "Back")
-                                iconClass = "bi-caret-left-fill";
-
-                            return (
-                                <Element
-                                    className={`tb-navbar-side-item`}
-                                    to={item.to}
-                                    key={content}
-                                    onClick={() => handleItemClick(item)}
-                                    data-value="item"
-                                >
-                                    <span className={iconClass} />
-                                    {content}
-                                </Element>
-                            );
-                        })}
-                    </div>
-                )}
-            </div>
-        </>
+        <nav
+            ref={divRef}
+            className="tb-navbar-side bi-list"
+            onClick={handleMainClick}
+            data-value="main"
+        >
+            {list && (
+                <div className="tb-navbar-side-list">
+                    {list.map(item => (
+                        <NavBarItem item={item} onClick={handleItemClick} />
+                    ))}
+                </div>
+            )}
+        </nav>
     );
 }
 

@@ -54,136 +54,118 @@ body {
 
 /* NAV BAR ------------------------------------------------------------------ */
 
-/* The navbar container */
 .tb-navbar {
     list-style-type: none;
     background-color: #000;
-    margin: 0;
+    margin: 5px 0;
     padding: 0;
-    overflow: hidden;
-}
-
-    .tb-navbar::after {
-        content: "";
-        clear: both;
-        display: table;
-    }
-
-.tb-navbar-brand {
-    display: block;
-    float: left;
-    /*padding: 8px 16px;*/
-}
-
-.tb-navbar-item,
-.tb-navbar-dropdown {
-    display: inline-block;
-    float: left;
-    color: #ccc;
-    text-align: center;
-    padding: 14px 14px;
-    text-decoration: none;
-}
-
-    .tb-navbar-item:hover,
-    .tb-navbar-dropdown:hover {
-        color: red;
-    }
-
-.tb-navbar-dropdown-content {
-    display: none;
-    position: absolute;
-
-    list-style-type: none;
-    overflow: hidden;
-
-    background-color: #000;
-    opacity: 0.9;
-    /*min-width: 160px;*/
-    /*box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);*/
-    padding: 10px 20px;
-    z-index: 1;
-    border-bottom: 2px solid red;
-}
-
-.tb-navbar-dropdown:hover .tb-navbar-dropdown-content {
-    display: block;
-}
-
-/* SIDE NAV BAR ------------------------------------------------------------- */
-
-.tb-navbar-side {
-    /*list-style-type: none;*/
-    color: #ccc;
-    background-color: #000;
-    /*margin: 0;
-    padding: 0;*/
-    /*overflow: hidden;*/
-    font-size: 2em;
     user-select: none;
 }
 
-/*
-    .tb-navbar-side::after {
-        content: "";
-        clear: both;
-        display: table;
-    }
-*/
-/*
-.tb-navbar-side-brand {
-    display: block;
-    float: left;
-    padding: 8px 16px;
+.tb-navbar-toggle {
+    color: #ccc;
+    font-size: 2em;
 }
-*/
-.tb-navbar-side-item /*,
-.tb-navbar-side-dropdown*/ {
-    display: block;
-    /*float: left;*/
-    /*text-align: center;*/
-    padding: 0 20px;
-    color: #fff;
+
+.tb-navbar-toggle-restore {
+    font-size: 0.5em;
+}
+
+.tb-navbar-list {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: #000;
+    padding: 10px 0;
+    z-index: 1;
+    border-top: 1px solid red;
+    border-bottom: 1px solid red;
+}
+
+.tb-navbar-list-position-top {
+    position: absolute;
+}
+
+.tb-navbar-list-position-right {
+    position: absolute;
+    top: -10px;
+    left: calc(100% - 5px);
+}
+
+.tb-navbar-list-position-left {
+    position: absolute;
+    top: -10px;
+    right: calc(100% - 5px);
+}
+
+.tb-navbar-list-position-below {
+    position: absolute;
+    left: 30px;
+}
+
+.tb-navbar-logo {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.tb-navbar-item {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+    color: #ccc;
+    padding: 5px 10px;
     text-decoration: none;
     cursor: pointer;
 }
 
-.tb-navbar-side .bi-caret-left-fill {
-    /*font-size: 0.5em;*/
-    color: #088;
+@media (hover:hover) and (pointer: fine) {
+    .tb-navbar-item:hover {
+        color: red;
+    }
 }
 
-.tb-navbar-side .bi-caret-right-fill {
-    /*font-size: 0.5em;*/
+.tb-navbar-disabled-item {
+    display: inline-block;
+    white-space: nowrap;
+    color: #444;
+    padding: 5px 10px;
+    text-decoration: none;
+    cursor: default;
+}
+
+.tb-navbar > .tb-navbar-item {
+    padding: 12px 10px;
+}
+
+.tb-navbar-divider {
+    position: relative;
+    left: 30px;
+    width: calc(100% - 60px);
+    border-top: 1px solid red;
+}
+
+.tb-navbar-list-icon-color {
     color: #880;
 }
 
-.tb-navbar-side .bi-record-fill {
-    /*font-size: 0.5em;*/
+.tb-navbar-link-icon-color {
     color: #080;
 }
 
-.tb-navbar-side-dropdown-content {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    /*list-style-type: none;*/
-    overflow: hidden;
-    background-color: #000;
-    opacity: 0.8;
-    padding: 20px 0;
-    z-index: 1;
-    border-bottom: 2px solid red;
+.tb-navbar-back-icon-color {
+    color: #088;
 }
-/*
-    .tb-navbar-side-dropdown-content::after {
-        content: "";
-        clear: both;
-        display: table;
-    }
-*/
+
+.tb-navbar-disabled-icon-color {
+    color: #800;
+}
+
+.tb-navbar-text-icon-color {
+    color: #800;
+}
 
 /* CONTENT AREA ------------------------------------------------------------- */
+
 /* Clear floats after the columns */
 .tb-content {
     display: flex;
