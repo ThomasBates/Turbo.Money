@@ -1,0 +1,94 @@
+
+.tb-worksheet-button-left {
+    height: 25px;
+    padding: 0px 2px;
+    margin: 0px 2px;
+    opacity: 0.2;
+    float: left;
+}
+
+.tb-worksheet-button-right {
+    height: 25px;
+    padding: 0px 2px;
+    margin: 0px 2px;
+    opacity: 0.2;
+    float: right;
+}
+
+tr:hover .tb-worksheet-button-left {
+    opacity: 1;
+}
+
+tr:hover .tb-worksheet-button-right {
+    opacity: 1;
+}
+
+
+.tb-worksheet-buttons {
+    background-color: #800;
+}
+
+
+    .tb-worksheet-buttons::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+.tb-worksheet-tooltip {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.85);
+    padding: 2px 10px;
+    color: white;
+    border-radius: 3px;
+}
+
+.tb-worksheet-menu-list {
+    position: absolute;
+    background-color: #400;
+    padding: 2px 10px;
+    color: white;
+    border-radius: 3px;
+}
+
+.tb-worksheet-title {
+    color: #ffffff !important;
+    text-align: center !important;
+    text-shadow: 0 0 5px #ff0000;
+}
+
+.tb-worksheet-text {
+    color: #808080 !important;
+}
+
+.tb-worksheet-currency {
+    color: #ffffff !important;
+    text-align: right !important;
+}
+
+.tb-worksheet-section-text {
+    color: #008080 !important;
+}
+
+.tb-worksheet-section-currency {
+    color: #00ffff !important;
+    text-align: right !important;
+}
+
+.tb-worksheet-category-text {
+    color: #008000 !important;
+}
+
+.tb-worksheet-category-currency {
+    color: #00cc00 !important;
+    text-align: right !important;
+}
+
+.tb-worksheet-account-text {
+    color: #c0c080 !important;
+}
+
+.tb-worksheet-account-currency {
+    color: #ffff00 !important;
+    text-align: right !important;
+}

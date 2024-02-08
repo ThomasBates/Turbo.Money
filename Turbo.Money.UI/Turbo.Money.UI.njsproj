@@ -38,6 +38,8 @@
     <Content Include="index.html">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="src\components\navBar\NavBar.css" />
+    <Content Include="src\pages\budgetWorksheet\views\BudgetWorksheet.css" />
     <Content Include="test.css" />
     <Content Include="src\pages\budgetWorksheet\data\BudgetWorksheetDataProvider.js" />
     <Content Include="src\pages\budgetWorksheet\data\BudgetWorksheetDataService.tsx" />
@@ -65,12 +67,11 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\components\Content.tsx" />
-    <TypeScriptCompile Include="src\components\NavBarDot.tsx" />
-    <TypeScriptCompile Include="src\components\NavBarSideDot.tsx" />
-    <TypeScriptCompile Include="src\components\NavBarSide.tsx" />
-    <TypeScriptCompile Include="src\components\NavBarTopDot.tsx" />
-    <TypeScriptCompile Include="src\components\NavBarTop.tsx" />
-    <TypeScriptCompile Include="src\components\NavBarBootstrap.tsx" />
+    <TypeScriptCompile Include="src\components\navBar\NavBarItem.tsx" />
+    <TypeScriptCompile Include="src\components\navBar\NavBarText.tsx" />
+    <TypeScriptCompile Include="src\components\navBar\NavBarBack.tsx" />
+    <TypeScriptCompile Include="src\components\navBar\NavBarLink.tsx" />
+    <TypeScriptCompile Include="src\components\navBar\NavBarList.tsx" />
     <TypeScriptCompile Include="src\components\RoutesPanel.tsx" />
     <TypeScriptCompile Include="src\components\SideBar.tsx" />
     <TypeScriptCompile Include="src\components\Settings.tsx" />
@@ -126,7 +127,7 @@
     <TypeScriptCompile Include="src\components\Footer.tsx" />
     <TypeScriptCompile Include="src\setup\bank\views\BankEditView.tsx" />
     <TypeScriptCompile Include="src\setup\bank\views\BankView.tsx" />
-    <TypeScriptCompile Include="src\components\NavBar.tsx" />
+    <TypeScriptCompile Include="src\components\navBar\NavBar.tsx" />
     <TypeScriptCompile Include="src\components\SocialLinks.tsx" />
     <TypeScriptCompile Include="src\components\Header.tsx" />
     <TypeScriptCompile Include="main.tsx" />
@@ -145,6 +146,7 @@
     <Folder Include="dist\" />
     <Folder Include="src\components\" />
     <Folder Include="src\" />
+    <Folder Include="src\components\navBar\" />
     <Folder Include="src\pages\budgetWorksheet\" />
     <Folder Include="src\pages\budgetWorksheet\data\" />
     <Folder Include="src\pages\budgetWorksheet\components\" />

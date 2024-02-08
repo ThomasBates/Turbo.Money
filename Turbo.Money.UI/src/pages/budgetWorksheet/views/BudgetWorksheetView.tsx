@@ -15,6 +15,8 @@ import BudgetWorksheetMenuItem from "../components/BudgetWorksheetMenuDropdownIt
 
 import BudgetWorksheetSectionView from "./BudgetWorksheetSectionView";
 
+import "./BudgetWorksheet.css";
+
 const modeViews = {
     BudgetSection: {
         add: BudgetSectionEditView,
