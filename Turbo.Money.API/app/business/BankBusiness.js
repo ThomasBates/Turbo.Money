@@ -1,9 +1,9 @@
 
-module.exports = (data) => {
+module.exports = (logger, data) => {
 
     // Validate bank data
     const validate = async (testBank) => {
-        console.log("BankBusiness.validate: testBank = ", testBank);
+        logger.debug("Business","BankBusiness.validate: testBank = ", testBank);
 
         let [error, banks] = await data.getList();
         if (error) {
@@ -12,12 +12,12 @@ module.exports = (data) => {
         if (!banks || banks.length == 0) {
             return null;
         }
-        console.log("BankBusiness.validate: banks = ", banks);
+        logger.debug("Business","BankBusiness.validate: banks = ", banks);
 
         let matching = banks.find(bank =>
             bank.name.toUpperCase() == testBank.name.toUpperCase() &&
             bank.id != testBank.id);
-        console.log("BankBusiness.validate: matching = ", matching);
+        logger.debug("Business","BankBusiness.validate: matching = ", matching);
         if (matching) {
             return "Validation Error: Bank name must be unique.";
         }
@@ -26,7 +26,7 @@ module.exports = (data) => {
             bank.number == testBank.number &&
             bank.transit == testBank.transit &&
             bank.id != testBank.id);
-        console.log("BankBusiness.validate: matching = ", matching);
+        logger.debug("Business","BankBusiness.validate: matching = ", matching);
         if (matching) {
             return "Validation Error: Bank number+transit must be unique.";
         }
@@ -34,6 +34,6 @@ module.exports = (data) => {
         return null;
     }
 
-    const common = require('./CommonBusiness')(data);
+    const common = require('./CommonBusiness')(logger, data);
     return { ...common, validate };
 }

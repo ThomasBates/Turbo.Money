@@ -1,4 +1,4 @@
-import http from "../AxiosCommon";
+import http from "../../../axios/AxiosCommon";
 
 const getAll = () => {
     return http.get("/tutorials");

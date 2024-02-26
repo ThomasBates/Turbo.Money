@@ -6,6 +6,9 @@
     <Name>Turbo.Money.API</Name>
     <RootNamespace>Turbo.Money.API</RootNamespace>
     <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
+    <EnableTypeScript>true</EnableTypeScript>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+    <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -30,7 +33,11 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="app.js" />
+    <Content Include=".env" />
+    <Content Include="app.notused.js" />
+    <Content Include="app\business\AuthBusiness.js" />
+    <Content Include="app\business\UserBusiness.js" />
+    <Content Include="app\business\BankTransactionBusiness.js" />
     <Content Include="app\business\BudgetAccountBusiness.js" />
     <Content Include="app\business\BudgetSectionBusiness.js" />
     <Content Include="app\business\BudgetCategoryBusiness.js" />
@@ -40,6 +47,9 @@
     <Content Include="app\business\BankAccountBusiness.js" />
     <Content Include="app\business\index.js" />
     <Content Include="app\config\db.config.js" />
+    <Content Include="app\controllers\AuthController.js" />
+    <Content Include="app\controllers\UserController.js" />
+    <Content Include="app\controllers\BankTransactionController.js" />
     <Content Include="app\controllers\BudgetAccountController.js" />
     <Content Include="app\controllers\BudgetSectionController.js" />
     <Content Include="app\controllers\BudgetCategoryController.js" />
@@ -48,7 +58,11 @@
     <Content Include="app\controllers\BankController.js" />
     <Content Include="app\controllers\BankAccountController.js" />
     <Content Include="app\controllers\index.js" />
+    <Content Include="app\routes\post.routes.js" />
+    <Content Include="app\routes\validateRequest.js" />
+    <Content Include="app\routes\user.routes.js" />
     <Content Include="app\routes\budgetAccount.routes.js" />
+    <Content Include="app\routes\bankTransaction.routes.js" />
     <Content Include="app\routes\common.routes.js" />
     <Content Include="app\routes\budgetWorksheet.routes.js" />
     <Content Include="app\routes\budgetSection.routes.js" />
@@ -56,6 +70,8 @@
     <Content Include="app\routes\bankAccount.routes.js" />
     <Content Include="app\routes\bank.routes.js" />
     <Content Include="app\routes\index.js" />
+    <Content Include="app\sequelize\data\UserData.js" />
+    <Content Include="app\sequelize\data\BankTransactionData.js" />
     <Content Include="app\sequelize\data\BudgetAccountData.js" />
     <Content Include="app\sequelize\data\BankAccountData.js" />
     <Content Include="app\sequelize\data\BudgetSectionData.js" />
@@ -63,15 +79,20 @@
     <Content Include="app\sequelize\data\CommonData.js" />
     <Content Include="app\sequelize\data\BankData.js" />
     <Content Include="app\sequelize\data\index.js" />
-    <Content Include="app\sequelize\data\tutorial.controller.js" />
+    <Content Include="app\sequelize\models\UserModel.js" />
+    <Content Include="app\sequelize\models\BankTransactionModel.js" />
     <Content Include="app\sequelize\models\BudgetAccountModel.js" />
     <Content Include="app\sequelize\models\BankAccountModel.js" />
     <Content Include="app\sequelize\models\BankModel.js" />
     <Content Include="app\sequelize\models\BudgetSectionModel.js" />
     <Content Include="app\sequelize\models\index.js" />
     <Content Include="app\sequelize\models\BudgetCategoryModel.js" />
-    <Content Include="app\sequelize\models\tutorial.model.js" />
-    <Content Include="app\routes\tutorial.routes.js" />
+    <Content Include="app\routes\auth.routes.js" />
+    <Content Include="lib\grammar\save\GrammarHelper.js" />
+    <Content Include="lib\helpers\GrammarHelper.js" />
+    <Content Include="lib\logger\logger.js" />
+    <Content Include="lib\logger\loggerConsoleProvider.js" />
+    <Content Include="resources\bankTransactions.grammar" />
     <Content Include="routes\index.js" />
     <Content Include="routes\users.js" />
     <Content Include="package.json" />
@@ -91,12 +112,34 @@
     <Folder Include="app\sequelize\models\" />
     <Folder Include="app\sequelize\" />
     <Folder Include="app\routes\" />
+    <Folder Include="lib\" />
+    <Folder Include="lib\common\" />
+    <Folder Include="lib\grammar\" />
+    <Folder Include="lib\grammar\save\" />
+    <Folder Include="lib\helpers\" />
+    <Folder Include="lib\logger\" />
+    <Folder Include="resources\" />
     <Folder Include="public\" />
     <Folder Include="public\images\" />
     <Folder Include="public\javascripts\" />
     <Folder Include="public\stylesheets\" />
     <Folder Include="routes\" />
     <Folder Include="views\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="lib\common\Collection.ts" />
+    <TypeScriptCompile Include="lib\common\IQueue.ts" />
+    <TypeScriptCompile Include="lib\common\IStack.ts" />
+    <TypeScriptCompile Include="lib\common\Queue.ts" />
+    <TypeScriptCompile Include="lib\common\Stack.ts" />
+    <TypeScriptCompile Include="lib\grammar\Grammar.ts" />
+    <TypeScriptCompile Include="lib\grammar\GrammarData.ts" />
+    <TypeScriptCompile Include="lib\grammar\GrammarParser.ts" />
+    <TypeScriptCompile Include="lib\grammar\GrammarReader.ts" />
+    <TypeScriptCompile Include="lib\grammar\IGrammarParser.ts" />
+    <TypeScriptCompile Include="lib\grammar\IGrammarReader.ts" />
+    <TypeScriptCompile Include="lib\grammar\save\GrammarReader.ts" />
+    <TypeScriptCompile Include="lib\grammar\save\IGrammarReader.ts" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
   <ProjectExtensions>

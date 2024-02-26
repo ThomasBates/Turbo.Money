@@ -4,8 +4,12 @@ module.exports = {
     mode: "development",
     output: {
         //filename: "./app-bundle.js"
-        path: "Z:/Sites/money/money/config/html/dist/"
+        filename: "./main.js",
+        //path: ".",
+        publicPath: "/",
+        //path: "Z:/Sites/money/money/config/html/dist/"
         //filename: "Z:/Sites/money/money/config/html/dist/app-bundle.js"
+
     },
     resolve: {
         extensions: ['.Webpack.js', '.web.js', '.ts', '.js', '.jsx', '.tsx']
@@ -30,5 +34,14 @@ module.exports = {
                 }
             },
         ]
-    }
+    },
+    devServer: {
+        historyApiFallback: true,
+    },
+    //plugins: [
+    //    new webpack.DefinePlugin({
+    //        'process.env.REACT_APP_SERVER_URL': JSON.stringify(process.env.REACT_APP_SERVER_URL),
+    //    }),
+    //    //new Dotenv(),
+    //]
 }

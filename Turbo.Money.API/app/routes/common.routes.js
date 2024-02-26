@@ -1,27 +1,28 @@
 
 module.exports = (app, controller, api) => {
-    var router = require("express").Router();
+    const router = require("express").Router();
+    const validateRequest = require("./validateRequest");
 
     // Create a new item
-    router.post("/", controller.create);
+    router.post("/", validateRequest, controller.create);
 
     // Retrieve all items
-    router.get("/all", controller.getAll);
+    router.get("/all", validateRequest, controller.getAll);
 
     // Retrieve all items' id and name
-    router.get("/list", controller.getList);
+    router.get("/list", validateRequest, controller.getList);
 
     // Retrieve a single item with id
-    router.get("/:id", controller.getOne);
+    router.get("/:id", validateRequest, controller.getOne);
 
     // Update an item with id
-    router.put("/:id", controller.update);
+    router.put("/:id", validateRequest, controller.update);
 
     // Delete an item with id
-    router.delete("/:id", controller.deleteOne);
+    router.delete("/:id", validateRequest, controller.deleteOne);
 
     // Delete all items
-    router.delete("/", controller.deleteAll);
+    router.delete("/", validateRequest, controller.deleteAll);
 
     app.use(`/api/${api}`, router);
 };

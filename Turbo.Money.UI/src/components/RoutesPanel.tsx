@@ -3,12 +3,15 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 import Dashboard from '../pages/Dashboard';
+
 import BudgetWorksheetViewModel from '../pages/budgetWorksheet/viewModels/BudgetWorksheetViewModel';
 import BudgetWorksheetView from '../pages/budgetWorksheet/views/BudgetWorksheetView';
 import BudgetView from '../pages/BudgetView';
 
 import TransactionEntry from '../pages/TransactionEntry';
-import TransactionImport from '../pages/TransactionImport';
+
+import BankTransactionUploadViewModel from '../pages/bankTransactions/viewModels/BankTransactionUploadViewModel';
+import BankTransactionUploadView from '../pages/bankTransactions/views/BankTransactionUploadView';
 
 import ReportByPeriod from '../pages/ReportByPeriod';
 import ReportByAccount from '../pages/ReportByAccount';
@@ -38,12 +41,12 @@ function RoutesPanel({ navData }) {
                 {/*<Route index element={<BudgetWorksheetView viewModel={BudgetWorksheetViewModel()} />} />*/}
 
                 {/* Budget */}
-                <Route path="/BudgetWorksheetView" element={<BudgetWorksheetView viewModel={BudgetWorksheetViewModel()} />} />
+                <Route path="/BudgetWorksheetView" element={<BudgetWorksheetView viewModel={BudgetWorksheetViewModel} />} />
                 <Route path="/BudgetView" element={<BudgetView />} />
 
                 {/* Transactions */}
                 <Route path="/TransactionEntry" element={<TransactionEntry />} />
-                <Route path="/TransactionImport" element={<TransactionImport />} />
+                <Route path="/TransactionFileImport" element={<BankTransactionUploadView viewModel={BankTransactionUploadViewModel} />} />
 
                 {/* Reports */}
                 <Route path="/ReportByPeriod" element={<ReportByPeriod />} />

@@ -50,7 +50,7 @@
 
 .tb-navbar-logo {
     display: inline-block;
-    cursor: pointer;
+    cursor: default;
 }
 
 .tb-navbar-item {
@@ -61,6 +61,16 @@
     padding: 5px 10px;
     text-decoration: none;
     cursor: pointer;
+}
+
+.tb-navbar-text {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+    color: #ccc;
+    padding: 5px 10px;
+    text-decoration: none;
+    cursor: default;
 }
 
 @media (hover:hover) and (pointer: fine) {

@@ -13,7 +13,7 @@ function NavBarText({ item }) {
     }
 
     const isText = (typeof item.content === 'string');
-    const className = isText ? "tb-navbar-item" : "tb-navbar-logo";
+    const className = isText ? "tb-navbar-text" : "tb-navbar-logo";
     const iconClass = isText ? "bi-dot tb-navbar-text-icon-color" : "";
 
     return (

@@ -1,13 +1,17 @@
 
-module.exports = (business) => {
+module.exports = (logger, business) => {
     return {
-        banks: require("./BankController")(business.banks),
-        bankAccounts: require("./BankAccountController")(business.bankAccounts),
+        auth: require("./AuthController")(logger, business.auth),
+        users: require("./UserController")(logger, business.users),
 
-        budgetSections: require("./BudgetSectionController")(business.budgetSections),
-        budgetCategories: require("./BudgetCategoryController")(business.budgetCategories),
-        budgetAccounts: require("./BudgetAccountController")(business.budgetAccounts),
+        banks: require("./BankController")(logger, business.banks),
+        bankAccounts: require("./BankAccountController")(logger, business.bankAccounts),
+        bankTransactions: require("./BankTransactionController")(logger, business.bankTransactions),
 
-        budgetWorksheet: require("./BudgetWorksheetController")(business.budgetWorksheet),
+        budgetSections: require("./BudgetSectionController")(logger, business.budgetSections),
+        budgetCategories: require("./BudgetCategoryController")(logger, business.budgetCategories),
+        budgetAccounts: require("./BudgetAccountController")(logger, business.budgetAccounts),
+
+        budgetWorksheet: require("./BudgetWorksheetController")(logger, business.budgetWorksheet),
     };
 };

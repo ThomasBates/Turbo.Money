@@ -1,33 +1,32 @@
 
-module.exports = (data) => {
+module.exports = (logger, data) => {
 
-    // Save Bank in the database
-    const create = async (businessObject) => {
-        return await data.create(businessObject);
+    const create = async (userInfo, businessObject) => {
+        return await data.create(userInfo, businessObject);
     }
 
-    const getAll = async () => {
-        return await data.getAll();
+    const getAll = async (userInfo) => {
+        return await data.getAll(userInfo);
     }
 
     const getList = async () => {
-        return await data.getList();
+        return await data.getList(userInfo);
     }
 
     const getOne = async (id) => {
-        return await data.getOne(id);
+        return await data.getOne(userInfo, id);
     }
 
     const update = async (businessObject) => {
-        return await data.update(businessObject);
+        return await data.update(userInfo, businessObject);
     }
 
     const deleteById = async (id) => {
-        return await data.deleteOne(id);
+        return await data.deleteOne(userInfo, id);
     }
 
     const deleteAll = async () => {
-        return await data.deleteAll();
+        return await data.deleteAll(userInfo);
     }
 
     return {

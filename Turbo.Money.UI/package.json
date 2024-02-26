@@ -8,11 +8,13 @@
   },
   "devDependencies": {
     "css-loader": "^6.8.1",
+    "dotenv-webpack": "^8.0.1",
     "eslint": "^8.21.0",
     "file-loader": "^6.2.0",
     "react-router-dom": "^6.20.1",
     "style-loader": "^3.3.3",
-    "svg-inline-loader": "^0.8.2"
+    "svg-inline-loader": "^0.8.2",
+    "typescript": "^5.3.3"
   },
   "eslintConfig": {},
   "dependencies": {
@@ -29,7 +31,6 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "6.20.1",
     "ts-loader": "^9.4.2",
-    "typescript": "^5.0.2",
     "webpack": "^5.76.3",
     "webpack-cli": "^5.0.1"
   },

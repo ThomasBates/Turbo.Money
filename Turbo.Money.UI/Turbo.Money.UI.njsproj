@@ -38,6 +38,8 @@
     <Content Include="index.html">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="src\axios\AxiosCommon.js" />
+    <Content Include="src\axios\CommonDataProvider.js" />
     <Content Include="src\components\navBar\NavBar.css" />
     <Content Include="src\pages\budgetWorksheet\views\BudgetWorksheet.css" />
     <Content Include="test.css" />
@@ -49,7 +51,6 @@
     <Content Include="src\setup\budgetSection\data\BudgetSectionDataService.js" />
     <Content Include="src\setup\common\data\CommonDataService.js" />
     <Content Include="src\setup\bank\data\BankDataService.js" />
-    <Content Include="src\AxiosCommon.js" />
     <Content Include="main.css">
       <SubType>Code</SubType>
     </Content>
@@ -66,6 +67,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="src\AppContext.tsx" />
+    <TypeScriptCompile Include="src\AppContextProvider.tsx" />
+    <TypeScriptCompile Include="src\auth\CallbackGoogleSignIn.tsx" />
+    <TypeScriptCompile Include="src\auth\CallbackGoogleSignUp.tsx" />
+    <TypeScriptCompile Include="src\auth\SignIn.tsx" />
     <TypeScriptCompile Include="src\components\Content.tsx" />
     <TypeScriptCompile Include="src\components\navBar\NavBarItem.tsx" />
     <TypeScriptCompile Include="src\components\navBar\NavBarText.tsx" />
@@ -75,8 +81,15 @@
     <TypeScriptCompile Include="src\components\RoutesPanel.tsx" />
     <TypeScriptCompile Include="src\components\SideBar.tsx" />
     <TypeScriptCompile Include="src\components\Settings.tsx" />
+    <TypeScriptCompile Include="src\pages\NotFound.tsx" />
+    <TypeScriptCompile Include="src\pages\Public.tsx" />
+    <TypeScriptCompile Include="src\auth\SignUp.tsx" />
+    <TypeScriptCompile Include="src\RouteData.tsx" />
     <TypeScriptCompile Include="src\NavData.tsx" />
     <TypeScriptCompile Include="src\pages\About.tsx" />
+    <TypeScriptCompile Include="src\pages\bankTransactions\data\BankTransactionDataProvider.tsx" />
+    <TypeScriptCompile Include="src\pages\bankTransactions\data\BankTransactionDataService.tsx" />
+    <TypeScriptCompile Include="src\pages\bankTransactions\viewModels\BankTransactionUploadViewModel.tsx" />
     <TypeScriptCompile Include="src\pages\budgetWorksheet\components\BudgetWorksheetMenuButton.tsx" />
     <TypeScriptCompile Include="src\pages\budgetWorksheet\components\BudgetWorksheetMenuDropdown.tsx" />
     <TypeScriptCompile Include="src\pages\budgetWorksheet\components\BudgetWorksheetMenuButtonItem.tsx" />
@@ -135,7 +148,7 @@
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\pages\ReportByAccount.tsx" />
-    <TypeScriptCompile Include="src\pages\TransactionImport.tsx" />
+    <TypeScriptCompile Include="src\pages\bankTransactions\views\BankTransactionUploadView.tsx" />
     <TypeScriptCompile Include="src\pages\TransactionEntry.tsx" />
     <TypeScriptCompile Include="src\pages\ReportByPeriod.tsx" />
     <TypeScriptCompile Include="src\pages\BudgetView.tsx" />
@@ -147,11 +160,18 @@
     <Folder Include="src\components\" />
     <Folder Include="src\" />
     <Folder Include="src\components\navBar\" />
+    <Folder Include="src\axios\" />
+    <Folder Include="src\auth\" />
+    <Folder Include="src\pages\bankTransactions\data\" />
+    <Folder Include="src\pages\bankTransactions\components\" />
+    <Folder Include="src\pages\bankTransactions\viewModels\" />
+    <Folder Include="src\pages\bankTransactions\views\" />
     <Folder Include="src\pages\budgetWorksheet\" />
     <Folder Include="src\pages\budgetWorksheet\data\" />
     <Folder Include="src\pages\budgetWorksheet\components\" />
     <Folder Include="src\pages\budgetWorksheet\views\" />
     <Folder Include="src\pages\budgetWorksheet\viewModels\" />
+    <Folder Include="src\pages\bankTransactions\" />
     <Folder Include="src\setup\" />
     <Folder Include="src\setup\bankAccount\data\" />
     <Folder Include="src\setup\bankAccount\viewModels\" />

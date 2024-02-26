@@ -11,25 +11,27 @@ function NavData() {
                 to: "/",
             },
             {
-                id: "budget",
+                content: "Home",
+                to: "/",
+            },
+            {
                 content: "Budget",
                 width: 170,
                 list: [
                     { content: "Budget Worksheet", to: "/BudgetWorksheetView" },
-                    { content: "View Budget", to: "/BudgetView" }
+                    { content: "View Budget", to: "/BudgetView", enabled: false }
                 ]
             },
             {
-                id: "transactions",
                 content: "Transactions",
                 width: 220,
                 list: [
-                    { content: "Record Transactions", to: "/TransactionEntry" },
-                    { content: "Import Bank Transactions", to: "/TransactionImport", enabled: false }
+                    { content: "Record Transactions", to: "/TransactionEntry", enabled: false },
+                    { content: "Import Bank Transactions From File", to: "/TransactionFileImport" },
+                    { content: "Import Bank Transactions From Bank", to: "/TransactionBankImport", enabled: false }
                 ]
             },
             {
-                id: "reports",
                 content: "Reports",
                 width: 180,
                 enabled: false,
@@ -39,12 +41,10 @@ function NavData() {
                 ]
             },
             {
-                id: "setup",
                 content: "Setup",
                 width: 170,
                 list: [
                     {
-                        id: "setup-bank",
                         content: "Setup Bank Data",
                         width: 180,
                         list: [
@@ -53,7 +53,6 @@ function NavData() {
                         ]
                     },
                     {
-                        id: "setup-budget",
                         content: "Setup Budget Data",
                         width: 200,
                         list: [
@@ -71,7 +70,7 @@ function NavData() {
         ]
     };
 
-    const [navData, setNavData] = useState(initialNavData);
+    const [navData] = useState(initialNavData);
 
     return navData;
 }

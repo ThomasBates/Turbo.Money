@@ -1,5 +1,5 @@
 
-module.exports = (sectionData, categoryData, accountData) => {
+module.exports = (logger, sectionData, categoryData, accountData) => {
 
     const getAll = async () => {
         let [error, sections] = await sectionData.getAll();
@@ -10,8 +10,8 @@ module.exports = (sectionData, categoryData, accountData) => {
             return [error, null];
         }
 
-        console.log(sections);
-        console.log(categories);
+        logger.debug("Worksheet", sections);
+        logger.debug("Worksheet", categories);
 
         sections.map(section => {
             section.categories = categories.filter(category => category.sectionId == section.id);
@@ -21,7 +21,7 @@ module.exports = (sectionData, categoryData, accountData) => {
             });
         });
 
-        console.log(sections);
+        logger.debug("Worksheet", sections);
 
         return [null, sections];
     }

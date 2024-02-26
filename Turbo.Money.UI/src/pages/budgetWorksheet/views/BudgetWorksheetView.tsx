@@ -62,6 +62,7 @@ function Menu({ viewModel }) {
 };
 
 const BudgetWorksheetView = ({ viewModel }) => {
+    viewModel = viewModel();
     const query = window.matchMedia("(min-width:641px)");
     const [wide, setWide] = useState(query.matches);
     useEffect(() => {
@@ -71,8 +72,8 @@ const BudgetWorksheetView = ({ viewModel }) => {
     return (
         <>
             <div>
-            {/* <Table size="sm" variant="dark" responsive borderless hover> */}
-                <Table size="sm" variant="dark" responsive bordered hover>
+                <Table size="sm" variant="dark" responsive borderless hover> 
+                {/*<Table size="sm" variant="dark" responsive bordered hover>*/}
                     <tbody>
                         <tr>
                             <td colSpan={6} className="tb-worksheet-title"><h1>{viewModel.title}</h1></td>

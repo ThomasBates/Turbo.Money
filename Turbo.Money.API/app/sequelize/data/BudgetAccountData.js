@@ -1,5 +1,5 @@
 
-module.exports = (table) => {
+module.exports = (logger, table) => {
 
     const encode = (account) => {
         const data = {
@@ -43,5 +43,5 @@ module.exports = (table) => {
         return null
     }
 
-    return require('./CommonData')("BudgetAccountData", table, encode, decode, decodeList, validate);
+    return require('./CommonData')(logger, "BudgetAccountData", table, encode, decode, decodeList, validate);
 }

@@ -1,46 +1,48 @@
+
+require("dotenv/config");
 const express = require("express");
 const cors = require("cors");
 
 const app = express();
 
+// Resolve CORS
 var corsOptions = {
-    origin: "http://localhost:8081"
+    origin: [
+        process.env.CLIENT_URL_DEV,
+        process.env.CLIENT_URL
+    ],
+    credentials: true,
 };
-
 app.use(cors(corsOptions));
+
+// Parse Cookie
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
 
 // parse requests of content-type - application/json
 app.use(express.json());
 
-// Bootstrapper:
-const db = require("./app/sequelize/models");
-//db.initialize();
-//db.sequelize.sync({ force: true })
-//    .then(() => {
-//        console.log("Drop and re-sync db.");
-//    })
-//    .catch((err) => {
-//        console.log("Failed to sync db: ");
-//        console.log(err);
-//    });
-const data = require("./app/sequelize/data")(db);
-const business = require("./app/business")(data);
-const controllers = require("./app/controllers")(business);
-
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
-// simple route
-app.get("/", (req, res) => {
-    res.json({ message: "Welcome to Turbo Money." });
-});
+// -----------------------------------------------------------------------------
+// Bootstrapper:
+const loggerProvider = require("./lib/logger/loggerConsoleProvider")();
+const logger = require("./lib/logger/logger")(loggerProvider);
 
-//require("./app/routes/bank.routes")(app, controllers.bank);
-//require("./app/routes/tutorial.routes")(app, controllers.bankAccount);
-require("./app/routes")(app, controllers);
+const db = require("./app/sequelize/models")(logger);
+const data = require("./app/sequelize/data")(logger, db);
+const business = require("./app/business")(logger, data);
+const controllers = require("./app/controllers")(logger, business);
+require("./app/routes")(app, logger, controllers);
+// -----------------------------------------------------------------------------
+
+//logger.enableSeverity('verbose');
+//logger.enableCategory('all');
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
+
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}.`);
+    logger.info('Server', `Server is running on port ${PORT}.`);
 });

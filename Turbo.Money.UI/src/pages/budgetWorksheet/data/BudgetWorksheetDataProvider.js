@@ -1,4 +1,4 @@
-import http from "../../../AxiosCommon";
+import http from "../../../axios/AxiosCommon";
 
 const BudgetWorksheetDataProvider = () => {
     const api = "budgetWorksheet";

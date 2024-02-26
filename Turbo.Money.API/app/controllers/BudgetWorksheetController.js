@@ -1,5 +1,7 @@
 
-module.exports = (business) => {
+module.exports = (logger, business) => {
+
+    const owner = 'BudgetWorksheetController';
 
     const encode = (sections) => {
         sections.map(section => {
@@ -49,7 +51,7 @@ module.exports = (business) => {
 
     const handleError = (source, res, code, error) => {
         if (error) {
-            console.log(`BudgetWorksheetController.${source}: error = `, error);
+            logger.debug(owner, `${owner}.${source}: error = `, error);
             res.status(code).send({
                 message: error
             });
@@ -64,12 +66,12 @@ module.exports = (business) => {
         if (handleError("getAll", res, 500, error))
             return;
 
-        console.log(`BudgetWorksheetController.getAll: sectionList = `, sectionList);
+        logger.debug(owner, `${owner}.getAll: sectionList = `, sectionList);
         [error, dataList] = encode(sectionList);
         if (handleError("getAll", res, 500, error))
             return;
 
-        console.log(`BudgetWorksheetController.getAll: dataList = `, dataList);
+        logger.debug(owner, `${owner}.getAll: dataList = `, dataList);
         res.send(dataList);
     };
 

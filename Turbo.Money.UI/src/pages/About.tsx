@@ -14,7 +14,7 @@ function About() {
             <h1>It's My Money</h1>
             <h3>Development:</h3>
             <p>Front-end: JavaScript, React, Axios<br /></p>
-            <p>Middle-end: Node.js, Express, Sequelize<br /></p>
+            <p>Server: Node.js, Express, Sequelize<br /></p>
             <p>Back-end: MySQL (mariadb)<br /></p>
             <h3>Device:</h3>
             <p>{dimensions}<br/></p>

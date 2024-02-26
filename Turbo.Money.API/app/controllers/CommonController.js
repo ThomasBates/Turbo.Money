@@ -1,9 +1,11 @@
 
-module.exports = (owner, business, decode, encode, encodeList) => {
+module.exports = (logger, owner, business, decode, encode, encodeList) => {
+
+    const jwt = require("jsonwebtoken");
 
     const handleError = (source, res, code, error) => {
         if (error) {
-            console.log(`${owner}.${source}: error = `, error);
+            logger.error(owner, `${owner}.${source}: error = `, error);
             res.status(code).send({
                 message: error
             });
@@ -14,35 +16,39 @@ module.exports = (owner, business, decode, encode, encodeList) => {
 
     // Create and save a new object record
     const create = async (req, res) => {
-        console.log(`${owner}.create: req.body = `, req.body);
+        const { user: userInfo } = jwt.decode(req.cookies.token);
+
+        logger.debug(owner, `${owner}.create: req.body = `, req.body);
         let [error, businessObject] = decode(req.body);
         if (handleError("create", res, 400, error))
             return;
-        console.log(`${owner}.create: businessObject = `, businessObject);
+        logger.debug(owner, `${owner}.create: businessObject = `, businessObject);
 
-        error = await business.validate(businessObject);
+        error = await business.validate(userInfo, businessObject);
         if (handleError("create", res, 400, error))
             return;
 
-        [error, returnObject] = await business.create(businessObject);
+        [error, returnObject] = await business.create(userInfo, businessObject);
         if (handleError("create", res, 500, error))
             return;
 
-        console.log(`${owner}.create: returnObject = `, returnObject);
+        logger.debug(owner, `${owner}.create: returnObject = `, returnObject);
         [error, data] = encode(returnObject);
         if (handleError("create", res, 500, error))
             return;
-        console.log(`${owner}.create: data = `, data);
+        logger.debug(owner, `${owner}.create: data = `, data);
         res.send(data);
     };
 
     // Retrieve all objects from the database.
     const getAll = async (req, res) => {
-        let [error, returnList] = await business.getAll();
+        const { user: userInfo } = jwt.decode(req.cookies.token);
+
+        let [error, returnList] = await business.getAll(userInfo);
         if (handleError("getAll", res, 500, error))
             return;
 
-        console.log(`${owner}.getAll: returnList = `, returnList);
+        logger.verbose(owner, `${owner}.getAll: returnList = `, returnList);
 
         let dataList = returnList.map(businessObject => {
             if (error) {
@@ -50,7 +56,7 @@ module.exports = (owner, business, decode, encode, encodeList) => {
             }
             [error, item] = encode(businessObject);
             if (error) {
-                console.log(`${owner}.getAll: error = `, error);
+                logger.error(owner, `${owner}.getAll: error = `, error);
                 return error;
             }
             return item;
@@ -59,30 +65,33 @@ module.exports = (owner, business, decode, encode, encodeList) => {
         if (handleError("getAll", res, 500, error))
             return;
 
-        console.log(`${owner}.getAll: dataList = `, dataList);
+        logger.verbose(owner, `${owner}.getAll: dataList = `, dataList);
         res.send(dataList);
     };
 
     // Retrieve all objects from the database.
     const getList = async (req, res) => {
-        let [error, returnList] = await business.getList();
+        const { user: userInfo } = jwt.decode(req.cookies.token);
+
+        let [error, returnList] = await business.getList(userInfo);
         if (handleError("getList", res, 500, error))
             return;
 
-        console.log(`${owner}.getList: returnList = `, returnList);
+        logger.verbose(owner, `${owner}.getList: returnList = `, returnList);
         [error, dataList] = encodeList(returnList);
         if (handleError("getList", res, 500, error))
             return;
 
-        console.log(`${owner}.getList: dataList = `, dataList);
+        logger.verbose(owner, `${owner}.getList: dataList = `, dataList);
         res.send(dataList);
     };
 
     // Find a single object with an id
     const getOne = async (req, res) => {
+        const { user: userInfo } = jwt.decode(req.cookies.token);
         const id = req.params.id;
 
-        let [error, businessObject] = await business.getOne(id);
+        let [error, businessObject] = await business.getOne(userInfo, id);
         if (handleError("getOne", res, 500, error))
             return;
 
@@ -94,36 +103,38 @@ module.exports = (owner, business, decode, encode, encodeList) => {
 
     // Update an object by the id in the request
     const update = async (req, res) => {
+        const { user: userInfo } = jwt.decode(req.cookies.token);
         const id = req.params.id;
-        console.log(`${owner}.update: id = ${id}`);
+        logger.debug(owner, `${owner}.update: id = ${id}`);
 
-        console.log(`${owner}.update: req.body = `, req.body);
+        logger.debug(owner, `${owner}.update: req.body = `, req.body);
         let [error, businessObject] = decode(req.body);
         if (handleError("update", res, 400, error))
             return;
-        console.log(`${owner}.update: businessObject = `, businessObject);
+        logger.debug(owner, `${owner}.update: businessObject = `, businessObject);
 
-        error = await business.validate(businessObject);
+        error = await business.validate(userInfo, businessObject);
         if (handleError("update", res, 400, error))
             return;
 
-        [error, returnObject] = await business.update(businessObject);
+        [error, returnObject] = await business.update(userInfo, businessObject);
         if (handleError("update", res, 500, error))
             return;
 
-        console.log(`${owner}.update: returnObject = `, returnObject);
+        logger.debug(owner, `${owner}.update: returnObject = `, returnObject);
         [error, data] = encode(returnObject);
         if (handleError("update", res, 500, error))
             return;
-        console.log(`${owner}.update: data = `, data);
+        logger.debug(owner, `${owner}.update: data = `, data);
         res.send(data);
     };
 
     // Delete an object with the specified id in the request
     const deleteOne = async (req, res) => {
+        const { user: userInfo } = jwt.decode(req.cookies.token);
         const id = req.params.id;
 
-        let [error, deletedObject] = await business.deleteById(id);
+        let [error, deletedObject] = await business.deleteById(userInfo, id);
         if (handleError("deleteOne", res, 500, error))
             return;
 
@@ -136,7 +147,9 @@ module.exports = (owner, business, decode, encode, encodeList) => {
 
     // Delete all objects from the database.
     const deleteAll = async (req, res) => {
-        let [error, deletedList] = await business.deleteAll();
+        const { user: userInfo } = jwt.decode(req.cookies.token);
+
+        let [error, deletedList] = await business.deleteAll(userInfo);
         if (handleError("deleteAll", res, 500, error))
             return;
 
@@ -152,6 +165,7 @@ module.exports = (owner, business, decode, encode, encodeList) => {
     };
 
     return {
+        handleError,
         create,
         getAll,
         getList,
