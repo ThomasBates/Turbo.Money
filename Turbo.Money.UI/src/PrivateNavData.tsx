@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
-function NavData() {
+export default function PrivateNavData() {
 
     const initialNavData = {
         content: "root",
         minWidth: "48em", // "768px",
         list: [
             {
-                content: (<img src="/assets/images/logo.png" alt="TurboButterfly" width="200" />),
+                content: (<img src="/assets/images/logo.png" alt="It's My Money" width="200" />),
                 to: "/",
             },
             {
@@ -70,9 +70,5 @@ function NavData() {
         ]
     };
 
-    const [navData] = useState(initialNavData);
-
-    return navData;
+    return initialNavData;
 }
-
-export default NavData;

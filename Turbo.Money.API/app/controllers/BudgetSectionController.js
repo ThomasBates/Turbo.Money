@@ -3,13 +3,13 @@ module.exports = (logger, business) => {
 
     const decode = (data) => {
         if (!data)
-            return ["parse error: data is not defined.", null];
+            return { error: "parse error: data is not defined." };
         if (!data.name)
-            return ["parse error: data.name is not defined.", null];
+            return { error: "parse error: data.name is not defined." };
         if (!data.description)
-            return ["parse error: data.description is not defined.", null];
+            return { error: "parse error: data.description is not defined." };
         if (!data.direction)
-            return ["parse error: data.direction is not defined.", null];
+            return { error: "parse error: data.direction is not defined." };
 
         const section = {
             id: data.id,
@@ -18,12 +18,12 @@ module.exports = (logger, business) => {
             direction: data.direction === "in" ? -1 : data.direction === "out" ? 1 : 0
         };
 
-        return [null, section];
+        return section;
     }
 
     const encode = (section) => {
         if (!section)
-            return ["BudgetSectionData.encode: section is not defined", null];
+            return { error: "BudgetSectionData.encode: section is not defined" };
 
         const data = {
             id: section.id,
@@ -31,14 +31,14 @@ module.exports = (logger, business) => {
             description: section.description,
             direction: section.direction < 0 ? "in" : section.direction > 0 ? "out" : "other"
         };
-        return [null, data];
+        return data;
     }
 
     const encodeList = (sectionList) => {
         let dataList = sectionList.map(section => {
             return { id: section.id, name: section.name }
         });
-        return [null, dataList];
+        return { list: dataList };
     }
 
     return require("./CommonController")(logger, "BudgetSectionController", business, decode, encode, encodeList);

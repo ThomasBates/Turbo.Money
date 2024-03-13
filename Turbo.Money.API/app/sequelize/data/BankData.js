@@ -8,7 +8,7 @@ module.exports = (logger, table) => {
             number: bank.number,
             transit: bank.transit
         };
-        return [null, data];
+        return data;
     }
 
     const decode = (data) => {
@@ -18,7 +18,7 @@ module.exports = (logger, table) => {
             number: data.number,
             transit: data.transit
         };
-        return [null, bank];
+        return bank;
     }
 
     const decodeList = (data) => {
@@ -27,12 +27,18 @@ module.exports = (logger, table) => {
             return { id: item.id, name: item.name }
         });
         
-        return [null, banks];
+        return { list: banks };
     }
 
     const validate = (bank) => {
-        if (!bank.name || !bank.number || !bank.transit) {
-            return "Content can not be empty!";
+        if (!bank.name) {
+            return "Bank name can not be empty!";
+        }
+        if (!bank.number) {
+            return "Bank number can not be empty!";
+        }
+        if (!bank.transit) {
+            return "Bank transit can not be empty!";
         }
         return null
     }

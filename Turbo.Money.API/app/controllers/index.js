@@ -1,7 +1,7 @@
 
 module.exports = (logger, business) => {
     return {
-        auth: require("./AuthController")(logger, business.auth),
+        //auth: require("./AuthController")(logger, business.auth),
         users: require("./UserController")(logger, business.users),
 
         banks: require("./BankController")(logger, business.banks),
@@ -11,7 +11,5 @@ module.exports = (logger, business) => {
         budgetSections: require("./BudgetSectionController")(logger, business.budgetSections),
         budgetCategories: require("./BudgetCategoryController")(logger, business.budgetCategories),
         budgetAccounts: require("./BudgetAccountController")(logger, business.budgetAccounts),
-
-        budgetWorksheet: require("./BudgetWorksheetController")(logger, business.budgetWorksheet),
     };
 };

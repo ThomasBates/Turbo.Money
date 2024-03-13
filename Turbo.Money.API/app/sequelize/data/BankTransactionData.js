@@ -10,7 +10,7 @@ module.exports = (logger, table) => {
             amount: transaction.amount,
             sequence: transaction.sequence,
         };
-        return [null, data];
+        return data;
     }
 
     const decode = (data) => {
@@ -22,25 +22,33 @@ module.exports = (logger, table) => {
             amount: data.amount,
             sequence: data.sequence,
         };
-        return [null, transaction];
+        return transaction;
     }
 
     const decodeList = (data) => {
 
-        const accounts = data.map(item => {
+        const transactions = data.map(item => {
             return { id: item.id, name: item.name }
         });
 
-        return [null, accounts];
+        return { list: transactions };
     }
 
-    const validate = (account) => {
-        if (!account.accountId ||
-            !account.timestamp ||
-            !account.description ||
-            !account.amount ||
-            !account.sequence) {
-            return "Content can not be empty!";
+    const validate = (transaction) => {
+        if (!transaction.accountId) {
+            return "Transaction accountId can not be empty!";
+        }
+        if (!transaction.timestamp) {
+            return "Transaction timestamp can not be empty!";
+        }
+        if (!transaction.description) {
+            return "Transaction description can not be empty!";
+        }
+        if (!transaction.amount) {
+            return "Transaction amount can not be empty!";
+        }
+        if (!transaction.sequence) {
+            return "Transaction sequence can not be empty!";
         }
         return null
     }
@@ -58,41 +66,36 @@ module.exports = (logger, table) => {
                 if (error)
                     return;
 
-                [error, existing] = await getOneBySequence(transaction.sequence);
-                if (existing)
+                const existing = await getOneBySequence(transaction.sequence);
+                if (!existing.error)
                     return;
 
-                [error, returnObject] = await common.create(transaction);
-                if (!error) {
+                const returnObject = await common.create(transaction);
+                if (!returnObject.error) {
                     returnList.push(returnObject);
                 }
             })
         );
         if (error)
-            return [error, null];
+            return { error };
         else
-            return [null, returnList];
+            return { list: returnList };
     }
 
     // Find a single Bank transaction with a sequence number
     const getOneBySequence = async (sequence) => {
         try {
-            let data = await table.findAll({ where: { sequence: sequence } })
+            const data = await table.findAll({ where: { sequence: sequence } })
 
             if (!data || data.length == 0)
-                return [`Cannot find data object with sequence=${sequence}.`, null];
+                return { error: `Cannot find data object with sequence=${sequence}.` };
 
-            let [error, transaction] = decode(data[0]);
-            if (error) {
-                return [error, null];
-            }
-
-            return [null, transaction];
+            return decode(data[0]);
         }
         catch (ex) {
-            let error = ex.message || `Unknown error occurred while finding one database record matching sequence=${sequence}.`;
+            const error = ex.message || `Unknown error occurred while finding one database record matching sequence=${sequence}.`;
             logger.error(owner, `${owner}.getOne: error = `, error);
-            return [error, null];
+            return { error };
         }
     };
 

@@ -1,19 +1,18 @@
 import React from 'react'
 
-import http from "../axios/AxiosCommon";
+import axios from "../axios/AxiosCommon";
 
 const SignIn = () => {
-    const handleTwitterSignIn = async () => { }
-
-    const handleGoogleSignIn = async () => {
+    const handleOAuth2SignIn = async (source) => {
         try {
             // Gets authentication url from backend server
-            const { data: { url } } = await http.get(`auth/sign_in_url`, {
+            const { data: { url } } = await axios.get(`auth/sign_in_url`, {
                 params: {
-                    source: 'google',
+                    source: source,
                     mode: 'signIn'
                 }
             });
+            console.log(`SignIn.handleSignIn('${source}'): url =`, url);
 
             // Navigate to consent screen
             window.location.assign(url);
@@ -22,39 +21,37 @@ const SignIn = () => {
         }
     }
 
-    const handleFacebookSignIn = async () => { }
-
     const handleEmailSignIn = async () => { }
 
     return (
         <div className="tb-sign-in">
             <h3>Sign in to <strong>It's My Money</strong></h3>
             <button
-                className="tb-button bi-google"
-                onClick={handleGoogleSignIn}
+                className="tb-button bi-twitter-x"
+                onClick={() => handleOAuth2SignIn('twitter')}
             >
-                Sign in with Google
+                {' '}Sign in with Twitter
             </button>
             <br />
             <button
-                className="tb-button bi-twitter-x"
-                onClick={handleTwitterSignIn}
+                className="tb-button bi-google"
+                onClick={() => handleOAuth2SignIn('google')}
             >
-                Sign in with Twitter
+                {' '}Sign in with Google
             </button>
             <br />
             <button
                 className="tb-button bi-facebook"
-                onClick={handleFacebookSignIn}
+                onClick={() => handleOAuth2SignIn('facebook')}
             >
-                Sign in with Facebook
+                {' '}Sign in with Facebook
             </button>
             <br />
             <button
-                className="tb-button bi-email"
+                className="tb-button bi-envelope-at-fill"
                 onClick={handleEmailSignIn}
             >
-                Sign in with Email
+                {' '}Sign in with Email
             </button>
         </div>
     );

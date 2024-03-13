@@ -2,16 +2,19 @@
 module.exports = (logger, data) => {
 
     // Validate Budget Category data
-    const validate = async (testCategory) => {
+    const validate = async (userInfo, testCategory) => {
         logger.debug("Business", "BudgetCategoryBusiness.validate: testCategory = ", testCategory);
-        let [error, categories] = await data.getList();
-        if (error) {
-            return error;
+
+        const categories = await data.getList(userInfo);
+        logger.debug("Business", "BudgetCategoryBusiness.validate: categories = ", categories);
+
+        if (categories.error) {
+            return categories.error;
         }
-        if (!categories || categories.length == 0) {
+        if (!categories || !categories.list || categories.length == 0) {
             return null;
         }
-        logger.debug("Business", "BudgetCategoryBusiness.validate: categories = ", categories);
+        categories = categories.list;
 
         let matching = categories.find(category =>
             category.name.toUpperCase() == testCategory.name.toUpperCase() &&

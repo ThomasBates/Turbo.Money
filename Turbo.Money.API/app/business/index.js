@@ -1,7 +1,6 @@
 
 module.exports = (logger, data) => {
     return {
-        auth: require("./AuthBusiness")(logger, data.users),
         users: require("./UserBusiness")(logger, data.users),
 
         banks: require("./BankBusiness")(logger, data.banks),
@@ -12,8 +11,5 @@ module.exports = (logger, data) => {
         budgetSections: require("./BudgetSectionBusiness")(logger, data.budgetSections),
         budgetCategories: require("./BudgetCategoryBusiness")(logger, data.budgetCategories),
         budgetAccounts: require("./BudgetAccountBusiness")(logger, data.budgetAccounts),
-
-        budgetWorksheet: require("./BudgetWorksheetBusiness")(logger, 
-            data.budgetSections, data.budgetCategories, data.budgetAccounts),
     };
 };

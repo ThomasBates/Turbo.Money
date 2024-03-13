@@ -38,12 +38,14 @@
     <Content Include="index.html">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="src\auth\Auth.css" />
+    <Content Include="src\auth\data\AuthDataProvider.js" />
+    <Content Include="src\auth\views\Auth.css" />
     <Content Include="src\axios\AxiosCommon.js" />
     <Content Include="src\axios\CommonDataProvider.js" />
     <Content Include="src\components\navBar\NavBar.css" />
     <Content Include="src\pages\budgetWorksheet\views\BudgetWorksheet.css" />
     <Content Include="test.css" />
-    <Content Include="src\pages\budgetWorksheet\data\BudgetWorksheetDataProvider.js" />
     <Content Include="src\pages\budgetWorksheet\data\BudgetWorksheetDataService.tsx" />
     <Content Include="src\setup\budgetAccount\data\BudgetAccountDataService.js" />
     <Content Include="src\setup\bankAccount\data\BankAccountDataService.js" />
@@ -57,7 +59,6 @@
     <Content Include="server.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
-    <Content Include="src\setup\tutorial\services\TutorialService.js" />
     <Content Include="src\setup\common\views\ViewTools.js" />
     <Content Include="tsconfig.json">
       <SubType>Code</SubType>
@@ -69,8 +70,16 @@
   <ItemGroup>
     <TypeScriptCompile Include="src\AppContext.tsx" />
     <TypeScriptCompile Include="src\AppContextProvider.tsx" />
-    <TypeScriptCompile Include="src\auth\CallbackGoogleSignIn.tsx" />
-    <TypeScriptCompile Include="src\auth\CallbackGoogleSignUp.tsx" />
+    <TypeScriptCompile Include="src\auth\AuthCallback.tsx" />
+    <TypeScriptCompile Include="src\auth\viewModels\SignInOAuthViewModel.tsx" />
+    <TypeScriptCompile Include="src\auth\viewModels\SignInEmailViewModel.tsx" />
+    <TypeScriptCompile Include="src\auth\views\RecoverPasswordView.tsx" />
+    <TypeScriptCompile Include="src\auth\viewModels\SignUpEmailViewModel.tsx" />
+    <TypeScriptCompile Include="src\auth\viewModels\SignInViewModel.tsx" />
+    <TypeScriptCompile Include="src\auth\views\SignInOAuthView.tsx" />
+    <TypeScriptCompile Include="src\auth\views\SignInView.tsx" />
+    <TypeScriptCompile Include="src\auth\views\SignInEmailView.tsx" />
+    <TypeScriptCompile Include="src\auth\views\SignUpEmailView.tsx" />
     <TypeScriptCompile Include="src\auth\SignIn.tsx" />
     <TypeScriptCompile Include="src\components\Content.tsx" />
     <TypeScriptCompile Include="src\components\navBar\NavBarItem.tsx" />
@@ -81,11 +90,14 @@
     <TypeScriptCompile Include="src\components\RoutesPanel.tsx" />
     <TypeScriptCompile Include="src\components\SideBar.tsx" />
     <TypeScriptCompile Include="src\components\Settings.tsx" />
+    <TypeScriptCompile Include="src\PublicNavData.tsx" />
     <TypeScriptCompile Include="src\pages\NotFound.tsx" />
     <TypeScriptCompile Include="src\pages\Public.tsx" />
     <TypeScriptCompile Include="src\auth\SignUp.tsx" />
+    <TypeScriptCompile Include="src\PrivateRouteData.tsx" />
+    <TypeScriptCompile Include="src\PublicRouteData.tsx" />
     <TypeScriptCompile Include="src\RouteData.tsx" />
-    <TypeScriptCompile Include="src\NavData.tsx" />
+    <TypeScriptCompile Include="src\PrivateNavData.tsx" />
     <TypeScriptCompile Include="src\pages\About.tsx" />
     <TypeScriptCompile Include="src\pages\bankTransactions\data\BankTransactionDataProvider.tsx" />
     <TypeScriptCompile Include="src\pages\bankTransactions\data\BankTransactionDataService.tsx" />
@@ -157,6 +169,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dist\" />
+    <Folder Include="src\auth\data\" />
+    <Folder Include="src\auth\viewModels\" />
+    <Folder Include="src\auth\views\" />
     <Folder Include="src\components\" />
     <Folder Include="src\" />
     <Folder Include="src\components\navBar\" />
@@ -195,10 +210,8 @@
     <Folder Include="src\setup\common\views\" />
     <Folder Include="src\setup\common\viewModels\" />
     <Folder Include="src\setup\budgetSection\" />
-    <Folder Include="src\setup\tutorial\" />
     <Folder Include="src\setup\bank\viewModels\" />
     <Folder Include="src\setup\bank\views\" />
-    <Folder Include="src\setup\tutorial\services\" />
     <Folder Include="src\pages\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />

@@ -3,13 +3,13 @@ module.exports = (logger, business) => {
 
     const decode = (data) => {
         if (!data)
-            return ["parse error: data is not defined.", null];
+            return { error: "parse error: data is not defined." };
         if (!data.name)
-            return ["parse error: data.name is not defined.", null];
+            return { error: "parse error: data.name is not defined." };
         if (!data.number)
-            return ["parse error: data.number is not defined.", null];
+            return { error: "parse error: data.number is not defined." };
         if (!data.transit)
-            return ["parse error: data.transit is not defined.", null];
+            return { error: "parse error: data.transit is not defined." };
 
         const bank = {
             id: data.id,
@@ -18,18 +18,18 @@ module.exports = (logger, business) => {
             transit: data.transit
         };
 
-        return [null, bank];
+        return bank;
     }
 
     const encode = (bank) => {
-        return [null, bank];
+        return bank;
     }
 
     const encodeList = (bankList) => {
         let dataList = bankList.map(bank => {
             return { id: bank.id, name: bank.name }
         });
-        return [null, dataList];
+        return { list: dataList };
     }
 
     return require("./CommonController")(logger, "BankController", business, decode, encode, encodeList);

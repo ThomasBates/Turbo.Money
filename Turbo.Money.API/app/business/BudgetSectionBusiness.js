@@ -2,16 +2,19 @@
 module.exports = (logger, data) => {
 
     // Validate Budget Section data
-    const validate = async (testSection) => {
+    const validate = async (userInfo, testSection) => {
         logger.debug("Business", "BudgetSectionBusiness.validate: testSection = ", testSection);
-        let [error, sections] = await data.getList();
-        if (error) {
-            return error;
+
+        const sections = await data.getList(userInfo);
+        logger.debug("Business", "BudgetSectionBusiness.validate: sections = ", sections);
+
+        if (sections.error) {
+            return sections.error;
         }
-        if (!sections || sections.length == 0) {
+        if (!sections || !sections.list || sections.length == 0) {
             return null;
         }
-        logger.debug("Business", "BudgetSectionBusiness.validate: sections = ", sections);
+        sections = sections.list;
 
         let matching = sections.find(section =>
             section.name.toUpperCase() == testSection.name.toUpperCase() &&

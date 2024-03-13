@@ -2,16 +2,17 @@
 module.exports = (logger, data, bankAccountData) => {
 
     // Validate bank transaction data
-    const validate = async (testAccount, callback) => {
+    const validate = async (userInfo, testAccount) => {
         logger.debug("Transactions", "BankTransactionBusiness.validate: testAccount = ", testAccount);
 
-        let [error, accounts] = await data.getList();
-        if (error) {
-            return error;
+        const accounts = await data.getList(userInfo);
+        if (accounts.error) {
+            return accounts.error;
         }
-        if (!accounts || accounts.length == 0) {
+        if (!accounts || !accounts.list || accounts.list.length == 0) {
             return null;
         }
+        accounts = accounts.list;
         logger.debug("Transactions", "BankTransactionBusiness.validate: accounts = ", accounts);
 
         let matching = accounts.find(account =>
@@ -34,7 +35,7 @@ module.exports = (logger, data, bankAccountData) => {
         return null;
     }
 
-    const importTransactions = async (file) => {
+    const importTransactions = async (userInfo, file) => {
 
         logger.debug("Transactions", "BankTransactionBusiness.importTransactions()");
 
@@ -43,17 +44,17 @@ module.exports = (logger, data, bankAccountData) => {
         if (ofx.OFXHEADER !== '100' || ofx.VERSION !== '102') {
             let error = "The format of the imported file is not supported.";
             logger.error("Transactions", `BankTransactionBusiness.importTransactions: ${error}`);
-            return [error, null];
+            return { error };
         }
 
         const ofxStatement = ofx.OFX.BANKMSGSRSV1.STMTTRNRS.STMTRS;
         const ofxTransactions = ofxStatement.BANKTRANLIST.STMTTRN;
 
-        let [error, account] = await bankAccountData.getOneByNumber(ofxStatement.BANKACCTFROM.ACCTID);
-        if (error) {
-            error = "The bank account identified in the imported file is not registered in the application.";
+        let account = await bankAccountData.getOneByNumber(userInfo, ofxStatement.BANKACCTFROM.ACCTID);
+        if (account.error) {
+            let error = "The bank account identified in the imported file is not registered in the application.";
             logger.error("Transactions", `BankTransactionBusiness.importTransactions: ${error}`);
-            return [error, null];
+            return { error };
         }
 
         let transactions = [];
@@ -69,7 +70,7 @@ module.exports = (logger, data, bankAccountData) => {
             transactions.push(transaction);
         }
 
-        return await data.storeTransactions(transactions);
+        return await data.storeTransactions(userInfo, transactions);
     }
 
     async function ofxToObject(file) {

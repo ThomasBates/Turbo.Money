@@ -38,10 +38,4 @@ module.exports = {
     devServer: {
         historyApiFallback: true,
     },
-    //plugins: [
-    //    new webpack.DefinePlugin({
-    //        'process.env.REACT_APP_SERVER_URL': JSON.stringify(process.env.REACT_APP_SERVER_URL),
-    //    }),
-    //    //new Dotenv(),
-    //]
 }

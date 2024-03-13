@@ -11,7 +11,7 @@ module.exports = (logger, table) => {
             method: account.method,
             type: account.type
         };
-        return [null, data];
+        return data;
     }
 
     const decode = (data) => {
@@ -24,7 +24,7 @@ module.exports = (logger, table) => {
             method: data.method,
             type: data.type
         };
-        return [null, account];
+        return account;
     }
 
     const decodeList = (data) => {
@@ -33,12 +33,24 @@ module.exports = (logger, table) => {
             return { id: item.id, name: item.name }
         });
 
-        return [null, accounts];
+        return { list: accounts };
     }
 
     const validate = (account) => {
-        if (!account.name || !account.categoryId || !account.amount || !account.method || !account.type) {
-            return "Content can not be empty!";
+        if (!account.name) {
+            return "Account name can not be empty!";
+        }
+        if (!account.categoryId) {
+            return "Account category can not be empty!";
+        }
+        if (!account.amount) {
+            return "Account amount can not be empty!";
+        }
+        if (!account.method) {
+            return "Account method can not be empty!";
+        }
+        if (!account.type) {
+            return "Account type can not be empty!";
         }
         return null
     }

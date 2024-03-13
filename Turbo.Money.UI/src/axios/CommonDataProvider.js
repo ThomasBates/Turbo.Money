@@ -1,29 +1,29 @@
-import http from "./AxiosCommon";
+import axios from "./AxiosCommon";
 
-const CommonDataService = (api) => {
+export default function CommonDataService(api) {
 
     const create = data => {
-        return http.post(`/${api}`, data);
+        return axios.post(`/${api}`, data);
     };
 
     const get = id => {
-        return http.get(`/${api}/${id}`);
+        return axios.get(`/${api}/${id}`);
     };
 
     const getAll = () => {
-        return http.get(`/${api}/all`);
+        return axios.get(`/${api}/all`);
     };
 
     const getList = () => {
-        return http.get(`/${api}/list`);
+        return axios.get(`/${api}/list`);
     };
 
     const update = (id, data) => {
-        return http.put(`/${api}/${id}`, data);
+        return axios.put(`/${api}/${id}`, data);
     };
 
     const remove = id => {
-        return http.delete(`/${api}/${id}`);
+        return axios.delete(`/${api}/${id}`);
     };
 
     return {
@@ -34,6 +34,4 @@ const CommonDataService = (api) => {
         update,
         remove
     };
-};
-
-export default CommonDataService;
+}

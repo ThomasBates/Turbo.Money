@@ -8,7 +8,7 @@ module.exports = (logger, table) => {
             description: category.description,
             section_id: category.sectionId
         };
-        return [null, data];
+        return data;
     }
 
     const decode = (data) => {
@@ -18,19 +18,22 @@ module.exports = (logger, table) => {
             description: data.description,
             sectionId: data.section_id
         };
-        return [null, category];
+        return category;
     }
 
     const decodeList = (data) => {
         const categories = data.map(item => {
             return { id: item.id, name: item.name }
         });
-        return [null, categories];
+        return { list: categories };
     }
 
     const validate = (category) => {
-        if (!category.name || !category.sectionId) {
-            return "Content can not be empty!";
+        if (!category.name) {
+            return "Category name can not be empty!";
+        }
+        if (!category.sectionId) {
+            return "Category sectionId can not be empty!";
         }
         return null
     }

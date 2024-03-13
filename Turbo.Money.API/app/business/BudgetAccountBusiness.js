@@ -2,17 +2,19 @@
 module.exports = (logger, data) => {
 
     // Validate budget account data
-    const validate = async (testAccount, callback) => {
+    const validate = async (userInfo, testAccount) => {
         logger.debug("Business", "BudgetAccountBusiness.validate: testAccount = ", testAccount);
 
-        let [error, accounts] = await data.getList();
-        if (error) {
-            return error;
+        const accounts = await data.getList(userInfo);
+        logger.debug("Business", "BudgetAccountBusiness.validate: accounts = ", accounts);
+
+        if (accounts.error) {
+            return accounts.error;
         }
-        if (!accounts || accounts.length == 0) {
+        if (!accounts || !accounts.list || accounts.length == 0) {
             return null;
         }
-        logger.debug("Business", "BudgetAccountBusiness.validate: accounts = ", accounts);
+        accounts = accounts.list;
 
         let matching = accounts.find(account =>
             account.name.toUpperCase() == testAccount.name.toUpperCase() &&

@@ -37,8 +37,8 @@ const controllers = require("./app/controllers")(logger, business);
 require("./app/routes")(app, logger, controllers);
 // -----------------------------------------------------------------------------
 
-//logger.enableSeverity('verbose');
-//logger.enableCategory('all');
+logger.enableSeverity('verbose');
+logger.enableCategory('all');
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

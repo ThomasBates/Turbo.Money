@@ -2,17 +2,19 @@
 
 module.exports = (logger, business) => {
 
+    const jwt = require("jsonwebtoken");
+
     const decode = (data) => {
         if (!data)
-            return ["parse error: data is not defined.", null];
+            return { error: "parse error: data is not defined." };
         if (!data.accountNumber)
-            return ["parse error: data.accountNumber is not defined.", null];
+            return { error: "parse error: data.accountNumber is not defined." };
         if (!data.timeStamp)
-            return ["parse error: data.timeStamp is not defined.", null];
+            return { error: "parse error: data.timeStamp is not defined." };
         if (!data.description)
-            return ["parse error: data.description must be a number.", null];
+            return { error: "parse error: data.description must be a number." };
         if (!data.amount)
-            return ["parse error: data.amount is not defined.", null];
+            return { error: "parse error: data.amount is not defined." };
 
         const transaction = {
             id: data.id,
@@ -22,11 +24,11 @@ module.exports = (logger, business) => {
             amount: data.amount
         };
 
-        return [null, transaction];
+        return transaction;
     }
 
     const encode = (transaction) => {
-        return [null, transaction];
+        return transaction;
     }
 
     const encodeList = (transactionList) => {
@@ -39,13 +41,14 @@ module.exports = (logger, business) => {
                 amount: data.amount
             }
         });
-        return [null, dataList];
+        return { list: dataList };
     }
 
     const owner = "BankTransactionController";
     const common = require("./CommonController")(logger, owner, business, decode, encode, encodeList);
 
     const upload = async (req, res) => {
+        const { user: userInfo } = jwt.decode(req.cookies.user);
         var busboy = require('busboy')({ headers: req.headers });
 
         logger.debug(owner, `${owner}.upload()`);
@@ -53,18 +56,19 @@ module.exports = (logger, business) => {
         busboy.on('file', async function (fieldname, file, filename, encoding, mimetype) {
             logger.debug(owner, `${owner}.upload(): busboy.onFile()`);
 
-            let [error, returnList] = await business.importTransactions(file);
-            if (common.handleError("upload", res, 500, error))
+            const returnList = await business.importTransactions(userInfo, file);
+            logger.debug(owner, `${owner}.upload: returnList = `, returnList);
+            if (common.handleError("upload", res, 500, returnList.error))
                 return;
 
-            logger.debug(owner, `${owner}.upload: returnList = `, returnList);
-
-            let dataList = returnList.map(businessObject => {
+            let error = null;
+            let dataList = returnList.list.map(businessObject => {
                 if (error) {
                     return error;
                 }
-                [error, item] = encode(businessObject);
-                if (error) {
+                item = encode(businessObject);
+                if (item.error) {
+                    error = item.error;
                     logger.error(owner, `${owner}.getAll: error = `, error);
                     return error;
                 }

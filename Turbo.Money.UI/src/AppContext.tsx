@@ -8,7 +8,7 @@ const AppContext = createContext({
     },
 
     signedIn: false,
-    checkSignInState: () => { }
+    checkSignInState: (data) => { }
 });
 
 export default AppContext;

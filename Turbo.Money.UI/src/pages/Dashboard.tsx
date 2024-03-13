@@ -1,18 +1,21 @@
 import React, { useEffect, useState, useContext } from 'react'
 
 import AuthContext from "../AppContext";
-import http from "../axios/AxiosCommon";
+import axios from "../axios/AxiosCommon";
+import AuthDataProvider from "../auth/data/AuthDataProvider";
 
 const Dashboard = () => {
     const { user, signedIn, checkSignInState } = useContext(AuthContext);
     const [posts, setPosts] = useState([]);
+
+    const authDataProvider = AuthDataProvider();
 
     useEffect(() => {
         (async () => {
             if (signedIn === true) {
                 try {
                     // Get posts from server
-                    const { data: { posts } } = await http.get(`posts`)
+                    const { data: { posts } } = await axios.get(`posts`)
                     setPosts(posts);
                 } catch (err) {
                     console.error(err);
@@ -23,9 +26,11 @@ const Dashboard = () => {
 
     const handleLogout = async () => {
         try {
-            await http.post(`auth/sign_out`);
+            const data = await authDataProvider.signOut();
+            console.log('Dashboard.handleLogout: data =', data);
+
             // Check sign-in state again
-            checkSignInState();
+            checkSignInState(data);
         } catch (err) {
             console.error(err);
         }

@@ -24,8 +24,39 @@ body {
     cursor: pointer;
 }
 
-/* PUBLIC ------------------------------------------------------------------- */
+/* FORMS -------------------------------------------------------------------- */
 
+.tb-form {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    grid-gap: 5px;
+}
+
+.tb-form-field {
+    /*display: block;*/
+    border-style: solid;
+    border-color: red;
+    border-width: 1px;
+}
+
+.tb-form-label {
+    text-align: right;
+    /*
+    border-style: solid;
+    border-color: red;
+    border-width: 1px;
+    */
+}
+
+.tb-form-label:after{
+    content: ":";
+}
+
+.tb-form-input {
+    background-color: lightyellow;
+}
+
+/* PUBLIC ------------------------------------------------------------------- */
 .tb-public {
     color: magenta;
 }
@@ -88,6 +119,13 @@ body {
     flex-wrap: wrap;
     color: #ddd;
     background-color: #222;
+}
+
+.tb-page-title {
+    color: #ffffff !important;
+    text-align: center !important;
+    text-shadow: 0 0 5px #ff0000;
+    /*font-size: 1em;*/
 }
 
 .tb-sidebar {

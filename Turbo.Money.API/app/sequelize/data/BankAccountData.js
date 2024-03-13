@@ -8,7 +8,7 @@ module.exports = (logger, table) => {
             bank_id: account.bankId,
             number: account.number,
         };
-        return [null, data];
+        return data;
     }
 
     const decode = (data) => {
@@ -18,7 +18,7 @@ module.exports = (logger, table) => {
             bankId: data.bank_id,
             number: data.number,
         };
-        return [null, account];
+        return account;
     }
 
     const decodeList = (data) => {
@@ -27,12 +27,18 @@ module.exports = (logger, table) => {
             return { id: item.id, name: item.name }
         });
 
-        return [null, accounts];
+        return { list: accounts };
     }
 
     const validate = (account) => {
-        if (!account.name || !account.bankId || !account.number) {
-            return "Content can not be empty!";
+        if (!account.name) {
+            return "Account name can not be empty!";
+        }
+        if (!account.bankId) {
+            return "Account bankId can not be empty!";
+        }
+        if (!account.number) {
+            return "Account number can not be empty!";
         }
         return null
     }
@@ -46,19 +52,14 @@ module.exports = (logger, table) => {
             let data = await table.findAll({ where: { number: accountNumber } })
 
             if (!data || data.length == 0)
-                return [`Cannot find bank account with number=${accountNumber}.`, null];
+                return { error: `Cannot find bank account with number=${accountNumber}.` };
 
-            let [error, account] = decode(data[0]);
-            if (error) {
-                return [error, null];
-            }
-
-            return [null, account];
+            return decode(data[0]);
         }
         catch (ex) {
             let error = ex.message || `Unknown error occurred while finding one database record matching account number ${accountNumber}.`;
             logger.error(owner, `${owner}.getOneByNumber: error = `, error);
-            return [error, null];
+            return { error };
         }
     };
 

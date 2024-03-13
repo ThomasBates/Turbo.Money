@@ -51,7 +51,7 @@ module.exports = (provider) => {
     function send(severity, category, message, object) {
         if (!isSeverityEnabled(severity))
             return;
-        if (!isCategoryEnabled(category))
+        if ((levels[severity] > levels.error) && !isCategoryEnabled(category))
             return;
         provider.send(severity, category, message, object);
     }

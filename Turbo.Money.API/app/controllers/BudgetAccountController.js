@@ -3,21 +3,21 @@ module.exports = (logger, business) => {
 
     const decode = (data) => {
         if (!data)
-            return ["parse error: data is not defined.", null];
+            return { error: "parse error: data is not defined." };
         if (!data.name)
-            return ["parse error: data.name is not defined.", null];
+            return { error: "parse error: data.name is not defined." };
         if (!data.categoryId)
-            return ["parse error: data.categoryId is not defined.", null];
+            return { error: "parse error: data.categoryId is not defined." };
         if (isNaN(data.categoryId))
-            return ["parse error: data.categoryId must be a number.", null];
+            return { error: "parse error: data.categoryId must be a number." };
         if (!data.amount)
-            return ["parse error: data.amount is not defined.", null];
+            return { error: "parse error: data.amount is not defined." };
         if (isNaN(data.amount))
-            return ["parse error: data.amount must be a number.", null];
+            return { error: "parse error: data.amount must be a number." };
         if (!data.method)
-            return ["parse error: data.method is not defined.", null];
+            return { error: "parse error: data.method is not defined." };
         if (!data.type)
-            return ["parse error: data.type is not defined.", null];
+            return { error: "parse error: data.type is not defined." };
 
         const account = {
             id: data.id,
@@ -29,18 +29,18 @@ module.exports = (logger, business) => {
             type: data.type
         };
 
-        return [null, account];
+        return account;
     }
 
     const encode = (account) => {
-        return [null, account];
+        return account;
     }
 
     const encodeList = (accountList) => {
         let dataList = accountList.map(account => {
             return { id: account.id, name: account.name }
         });
-        return [null, dataList];
+        return { list: dataList };
     }
 
     return require("./CommonController")(logger, "BudgetAccountController", business, decode, encode, encodeList);

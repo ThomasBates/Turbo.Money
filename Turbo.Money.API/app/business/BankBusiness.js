@@ -2,12 +2,12 @@
 module.exports = (logger, data) => {
 
     // Validate bank data
-    const validate = async (testBank) => {
+    const validate = async (userInfo, testBank) => {
         logger.debug("Business","BankBusiness.validate: testBank = ", testBank);
 
-        let [error, banks] = await data.getList();
-        if (error) {
-            return error;
+        const banks = await data.getList(userInfo);
+        if (banks.error) {
+            return banks.error;
         }
         if (!banks || banks.length == 0) {
             return null;
