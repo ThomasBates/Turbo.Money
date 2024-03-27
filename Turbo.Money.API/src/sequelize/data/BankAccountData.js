@@ -1,5 +1,7 @@
 
-module.exports = (logger, table) => {
+module.exports = function BankAccountData(logger, table) {
+    const module = 'BankAccountData';
+    const category = 'BankAccount';
 
     const encode = (account) => {
         const data = {
@@ -54,11 +56,11 @@ module.exports = (logger, table) => {
         return null
     }
 
-    const owner = "BankAccountData";
-    const common = require('./CommonData')(logger, owner, table, encode, decode, decodeList, validate);
+    const common = require('./CommonData')(logger, category, table, encode, decode, decodeList, validate);
 
     // Find a single Bank account with an account number
     const getOneByNumber = async (accountNumber) => {
+        const context = `${module}.getOneByNumber`;
         try {
             let data = await table.findAll({ where: { number: accountNumber } })
 
@@ -69,7 +71,7 @@ module.exports = (logger, table) => {
         }
         catch (ex) {
             let error = ex.message || `Unknown error occurred while finding one database record matching account number ${accountNumber}.`;
-            logger.error(owner, `${owner}.getOneByNumber: error = `, error);
+            logger.error(category, context, 'error =', error);
             return { error };
         }
     };

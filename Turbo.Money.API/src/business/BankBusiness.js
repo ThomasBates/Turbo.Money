@@ -1,5 +1,5 @@
 
-module.exports = (logger, data) => {
+module.exports = function BankBusiness(logger, data) {
 
     const createSampleData = async (userCookie) => {
 

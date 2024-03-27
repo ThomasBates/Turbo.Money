@@ -44,5 +44,5 @@ require("./src/routes")(app, logger, controllers);
 const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () => {
-    logger.info('Server', `Server is running on port ${PORT}.`);
+    logger.info('Server', 'Server', `Server is running on port ${PORT}.`);
 });

@@ -1,5 +1,5 @@
 
-module.exports = (getMigrationCommands, getRollbackCommands) => {
+module.exports = function CommonMigration(getMigrationCommands, getRollbackCommands) {
 
     const execute = (queryInterface, getCommands) => {
         let index = 0;

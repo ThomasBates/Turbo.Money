@@ -1,5 +1,7 @@
 
-module.exports = (logger, table) => {
+module.exports = function BankTransactionData(logger, table) {
+    module = 'BankTransactionData';
+    category = 'BankTransaction';
 
     const encode = (transaction) => {
         const data = {
@@ -64,8 +66,7 @@ module.exports = (logger, table) => {
         return null
     }
 
-    const owner = "BankTransactionData";
-    const common = require('./CommonData')(logger, owner, table, encode, decode, decodeList, validate);
+    const common = require('./CommonData')(logger, category, table, encode, decode, decodeList, validate);
 
     const storeTransactions = async (transactions) => {
 
@@ -105,7 +106,7 @@ module.exports = (logger, table) => {
         }
         catch (ex) {
             const error = ex.message || `Unknown error occurred while finding one database record matching sequence=${sequence}.`;
-            logger.error(owner, `${owner}.getOne: error = `, error);
+            logger.error(category, context, 'error =', error);
             return { error };
         }
     };

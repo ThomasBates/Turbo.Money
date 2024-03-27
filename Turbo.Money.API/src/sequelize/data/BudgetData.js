@@ -5,7 +5,7 @@ module.exports = function BudgetData(logger, db) {
 
     const createError = (context, code, message) => {
         const error = { error: message, context, code, message };
-        logger.error('Error', `${context}: error =`, error);
+        logger.error(category, context, 'error =', error);
         return error;
     }
 
@@ -57,7 +57,7 @@ module.exports = function BudgetData(logger, db) {
             return {};
         }
         catch (ex) {
-            logger.error(category, `${context}: ex =`, ex);
+            logger.error(category, context, 'ex =', ex);
             return createError(context, 'Catch', ex.message || 'Unknown catch');
         }
     };

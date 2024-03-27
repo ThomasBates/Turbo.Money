@@ -1,12 +1,15 @@
 
-module.exports = (logger, data) => {
+module.exports = function BudgetAccountBusiness(logger, data) {
+    const module = 'BudgetAccountBusiness';
+    const category = 'Business';
 
     // Validate budget account data
     const validate = async (userCookie, testAccount) => {
-        logger.debug("Business", "BudgetAccountBusiness.validate: testAccount = ", testAccount);
+        const context = `${module}.validate`;
+        logger.debug(category, context, 'testAccount =', testAccount);
 
         const accounts = await data.getList(userCookie);
-        logger.debug("Business", "BudgetAccountBusiness.validate: accounts = ", accounts);
+        logger.debug(category, context, 'accounts =', accounts);
 
         if (accounts.error) {
             return accounts.error;
@@ -18,7 +21,7 @@ module.exports = (logger, data) => {
         let matching = accounts.list.find(account =>
             account.name.toUpperCase() == testAccount.name.toUpperCase() &&
             account.id != testAccount.id);
-        logger.debug("Business", "BudgetAccountBusiness.validate: matching = ", matching);
+        logger.debug(category, context, 'matching =', matching);
         if (matching) {
             return "Validation Error: Budget account name must be unique.";
         }

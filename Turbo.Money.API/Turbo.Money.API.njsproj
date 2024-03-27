@@ -109,8 +109,6 @@
     <Content Include="src\lib\logger\logger.js" />
     <Content Include="src\lib\logger\loggerConsoleProvider.js" />
     <Content Include="resources\bankTransactions.grammar" />
-    <Content Include="routes\index.js" />
-    <Content Include="routes\users.js" />
     <Content Include="package.json" />
     <Content Include="public\stylesheets\main.css" />
     <Content Include="README.md" />
@@ -142,7 +140,6 @@
     <Folder Include="public\images\" />
     <Folder Include="public\javascripts\" />
     <Folder Include="public\stylesheets\" />
-    <Folder Include="routes\" />
     <Folder Include="views\" />
   </ItemGroup>
   <ItemGroup>

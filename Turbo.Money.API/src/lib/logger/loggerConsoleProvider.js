@@ -1,7 +1,7 @@
 
-module.exports = () => {
+module.exports = function loggerConsoleProvider() {
 
-    //  Use this for front-end.
+    //  Use this for front-end, because it has access to 'window' properties.
     //var isPerformanceSupported = (
     //    window.performance &&
     //    window.performance.now &&
@@ -39,12 +39,12 @@ module.exports = () => {
         verbose: console.log
     };
 
-    function send(severity, category, message, object) {
+    function send(severity, category, context, message, object) {
         if (object) {
-            func[severity](`${getFullTimestamp()} [${severityDisplay[severity]}] ${category}: ${message}`, object);
+            func[severity](`${getFullTimestamp()} [${severityDisplay[severity]}] ${category}: ${context}: ${message}`, object);
         }
         else {
-            func[severity](`${getFullTimestamp()} [${severityDisplay[severity]}] ${category}: ${message}`);
+            func[severity](`${getFullTimestamp()} [${severityDisplay[severity]}] ${category}: ${context}: ${message}`);
         }
     }
 

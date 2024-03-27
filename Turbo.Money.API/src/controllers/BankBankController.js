@@ -1,5 +1,5 @@
 
-module.exports = (logger, business) => {
+module.exports = function BankBankController(logger, business) {
 
     const decode = (data) => {
         if (!data)
@@ -32,5 +32,5 @@ module.exports = (logger, business) => {
         return { list: dataList };
     }
 
-    return require("./CommonController")(logger, "BankController", business, decode, encode, encodeList);
+    return require("./CommonController")(logger, "BankBank", business, decode, encode, encodeList);
 }

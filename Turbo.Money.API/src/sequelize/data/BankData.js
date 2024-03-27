@@ -1,17 +1,17 @@
 
 module.exports = function BankData(logger, db) {
     const module = 'BankData';
-    const category = "Bank";
+    const category = 'Bank';
 
     const createError = (context, code, message) => {
         const error = { error: message, context, code, message };
-        logger.error('Error', `${context}: error =`, error);
+        logger.error(category, context, 'error =', error);
         return error;
     }
 
     const createSampleData = async (userCookie, banks, bankAccounts) => {
         const context = `${module}.createSampleData`;
-        logger.debug(category, `${context}: userCookie =`, userCookie);
+        logger.debug(category, context, 'userCookie =', userCookie);
 
         try {
 
@@ -42,7 +42,7 @@ module.exports = function BankData(logger, db) {
             return {};
         }
         catch (ex) {
-            logger.error(category, `${context}: ex =`, ex);
+            logger.error(category, context, 'ex =', ex);
             return createError(context, 'Catch', ex.message || 'Unknown catch');
         }
     };

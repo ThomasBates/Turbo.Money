@@ -1,5 +1,7 @@
 
 module.exports = function UserController(logger, business) {
+    const module = 'UserController';
+    const category = 'User';
 
     const jwt = require("jsonwebtoken");
 
@@ -11,7 +13,8 @@ module.exports = function UserController(logger, business) {
     //  Cookie Functions  --------------------------------------------------------------------------
 
     function setCookie(res, cookieName, cookieData) {
-        logger.debug('User', `UserController.setCookie(${cookieName}): `, cookieData);
+        const context = `${module}.setCookie`;
+        logger.debug(category, context, cookieName, cookieData);
         const signedCookie = jwt.sign(cookieData, config.cookieSecret, { expiresIn: config.cookieExpiration });
         res.cookie(cookieName, signedCookie, { maxAge: config.cookieExpiration, httpOnly: true, })
     }
@@ -25,15 +28,17 @@ module.exports = function UserController(logger, business) {
     }
 
     function clearCookie(res, cookieName) {
-        logger.debug('User', `UserController.clearCookie(${cookieName}):`);
+        const context = `${module}.clearCookie`;
+        logger.debug(category, context, cookieName);
         res.clearCookie(cookieName);
     }
 
     //  Exported Functions  ------------------------------------------------------------------------
 
     const getSignInUrl = (req, res) => {
-        logger.debug('User', 'UserController.getSignInUrl: ***********************************************************************');
-        logger.debug('User', "UserController.getSignInUrl: req.query = ", req.query);
+        const context = `${module}.getSignInUrl`;
+        logger.debug(category, context, '***********************************************************************');
+        logger.debug(category, context, 'req.query =', req.query);
 
         const { source, mode } = req.query;
 
@@ -45,7 +50,7 @@ module.exports = function UserController(logger, business) {
         }
 
         const result = business.getSignInUrl(source, mode);
-        logger.verbose('User', 'UserController.getSignInUrl: businessResult =', result);
+        logger.verbose(category, context, 'businessResult =', result);
         if (result.error) {
             clearCookie(res, 'signInState');
             return res
@@ -59,44 +64,45 @@ module.exports = function UserController(logger, business) {
             mode: mode
         });
 
-        logger.debug('User', "UserController.getSignInUrl: return", result);
+        logger.debug(category, context, 'return', result);
         return res.json(result);
     };
 
     const getSignedIn = async (req, res) => {
-        logger.debug('User', 'UserController.getSignedIn: ************************************************************************');
-        logger.debug('User', "UserController.getSignedIn: req.cookies =", req.cookies);
+        const context = `${module}.getSignedIn`;
+        logger.debug(category, context, '************************************************************************');
+        logger.debug(category, context, 'req.cookies =', req.cookies);
 
         let userCookie = null;
 
         const handleError = (status, message) => {
             const result = { signedIn: false, message };
             (status == 200 ? logger.debug : logger.error)
-                ('User', 'UserController.getSignedIn: return', result);
+                (category, context, 'return', result);
             return res.status(status).json(result);
         };
 
         //  Return if already in progress
         const signInStateCookie = getCookie(req, 'signInState');
-        logger.verbose('User', 'UserController.getSignedIn: req.cookies.signInState =', signInStateCookie);
+        logger.verbose(category, context, 'req.cookies.signInStateCookie =', signInStateCookie);
         if (signInStateCookie && signInStateCookie.state !== "")
             return handleError(200, signInStateCookie.state);
 
         //  Get user cookie 
         userCookie = getCookie(req, 'user');
-        logger.verbose('User', 'UserController.getSignedIn: req.cookies.user =', userCookie);
+        logger.verbose(category, context, 'userCookie =', userCookie);
         if (!userCookie)
             return handleError(200, "no user cookie");
 
         //  Get token cookie 
         const tokenCookie = getCookie(req, 'token');
-        logger.verbose('User', 'UserController.getSignedIn: req.cookies.token =', tokenCookie);
+        logger.verbose(category, context, 'tokenCookie =', tokenCookie);
         if (!tokenCookie)
             return handleError(200, "no token cookie");
 
         //  Call business method
         const getSignedInResult = await business.getSignedIn(userCookie, tokenCookie);
-        logger.verbose('User', 'UserController.getSignedIn: result =', getSignedInResult);
+        logger.verbose(category, context, 'getSignedInResult =', getSignedInResult);
         if (getSignedInResult.error)
             return handleError(500, `business.getSignedIn returned: ${getSignedInResult.error}`);
         if (getSignedInResult.message)
@@ -125,19 +131,20 @@ module.exports = function UserController(logger, business) {
             refresh_token: getSignedInResult.tokens.refreshToken,
         });
 
-        logger.debug('User', 'UserController.getSignedIn: return', result);
+        logger.debug(category, context, 'return', result);
         return res.json(result);
     };
 
     const signIn = async (req, res) => {
-        logger.debug('User', 'UserController.signIn: *****************************************************************************');
-        logger.debug('User', "UserController.signIn: req.query =", req.query);
-        logger.debug('User', "UserController.signIn: req.cookies =", req.cookies);
+        const context = `${module}.signIn`;
+        logger.debug(category, context, '*****************************************************************************');
+        logger.debug(category, context, 'req.query =', req.query);
+        logger.debug(category, context, 'req.cookies =', req.cookies);
         const params = req.query;
 
         const handleError = (status, message) => {
             const result = { signedIn: false, message };
-            logger.error('User', 'UserController.signIn: return', result);
+            logger.error(category, context, 'return', result);
             clearCookie(res, 'signInState');
             return res.status(status).json(result);
         }
@@ -149,7 +156,7 @@ module.exports = function UserController(logger, business) {
 
         //  Call business method
         const signInResult = await business.signIn(source, mode, params);
-        logger.verbose('User', 'UserController.signIn: result =', signInResult);
+        logger.verbose(category, context, 'signInResult =', signInResult);
         if (signInResult.error)
             return handleError(500, `business.signIn returned: ${signInResult.error}`);
 
@@ -161,14 +168,15 @@ module.exports = function UserController(logger, business) {
             user: signInResult.user
         };
 
-        logger.debug('User', 'UserController.signIn: return', result);
+        logger.debug(category, context, 'return', result);
         clearCookie(res, 'signInState');
         return res.json(result);
     };
 
     const signOut = async (_, res) => {
+        const context = `${module}.signOut`;
         const result = { signedIn: false, message: 'Signed out' };
-        logger.debug('User', 'UserController.signOut: return', result);
+        logger.debug(category, context, 'return', result);
         clearCookie(res, 'user');
         clearCookie(res, 'token');
         res.json(result);

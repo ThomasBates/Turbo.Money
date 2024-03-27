@@ -1,12 +1,15 @@
 
-module.exports = (logger, data) => {
+module.exports = function BudgetSectionBusiness(logger, data) {
+    const module = 'BudgetSectionBusiness';
+    const category = 'Business';
 
     // Validate Budget Section data
     const validate = async (userCookie, testSection) => {
-        logger.debug("Business", "BudgetSectionBusiness.validate: testSection = ", testSection);
+        const context = `${module}.validate`;
+        logger.debug(category, context, 'testSection =', testSection);
 
         const sections = await data.getList(userCookie);
-        logger.debug("Business", "BudgetSectionBusiness.validate: sections = ", sections);
+        logger.debug(category, context, 'sections =', sections);
 
         if (sections.error) {
             return sections.error;
@@ -18,7 +21,7 @@ module.exports = (logger, data) => {
         let matching = sections.list.find(section =>
             section.name.toUpperCase() == testSection.name.toUpperCase() &&
             section.id != testSection.id);
-        logger.debug("Business", "BudgetSectionBusiness.validate: matching = ", matching);
+        logger.debug(category, context, 'matching =', matching);
         if (matching) {
             return "Validation Error: Budget Section name must be unique.";
         }

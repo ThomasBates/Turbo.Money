@@ -1,5 +1,5 @@
 
-module.exports = async (app, controller) => {
+module.exports = (app, controller) => {
     const router = require("express").Router();
 
     router.get('/signed_in', controller.getSignedIn);

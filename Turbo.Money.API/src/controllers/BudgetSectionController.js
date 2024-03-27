@@ -1,5 +1,5 @@
 
-module.exports = (logger, business) => {
+module.exports = function BudgetSectionController(logger, business) {
 
     const decode = (data) => {
         if (!data)
@@ -23,7 +23,7 @@ module.exports = (logger, business) => {
 
     const encode = (section) => {
         if (!section)
-            return { error: "BudgetSectionData.encode: section is not defined" };
+            return { error: "BudgetSectionController.encode: section is not defined" };
 
         const data = {
             id: section.id,
@@ -41,5 +41,5 @@ module.exports = (logger, business) => {
         return { list: dataList };
     }
 
-    return require("./CommonController")(logger, "BudgetSectionController", business, decode, encode, encodeList);
+    return require("./CommonController")(logger, "BudgetSection", business, decode, encode, encodeList);
 }

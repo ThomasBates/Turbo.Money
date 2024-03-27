@@ -1,12 +1,15 @@
 
-module.exports = (logger, data) => {
+module.exports = function BankAccountBusiness(logger, data) {
+    const module = 'BankAccountBusiness';
+    const category = 'Business';
 
     // Validate bank account data
     const validate = async (userCookie, testAccount) => {
-        logger.debug("Business","BankAccountBusiness.validate: testAccount = ", testAccount);
+        const context = `${module}.validate`;
+        logger.debug(category, context, 'testAccount =', testAccount);
 
         const accounts = await data.getList(userCookie);
-        logger.debug("Business", "BankAccountBusiness.validate: accounts = ", accounts);
+        logger.debug(category, context, 'accounts =', accounts);
 
         if (accounts.error) {
             return accounts.error;
@@ -18,7 +21,7 @@ module.exports = (logger, data) => {
         let matching = accounts.list.find(account =>
             account.name.toUpperCase() == testAccount.name.toUpperCase() &&
             account.id != testAccount.id);
-        logger.debug("Business","BankAccountBusiness.validate: matching = ", matching);
+        logger.debug(category, context, 'matching =', matching);
         if (matching) {
             return "Validation Error: Bank account name must be unique.";
         }
@@ -27,7 +30,7 @@ module.exports = (logger, data) => {
             account.bankId == testAccount.bankId &&
             account.number == testAccount.number &&
             account.id != testAccount.id);
-        logger.debug("Business","BankAccountBusiness.validate: matching = ", matching);
+        logger.debug(category, context, 'matching =', matching);
         if (matching) {
             return "Validation Error: Bank account bankId+number must be unique.";
         }

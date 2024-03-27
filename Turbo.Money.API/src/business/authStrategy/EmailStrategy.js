@@ -10,7 +10,9 @@ const strategy = {
     }
 };
 
-function EmailStrategy(logger) {
+module.exports = function EmailStrategy(logger) {
+    const module = 'EmailStrategy';
+    const category = 'User';
 
     const jwt = require("jsonwebtoken");
 
@@ -21,8 +23,9 @@ function EmailStrategy(logger) {
     }
 
     async function getAccessToken(params) {
+        const context = `${module}.getAccessToken`;
         try {
-            logger.verbose('User', 'EmailStrategy.getAccessToken: params =', params);
+            logger.verbose(category, context, 'params =', params);
 
             const userData = {
                 name: params.name,
@@ -34,48 +37,50 @@ function EmailStrategy(logger) {
                 }
             }
 
-            logger.verbose('User', 'EmailStrategy.getAccessToken: userData =', userData);
+            logger.verbose(category, context, 'userData =', userData);
 
             const userToken = jwt.sign(userData, config.cookieSecret);
 
-            logger.verbose('User', 'EmailStrategy.getAccessToken: userToken =', userToken);
+            logger.verbose(category, context, 'userToken =', userToken);
 
             const tokens = {
                 accessToken: userToken,
                 refreshToken: userToken,
             };
 
-            logger.verbose('User', 'EmailStrategy.getAccessToken: tokens =', tokens);
+            logger.verbose(category, context, 'tokens =', tokens);
 
             return tokens;
 
         } catch (error) {
-            logger.error('User', 'EmailStrategy.getAccessToken: error =', error.message || error);
+            logger.error(category, context, 'error =', error.message || error);
             return { error: error.message || error };
         }
     }
 
     async function getUserData(accessToken) {
+        const context = `${module}.getUserData`;
         try {
             const user = jwt.verify(accessToken, config.cookieSecret);
 
-            logger.verbose('User', 'EmailStrategy.getUserData: user =', user);
+            logger.verbose(category, context, 'user =', user);
 
             return user;
 
         } catch (error) {
-            logger.error('User', 'EmailStrategy.getUserData: error =', error.message || error);
+            logger.error(category, context, 'error =', error.message || error);
             return { error: error.message || error };
         }
     }
 
     async function refreshAccessToken(refreshToken) {
+        const context = `${module}.refreshAccessToken`;
         const tokens = {
             accessToken: refreshToken,
             refreshToken: refreshToken,
         };
 
-        logger.verbose('User', 'EmailStrategy.refreshAccessToken: tokens =', tokens);
+        logger.verbose(category, context, 'tokens =', tokens);
 
         return tokens;
     }
@@ -87,5 +92,3 @@ function EmailStrategy(logger) {
         refreshAccessToken,
     }
 }
-
-module.exports = EmailStrategy;

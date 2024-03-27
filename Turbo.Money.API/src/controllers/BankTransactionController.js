@@ -1,6 +1,8 @@
 
 
-module.exports = (logger, business) => {
+module.exports = function BankTransactionController(logger, business) {
+    const module = 'BankTransactionController';
+    const category = 'BankTransaction';
 
     const jwt = require("jsonwebtoken");
 
@@ -44,20 +46,20 @@ module.exports = (logger, business) => {
         return { list: dataList };
     }
 
-    const owner = "BankTransactionController";
-    const common = require("./CommonController")(logger, owner, business, decode, encode, encodeList);
+    const common = require("./CommonController")(logger, category, business, decode, encode, encodeList);
 
     const upload = async (req, res) => {
+        const context = `${module}.upload`;
         const { user: userInfo } = jwt.decode(req.cookies.user);
         var busboy = require('busboy')({ headers: req.headers });
 
-        logger.debug(owner, `${owner}.upload()`);
+        logger.debug(category, context, '()');
 
         busboy.on('file', async function (fieldname, file, filename, encoding, mimetype) {
-            logger.debug(owner, `${owner}.upload(): busboy.onFile()`);
+            logger.debug(category, context, 'busboy.onFile()');
 
             const returnList = await business.importTransactions(userInfo, file);
-            logger.debug(owner, `${owner}.upload: returnList = `, returnList);
+            logger.debug(category, context, 'returnList =', returnList);
             if (common.handleError("upload", res, 500, returnList.error))
                 return;
 
@@ -69,7 +71,7 @@ module.exports = (logger, business) => {
                 item = encode(businessObject);
                 if (item.error) {
                     error = item.error;
-                    logger.error(owner, `${owner}.getAll: error = `, error);
+                    logger.error(category, context, 'error =', error);
                     return error;
                 }
                 return item;
@@ -78,7 +80,7 @@ module.exports = (logger, business) => {
             if (common.handleError("upload", res, 500, error))
                 return;
 
-            logger.debug(owner, `${owner}.upload: dataList = `, dataList);
+            logger.debug(category, context, 'dataList =', dataList);
             res.send(dataList);
         });
 

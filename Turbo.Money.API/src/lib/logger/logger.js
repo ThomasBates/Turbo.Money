@@ -1,5 +1,5 @@
 
-module.exports = (provider) => {
+module.exports = function logger(provider) {
 
     const levels = {
         error: 0,
@@ -48,32 +48,32 @@ module.exports = (provider) => {
         }
     }
 
-    function send(severity, category, message, object) {
+    function send(severity, category, context, message, object) {
         if (!isSeverityEnabled(severity))
             return;
         if ((levels[severity] > levels.error) && !isCategoryEnabled(category))
             return;
-        provider.send(severity, category, message, object);
+        provider.send(severity, category, context, message, object);
     }
 
-    function error(category, message, object) {
-        send('error', category, message, object);
+    function error(category, context, message, object) {
+        send('error', category, context, message, object);
     }
 
-    function warning(category, message, object) {
-        send('warning', category, message, object);
+    function warning(category, context, message, object) {
+        send('warning', category, context, message, object);
     }
 
-    function info(category, message, object) {
-        send('info', category, message, object);
+    function info(category, context, message, object) {
+        send('info', category, context, message, object);
     }
 
-    function debug(category, message, object) {
-        send('debug', category, message, object);
+    function debug(category, context, message, object) {
+        send('debug', category, context, message, object);
     }
 
-    function verbose(category, message, object) {
-        send('verbose', category, message, object);
+    function verbose(category, context, message, object) {
+        send('verbose', category, context, message, object);
     }
 
     return {
