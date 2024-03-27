@@ -1,4 +1,3 @@
-import * as BudgetData from "../../../../Turbo.Money.API/app/sequelize/data/BudgetData";
 import axios from "../../axios/AxiosCommon";
 
 function BudgetDataService() {

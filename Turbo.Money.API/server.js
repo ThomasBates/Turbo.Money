@@ -27,17 +27,17 @@ app.use(express.urlencoded({ extended: true }));
 
 // -----------------------------------------------------------------------------
 // Bootstrapper:
-const loggerProvider = require("./lib/logger/loggerConsoleProvider")();
-const logger = require("./lib/logger/logger")(loggerProvider);
+const loggerProvider = require("./src/lib/logger/loggerConsoleProvider")();
+const logger = require("./src/lib/logger/logger")(loggerProvider);
 
 logger.enableSeverity('verbose');
 logger.enableCategory('all');
 
-const db = require("./app/sequelize")(logger);
-const data = require("./app/sequelize/data")(logger, db);
-const business = require("./app/business")(logger, data);
-const controllers = require("./app/controllers")(logger, business);
-require("./app/routes")(app, logger, controllers);
+const db = require("./src/sequelize")(logger);
+const data = require("./src/sequelize/data")(logger, db);
+const business = require("./src/business")(logger, data);
+const controllers = require("./src/controllers")(logger, business);
+require("./src/routes")(app, logger, controllers);
 // -----------------------------------------------------------------------------
 
 // set port, listen for requests

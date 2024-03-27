@@ -2,8 +2,8 @@
 
 // Verify auth
 const validateRequest = (req, res, next) => {
-    const loggerProvider = require("../../lib/logger/loggerConsoleProvider")();
-    const logger = require("../../lib/logger/logger")(loggerProvider);
+    const loggerProvider = require("../../src/lib/logger/loggerConsoleProvider")();
+    const logger = require("../../src/lib/logger/logger")(loggerProvider);
     logger.enableSeverity('verbose');
     logger.enableCategory('all');
 

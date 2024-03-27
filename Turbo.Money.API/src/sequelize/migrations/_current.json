@@ -696,8 +696,8 @@
             "indexes": []
         }
     },
-    "path": "D:\\Development\\Turbo.Money\\Turbo.Money.API\\app\\sequelize\\migrations\\_current.json",
-    "backupPath": "D:\\Development\\Turbo.Money\\Turbo.Money.API\\app\\sequelize\\migrations\\_current_bak.json",
+    "path": "D:\\Development\\Turbo.Money\\Turbo.Money.API\\src\\sequelize\\migrations\\_current.json",
+    "backupPath": "D:\\Development\\Turbo.Money\\Turbo.Money.API\\src\\sequelize\\migrations\\_current_bak.json",
     "exists": false,
     "revision": 1
 }
