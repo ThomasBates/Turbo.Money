@@ -1,15 +1,22 @@
 
-module.exports = function BankBankController(logger, business) {
+module.exports = function BankBankController(logger, errors, business) {
+    const module = 'BankBankController';
+    const category = 'BankBank';
 
     const decode = (data) => {
+        const context = `${module}.decode`;
+
         if (!data)
-            return { error: "parse error: data is not defined." };
+            return errors.create(context, 'ParseError', "data is not defined.");
+
         if (!data.name)
-            return { error: "parse error: data.name is not defined." };
+            return errors.create(context, 'ParseError', "data.name is not defined.");
+
         if (!data.number)
-            return { error: "parse error: data.number is not defined." };
+            return errors.create(context, 'ParseError', "data.number is not defined.");
+
         if (!data.transit)
-            return { error: "parse error: data.transit is not defined." };
+            return errors.create(context, 'ParseError', "data.transit is not defined.");
 
         const bank = {
             id: data.id,
@@ -32,5 +39,7 @@ module.exports = function BankBankController(logger, business) {
         return { list: dataList };
     }
 
-    return require("./CommonController")(logger, "BankBank", business, decode, encode, encodeList);
+    return require("./CommonController")(
+        logger, errors, category, business,
+        decode, encode, encodeList);
 }

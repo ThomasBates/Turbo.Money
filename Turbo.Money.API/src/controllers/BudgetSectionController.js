@@ -1,15 +1,22 @@
 
-module.exports = function BudgetSectionController(logger, business) {
+module.exports = function BudgetSectionController(logger, errors, business) {
+    const module = 'BudgetSectionController';
+    const category = 'BudgetSection';
 
     const decode = (data) => {
+        const context = `${module}.decode`;
+
         if (!data)
-            return { error: "parse error: data is not defined." };
+            return errors.create(context, 'ParseError', "data is not defined.");
+
         if (!data.name)
-            return { error: "parse error: data.name is not defined." };
+            return errors.create(context, 'ParseError', "data.name is not defined.");
+
         if (!data.description)
-            return { error: "parse error: data.description is not defined." };
+            return errors.create(context, 'ParseError', "data.description is not defined.");
+
         if (!data.direction)
-            return { error: "parse error: data.direction is not defined." };
+            return errors.create(context, 'ParseError', "data.direction is not defined.");
 
         const section = {
             id: data.id,
@@ -22,8 +29,10 @@ module.exports = function BudgetSectionController(logger, business) {
     }
 
     const encode = (section) => {
+        const context = `${module}.encode`;
+
         if (!section)
-            return { error: "BudgetSectionController.encode: section is not defined" };
+            return errors.create(context, 'InvalidArgument', "section is not defined");
 
         const data = {
             id: section.id,
@@ -35,11 +44,18 @@ module.exports = function BudgetSectionController(logger, business) {
     }
 
     const encodeList = (sectionList) => {
+        const context = `${module}.encodeList`;
+
+        if (!section)
+            return errors.create(context, 'InvalidArgument', "sectionList is not defined");
+
         let dataList = sectionList.map(section => {
             return { id: section.id, name: section.name }
         });
         return { list: dataList };
     }
 
-    return require("./CommonController")(logger, "BudgetSection", business, decode, encode, encodeList);
+    return require("./CommonController")(
+        logger, errors, category, business,
+        decode, encode, encodeList);
 }

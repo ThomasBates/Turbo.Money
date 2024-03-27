@@ -1,5 +1,5 @@
 
-module.exports = function BankBankBusiness(logger, data) {
+module.exports = function BankBankBusiness(logger, errors, data) {
     const module = 'BankBankBusiness';
     const category = 'Business';
 
@@ -9,34 +9,32 @@ module.exports = function BankBankBusiness(logger, data) {
         logger.debug(category, context, 'testBank =', testBank);
 
         const banks = await data.getList(userCookie);
-        if (banks.error) {
-            return banks.error;
-        }
-        if (!banks || !banks.list || banks.list.length == 0) {
-            return null;
-        }
         logger.debug(category, context, 'banks =', banks);
+
+        if (banks.error)
+            return errors.create(context, banks.error.code, banks);
+
+        if (!banks || !banks.list || banks.list.length == 0)
+            return {};
 
         let matching = banks.list.find(bank =>
             bank.name.toUpperCase() == testBank.name.toUpperCase() &&
             bank.id != testBank.id);
         logger.debug(category, context, 'matching =', matching);
-        if (matching) {
-            return "Validation Error: Bank name must be unique.";
-        }
+        if (matching)
+            return errors.create(context, 'InvalidData', "Bank name must be unique.");
 
         matching = banks.list.find(bank =>
             bank.number == testBank.number &&
             bank.transit == testBank.transit &&
             bank.id != testBank.id);
         logger.debug(category, context, 'matching =', matching);
-        if (matching) {
-            return "Validation Error: Bank number+transit must be unique.";
-        }
+        if (matching)
+            return errors.create(context, 'InvalidData', "Bank number+transit must be unique.");
 
-        return null;
+        return {};
     }
 
-    const common = require('./CommonBusiness')(logger, data);
+    const common = require('./CommonBusiness')(logger, errors, data);
     return { ...common, validate };
 }

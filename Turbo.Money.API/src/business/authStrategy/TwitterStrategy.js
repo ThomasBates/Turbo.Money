@@ -138,4 +138,4 @@ const strategy = {
     },
 };
 
-module.exports = (logger) => require('./CommonStrategy')(logger, strategy);
+module.exports = (logger, errors) => require('./CommonStrategy')(logger, errors, strategy);

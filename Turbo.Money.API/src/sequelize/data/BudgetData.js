@@ -1,13 +1,7 @@
 
-module.exports = function BudgetData(logger, db) {
+module.exports = function BudgetData(logger, errors, db) {
     const module = 'BudgetData';
     const category = "Budget";
-
-    const createError = (context, code, message) => {
-        const error = { error: message, context, code, message };
-        logger.error(category, context, 'error =', error);
-        return error;
-    }
 
     const createSampleData = async (userCookie, budgetSections, budgetCategories, budgetAccounts) => {
         const context = `${module}.createSampleData`;
@@ -58,7 +52,7 @@ module.exports = function BudgetData(logger, db) {
         }
         catch (ex) {
             logger.error(category, context, 'ex =', ex);
-            return createError(context, 'Catch', ex.message || 'Unknown catch');
+            return errors.create(context, 'Catch', ex.message);
         }
     };
 

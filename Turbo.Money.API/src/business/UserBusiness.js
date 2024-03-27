@@ -1,5 +1,5 @@
 
-module.exports = function UserBusiness(logger, data) {
+module.exports = function UserBusiness(logger, errors, data) {
     const module = 'UserBusiness';
     const category = 'User';
 
@@ -10,10 +10,10 @@ module.exports = function UserBusiness(logger, data) {
     }
 
     const strategy = {
-        facebook: require('./authStrategy/FacebookStrategy')(logger),
-        google: require('./authStrategy/GoogleStrategy')(logger),
-        twitter: require('./authStrategy/TwitterStrategy')(logger),
-        email: require('./authStrategy/EmailStrategy')(logger),
+        facebook: require('./authStrategy/FacebookStrategy')(logger, errors),
+        google: require('./authStrategy/GoogleStrategy')(logger, errors),
+        twitter: require('./authStrategy/TwitterStrategy')(logger, errors),
+        email: require('./authStrategy/EmailStrategy')(logger, errors),
     }
 
     const allGrants = {
@@ -98,10 +98,10 @@ module.exports = function UserBusiness(logger, data) {
         logger.debug(category, context, `source = "${source}", mode = "${mode}"`);
 
         if (!(source in strategy))
-            return { error: `Source "${source}" not supported` };
+            return errors.create(context, 'NotSupported', `Source "${source}" not supported`);
 
         if (!(mode in signInUserFunction))
-            return { error: `Mode "${mode}" not supported` };
+            return errors.create(context, 'NotSupported', `Mode "${mode}" not supported`);
 
         const url = strategy[source].getSignInUrl();
 
@@ -124,11 +124,9 @@ module.exports = function UserBusiness(logger, data) {
             return result;
         };
 
-        const handleError = (error) => {
-            const result = { error };
-            logger.error(category, context, 'return', result);
+        const handleError = (code, message) => {
             endInProgress(userCookie);
-            return result;
+            return errors.create(context, code, message);
         };
 
         //  Return if already in progress
@@ -139,33 +137,35 @@ module.exports = function UserBusiness(logger, data) {
         //  validate user cookie
         const validation = await validateUserCookie(userCookie);
         if (validation.error)
-            return handleError(`invalid user cookie: ${validation.error}`);
+            return handleError('InvalidData', `invalid user cookie: ${validation.error}`);
 
         //  Use refresh token to get new access token
         let tokens = await strategy[userCookie.source].refreshAccessToken(tokenCookie.refresh_token);
         logger.verbose(category, context, 'refreshAccessToken returned:', tokens);
         if (tokens.error)
-            return handleError(`refreshAccessToken returned: ${tokens.error}`);
+            return handleError(tokens.error.code, tokens);
 
         //  Get user data with new access token
         let authUser = await strategy[userCookie.source].getUserData(tokens.accessToken);
         logger.verbose(category, context, 'authUser =', authUser);
         if (authUser.error)
-            return handleError(`getUserData returned: ${authUser.error}`);
+            return handleError(authUser.error.code, authUser);
 
         // update user in DB
         const updateResult = await updateUserAuthAttributes(authUser);
         logger.verbose(category, context, 'updatedUser =', updateResult);
         if (updateResult.error) {
-            return (updateResult.error.startsWith("Cannot find user object") ? handleMessage : handleError)
-                (`updateUserAuthAttributes returned: ${updateResult.error}`);
+            if (updateResult.error.startsWith("Cannot find user object"))
+                return handleMessage(updateResult.error);
+            else
+                return handleError(updateResult.error.code, updateResult);
         }
 
         //  get user family, role, & grants to return to UI
         const user = await getUserFamilyRoleGrants(userCookie.userId, userCookie.familyId);
         logger.verbose(category, context, 'user =', user);
         if (user.error)
-            return handleError(`getUserFamilyRollGrants returned: ${user.error}`);
+            return handleError(user.error.code, user);
 
         //  Return { user } if able to get user data with access token.
         const result = { user, tokens };
@@ -177,17 +177,15 @@ module.exports = function UserBusiness(logger, data) {
 
     const signIn = async (source, mode, params) => {
         const context = `${module}.signIn`;
-        logger.debug(category, context, '*********************************************************');
+        logger.debug(category, context, '****************************************************');
         logger.debug(category, context, 'params =', params);
 
         let authUser = null;
 
-        const handleError = (error) => {
-            const result = { error };
-            logger.error(category, context, 'return', result);
+        const handleError = (code, message) => {
             if (authUser)
                 endInProgress(authUser);
-            return result;
+            return errors.create(context, code, message);
         }
 
         try {
@@ -195,13 +193,13 @@ module.exports = function UserBusiness(logger, data) {
             let tokens = await strategy[source].getAccessToken(params);
             logger.verbose(category, context, 'getAccessTokens returned:', tokens);
             if (tokens.error)
-                return handleError(`getAccessToken returned: ${tokens.error}`);
+                return handleError(tokens.error.code, tokens);
 
             //  Get user source id, name, email, and picture data.
             authUser = await strategy[source].getUserData(tokens.accessToken);
             logger.verbose(category, context, 'authUser =', authUser);
             if (authUser.error)
-                return handleError(`getUserData returned: ${authUser.error}`);
+                return handleError(authUser.error.code, authUser);
 
             beginInProgress(authUser);
 
@@ -216,13 +214,13 @@ module.exports = function UserBusiness(logger, data) {
             const signInResult = await signInUserFunction[mode](authUser);
             logger.verbose(category, context, 'signInResult =', signInResult);
             if (signInResult.error)
-                return handleError(`signInUserFunction[${mode}] returned: ${signInResult.error}`);
+                return handleError(signInResult.error.code, signInResult);
 
             //  get user family, role, & grants to return to UI
             const user = await getUserFamilyRoleGrants(signInResult.userId);
             logger.verbose(category, context, 'user =', user);
             if (user.error)
-                return handleError(`getUserFamilyRollGrants returned: ${user.error}`);
+                return handleError(user.error.code, user);
 
             //  Return { user } if able to get user data with access token.
             const result = {
@@ -245,7 +243,7 @@ module.exports = function UserBusiness(logger, data) {
 
         } catch (ex) {
             logger.error(category, context, 'ex =', ex);
-            return handleError(`catch: ${ex.message || 'Server error'}`);
+            return handleError('Catch', ex.message);
         }
     };
 
@@ -256,29 +254,29 @@ module.exports = function UserBusiness(logger, data) {
         logger.debug(category, context, 'userCookie =', userCookie);
 
         if (!userCookie.source)
-            return { error: `${context}: Invalid user cookie: missing source` };
+            return errors.create(context, 'InvalidData', 'missing source');
 
         if (!userCookie.sourceId)
-            return { error: `${context}: Invalid user cookie: missing sourceId` };
+            return errors.create(context, 'InvalidData', 'missing sourceId');
 
         if (!userCookie.userId)
-            return { error: `${context}: Invalid user cookie: missing userId` };
+            return errors.create(context, 'InvalidData', 'missing userId');
 
         if (!userCookie.familyId)
-            return { error: `${context}: Invalid user cookie: missing familyId` };
+            return errors.create(context, 'InvalidData', 'missing familyId');
 
         if (!userCookie.source || !(userCookie.source in strategy))
-            return { error: `${context}: Invalid user cookie: source ("${userCookie.source}") in user cookie is not supported` };
+            return errors.create(context, 'InvalidData', `source ("${userCookie.source}") in user cookie is not supported`);
 
         const user = await data.getUserByAuthorization(userCookie);
         logger.debug(category, context, 'user =', user);
         if (user.error)
-            return { error: `${context}: Invalid user cookie: ${user.error}`};
+            return errors.create(user.error.code, user);
 
         const family = await data.getUserFamily(user, userCookie.familyId);
         logger.debug(category, context, 'family =', family);
         if (family.error)
-            return { error: `${context}: Invalid user cookie: ${family.error}` };
+            return errors.create(family.error.code, family);
 
         return {}
     }
@@ -290,12 +288,11 @@ module.exports = function UserBusiness(logger, data) {
         const existingUser = await data.getUserByAuthorization(user.authorization);
         logger.debug(category, context, 'existingUser =', existingUser);
         if (existingUser.error) {
-            if (!existingUser.error.startsWith("Cannot find user object")) {
-                return { error: existingUser.error };
-            }
+            if (existingUser.error.code !== 'MissingData')
+                return errors.create(context, existingUser.error.code, existingUser.error);
         }
         else {
-            return { error: "User already exists." };
+            return errors.create(context, 'DataExists', "User already exists.");
         }
 
         let newUser = {
@@ -313,15 +310,13 @@ module.exports = function UserBusiness(logger, data) {
 
         const createdUser = await data.createUser(newUser);
         logger.debug(category, context, 'createdUser =', createdUser);
-        if (createdUser.error) {
-            return createdUser;
-        }
+        if (createdUser.error)
+            return errors.create(context, createdUser.error.code, createdUser);
 
         const initializeResult = await initializeNewUser(createdUser);
         logger.debug(category, context, 'initializeResult =', initializeResult);
-        if (initializeResult.error) {
-            return initializeResult;
-        }
+        if (initializeResult.error)
+            return errors.create(context, initializeResult.error.code, initializeResult);
 
         const signUpResult = await data.getUserDefaultFamilyId(createdUser);
         logger.debug(category, context, 'signUpResult =', signUpResult);
@@ -339,10 +334,8 @@ module.exports = function UserBusiness(logger, data) {
             return existingUser;
         }
 
-        if (existingUser.authorization.passwordHash != user.authorization.passwordHash) {
-            logger.warning(category, context, 'Invalid credentials');
-            return { error: "Invalid credentials" };
-        }
+        if (existingUser.authorization.passwordHash != user.authorization.passwordHash)
+            return errors.create(context, 'InvalidCredentials', 'Invalid credentials');
 
         const signInResult = await data.getUserDefaultFamilyId(existingUser);
         logger.debug(category, context, 'signInResult =', signInResult);
@@ -357,7 +350,7 @@ module.exports = function UserBusiness(logger, data) {
         const existingUser = await data.getUserByAuthorization(user.authorization);
         logger.debug(category, context, 'existingUser =', existingUser);
         if (existingUser.error) {
-            return existingUser;
+            return errors.create(context, existingUser.error.code, existingUser);
         }
 
         const updateUser = {
@@ -370,7 +363,7 @@ module.exports = function UserBusiness(logger, data) {
         const updatedUser = await data.updateUser(updateUser);
         logger.debug(category, context, 'updatedUser =', updatedUser);
         if (updatedUser.error) {
-            return updatedUser;
+            return errors.create(context, updatedUser.error.code, updatedUser);
         }
 
         return updatedUser;
@@ -381,7 +374,7 @@ module.exports = function UserBusiness(logger, data) {
         const user = await data.getUserFamilyRoleGrants(userId, familyId);
         logger.debug(category, context, 'user =', user);
         if (user.error) {
-            return user;
+            return errors.create(context, user.error.code, user);
         }
 
         if (user.selectedFamily.role.isHead) {

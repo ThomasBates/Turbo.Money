@@ -1,5 +1,5 @@
 
-module.exports = function BankTransactionBusiness(logger, data, bankAccountData) {
+module.exports = function BankTransactionBusiness(logger, errors, data, bankAccountData) {
     const module = 'BankTransactionBusiness';
     const category = 'Business';
 
@@ -11,10 +11,10 @@ module.exports = function BankTransactionBusiness(logger, data, bankAccountData)
         const accounts = await bankAccountData.getList(userCookie);
         logger.debug(category, context, 'accounts =', accounts);
         if (accounts.error) {
-            return accounts.error;
+            return errors.create(context, accounts.error.code, accounts.error);
         }
         if (!accounts || !accounts.list || accounts.list.length == 0) {
-            return 'Validation Error: No bank accounts. Bank accounts must be created before loading bank transactions.';
+            return errors.create(context, 'UserData', 'No bank accounts. Bank accounts must be created before loading bank transactions.');
         }
 
         //let matching = accounts.find(account =>
@@ -34,7 +34,7 @@ module.exports = function BankTransactionBusiness(logger, data, bankAccountData)
         //    return "Validation Error: Bank account bankId+number must be unique.";
         //}
 
-        return null;
+        return {};
     }
 
     const importTransactions = async (userCookie, file) => {
@@ -43,22 +43,16 @@ module.exports = function BankTransactionBusiness(logger, data, bankAccountData)
 
         const ofx = await ofxToObject(file);
 
-        if (ofx.OFXHEADER !== '100' || ofx.VERSION !== '102') {
-            let error = "The format of the imported file is not supported.";
-            logger.error(category, context, 'error =', error);
-            return { error };
-        }
+        if (ofx.OFXHEADER !== '100' || ofx.VERSION !== '102')
+            return errors.create(context, 'NotSupported', "The format of the imported file is not supported.");
 
         const ofxStatement = ofx.OFX.BANKMSGSRSV1.STMTTRNRS.STMTRS;
         const ofxTransactions = ofxStatement.BANKTRANLIST.STMTTRN;
 
         let account = await bankAccountData.getOneByNumber(userCookie, ofxStatement.BANKACCTFROM.ACCTID);
         logger.error(category, context, 'account =', account);
-        if (account.error) {
-            let error = "The bank account identified in the imported file is not registered in the application.";
-            logger.error(category, context, 'error =', error);
-            return { error };
-        }
+        if (account.error)
+            return errors.create(context, 'UserData', 'The bank account identified in the imported file is not registered in the application.');
 
         let transactions = [];
 
@@ -156,7 +150,7 @@ module.exports = function BankTransactionBusiness(logger, data, bankAccountData)
         return date.getTime();
     }
 
-    const common = require('./CommonBusiness')(logger, data);
+    const common = require('./CommonBusiness')(logger, errors, data);
     return {
         ...common,
         validate,

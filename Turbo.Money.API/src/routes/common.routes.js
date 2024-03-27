@@ -1,28 +1,28 @@
 
-module.exports = (app, controller, api) => {
+module.exports = (app, logger, errors, controller, api) => {
     const router = require("express").Router();
-    const validateRequest = require("./validateRequest");
+    const { validateUserCookie } = require("./RequestValidation")(logger, errors);
 
     // Create a new item
-    router.post("/", validateRequest, controller.create);
+    router.post("/", validateUserCookie, controller.create);
 
     // Retrieve all items
-    router.get("/all", validateRequest, controller.getAll);
+    router.get("/all", validateUserCookie, controller.getAll);
 
     // Retrieve all items' id and name
-    router.get("/list", validateRequest, controller.getList);
+    router.get("/list", validateUserCookie, controller.getList);
 
     // Retrieve a single item with id
-    router.get("/:id", validateRequest, controller.getOne);
+    router.get("/:id", validateUserCookie, controller.getOne);
 
     // Update an item with id
-    router.put("/:id", validateRequest, controller.update);
+    router.put("/:id", validateUserCookie, controller.update);
 
     // Delete an item with id
-    router.delete("/:id", validateRequest, controller.deleteOne);
+    router.delete("/:id", validateUserCookie, controller.deleteOne);
 
     // Delete all items
-    router.delete("/", validateRequest, controller.deleteAll);
+    router.delete("/", validateUserCookie, controller.deleteAll);
 
     app.use(`/api/${api}`, router);
 };

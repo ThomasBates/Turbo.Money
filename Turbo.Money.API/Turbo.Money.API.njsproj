@@ -52,6 +52,7 @@
     <Content Include="src\business\index.js" />
     <Content Include="src\controllers\BudgetController.js" />
     <Content Include="src\controllers\BankController.js" />
+    <Content Include="src\lib\errors\errors.js" />
     <Content Include="src\routes\budget.routes.js" />
     <Content Include="src\routes\bank.routes.js" />
     <Content Include="src\sequelize\data\BudgetData.js" />
@@ -67,7 +68,7 @@
     <Content Include="src\controllers\BankAccountController.js" />
     <Content Include="src\controllers\index.js" />
     <Content Include="src\routes\post.routes.js" />
-    <Content Include="src\routes\validateRequest.js" />
+    <Content Include="src\routes\RequestValidation.js" />
     <Content Include="src\routes\budgetAccount.routes.js" />
     <Content Include="src\routes\bankTransaction.routes.js" />
     <Content Include="src\routes\common.routes.js" />
@@ -122,6 +123,7 @@
     <Folder Include="src\business\authStrategy\" />
     <Folder Include="src\business\" />
     <Folder Include="src\controllers\" />
+    <Folder Include="src\lib\errors\" />
     <Folder Include="src\sequelize\config\" />
     <Folder Include="src\sequelize\data\" />
     <Folder Include="src\sequelize\migrations\" />

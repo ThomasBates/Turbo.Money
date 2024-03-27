@@ -1,7 +1,13 @@
 
-module.exports = function BudgetAccountData(logger, table) {
+module.exports = function BudgetAccountData(logger, errors, table) {
+    const module = 'BudgetAccountData';
 
     const encode = (account) => {
+        const context = `${module}.encode`;
+
+        if (!account)
+            return errors.create(context, 'InvalidArgument', 'account is not defined');
+
         const data = {
             //id: account.id,
             name: account.name,
@@ -15,11 +21,13 @@ module.exports = function BudgetAccountData(logger, table) {
     }
 
     const decode = (userCookie, data) => {
+        const context = `${module}.decode`;
+
         if (!data)
-            return { error: "decode: data is not defined" };
+            return errors.create(context, 'InvalidArgument', 'data is not defined');
 
         if (data.UserFamilyId !== userCookie.familyId)
-            return { error: `decode: This data belongs to a family (${data.UserFamilyId}) that is different from the user's family (${userCookie.familyId}).` };
+            return errors.create(context, 'SecurityBreach', `data's family (${data.UserFamilyId}) is not user's family (${userCookie.familyId}).`);
 
         const account = {
             id: data.id,
@@ -34,37 +42,52 @@ module.exports = function BudgetAccountData(logger, table) {
     }
 
     const decodeList = (userCookie, data) => {
-        if (!data)
-            return { error: "decodeList: data is not defined" };
+        const context = `${module}.decodeList`;
 
+        if (!data)
+            return errors.create(context, 'InvalidArgument', 'data is not defined');
+
+        let error;
         const accounts = data.map(item => {
-            if (item.UserFamilyId !== userCookie.familyId)
-                return { error: `decodeList: This data item belongs to a family (${item.UserFamilyId}) that is different from the user's family (${userCookie.familyId}).` };
+            if (error)
+                return error;
+
+            if (item.UserFamilyId !== userCookie.familyId) {
+                error = errors.create(context, 'SecurityBreach', `item's family (${data.UserFamilyId}) is not user's family (${userCookie.familyId}).`);
+                return error;
+            }
 
             return { id: item.id, name: item.name }
         });
+
+        if (error)
+            return error;
 
         return { list: accounts };
     }
 
     const validate = (account) => {
-        if (!account.name) {
-            return "Account name can not be empty!";
-        }
-        if (!account.categoryId) {
-            return "Account category can not be empty!";
-        }
-        if (!account.amount) {
-            return "Account amount can not be empty!";
-        }
-        if (!account.method) {
-            return "Account method can not be empty!";
-        }
-        if (!account.type) {
-            return "Account type can not be empty!";
-        }
-        return null
+        const context = `${module}.validate`;
+
+        if (!account.name)
+            return errors.create(context, 'InvalidData', "Account name can not be empty!");
+
+        if (!account.categoryId)
+            return errors.create(context, 'InvalidData', "Account category can not be empty!");
+
+        if (!account.amount)
+            return errors.create(context, 'InvalidData', "Account amount can not be empty!");
+
+        if (!account.method)
+            return errors.create(context, 'InvalidData', "Account method can not be empty!");
+
+        if (!account.type)
+            return errors.create(context, 'InvalidData', "Account type can not be empty!");
+
+        return {}
     }
 
-    return require('./CommonData')(logger, "BudgetAccount", table, encode, decode, decodeList, validate);
+    return require('./CommonData')(
+        logger, errors, "BudgetAccount", table,
+        encode, decode, decodeList, validate);
 }

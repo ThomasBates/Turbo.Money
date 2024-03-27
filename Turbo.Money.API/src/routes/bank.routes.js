@@ -1,8 +1,9 @@
 
-module.exports = (app, controller) => {
+module.exports = (app, logger, errors, controller) => {
     const router = require("express").Router();
+    const { validateUserCookie } = require("./RequestValidation")(logger, errors);
 
-    router.post('/create_sample_data', controller.createSampleData);
+    router.post('/create_sample_data', validateUserCookie, controller.createSampleData);
 
     app.use(`/api/bank`, router);
 }

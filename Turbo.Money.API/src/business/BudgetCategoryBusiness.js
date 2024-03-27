@@ -1,5 +1,5 @@
 
-module.exports = function BudgetCategoryBusiness(logger, data) {
+module.exports = function BudgetCategoryBusiness(logger, errors, data) {
     const module = 'BudgetCategoryBusiness';
     const category = 'Business';
 
@@ -11,24 +11,22 @@ module.exports = function BudgetCategoryBusiness(logger, data) {
         const categories = await data.getList(userCookie);
         logger.debug(category, context, 'categories =', categories);
 
-        if (categories.error) {
-            return categories.error;
-        }
-        if (!categories || !categories.list || categories.length == 0) {
-            return null;
-        }
+        if (categories.error)
+            return errors.create(context, categories.error.code, categories);
+
+        if (!categories || !categories.list || categories.length == 0)
+            return {};
 
         let matching = categories.list.find(category =>
             category.name.toUpperCase() == testCategory.name.toUpperCase() &&
             category.id != testCategory.id);
         logger.debug(category, context, 'matching =', matching);
-        if (matching) {
-            return "Validation Error: Budget Category name must be unique.";
-        }
+        if (matching)
+            return errors.create(context, 'InvalidData', "Budget Category name must be unique.");
 
-        return null;
+        return {};
     }
 
-    const common = require('./CommonBusiness')(logger, data);
+    const common = require('./CommonBusiness')(logger, errors, data);
     return { ...common, validate };
 }

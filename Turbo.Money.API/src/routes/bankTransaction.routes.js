@@ -1,11 +1,11 @@
 
-module.exports = (app, controller) => {
-    require("./common.routes")(app, controller, 'bankTransaction');
+module.exports = (app, logger, errors, controller) => {
+    require("./common.routes")(app, logger, errors, controller, 'bankTransaction');
 
     const router = require("express").Router();
-    const validateRequest = require("./validateRequest");
+    const { validateUserCookie } = require("./RequestValidation")(logger, errors);
 
-    router.post("/upload", validateRequest, controller.upload);
+    router.post("/upload", validateUserCookie, controller.upload);
 
     app.use('/api/bankTransaction', router);
 };

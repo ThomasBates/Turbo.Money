@@ -1,7 +1,13 @@
 
-module.exports = function BankBankData(logger, table) {
+module.exports = function BankBankData(logger, errors, table) {
+    const module = 'BankBankData';
 
     const encode = (bank) => {
+        const context = `${module}.encode`;
+
+        if (!bank)
+            return errors.create(context, 'InvalidArgument', 'bank is not defined');
+
         const data = {
             //id: bank.id,
             name: bank.name,
@@ -12,11 +18,13 @@ module.exports = function BankBankData(logger, table) {
     }
 
     const decode = (userCookie, data) => {
+        const context = `${module}.decode`;
+
         if (!data)
-            return { error: "decode: data is not defined" };
+            return errors.create(context, 'InvalidArgument', 'data is not defined');
 
         if (data.UserFamilyId !== userCookie.familyId)
-            return { error: `decode: This data belongs to a family (${data.UserFamilyId}) that is different from the user's family (${userCookie.familyId}).` };
+            return errors.create(context, 'SecurityBreach', `data's family (${data.UserFamilyId}) is not user's family (${userCookie.familyId}).`);
 
         const bank = {
             id: data.id,
@@ -28,31 +36,46 @@ module.exports = function BankBankData(logger, table) {
     }
 
     const decodeList = (userCookie, data) => {
-        if (!data)
-            return { error: "decodeList: data is not defined" };
+        const context = `${module}.decodeList`;
 
+        if (!data)
+            return errors.create(context, 'InvalidArgument', 'data is not defined');
+
+        let error;
         const banks = data.map(item => {
-            if (item.UserFamilyId !== userCookie.familyId)
-                return { error: `decodeList: This data item belongs to a family (${item.UserFamilyId}) that is different from the user's family (${userCookie.familyId}).` };
+            if (error)
+                return error;
+
+            if (item.UserFamilyId !== userCookie.familyId) {
+                error = errors.create(context, 'SecurityBreach', `item's family (${data.UserFamilyId}) is not user's family (${userCookie.familyId}).`);
+                return error;
+            }
 
             return { id: item.id, name: item.name }
         });
+
+        if (error)
+            return error;
         
         return { list: banks };
     }
 
     const validate = (bank) => {
-        if (!bank.name) {
-            return "Bank name can not be empty!";
-        }
-        if (!bank.number) {
-            return "Bank number can not be empty!";
-        }
-        if (!bank.transit) {
-            return "Bank transit can not be empty!";
-        }
-        return null
+        const context = `${module}.validate`;
+
+        if (!bank.name)
+            return errors.create(context, 'InvalidData', "Bank name can not be empty!");
+
+        if (!bank.number)
+            return errors.create(context, 'InvalidData', "Bank number can not be empty!");
+
+        if (!bank.transit)
+            return errors.create(context, 'InvalidData', "Bank transit can not be empty!");
+
+        return {}
     }
 
-    return require('./CommonData')(logger, "BankBank", table, encode, decode, decodeList, validate);
+    return require('./CommonData')(
+        logger, errors, "BankBank", table,
+        encode, decode, decodeList, validate);
 }

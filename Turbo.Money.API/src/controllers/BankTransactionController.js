@@ -1,22 +1,28 @@
 
 
-module.exports = function BankTransactionController(logger, business) {
+module.exports = function BankTransactionController(logger, errors, business) {
     const module = 'BankTransactionController';
     const category = 'BankTransaction';
 
     const jwt = require("jsonwebtoken");
 
     const decode = (data) => {
+        const context = `${module}.decode`;
+
         if (!data)
-            return { error: "parse error: data is not defined." };
+            return errors.create(context, 'ParseError', "data is not defined.");
+
         if (!data.accountNumber)
-            return { error: "parse error: data.accountNumber is not defined." };
+            return errors.create(context, 'ParseError', "data.accountNumber is not defined.");
+
         if (!data.timeStamp)
-            return { error: "parse error: data.timeStamp is not defined." };
+            return errors.create(context, 'ParseError', "data.timeStamp is not defined.");
+
         if (!data.description)
-            return { error: "parse error: data.description must be a number." };
+            return errors.create(context, 'ParseError', "data.description must be a number.");
+
         if (!data.amount)
-            return { error: "parse error: data.amount is not defined." };
+            return errors.create(context, 'ParseError', "data.amount is not defined.");
 
         const transaction = {
             id: data.id,
@@ -46,7 +52,9 @@ module.exports = function BankTransactionController(logger, business) {
         return { list: dataList };
     }
 
-    const common = require("./CommonController")(logger, category, business, decode, encode, encodeList);
+    const common = require("./CommonController")(
+        logger, errors, category, business,
+        decode, encode, encodeList);
 
     const upload = async (req, res) => {
         const context = `${module}.upload`;
@@ -60,28 +68,27 @@ module.exports = function BankTransactionController(logger, business) {
 
             const returnList = await business.importTransactions(userInfo, file);
             logger.debug(category, context, 'returnList =', returnList);
-            if (common.handleError("upload", res, 500, returnList.error))
+            if (errors.handle(context, res, 500, returnList.error))
                 return;
 
             let error = null;
-            let dataList = returnList.list.map(businessObject => {
+            let encodedList = returnList.list.map(businessItem => {
                 if (error) {
                     return error;
                 }
-                item = encode(businessObject);
-                if (item.error) {
-                    error = item.error;
-                    logger.error(category, context, 'error =', error);
+                const encodedItem = encode(businessItem);
+                if (encodedItem.error) {
+                    error = errors.create(context, encodedItem.error.code, encodedItem);
                     return error;
                 }
-                return item;
+                return encodedItem;
             });
 
-            if (common.handleError("upload", res, 500, error))
+            if (errors.handle(context, res, 500, error))
                 return;
 
-            logger.debug(category, context, 'dataList =', dataList);
-            res.send(dataList);
+            logger.debug(category, context, 'encodedList =', encodedList);
+            res.send(encodedList);
         });
 
         result = req.pipe(busboy);

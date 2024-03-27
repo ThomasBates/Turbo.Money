@@ -2,7 +2,6 @@
 module.exports = async (app) => {
     const axios = require("axios");
     const router = require("express").Router();
-    const validateRequest = require("./validateRequest");
 
     const getPosts = async (_, res) => {
         try {
@@ -13,7 +12,7 @@ module.exports = async (app) => {
         }
     };
 
-    router.get('/', validateRequest, getPosts);
+    router.get('/', getPosts);
 
     app.use(`/api/posts`, router);
 }

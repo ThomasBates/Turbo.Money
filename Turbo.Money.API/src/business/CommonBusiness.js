@@ -1,5 +1,5 @@
 
-module.exports = function CommonBusiness(logger, data) {
+module.exports = function CommonBusiness(logger, errors, data) {
 
     const create = async (userCookie, businessObject) => {
         return await data.create(userCookie, businessObject);

@@ -1,23 +1,34 @@
 
-module.exports = function BudgetAccountController(logger, business) {
+module.exports = function BudgetAccountController(logger, errors, business) {
+    const module = 'BudgetAccountController';
+    const category = 'BudgetAccount';
 
     const decode = (data) => {
+        const context = `${module}.decode`;
+
         if (!data)
-            return { error: "parse error: data is not defined." };
+            return errors.create(context, 'ParseError', "data is not defined.");
+
         if (!data.name)
-            return { error: "parse error: data.name is not defined." };
+            return errors.create(context, 'ParseError', "data.name is not defined.");
+
         if (!data.categoryId)
-            return { error: "parse error: data.categoryId is not defined." };
+            return errors.create(context, 'ParseError', "data.categoryId is not defined.");
+
         if (isNaN(data.categoryId))
-            return { error: "parse error: data.categoryId must be a number." };
+            return errors.create(context, 'ParseError', "data.categoryId must be a number.");
+
         if (!data.amount)
-            return { error: "parse error: data.amount is not defined." };
+            return errors.create(context, 'ParseError', "data.amount is not defined.");
+
         if (isNaN(data.amount))
-            return { error: "parse error: data.amount must be a number." };
+            return errors.create(context, 'ParseError', "data.amount must be a number.");
+
         if (!data.method)
-            return { error: "parse error: data.method is not defined." };
+            return errors.create(context, 'ParseError', "data.method is not defined.");
+
         if (!data.type)
-            return { error: "parse error: data.type is not defined." };
+            return errors.create(context, 'ParseError', "data.type is not defined.");
 
         const account = {
             id: data.id,
@@ -43,5 +54,7 @@ module.exports = function BudgetAccountController(logger, business) {
         return { list: dataList };
     }
 
-    return require("./CommonController")(logger, "BudgetAccount", business, decode, encode, encodeList);
+    return require("./CommonController")(
+        logger, errors, category, business,
+        decode, encode, encodeList);
 }

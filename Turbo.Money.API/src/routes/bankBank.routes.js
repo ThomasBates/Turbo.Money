@@ -1,4 +1,4 @@
 
-module.exports = (app, controller) => {
-    require("./common.routes")(app, controller, 'bankBank');
+module.exports = (app, logger, errors, controller) => {
+    require("./common.routes")(app, logger, errors, controller, 'bankBank');
 };

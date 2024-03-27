@@ -1,17 +1,25 @@
 
-module.exports = function BudgetCategoryController(logger, business) {
+module.exports = function BudgetCategoryController(logger, errors, business) {
+    const module = 'BudgetCategoryController';
+    const category = 'BudgetCategory';
 
     const decode = (data) => {
+        const context = `${module}.decode`;
+
         if (!data)
-            return { error: "parse error: data is not defined." };
+            return errors.create(context, 'ParseError', "data is not defined.");
+
         if (!data.name)
-            return { error: "parse error: data.name is not defined." };
+            return errors.create(context, 'ParseError', "data.name is not defined.");
+
         if (!data.description)
-            return { error: "parse error: data.description is not defined." };
+            return errors.create(context, 'ParseError', "data.description is not defined.");
+
         if (!data.sectionId)
-            return { error: "parse error: data.sectionId is not defined." };
+            return errors.create(context, 'ParseError', "data.sectionId is not defined.");
+
         if (isNaN(data.sectionId))
-            return { error: "parse error: data.sectionId must be a number." };
+            return errors.create(context, 'ParseError', "data.sectionId must be a number.");
 
         const category = {
             id: data.id,
@@ -34,5 +42,7 @@ module.exports = function BudgetCategoryController(logger, business) {
         return { list: dataList };
     }
 
-    return require("./CommonController")(logger, "BudgetCategory", business, decode, encode, encodeList);
+    return require("./CommonController")(
+        logger, errors, category, business,
+        decode, encode, encodeList);
 }

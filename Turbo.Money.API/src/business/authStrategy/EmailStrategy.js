@@ -10,7 +10,7 @@ const strategy = {
     }
 };
 
-module.exports = function EmailStrategy(logger) {
+module.exports = function EmailStrategy(logger, errors) {
     const module = 'EmailStrategy';
     const category = 'User';
 
@@ -52,9 +52,9 @@ module.exports = function EmailStrategy(logger) {
 
             return tokens;
 
-        } catch (error) {
-            logger.error(category, context, 'error =', error.message || error);
-            return { error: error.message || error };
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+            return errors.create(context, 'Catch', ex.message);
         }
     }
 
@@ -67,9 +67,9 @@ module.exports = function EmailStrategy(logger) {
 
             return user;
 
-        } catch (error) {
-            logger.error(category, context, 'error =', error.message || error);
-            return { error: error.message || error };
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+            return errors.create(context, 'Catch', ex.message);
         }
     }
 

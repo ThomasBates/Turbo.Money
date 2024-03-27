@@ -1,5 +1,7 @@
 
-module.exports = function CommonData(logger, category, table, encode, decode, decodeList, validate) {
+module.exports = function CommonData(
+    logger, errors, category, table,
+    encode, decode, decodeList, validate) {
     const module = 'CommonData';
 
     // Create and save a new record
@@ -8,39 +10,33 @@ module.exports = function CommonData(logger, category, table, encode, decode, de
         logger.debug(category, context, 'businessObject =', businessObject);
 
         // Validate incoming business object.
-        let error = await validate(businessObject);
-        if (error) {
-            logger.error(category, context, 'error =', error);
-            return { error };
-        }
+        let validation = await validate(userCookie, businessObject);
+        if (validation.error)
+            return errors.create(context, 'InvalidData', validation);
 
         // transform business object to data object.
-        const dataObject = encode(businessObject);
-        logger.debug(category, context, 'dataObject =', dataObject);
-        if (dataObject.error) {
-            return dataObject;
-        }
+        const encodedObject = encode(businessObject);
+        logger.debug(category, context, 'encodedObject =', encodedObject);
+        if (encodedObject.error)
+            return errors.create(context, 'InvalidData', encodedObject);
 
-        dataObject.UserFamilyId = userCookie.familyId;
+        encodedObject.UserFamilyId = userCookie.familyId;
 
         // Create record for business object in the database
         try {
-            let data = await table.create(dataObject);
+            let data = await table.create(encodedObject);
             logger.debug(category, context, 'data =', data.toJSON());
 
             // transform returned data object to return business object.
-            const returnObject = decode(userCookie, data.dataValues);
-            logger.debug(category, context, 'returnObject =', returnObject);
-            if (returnObject.error) {
-                return returnObject;
-            }
+            const decodedObject = decode(userCookie, data.dataValues);
+            logger.debug(category, context, 'decodedObject =', decodedObject);
+            if (decodedObject.error)
+                return errors.create(context, 'InvalidData', decodedObject);
 
-            return returnObject;
-        }
-        catch (ex) {
-            error = ex.message || "Unknown error occurred while creating a record.";
-            logger.error(category, context, 'error =', error);
-            return { error };
+            return decodedObject;
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+            return errors.create(context, 'Catch', ex.message);
         }
     };
 
@@ -57,30 +53,26 @@ module.exports = function CommonData(logger, category, table, encode, decode, de
             let returnList;
 
             returnList = dataList.map(dataItem => {
-                if (error) {
+                if (error)
                     return error;
-                }
+
                 const item = decode(userCookie, dataItem);
                 if (item.error) {
-                    error = item.error;
-                    logger.error(category, context, 'item.error =', item.error);
+                    error = errors.create(context, 'InvalidData', item);
                     return error;
                 }
+
                 return item;
             })
 
-            if (error) {
-                logger.error(category, context, 'error =', error);
-                return { error };
-            }
+            if (error) 
+                return error;
 
             logger.verbose(category, context, 'returnList =', returnList);
             return { list: returnList };
-        }
-        catch (ex) {
-            let error = ex.message || "Unknown error occurred while finding all records.";
-            logger.error(category, context, 'error =', error);
-            return { error };
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+            return errors.create(context, 'Catch', ex.message);
         }
     };
 
@@ -95,12 +87,13 @@ module.exports = function CommonData(logger, category, table, encode, decode, de
 
             const returnList = decodeList(userCookie, data);
             logger.verbose(category, context, 'returnList =', returnList);
+            if (returnList.error)
+                return errors.create(context, 'InvalidData', returnList);
+
             return returnList;
-        }
-        catch (ex) {
-            let error = ex.message || "Unknown error occurred while finding all records.";
-            logger.error(category, context, 'error =', error);
-            return { error };
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+            return errors.create(context, 'Catch', ex.message);
         }
     };
 
@@ -110,16 +103,13 @@ module.exports = function CommonData(logger, category, table, encode, decode, de
         try {
             let data = await table.findByPk(id);
 
-            if (data) {
-                return decode(userCookie, data);
-            }
-            //return Error('CommonData', 'getOne', 'NotFound', 'Cannot find data object with id=${id}.');
-            return { error: 'Cannot find data object with id=${id}.' };
-        }
-        catch (ex) {
-            const error = ex.message || "Unknown error occurred while finding one record.";
-            logger.error(category, context, 'error =', error);
-            return { error };
+            if (!data)
+                return errors.create(context, 'MissingData', `Cannot find data object with id=${id}.`);
+
+            return decode(userCookie, data);
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+            return errors.create(context, 'Catch', ex.message);
         }
     };
 
@@ -129,33 +119,28 @@ module.exports = function CommonData(logger, category, table, encode, decode, de
         logger.debug(category, context, 'businessObject =', businessObject);
 
         // Validate incoming business object.
-        let error = await validate(userCookie, businessObject);
-        if (error) {
-            logger.error(category, context, 'error =', error);
-            return { error };
-        }
+        let validation = await validate(userCookie, businessObject);
+        if (validation.error)
+            return errors.create(context, 'InvalidData', validation);
 
         // transform business object to data object.
-        const dataObject = encode(businessObject);
-        logger.debug(category, context, 'dataObject =', dataObject);
-        if (dataObject.error) {
-            return dataObject;
-        }
+        const encodedObject = encode(businessObject);
+        logger.debug(category, context, 'encodedObject =', encodedObject);
+        if (encodedObject.error)
+            return errors.create(context, 'InvalidData', encodedObject);
 
-        dataObject.UserFamilyId = userCookie.familyId;
+        encodedObject.UserFamilyId = userCookie.familyId;
 
         try {
-            await table.update(dataObject,
+            await table.update(encodedObject,
                 {
                     where: { id: businessObject.id }
                 });
 
             return await getOne(userCookie, businessObject.id);
-        }
-        catch (ex) {
-            error = ex.message || "Unknown error occurred while updating a record.";
-            logger.error(category, context, 'error =', error);
-            return { error };
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+            return errors.create(context, 'Catch', ex.message);
         }
     };
 
@@ -164,25 +149,18 @@ module.exports = function CommonData(logger, category, table, encode, decode, de
         const context = `${module}.deleteOne`;
 
         const returnObject = await getOne(userCookie, id);
-        if (returnObject.error) {
-            logger.error(category, context, 'returnObject.error =', returnObject.error);
-        }
+        if (returnObject.error)
+            logger.warning(category, context, 'returnObject =', returnObject);
 
         try {
-            let num = await table.destroy({
+            await table.destroy({
                 where: { id: id }
             });
 
-            if (num == 1) {
-                return returnObject;
-            } else {
-                return { error: 'Cannot delete record with id=${id}. Maybe record was not found!' };
-            }
-        }
-        catch (ex) {
-            const error = ex.message || "Unknown error occurred while deleting a record.";
-            logger.error(category, context, 'catch: error =', error);
-            return { error };
+            return returnObject;
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+            return errors.create(context, 'Catch', ex.message);
         }
     };
 
@@ -191,9 +169,8 @@ module.exports = function CommonData(logger, category, table, encode, decode, de
         const context = `${module}.deleteAll`;
 
         const returnList = await getAll(userCookie);
-        if (returnList.error) {
-            logger.error(category, context, 'returnList.error =', returnList.error);
-        }
+        if (returnList.error)
+            logger.warning(category, context, 'returnList =', returnList);
 
         try {
             await table.destroy({
@@ -202,11 +179,9 @@ module.exports = function CommonData(logger, category, table, encode, decode, de
             });
 
             return returnList;
-        }
-        catch (ex) {
-            const error = ex.message || "Unknown error occurred while deleting all records.";
-            logger.error(category, context, 'error =', error);
-            return { error };
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+            return errors.create(context, 'Catch', ex.message);
         }
     };
 

@@ -1,5 +1,5 @@
 
-module.exports = function CommonStrategy(logger, strategy) {
+module.exports = function CommonStrategy(logger, errors, strategy) {
     const module = 'CommonStrategy';
     const category = 'User';
 
@@ -23,11 +23,8 @@ module.exports = function CommonStrategy(logger, strategy) {
     async function getAccessToken(params) {
         const context = `${module}.getAccessToken`;
         try {
-            if (!('code' in params)) {
-                const error = 'Authorization code must be provided';
-                logger.error(category, context, 'error =', error);
-                return { error };
-            }
+            if (!('code' in params))
+                return errors.create(context, 'InvalidArgument', 'Authorization code must be provided');
 
             const http = strategy.token.getHttp(params.code);
 
@@ -43,9 +40,9 @@ module.exports = function CommonStrategy(logger, strategy) {
 
             return tokens;
 
-        } catch (error) {
-            logger.error(category, context, 'error =', error.message || error);
-            return { error: error.message || error };
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+            return errors.create(context, 'Catch', ex.message);
         }
     }
 
@@ -66,9 +63,9 @@ module.exports = function CommonStrategy(logger, strategy) {
 
             return user;
 
-        } catch (error) {
-            logger.error(category, context, 'error =', error.message || error);
-            return { error: error.message || error };
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+            return errors.create(context, 'Catch', ex.message);
         }
     }
 
@@ -89,9 +86,9 @@ module.exports = function CommonStrategy(logger, strategy) {
 
             return tokens;
 
-        } catch (error) {
-            logger.error(category, context, 'error =', error.message || error);
-            return { error: error.message || error };
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+            return errors.create(context, 'Catch', ex.message);
         }
     }
 

@@ -1,17 +1,21 @@
 
-module.exports = function BankAccountController(logger, business) {
+module.exports = function BankAccountController(logger, errors, business) {
+    const module = 'BankAccountController';
+    const category = 'BankAccount';
 
     const decode = (data) => {
+        const context = `${module}.decode`;
+
         if (!data)
-            return { error: "parse error: data is not defined." };
+            return errors.create(context, 'ParseError', "data is not defined.");
         if (!data.name)
-            return { error: "parse error: data.name is not defined." };
+            return errors.create(context, 'ParseError', "data.name is not defined.");
         if (!data.bankId)
-            return { error: "parse error: data.bankId is not defined." };
+            return errors.create(context, 'ParseError', "data.bankId is not defined.");
         if (isNaN(data.bankId))
-            return { error: "parse error: data.bankId must be a number." };
+            return errors.create(context, 'ParseError', "data.bankId must be a number.");
         if (!data.number)
-            return { error: "parse error: data.number is not defined." };
+            return errors.create(context, 'ParseError', "data.number is not defined.");
 
         const account = {
             id: data.id,
@@ -34,5 +38,7 @@ module.exports = function BankAccountController(logger, business) {
         return { list: dataList };
     }
 
-    return require("./CommonController")(logger, "BankAccount", business, decode, encode, encodeList);
+    return require("./CommonController")(
+        logger, errors, category, business,
+        decode, encode, encodeList);
 }

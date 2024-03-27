@@ -1,5 +1,5 @@
 
-module.exports = function UserController(logger, business) {
+module.exports = function UserController(logger, errors, business) {
     const module = 'UserController';
     const category = 'User';
 
@@ -55,7 +55,7 @@ module.exports = function UserController(logger, business) {
             clearCookie(res, 'signInState');
             return res
                 .status(400)
-                .json({ message: result.error });
+                .json(result);
         }
 
         setCookie(res, 'signInState', {
@@ -104,7 +104,7 @@ module.exports = function UserController(logger, business) {
         const getSignedInResult = await business.getSignedIn(userCookie, tokenCookie);
         logger.verbose(category, context, 'getSignedInResult =', getSignedInResult);
         if (getSignedInResult.error)
-            return handleError(500, `business.getSignedIn returned: ${getSignedInResult.error}`);
+            return handleError(500, `business.getSignedIn returned: ${getSignedInResult.error.message}`);
         if (getSignedInResult.message)
             return handleError(200, `business.getSignedIn returned: ${getSignedInResult.message}`);
 
@@ -158,7 +158,7 @@ module.exports = function UserController(logger, business) {
         const signInResult = await business.signIn(source, mode, params);
         logger.verbose(category, context, 'signInResult =', signInResult);
         if (signInResult.error)
-            return handleError(500, `business.signIn returned: ${signInResult.error}`);
+            return handleError(500, signInResult);
 
         setCookie(res, 'user', signInResult.userCookie);
         setCookie(res, 'token', signInResult.tokenCookie);

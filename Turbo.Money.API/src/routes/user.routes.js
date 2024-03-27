@@ -1,5 +1,5 @@
 
-module.exports = (app, controller) => {
+module.exports = (app, logger, errors, controller) => {
     const router = require("express").Router();
 
     router.get('/signed_in', controller.getSignedIn);

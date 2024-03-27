@@ -1,9 +1,14 @@
 
-module.exports = function BankAccountData(logger, table) {
+module.exports = function BankAccountData(logger, errors, table) {
     const module = 'BankAccountData';
     const category = 'BankAccount';
 
     const encode = (account) => {
+        const context = `${module}.encode`;
+
+        if (!account)
+            return errors.create(context, 'InvalidArgument', 'account is not defined');
+
         const data = {
             //id: account.id,
             name: account.name,
@@ -14,11 +19,13 @@ module.exports = function BankAccountData(logger, table) {
     }
 
     const decode = (userCookie, data) => {
+        const context = `${module}.decode`;
+
         if (!data)
-            return { error: "decode: data is not defined" };
+            return errors.create(context, 'InvalidArgument', 'data is not defined');
 
         if (data.UserFamilyId !== userCookie.familyId)
-            return { error: `decode: This data belongs to a family (${data.UserFamilyId}) that is different from the user's family (${userCookie.familyId}).` };
+            return errors.create(context, 'SecurityBreach', `data's family (${data.UserFamilyId}) is not user's family (${userCookie.familyId}).`);
 
         const account = {
             id: data.id,
@@ -30,33 +37,48 @@ module.exports = function BankAccountData(logger, table) {
     }
 
     const decodeList = (userCookie, data) => {
-        if (!data)
-            return { error: "decodeList: data is not defined" };
+        const context = `${module}.decodeList`;
 
+        if (!data)
+            return errors.create(context, 'InvalidArgument', 'data is not defined');
+
+        let error;
         const accounts = data.map(item => {
-            if (item.UserFamilyId !== userCookie.familyId)
-                return { error: `decodeList: This data item belongs to a family (${item.UserFamilyId}) that is different from the user's family (${userCookie.familyId}).` };
+            if (error)
+                return error;
+
+            if (item.UserFamilyId !== userCookie.familyId) {
+                error = errors.create(context, 'SecurityBreach', `item's family (${data.UserFamilyId}) is not user's family (${userCookie.familyId}).`);
+                return error;
+            }
 
             return { id: item.id, name: item.name }
         });
+
+        if (error)
+            return error;
 
         return { list: accounts };
     }
 
     const validate = (account) => {
-        if (!account.name) {
-            return "Account name can not be empty!";
-        }
-        if (!account.bankId) {
-            return "Account bankId can not be empty!";
-        }
-        if (!account.number) {
-            return "Account number can not be empty!";
-        }
-        return null
+        const context = `${module}.validate`;
+
+        if (!account.name)
+            return errors.create(context, 'InvalidData', "Account name can not be empty!");
+
+        if (!account.bankId)
+            return errors.create(context, 'InvalidData', "Account bankId can not be empty!");
+
+        if (!account.number)
+            return errors.create(context, 'InvalidData', "Account number can not be empty!");
+
+        return {}
     }
 
-    const common = require('./CommonData')(logger, category, table, encode, decode, decodeList, validate);
+    const common = require('./CommonData')(
+        logger, errors, category, table,
+        encode, decode, decodeList, validate);
 
     // Find a single Bank account with an account number
     const getOneByNumber = async (accountNumber) => {
@@ -68,11 +90,9 @@ module.exports = function BankAccountData(logger, table) {
                 return { error: `Cannot find bank account with number=${accountNumber}.` };
 
             return decode(data[0]);
-        }
-        catch (ex) {
-            let error = ex.message || `Unknown error occurred while finding one database record matching account number ${accountNumber}.`;
-            logger.error(category, context, 'error =', error);
-            return { error };
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+            return errors.create(context, 'Catch', ex.message);
         }
     };
 

@@ -1,5 +1,5 @@
 
-module.exports = function BudgetAccountBusiness(logger, data) {
+module.exports = function BudgetAccountBusiness(logger, errors, data) {
     const module = 'BudgetAccountBusiness';
     const category = 'Business';
 
@@ -8,32 +8,30 @@ module.exports = function BudgetAccountBusiness(logger, data) {
         const context = `${module}.validate`;
         logger.debug(category, context, 'testAccount =', testAccount);
 
+        const accountTypes = ["min", "fix", "max", "est", "avg"];
+        if (!accountTypes.includes(testAccount.type)) {
+            return errors.create(context, 'InvalidData', "Validation Error: Budget account type is not a valid value.");
+        }
+
         const accounts = await data.getList(userCookie);
         logger.debug(category, context, 'accounts =', accounts);
 
-        if (accounts.error) {
-            return accounts.error;
-        }
-        if (!accounts || !accounts.list || accounts.length == 0) {
-            return null;
-        }
+        if (accounts.error)
+            return errors.create(context, accounts.error.code, accounts);
+
+        if (!accounts || !accounts.list || accounts.length == 0)
+            return {};
 
         let matching = accounts.list.find(account =>
             account.name.toUpperCase() == testAccount.name.toUpperCase() &&
             account.id != testAccount.id);
         logger.debug(category, context, 'matching =', matching);
-        if (matching) {
-            return "Validation Error: Budget account name must be unique.";
-        }
+        if (matching)
+            return errors.create(context, 'InvalidData', "Budget Account name must be unique.");
 
-        const accountTypes = ["min", "fix", "max", "est", "avg"];
-        if (!accountTypes.includes(testAccount.type)) {
-            return "Validation Error: Budget account type is not a valid value.";
-        }
-
-        return null;
+        return {};
     }
 
-    const common = require('./CommonBusiness')(logger, data);
+    const common = require('./CommonBusiness')(logger, errors, data);
     return { ...common, validate };
 }

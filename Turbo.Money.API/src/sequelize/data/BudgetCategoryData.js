@@ -1,7 +1,13 @@
 
-module.exports = function BudgetCategoryData(logger, table) {
+module.exports = function BudgetCategoryData(logger, errors, table) {
+    const module = 'BudgetCategoryData';
 
     const encode = (category) => {
+        const context = `${module}.encode`;
+
+        if (!category)
+            return errors.create(context, 'InvalidArgument', 'category is not defined');
+
         const data = {
             //id: category.id,
             name: category.name,
@@ -12,11 +18,13 @@ module.exports = function BudgetCategoryData(logger, table) {
     }
 
     const decode = (userCookie, data) => {
+        const context = `${module}.decode`;
+
         if (!data)
-            return { error: "decode: data is not defined" };
+            return errors.create(context, 'InvalidArgument', 'data is not defined');
 
         if (data.UserFamilyId !== userCookie.familyId)
-            return { error: `decode: This data belongs to a family (${data.UserFamilyId}) that is different from the user's family (${userCookie.familyId}).` };
+            return errors.create(context, 'SecurityBreach', `data's family (${data.UserFamilyId}) is not user's family (${userCookie.familyId}).`);
 
         const category = {
             id: data.id,
@@ -28,27 +36,43 @@ module.exports = function BudgetCategoryData(logger, table) {
     }
 
     const decodeList = (userCookie, data) => {
-        if (!data)
-            return { error: "decodeList: data is not defined" };
+        const context = `${module}.decodeList`;
 
+        if (!data)
+            return errors.create(context, 'InvalidArgument', 'data is not defined');
+
+        let error;
         const categories = data.map(item => {
-            if (item.UserFamilyId !== userCookie.familyId)
-                return { error: `decodeList: This data item belongs to a family (${item.UserFamilyId}) that is different from the user's family (${userCookie.familyId}).` };
+            if (error)
+                return error;
+
+            if (item.UserFamilyId !== userCookie.familyId) {
+                error = errors.create(context, 'SecurityBreach', `item's family (${data.UserFamilyId}) is not user's family (${userCookie.familyId}).`);
+                return error;
+            }
 
             return { id: item.id, name: item.name }
         });
+
+        if (error)
+            return error;
+
         return { list: categories };
     }
 
     const validate = (category) => {
-        if (!category.name) {
-            return "Category name can not be empty!";
-        }
-        if (!category.sectionId) {
-            return "Category sectionId can not be empty!";
-        }
-        return null
+        const context = `${module}.validate`;
+
+        if (!category.name)
+            return errors.create(context, 'InvalidData', "Category name can not be empty!");
+
+        if (!category.sectionId)
+            return errors.create(context, 'InvalidData', "Category sectionId can not be empty!");
+
+        return {}
     }
 
-    return require('./CommonData')(logger, "BudgetCategory", table, encode, decode, decodeList, validate);
+    return require('./CommonData')(
+        logger, errors, "BudgetCategory", table,
+        encode, decode, decodeList, validate);
 }

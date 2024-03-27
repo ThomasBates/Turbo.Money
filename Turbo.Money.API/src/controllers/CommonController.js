@@ -1,19 +1,10 @@
 
-module.exports = function CommonController(logger, category, business, decode, encode, encodeList) {
+module.exports = function CommonController(
+    logger, errors, category, business,
+    decode, encode, encodeList) {
     const module = 'CommonController';
 
     const jwt = require("jsonwebtoken");
-
-    const handleError = (context, res, code, error) => {
-        if (error) {
-            logger.error(category, context, 'error =', error);
-            res.status(code).send({
-                message: error
-            });
-            return true;
-        }
-        return false;
-    }
 
     // Create and save a new object record
     const create = async (req, res) => {
@@ -21,25 +12,26 @@ module.exports = function CommonController(logger, category, business, decode, e
         const userCookie = jwt.decode(req.cookies.user);
 
         logger.debug(category, context, 'req.body =', req.body);
-        const businessObject = decode(req.body);
-        logger.debug(category, context, 'businessObject =', businessObject);
-        if (handleError(context, res, 400, businessObject.error))
+        const decodedObject = decode(req.body);
+        logger.debug(category, context, 'decodedObject =', decodedObject);
+        if (errors.handle(context, res, 400, decodedObject.error))
             return;
 
-        const error = await business.validate(userCookie, businessObject);
-        if (handleError(context, res, 400, error))
+        const validation = await business.validate(userCookie, decodedObject);
+        if (errors.handle(context, res, 400, validation.error))
             return;
 
-        const returnObject = await business.create(userCookie, businessObject);
+        const returnObject = await business.create(userCookie, decodedObject);
         logger.debug(category, context, 'returnObject =', returnObject);
-        if (handleError(context, res, 500, returnObject.error))
+        if (errors.handle(context, res, 500, returnObject.error))
             return;
 
-        const data = encode(returnObject);
-        logger.debug(category, context, 'data =', data);
-        if (handleError(context, res, 500, data.error))
+        const encodedObject = encode(returnObject);
+        logger.debug(category, context, 'encodedObject =', encodedObject);
+        if (errors.handle(context, res, 500, encodedObject.error))
             return;
-        res.send(data);
+
+        res.send(encodedObject);
     };
 
     // Retrieve all objects from the database.
@@ -49,28 +41,27 @@ module.exports = function CommonController(logger, category, business, decode, e
 
         const returnList = await business.getAll(userCookie);
         logger.verbose(category, context, 'returnList =', returnList);
-        if (handleError(context, res, 500, returnList.error))
+        if (errors.handle(context, res, 500, returnList.error))
             return;
 
         let error = null;
-        let dataList = returnList.list.map(businessObject => {
-            if (error) {
+        let encodedList = returnList.list.map(businessObject => {
+            if (error)
+                return error;
+
+            const encodedObject = encode(businessObject);
+            if (encodedObject.error) {
+                error = errors.create(context, encodedObject.error.code, encodedObject);
                 return error;
             }
-            const data = encode(businessObject);
-            if (data.error) {
-                error = data.error;
-                logger.error(category, context, 'error =', error);
-                return error;
-            }
-            return data;
+            return encodedObject;
         });
 
-        if (handleError(context, res, 500, error))
+        if (errors.handle(context, res, 500, error))
             return;
 
-        logger.verbose(category, context, 'dataList =', dataList);
-        res.send(dataList);
+        logger.verbose(category, context, 'encodedList =', encodedList);
+        res.send(encodedList);
     };
 
     // Retrieve all objects from the database.
@@ -80,15 +71,15 @@ module.exports = function CommonController(logger, category, business, decode, e
 
         const returnList = await business.getList(userCookie);
         logger.verbose(category, context, 'returnList =', returnList);
-        if (handleError(context, res, 500, returnList.error))
+        if (errors.handle(context, res, 500, returnList.error))
             return;
 
-        const dataList = encodeList(returnList.list);
-        logger.verbose(category, context, 'dataList =', dataList);
-        if (handleError(context, res, 500, dataList.error))
+        const encodedList = encodeList(returnList.list);
+        logger.verbose(category, context, 'encodedList =', encodedList);
+        if (errors.handle(context, res, 500, encodedList.error))
             return;
 
-        res.send(dataList.list);
+        res.send(encodedList.list);
     };
 
     // Find a single object with an id
@@ -101,14 +92,14 @@ module.exports = function CommonController(logger, category, business, decode, e
 
         const businessObject = await business.getOne(userCookie, id);
         logger.verbose(category, context, 'businessObject =', businessObject);
-        if (handleError(context, res, 500, businessObject.error))
+        if (errors.handle(context, res, 500, businessObject.error))
             return;
 
-        const data = encode(businessObject);
-        logger.verbose(category, context, 'data =', data);
-        if (handleError(context, res, 500, data.error))
+        const encodedObject = encode(businessObject);
+        logger.verbose(category, context, 'encodedObject =', encodedObject);
+        if (errors.handle(context, res, 500, encodedObject.error))
             return;
-        res.send(data);
+        res.send(encodedObject);
     };
 
     // Update an object by the id in the request
@@ -120,27 +111,27 @@ module.exports = function CommonController(logger, category, business, decode, e
         logger.debug(category, context, 'id =', id);
         logger.debug(category, context, 'req.body =', req.body);
 
-        const businessObject = decode(req.body);
-        logger.debug(category, context, 'businessObject =', businessObject);
-        if (handleError(context, res, 400, businessObject.error))
+        const decodedObject = decode(req.body);
+        logger.debug(category, context, 'decodedObject =', decodedObject);
+        if (errors.handle(context, res, 400, decodedObject.error))
             return;
 
-        const error = await business.validate(userCookie, businessObject);
-        if (handleError(context, res, 400, error))
+        const validation = await business.validate(userCookie, decodedObject);
+        if (errors.handle(context, res, 400, validation.error))
             return;
 
-        const returnObject = await business.update(userCookie, businessObject);
+        const returnObject = await business.update(userCookie, decodedObject);
         logger.debug(category, context, 'returnObject =', returnObject);
-        if (handleError(context, res, 500, returnObject.error))
+        if (errors.handle(context, res, 500, returnObject.error))
             return;
 
-        const data = encode(returnObject);
-        logger.debug(category, context, 'data =', data);
-        if (handleError(context, res, 500, data.error))
+        const encodedObject = encode(returnObject);
+        logger.debug(category, context, 'encodedObject =', encodedObject);
+        if (errors.handle(context, res, 500, encodedObject.error))
             return;
 
-        logger.debug(category, context, 'return', data);
-        res.send(data);
+        logger.debug(category, context, 'return', encodedObject);
+        res.send(encodedObject);
     };
 
     // Delete an object with the specified id in the request
@@ -152,14 +143,14 @@ module.exports = function CommonController(logger, category, business, decode, e
         logger.debug(category, context, 'id =', id);
 
         const deletedObject = await business.deleteById(userCookie, id);
-        if (handleError(context, res, 500, deletedObject.error))
+        if (errors.handle(context, res, 500, deletedObject.error))
             return;
 
-        const data = encode(deletedObject);
-        if (handleError(context, res, 500, data.error))
+        const encodedObject = encode(deletedObject);
+        if (errors.handle(context, res, 500, encodedObject.error))
             return;
 
-        res.send(data);
+        res.send(encodedObject);
     };
 
     // Delete all objects from the database.
@@ -168,31 +159,29 @@ module.exports = function CommonController(logger, category, business, decode, e
         const userCookie = jwt.decode(req.cookies.user);
 
         const deletedList = await business.deleteAll(userCookie);
-        if (handleError(context, res, 500, deletedList.error))
+        if (errors.handle(context, res, 500, deletedList.error))
             return;
 
         let error = null;
-        let dataList = deletedList.map(deletedObject => {
-            if (error) {
+        let encodedList = deletedList.map(deletedObject => {
+            if (error)
+                return error;
+
+            const encodedObject = encode(deletedObject);
+            if (encodedObject.error) {
+                error = errors.create(context, encodedObject.error.code, encodedObject);
                 return error;
             }
-            const data = encode(deletedObject);
-            if (data.error) {
-                error = data.error;
-                logger.error(category, context, 'error =', error);
-                return error;
-            }
-            return data;
+            return encodedObject;
         });
 
-        if (handleError(context, res, 500, error))
+        if (errors.handle(context, res, 500, error))
             return;
 
-        res.send(dataList);
+        res.send(encodedList);
     };
 
     return {
-        handleError,
         create,
         getAll,
         getList,
