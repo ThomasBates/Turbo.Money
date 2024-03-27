@@ -89,34 +89,4 @@ const strategy = {
     },
 };
 
-const GoogleStrategy = (logger) => {
-
-    const CommonStrategy = require('./CommonStrategy')(logger, strategy);
-
-    return CommonStrategy;
-
-    //const getSignInUrl = () => {
-    //    return CommonStrategy.getSignInUrl();
-    //}
-
-    //const getAccessToken = async (code) => {
-    //    return await CommonStrategy.getAccessToken(code);
-    //}
-
-    //const getUserData = async (accessToken) => {
-    //    return await CommonStrategy.getUserData(accessToken);
-    //}
-
-    //const refreshAccessToken = async (refreshToken) => {
-    //    return await CommonStrategy.refreshAccessToken(refreshToken);
-    //}
-
-    //return {
-    //    getSignInUrl,
-    //    getAccessToken,
-    //    getUserData,
-    //    refreshAccessToken,
-    //}
-}
-
-module.exports = GoogleStrategy;
+module.exports = (logger) => require('./CommonStrategy')(logger, strategy);

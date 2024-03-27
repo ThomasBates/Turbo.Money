@@ -1,39 +1,23 @@
 
 module.exports = (logger, data) => {
 
-    // Validate bank data
-    const validate = async (userInfo, testBank) => {
-        logger.debug("Business","BankBusiness.validate: testBank = ", testBank);
+    const createSampleData = async (userCookie) => {
 
-        const banks = await data.getList(userInfo);
-        if (banks.error) {
-            return banks.error;
-        }
-        if (!banks || banks.length == 0) {
-            return null;
-        }
-        logger.debug("Business","BankBusiness.validate: banks = ", banks);
+        let banks = [
+            { name: "National Bank", number: "001", transit: "00001" },
+            { name: "Credit Card Company", number: "009", transit: "00009" }
+        ];
 
-        let matching = banks.find(bank =>
-            bank.name.toUpperCase() == testBank.name.toUpperCase() &&
-            bank.id != testBank.id);
-        logger.debug("Business","BankBusiness.validate: matching = ", matching);
-        if (matching) {
-            return "Validation Error: Bank name must be unique.";
-        }
+        let bankAccounts = [
+            { name: "Chequing", bankName: "National Bank", number: "6354933" },
+            { name: "Savings", bankName: "National Bank", number: "6543210" },
+            { name: "Credit Card", bankName: "Credit Card Company", number: "1234010012349876" }
+        ];
 
-        matching = banks.find(bank =>
-            bank.number == testBank.number &&
-            bank.transit == testBank.transit &&
-            bank.id != testBank.id);
-        logger.debug("Business","BankBusiness.validate: matching = ", matching);
-        if (matching) {
-            return "Validation Error: Bank number+transit must be unique.";
-        }
+        return await data.createSampleData(userCookie, banks, bankAccounts);
+    };
 
-        return null;
-    }
-
-    const common = require('./CommonBusiness')(logger, data);
-    return { ...common, validate };
+    return {
+        createSampleData,
+    };
 }

@@ -1,24 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
-export default function SignUpEmailViewModel() {
-    const [name, setName] = useState('');
+import AppContext from "../../AppContext";
+
+export default function SignInEmailViewModel(authDataProvider) {
+    const { signedIn, checkSignInState } = useContext(AppContext);
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const canSubmit = () => {
-
+    const isValidEmail = (email) => {
+        return !!email;
     }
 
-    const submit = () => {
+    const canSubmit = () => {
+        if (!email || !password)
+            return false;
 
+        if (!isValidEmail(email))
+            return false;
+
+        return true;
+    }
+
+    const submit = async (navigate) => {
+        if (!canSubmit())
+            return;
+
+        try {
+            const urlData = await authDataProvider.getSignInUrl('email', 'signIn');
+            console.log('SignInEmailViewModel.submit: urlData =', urlData);
+
+            const params = { email, password };
+            console.log('SignInEmailViewModel.submit: params =', params);
+
+            const signInData = await authDataProvider.signIn(params);
+            console.log('SignInEmailViewModel.submit: signInData =', signInData);
+
+            checkSignInState(signInData);
+            navigate('/');
+
+        } catch (error) {
+            console.log('SignInEmailViewModel.submit: error =', error);
+            navigate('/');
+        }
     }
 
     return {
-        name,
         email,
         password,
 
-        setName,
         setEmail,
         setPassword,
 

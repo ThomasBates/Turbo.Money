@@ -1,18 +1,20 @@
 
 module.exports = (logger, db) => {
-    db.initialize();
 
     const userData = require("./UserData")(logger, db.user);
 
     return {
-        users: userData,
+        user: userData,
 
-        banks: require("./BankData")(logger, db.bank.bank, userData),
-        bankAccounts: require("./BankAccountData")(logger, db.bank.account, userData),
-        bankTransactions: require("./BankTransactionData")(logger, db.bank.transaction, userData),
+        bankBank: require("./BankBankData")(logger, db.bank.bank),
+        bankAccount: require("./BankAccountData")(logger, db.bank.account),
+        bankTransaction: require("./BankTransactionData")(logger, db.bank.transaction),
+        bank: require("./BankData")(logger, db.bank),
 
-        budgetSections: require("./BudgetSectionData")(logger, db.budget.section, userData),
-        budgetCategories: require("./BudgetCategoryData")(logger, db.budget.category, userData),
-        budgetAccounts: require("./BudgetAccountData")(logger, db.budget.account, userData),
+        budgetSection: require("./BudgetSectionData")(logger, db.budget.section),
+        budgetCategory: require("./BudgetCategoryData")(logger, db.budget.category),
+        budgetAccount: require("./BudgetAccountData")(logger, db.budget.account),
+        budget: require("./BudgetData")(logger, db.budget),
+
     };
 };

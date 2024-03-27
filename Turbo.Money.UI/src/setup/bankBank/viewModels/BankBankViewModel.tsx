@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 
 import CommonViewModel from "../../common/viewModels/CommonViewModel";
 
-import BankDataService from "../data/BankDataService";
+import BankDataService from "../data/BankBankDataService";
 
-import BankDetailsViewModel from "./BankDetailsViewModel";
-import BankEditViewModel from "./BankEditViewModel";
+import BankDetailsViewModel from "./BankBankDetailsViewModel";
+import BankEditViewModel from "./BankBankEditViewModel";
 
 const BankViewModel = () => {
     const initialBank = {

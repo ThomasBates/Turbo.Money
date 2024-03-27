@@ -25,8 +25,8 @@ import BankTransactionUploadView from './pages/bankTransactions/views/BankTransa
 import ReportByPeriod from './pages/ReportByPeriod';
 import ReportByAccount from './pages/ReportByAccount';
 
-import BankViewModel from './setup/bank/viewModels/BankViewModel';
-import BankView from './setup/bank/views/BankView';
+import BankBankViewModel from './setup/bankBank/viewModels/BankBankViewModel';
+import BankBankView from './setup/bankBank/views/BankBankView';
 
 import BankAccountViewModel from './setup/bankAccount/viewModels/BankAccountViewModel';
 import BankAccountView from './setup/bankAccount/views/BankAccountView';
@@ -78,7 +78,7 @@ export default function PrivateRouteData() {
             { path: "/ReportByAccount", element: < ReportByAccount /> },
 
             //  Setup
-            { path: "/BankView", element: < BankView viewModel={BankViewModel} /> },
+            { path: "/BankBankView", element: < BankBankView viewModel={BankBankViewModel} /> },
             { path: "/BankAccountView", element: < BankAccountView viewModel={BankAccountViewModel} /> },
             { path: "/BudgetSectionView", element: < BudgetSectionView viewModel={BudgetSectionViewModel} /> },
             { path: "/BudgetCategoryView", element: < BudgetCategoryView viewModel={BudgetCategoryViewModel} /> },

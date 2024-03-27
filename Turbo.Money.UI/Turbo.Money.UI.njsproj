@@ -45,6 +45,8 @@
     <Content Include="src\axios\CommonDataProvider.js" />
     <Content Include="src\components\navBar\NavBar.css" />
     <Content Include="src\pages\budgetWorksheet\views\BudgetWorksheet.css" />
+    <Content Include="src\setup\bank\BankDataService.js" />
+    <Content Include="src\setup\budget\BudgetDataService.js" />
     <Content Include="test.css" />
     <Content Include="src\pages\budgetWorksheet\data\BudgetWorksheetDataService.tsx" />
     <Content Include="src\setup\budgetAccount\data\BudgetAccountDataService.js" />
@@ -52,7 +54,7 @@
     <Content Include="src\setup\budgetCategory\data\BudgetCategoryDataService.js" />
     <Content Include="src\setup\budgetSection\data\BudgetSectionDataService.js" />
     <Content Include="src\setup\common\data\CommonDataService.js" />
-    <Content Include="src\setup\bank\data\BankDataService.js" />
+    <Content Include="src\setup\bankBank\data\BankBankDataService.js" />
     <Content Include="main.css">
       <SubType>Code</SubType>
     </Content>
@@ -73,7 +75,7 @@
     <TypeScriptCompile Include="src\auth\AuthCallback.tsx" />
     <TypeScriptCompile Include="src\auth\viewModels\SignInOAuthViewModel.tsx" />
     <TypeScriptCompile Include="src\auth\viewModels\SignInEmailViewModel.tsx" />
-    <TypeScriptCompile Include="src\auth\views\RecoverPasswordView.tsx" />
+    <TypeScriptCompile Include="src\auth\views\ResetPasswordView.tsx" />
     <TypeScriptCompile Include="src\auth\viewModels\SignUpEmailViewModel.tsx" />
     <TypeScriptCompile Include="src\auth\viewModels\SignInViewModel.tsx" />
     <TypeScriptCompile Include="src\auth\views\SignInOAuthView.tsx" />
@@ -83,6 +85,7 @@
     <TypeScriptCompile Include="src\auth\SignIn.tsx" />
     <TypeScriptCompile Include="src\components\Content.tsx" />
     <TypeScriptCompile Include="src\components\navBar\NavBarItem.tsx" />
+    <TypeScriptCompile Include="src\components\navBar\NavBarFunc.tsx" />
     <TypeScriptCompile Include="src\components\navBar\NavBarText.tsx" />
     <TypeScriptCompile Include="src\components\navBar\NavBarBack.tsx" />
     <TypeScriptCompile Include="src\components\navBar\NavBarLink.tsx" />
@@ -135,9 +138,9 @@
     <TypeScriptCompile Include="src\setup\bankAccount\viewModels\BankAccountEditViewModel.tsx" />
     <TypeScriptCompile Include="src\setup\bankAccount\viewModels\BankAccountViewModel.tsx" />
     <TypeScriptCompile Include="src\setup\common\viewModels\CommonViewModel.tsx" />
-    <TypeScriptCompile Include="src\setup\bank\viewModels\BankDetailsViewModel.tsx" />
-    <TypeScriptCompile Include="src\setup\bank\viewModels\BankEditViewModel.tsx" />
-    <TypeScriptCompile Include="src\setup\bank\viewModels\BankViewModel.tsx" />
+    <TypeScriptCompile Include="src\setup\bankBank\viewModels\BankBankDetailsViewModel.tsx" />
+    <TypeScriptCompile Include="src\setup\bankBank\viewModels\BankBankEditViewModel.tsx" />
+    <TypeScriptCompile Include="src\setup\bankBank\viewModels\BankBankViewModel.tsx" />
     <TypeScriptCompile Include="src\setup\bankAccount\views\BankAccountDetailsView.tsx" />
     <TypeScriptCompile Include="src\setup\bankAccount\views\BankAccountEditView.tsx" />
     <TypeScriptCompile Include="src\setup\bankAccount\views\BankAccountView.tsx" />
@@ -148,10 +151,10 @@
     <TypeScriptCompile Include="src\setup\budgetCategory\views\BudgetCategoryEditView.tsx" />
     <TypeScriptCompile Include="src\setup\budgetCategory\views\BudgetCategoryView.tsx" />
     <TypeScriptCompile Include="src\setup\common\views\CommonView.tsx" />
-    <TypeScriptCompile Include="src\setup\bank\views\BankDetailsView.tsx" />
+    <TypeScriptCompile Include="src\setup\bankBank\views\BankBankDetailsView.tsx" />
     <TypeScriptCompile Include="src\components\Footer.tsx" />
-    <TypeScriptCompile Include="src\setup\bank\views\BankEditView.tsx" />
-    <TypeScriptCompile Include="src\setup\bank\views\BankView.tsx" />
+    <TypeScriptCompile Include="src\setup\bankBank\views\BankBankEditView.tsx" />
+    <TypeScriptCompile Include="src\setup\bankBank\views\BankBankView.tsx" />
     <TypeScriptCompile Include="src\components\navBar\NavBar.tsx" />
     <TypeScriptCompile Include="src\components\SocialLinks.tsx" />
     <TypeScriptCompile Include="src\components\Header.tsx" />
@@ -191,7 +194,7 @@
     <Folder Include="src\setup\bankAccount\data\" />
     <Folder Include="src\setup\bankAccount\viewModels\" />
     <Folder Include="src\setup\bankAccount\views\" />
-    <Folder Include="src\setup\bank\data\" />
+    <Folder Include="src\setup\bankBank\data\" />
     <Folder Include="src\setup\budgetAccount\data\" />
     <Folder Include="src\setup\budgetAccount\viewModels\" />
     <Folder Include="src\setup\budgetAccount\views\" />
@@ -210,9 +213,11 @@
     <Folder Include="src\setup\common\views\" />
     <Folder Include="src\setup\common\viewModels\" />
     <Folder Include="src\setup\budgetSection\" />
-    <Folder Include="src\setup\bank\viewModels\" />
-    <Folder Include="src\setup\bank\views\" />
+    <Folder Include="src\setup\bankBank\viewModels\" />
+    <Folder Include="src\setup\bankBank\views\" />
     <Folder Include="src\pages\" />
+    <Folder Include="src\setup\bankBank\" />
+    <Folder Include="src\setup\budget\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
   <ProjectExtensions>

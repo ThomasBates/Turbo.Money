@@ -1,32 +1,32 @@
 
 module.exports = (logger, data) => {
 
-    const create = async (userInfo, businessObject) => {
-        return await data.create(userInfo, businessObject);
+    const create = async (userCookie, businessObject) => {
+        return await data.create(userCookie, businessObject);
     }
 
-    const getAll = async (userInfo) => {
-        return await data.getAll(userInfo);
+    const getAll = async (userCookie) => {
+        return await data.getAll(userCookie);
     }
 
-    const getList = async (userInfo) => {
-        return await data.getList(userInfo);
+    const getList = async (userCookie) => {
+        return await data.getList(userCookie);
     }
 
-    const getOne = async (userInfo, id) => {
-        return await data.getOne(userInfo, id);
+    const getOne = async (userCookie, id) => {
+        return await data.getOne(userCookie, id);
     }
 
-    const update = async (userInfo, businessObject) => {
-        return await data.update(userInfo, businessObject);
+    const update = async (userCookie, businessObject) => {
+        return await data.update(userCookie, businessObject);
     }
 
-    const deleteById = async (userInfo, id) => {
-        return await data.deleteOne(userInfo, id);
+    const deleteById = async (userCookie, id) => {
+        return await data.deleteOne(userCookie, id);
     }
 
-    const deleteAll = async (userInfo) => {
-        return await data.deleteAll(userInfo);
+    const deleteAll = async (userCookie) => {
+        return await data.deleteAll(userCookie);
     }
 
     return {

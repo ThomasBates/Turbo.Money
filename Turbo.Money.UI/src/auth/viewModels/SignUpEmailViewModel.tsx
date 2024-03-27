@@ -31,7 +31,6 @@ export default function SignUpEmailViewModel(authDataProvider) {
             const urlData = await authDataProvider.getSignInUrl('email', 'signUp');
             console.log('SignUpEmailViewModel.submit: urlData =', urlData);
 
-            //const params = { source: 'email', mode: 'signUp', name, email, password };
             const params = { name, email, password };
             console.log('SignUpEmailViewModel.submit: params =', params);
 

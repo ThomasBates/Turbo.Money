@@ -2,7 +2,7 @@
 module.exports = (logger, owner, table, encode, decode, decodeList, validate) => {
 
     // Create and save a new record
-    const create = async (userInfo, businessObject) => {
+    const create = async (userCookie, businessObject) => {
         logger.debug(owner, `${owner}.create: businessObject =`, businessObject);
 
         // Validate incoming business object.
@@ -19,6 +19,8 @@ module.exports = (logger, owner, table, encode, decode, decodeList, validate) =>
             return dataObject;
         }
 
+        dataObject.UserFamilyId = userCookie.familyId;
+
         // Create record for business object in the database
         try {
             let data = await table.create(dataObject);
@@ -26,7 +28,7 @@ module.exports = (logger, owner, table, encode, decode, decodeList, validate) =>
             logger.debug(owner, `${owner}.create: data.toJSON() =`, data.toJSON());
 
             // transform returned data object to return business object.
-            const returnObject = decode(data.dataValues);
+            const returnObject = decode(userCookie, data.dataValues);
             logger.debug(owner, `${owner}.create: returnObject =`, returnObject);
             if (returnObject.error) {
                 return returnObject;
@@ -42,9 +44,11 @@ module.exports = (logger, owner, table, encode, decode, decodeList, validate) =>
     };
 
     // Retrieve all records from the table.
-    const getAll = async (userInfo) => {
+    const getAll = async (userCookie) => {
         try {
-            let dataList = await table.findAll();
+            let dataList = await table.findAll({
+                where: { UserFamilyId: userCookie.familyId }
+            });
             //logger.verbose(owner, `${owner}.getAll: data =`, data);
 
             let error;
@@ -54,7 +58,7 @@ module.exports = (logger, owner, table, encode, decode, decodeList, validate) =>
                 if (error) {
                     return error;
                 }
-                const item = decode(dataItem);
+                const item = decode(userCookie, dataItem);
                 if (item.error) {
                     error = item.error;
                     logger.error(owner, `${owner}.getAll: item.error =`, item.error);
@@ -79,12 +83,14 @@ module.exports = (logger, owner, table, encode, decode, decodeList, validate) =>
     };
 
     // Retrieve all records from the table.
-    const getList = async (userInfo) => {
+    const getList = async (userCookie) => {
         try {
-            let data = await table.findAll();
+            let data = await table.findAll({
+                where: { UserFamilyId: userCookie.familyId }
+            });
             //logger.verbose(owner, `${owner}.getList: data =`, data);
 
-            const returnList = decodeList(data);
+            const returnList = decodeList(userCookie, data);
             if (returnList.error) {
                 logger.error(owner, `${owner}.getList: returnList.error =`, returnList.error);
                 return returnList;
@@ -101,14 +107,14 @@ module.exports = (logger, owner, table, encode, decode, decodeList, validate) =>
     };
 
     // Find a single record with an id
-    const getOne = async (userInfo, id) => {
+    const getOne = async (userCookie, id) => {
         try {
             let data = await table.findByPk(id);
 
             if (data) {
-                return decode(data);
+                return decode(userCookie, data);
             }
-
+            //return Error('CommonData', 'getOne', 'NotFound', `Cannot find data object with id=${id}.`);
             return { error: `Cannot find data object with id=${id}.` };
         }
         catch (ex) {
@@ -119,11 +125,11 @@ module.exports = (logger, owner, table, encode, decode, decodeList, validate) =>
     };
 
     // Update a record by the id in the request
-    const update = async (userInfo, businessObject) => {
+    const update = async (userCookie, businessObject) => {
         logger.debug(owner, `${owner}.update: businessObject =`, businessObject);
 
         // Validate incoming business object.
-        let error = await validate(businessObject);
+        let error = await validate(userCookie, businessObject);
         if (error) {
             logger.error(owner, `${owner}.update: error =`, error);
             return { error };
@@ -136,13 +142,15 @@ module.exports = (logger, owner, table, encode, decode, decodeList, validate) =>
             return dataObject;
         }
 
+        dataObject.UserFamilyId = userCookie.familyId;
+
         try {
             await table.update(dataObject,
                 {
                     where: { id: businessObject.id }
                 });
 
-            return await getOne(businessObject.id);
+            return await getOne(userCookie, businessObject.id);
         }
         catch (ex) {
             error = ex.message || "Unknown error occurred while updating a record.";
@@ -152,9 +160,9 @@ module.exports = (logger, owner, table, encode, decode, decodeList, validate) =>
     };
 
     // Delete a record with the specified id in the request
-    const deleteOne = async (userInfo, id) => {
+    const deleteOne = async (userCookie, id) => {
 
-        const returnObject = await getOne(id);
+        const returnObject = await getOne(userCookie, id);
         if (returnObject.error) {
             logger.error(owner, `${owner}.deleteOne: returnObject.error =`, returnObject.error);
         }
@@ -178,16 +186,16 @@ module.exports = (logger, owner, table, encode, decode, decodeList, validate) =>
     };
 
     // Delete all records from the table.
-    const deleteAll = async (userInfo) => {
+    const deleteAll = async (userCookie) => {
 
-        const returnList = await getAll();
+        const returnList = await getAll(userCookie);
         if (returnList.error) {
             logger.error(owner, `${owner}.deleteAll: returnList.error =`, returnList.error);
         }
 
         try {
             await table.destroy({
-                where: {},
+                where: { UserFamilyId: userCookie.familyId },
                 truncate: false
             });
 

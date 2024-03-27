@@ -5,25 +5,36 @@ module.exports = (logger, table) => {
         const data = {
             //id: account.id,
             name: account.name,
-            bank_id: account.bankId,
+            BankBankId: account.bankId,
             number: account.number,
         };
         return data;
     }
 
-    const decode = (data) => {
+    const decode = (userCookie, data) => {
+        if (!data)
+            return { error: "decode: data is not defined" };
+
+        if (data.UserFamilyId !== userCookie.familyId)
+            return { error: `decode: This data belongs to a family (${data.UserFamilyId}) that is different from the user's family (${userCookie.familyId}).` };
+
         const account = {
             id: data.id,
             name: data.name,
-            bankId: data.bank_id,
+            bankId: data.BankBankId,
             number: data.number,
         };
         return account;
     }
 
-    const decodeList = (data) => {
+    const decodeList = (userCookie, data) => {
+        if (!data)
+            return { error: "decodeList: data is not defined" };
 
         const accounts = data.map(item => {
+            if (item.UserFamilyId !== userCookie.familyId)
+                return { error: `decodeList: This data item belongs to a family (${item.UserFamilyId}) that is different from the user's family (${userCookie.familyId}).` };
+
             return { id: item.id, name: item.name }
         });
 

@@ -28,11 +28,12 @@ import SignUpEmailView from './auth/views/SignUpEmailView';
 
 import SignInEmailViewModel from './auth/viewModels/SignInEmailViewModel';
 import SignInEmailView from './auth/views/SignInEmailView';
-import Recover from './auth/views/RecoverPasswordView';
+import Recover from './auth/views/ResetPasswordView';
 
 import Public from './pages/Public';
 
 import About from './pages/About';
+
 
 //  ----------------------------------------------------------------------------
 
@@ -80,7 +81,7 @@ export default function PublicRouteData() {
             { path: "/signInFacebook", element: <SignInOAuthView viewModel={SignInOAuthViewModel(authDataProvider, 'facebook', 'signIn')} /> },
             { path: "/signInGoogle", element: <SignInOAuthView viewModel={SignInOAuthViewModel(authDataProvider, 'google', 'signIn')} /> },
             { path: "/signInTwitter", element: <SignInOAuthView viewModel={SignInOAuthViewModel(authDataProvider, 'twitter', 'signIn')} /> },
-            { path: "/signInEmail", element: <SignInEmailView viewModel={SignInEmailViewModel()} /> },
+            { path: "/signInEmail", element: <SignInEmailView viewModel={SignInEmailViewModel(authDataProvider)} /> },
 
             { path: "/recover", element: <Recover /> },
 

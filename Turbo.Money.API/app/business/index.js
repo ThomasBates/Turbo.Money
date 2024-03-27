@@ -1,15 +1,17 @@
 
 module.exports = (logger, data) => {
     return {
-        users: require("./UserBusiness")(logger, data.users),
+        user: require("./UserBusiness")(logger, data.user),
 
-        banks: require("./BankBusiness")(logger, data.banks),
-        bankAccounts: require("./BankAccountBusiness")(logger, data.bankAccounts),
-        bankTransactions: require("./BankTransactionBusiness")(logger, 
-            data.bankTransactions, data.bankAccounts),
+        bankBank: require("./BankBankBusiness")(logger, data.bankBank),
+        bankAccount: require("./BankAccountBusiness")(logger, data.bankAccount),
+        bankTransaction: require("./BankTransactionBusiness")(logger, 
+            data.bankTransaction, data.bankAccount),
+        bank: require("./BankBusiness")(logger, data.bank),
 
-        budgetSections: require("./BudgetSectionBusiness")(logger, data.budgetSections),
-        budgetCategories: require("./BudgetCategoryBusiness")(logger, data.budgetCategories),
-        budgetAccounts: require("./BudgetAccountBusiness")(logger, data.budgetAccounts),
+        budgetSection: require("./BudgetSectionBusiness")(logger, data.budgetSection),
+        budgetCategory: require("./BudgetCategoryBusiness")(logger, data.budgetCategory),
+        budgetAccount: require("./BudgetAccountBusiness")(logger, data.budgetAccount),
+        budget: require("./BudgetBusiness")(logger, data.budget),
     };
 };

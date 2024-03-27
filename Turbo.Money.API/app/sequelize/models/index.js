@@ -1,42 +1,50 @@
-module.exports = (logger) => {
+'use strict';
 
-    const dbConfig = require("../../config/db.config.js");
+const fs = require('fs');
+const path = require('path');
+const Sequelize = require('sequelize');
+const process = require('process');
+const basename = path.basename(__filename);
+const env = process.env.NODE_ENV || 'development';
 
-    const Sequelize = require("sequelize");
-    const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
-        host: dbConfig.HOST,
-        dialect: dbConfig.dialect,
+const config = require('../config/config')[env];
 
-        pool: {
-            max: dbConfig.pool.max,
-            min: dbConfig.pool.min,
-            acquire: dbConfig.pool.acquire,
-            idle: dbConfig.pool.idle
-        },
+let sequelize;
+if (config.use_env_variable) {
+  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+} else {
+  sequelize = new Sequelize(config.database, config.username, config.password, config);
+}
 
-        logging: msg => logger.verbose('Sequelize', msg)
+const db = {
+    sequelize,
+    Sequelize,
+    user: {},
+    bank: {},
+    budget: {},
+};
+
+fs
+    .readdirSync(__dirname)
+    .filter(file => {
+        return (
+            file.indexOf('.') !== 0 &&
+            file !== basename &&
+            file.slice(-3) === '.js' &&
+            file.indexOf('.test.js') === -1
+        );
+    })
+    .forEach(file => {
+        const model = require(path.join(__dirname, file))(db);
+        db[model.name] = model;
     });
 
-    const db = {};
-
-    db.Sequelize = Sequelize;
-    db.sequelize = sequelize;
-
-    require('./model.js')(db);
-
-    db.initialize = async () => {
-        try {
-            await sequelize.sync({ force: true });
-            logger.info("Model", "Drop and re-sync db.");
-        } catch (err) {
-            logger.error("Model", "Failed to sync db: ");
-            logger.error("Model", err);
-            return;
-        }
-
-        await require('./createBaseUserData')(logger, db.user);
-        await require('./createSampleUserData')(logger, db.user);
+Object.keys(sequelize.models).forEach(modelName => {
+    if (db[modelName].associate) {
+        db[modelName].associate(db);
     }
+});
 
-    return db;
-}
+//console.log('db =', db);
+
+module.exports = db;

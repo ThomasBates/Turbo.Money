@@ -16,7 +16,7 @@ module.exports = (logger, owner, business, decode, encode, encodeList) => {
 
     // Create and save a new object record
     const create = async (req, res) => {
-        const { user: userInfo } = jwt.decode(req.cookies.user);
+        const userCookie = jwt.decode(req.cookies.user);
 
         logger.debug(owner, `${owner}.create: req.body = `, req.body);
         const businessObject = decode(req.body);
@@ -24,11 +24,11 @@ module.exports = (logger, owner, business, decode, encode, encodeList) => {
         if (handleError("create", res, 400, businessObject.error))
             return;
 
-        const error = await business.validate(userInfo, businessObject);
+        const error = await business.validate(userCookie, businessObject);
         if (handleError("create", res, 400, error))
             return;
 
-        const returnObject = await business.create(userInfo, businessObject);
+        const returnObject = await business.create(userCookie, businessObject);
         logger.debug(owner, `${owner}.create: returnObject = `, returnObject);
         if (handleError("create", res, 500, returnObject.error))
             return;
@@ -42,9 +42,9 @@ module.exports = (logger, owner, business, decode, encode, encodeList) => {
 
     // Retrieve all objects from the database.
     const getAll = async (req, res) => {
-        const { user: userInfo } = jwt.decode(req.cookies.user);
+        const userCookie = jwt.decode(req.cookies.user);
 
-        const returnList = await business.getAll(userInfo);
+        const returnList = await business.getAll(userCookie);
         logger.verbose(owner, `${owner}.getAll: returnList = `, returnList);
         if (handleError("getAll", res, 500, returnList.error))
             return;
@@ -72,9 +72,9 @@ module.exports = (logger, owner, business, decode, encode, encodeList) => {
 
     // Retrieve all objects from the database.
     const getList = async (req, res) => {
-        const { user: userInfo } = jwt.decode(req.cookies.user);
+        const userCookie = jwt.decode(req.cookies.user);
 
-        const returnList = await business.getList(userInfo);
+        const returnList = await business.getList(userCookie);
         logger.verbose(owner, `${owner}.getList: returnList = `, returnList);
         if (handleError("getList", res, 500, returnList.error))
             return;
@@ -89,11 +89,11 @@ module.exports = (logger, owner, business, decode, encode, encodeList) => {
 
     // Find a single object with an id
     const getOne = async (req, res) => {
-        const { user: userInfo } = jwt.decode(req.cookies.user);
+        const userCookie = jwt.decode(req.cookies.user);
         const id = req.params.id;
         logger.debug(owner, `${owner}.getOne: id = ${id}`);
 
-        const businessObject = await business.getOne(userInfo, id);
+        const businessObject = await business.getOne(userCookie, id);
         logger.verbose(owner, `${owner}.getOne: businessObject = `, businessObject);
         if (handleError("getOne", res, 500, businessObject.error))
             return;
@@ -107,7 +107,7 @@ module.exports = (logger, owner, business, decode, encode, encodeList) => {
 
     // Update an object by the id in the request
     const update = async (req, res) => {
-        const { user: userInfo } = jwt.decode(req.cookies.user);
+        const userCookie = jwt.decode(req.cookies.user);
         const id = req.params.id;
         logger.debug(owner, `${owner}.update: id = ${id}`);
         logger.debug(owner, `${owner}.update: req.body =`, req.body);
@@ -117,11 +117,11 @@ module.exports = (logger, owner, business, decode, encode, encodeList) => {
         if (handleError("update", res, 400, businessObject.error))
             return;
 
-        const error = await business.validate(userInfo, businessObject);
+        const error = await business.validate(userCookie, businessObject);
         if (handleError("update", res, 400, error))
             return;
 
-        const returnObject = await business.update(userInfo, businessObject);
+        const returnObject = await business.update(userCookie, businessObject);
         logger.debug(owner, `${owner}.update: returnObject =`, returnObject);
         if (handleError("update", res, 500, returnObject.error))
             return;
@@ -137,11 +137,11 @@ module.exports = (logger, owner, business, decode, encode, encodeList) => {
 
     // Delete an object with the specified id in the request
     const deleteOne = async (req, res) => {
-        const { user: userInfo } = jwt.decode(req.cookies.user);
+        const userCookie = jwt.decode(req.cookies.user);
         const id = req.params.id;
         logger.debug(owner, `${owner}.deleteOne: id = ${id}`);
 
-        const deletedObject = await business.deleteById(userInfo, id);
+        const deletedObject = await business.deleteById(userCookie, id);
         if (handleError("deleteOne", res, 500, deletedObject.error))
             return;
 
@@ -154,9 +154,9 @@ module.exports = (logger, owner, business, decode, encode, encodeList) => {
 
     // Delete all objects from the database.
     const deleteAll = async (req, res) => {
-        const { user: userInfo } = jwt.decode(req.cookies.user);
+        const userCookie = jwt.decode(req.cookies.user);
 
-        const deletedList = await business.deleteAll(userInfo);
+        const deletedList = await business.deleteAll(userCookie);
         if (handleError("deleteAll", res, 500, deletedList.error))
             return;
 

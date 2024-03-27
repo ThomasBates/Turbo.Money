@@ -30,15 +30,15 @@ app.use(express.urlencoded({ extended: true }));
 const loggerProvider = require("./lib/logger/loggerConsoleProvider")();
 const logger = require("./lib/logger/logger")(loggerProvider);
 
-const db = require("./app/sequelize/models")(logger);
+logger.enableSeverity('verbose');
+logger.enableCategory('all');
+
+const db = require("./app/sequelize")(logger);
 const data = require("./app/sequelize/data")(logger, db);
 const business = require("./app/business")(logger, data);
 const controllers = require("./app/controllers")(logger, business);
 require("./app/routes")(app, logger, controllers);
 // -----------------------------------------------------------------------------
-
-logger.enableSeverity('verbose');
-logger.enableCategory('all');
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

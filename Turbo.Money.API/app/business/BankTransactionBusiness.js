@@ -2,40 +2,39 @@
 module.exports = (logger, data, bankAccountData) => {
 
     // Validate bank transaction data
-    const validate = async (userInfo, testAccount) => {
-        logger.debug("Transactions", "BankTransactionBusiness.validate: testAccount = ", testAccount);
+    const validate = async (userCookie, testTransaction) => {
+        logger.debug("Transactions", "BankTransactionBusiness.validate: testTransaction = ", testTransaction);
 
-        const accounts = await data.getList(userInfo);
+        const accounts = await bankAccountData.getList(userCookie);
+        logger.debug("Transactions", "BankTransactionBusiness.validate: accounts = ", accounts);
         if (accounts.error) {
             return accounts.error;
         }
         if (!accounts || !accounts.list || accounts.list.length == 0) {
-            return null;
-        }
-        accounts = accounts.list;
-        logger.debug("Transactions", "BankTransactionBusiness.validate: accounts = ", accounts);
-
-        let matching = accounts.find(account =>
-            account.name.toUpperCase() == testAccount.name.toUpperCase() &&
-            account.id != testAccount.id);
-        logger.debug("Transactions", "BankTransactionBusiness.validate: matching = ", matching);
-        if (matching) {
-            return "Validation Error: Bank account name must be unique.";
+            return 'Validation Error: No bank accounts. Bank accounts must be created before loading bank transactions.';
         }
 
-        matching = accounts.some(account =>
-            account.bankId == testAccount.bankId &&
-            account.number == testAccount.number &&
-            account.id != testAccount.id);
-        logger.debug("Transactions", "BankTransactionBusiness.validate: matching = ", matching);
-        if (matching) {
-            return "Validation Error: Bank account bankId+number must be unique.";
-        }
+        //let matching = accounts.find(account =>
+        //    account.name.toUpperCase() == testTransaction.name.toUpperCase() &&
+        //    account.id != testTransaction.id);
+        //logger.debug("Transactions", "BankTransactionBusiness.validate: matching = ", matching);
+        //if (matching) {
+        //    return "Validation Error: Bank account name must be unique.";
+        //}
+
+        //matching = accounts.some(account =>
+        //    account.bankId == testTransaction.bankId &&
+        //    account.number == testTransaction.number &&
+        //    account.id != testTransaction.id);
+        //logger.debug("Transactions", "BankTransactionBusiness.validate: matching = ", matching);
+        //if (matching) {
+        //    return "Validation Error: Bank account bankId+number must be unique.";
+        //}
 
         return null;
     }
 
-    const importTransactions = async (userInfo, file) => {
+    const importTransactions = async (userCookie, file) => {
 
         logger.debug("Transactions", "BankTransactionBusiness.importTransactions()");
 
@@ -50,7 +49,7 @@ module.exports = (logger, data, bankAccountData) => {
         const ofxStatement = ofx.OFX.BANKMSGSRSV1.STMTTRNRS.STMTRS;
         const ofxTransactions = ofxStatement.BANKTRANLIST.STMTTRN;
 
-        let account = await bankAccountData.getOneByNumber(userInfo, ofxStatement.BANKACCTFROM.ACCTID);
+        let account = await bankAccountData.getOneByNumber(userCookie, ofxStatement.BANKACCTFROM.ACCTID);
         if (account.error) {
             let error = "The bank account identified in the imported file is not registered in the application.";
             logger.error("Transactions", `BankTransactionBusiness.importTransactions: ${error}`);
@@ -70,7 +69,7 @@ module.exports = (logger, data, bankAccountData) => {
             transactions.push(transaction);
         }
 
-        return await data.storeTransactions(userInfo, transactions);
+        return await data.storeTransactions(userCookie, transactions);
     }
 
     async function ofxToObject(file) {

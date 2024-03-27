@@ -1,0 +1,703 @@
+{
+    "tables": {
+        "bank_accounts": {
+            "tableName": "bank_accounts",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "activeFrom": {
+                    "field": "active_from",
+                    "seqType": "Sequelize.DATE"
+                },
+                "activeTo": {
+                    "field": "active_to",
+                    "seqType": "Sequelize.DATE"
+                },
+                "name": {
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "number": {
+                    "field": "number",
+                    "seqType": "Sequelize.STRING"
+                },
+                "tag": {
+                    "field": "tag",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "UserFamilyId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "user_families",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "user_family_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "BankBankId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "bank_banks",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "bank_bank_id",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "bank_banks": {
+            "tableName": "bank_banks",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "activeFrom": {
+                    "field": "active_from",
+                    "seqType": "Sequelize.DATE"
+                },
+                "activeTo": {
+                    "field": "active_to",
+                    "seqType": "Sequelize.DATE"
+                },
+                "name": {
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "number": {
+                    "field": "number",
+                    "seqType": "Sequelize.STRING"
+                },
+                "transit": {
+                    "field": "transit",
+                    "seqType": "Sequelize.STRING"
+                },
+                "tag": {
+                    "field": "tag",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "UserFamilyId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "user_families",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "user_family_id",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "bank_transactions": {
+            "tableName": "bank_transactions",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "timeStamp": {
+                    "field": "time_stamp",
+                    "seqType": "Sequelize.DATE"
+                },
+                "description": {
+                    "field": "description",
+                    "seqType": "Sequelize.STRING"
+                },
+                "amount": {
+                    "field": "amount",
+                    "seqType": "Sequelize.DECIMAL(10, 2)"
+                },
+                "balance": {
+                    "field": "balance",
+                    "seqType": "Sequelize.DECIMAL(10, 2)"
+                },
+                "sequence": {
+                    "field": "sequence",
+                    "seqType": "Sequelize.STRING"
+                },
+                "doubleEntryId": {
+                    "field": "double_entry_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "tag": {
+                    "field": "tag",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "UserFamilyId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "user_families",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "user_family_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "BankAccountId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "bank_accounts",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "bank_account_id",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "budget_accounts": {
+            "tableName": "budget_accounts",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "activeFrom": {
+                    "field": "active_from",
+                    "seqType": "Sequelize.DATE"
+                },
+                "activeTo": {
+                    "field": "active_to",
+                    "seqType": "Sequelize.DATE"
+                },
+                "name": {
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "description": {
+                    "field": "description",
+                    "seqType": "Sequelize.STRING"
+                },
+                "amount": {
+                    "field": "amount",
+                    "seqType": "Sequelize.DECIMAL(10, 2).UNSIGNED"
+                },
+                "type": {
+                    "field": "type",
+                    "seqType": "Sequelize.STRING"
+                },
+                "method": {
+                    "field": "method",
+                    "seqType": "Sequelize.STRING"
+                },
+                "displayOrder": {
+                    "field": "display_order",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "tag": {
+                    "field": "tag",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "UserFamilyId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "user_families",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "user_family_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "BudgetCategoryId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "budget_categories",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "budget_category_id",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "budget_categories": {
+            "tableName": "budget_categories",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "activeFrom": {
+                    "field": "active_from",
+                    "seqType": "Sequelize.DATE"
+                },
+                "activeTo": {
+                    "field": "active_to",
+                    "seqType": "Sequelize.DATE"
+                },
+                "name": {
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "description": {
+                    "field": "description",
+                    "seqType": "Sequelize.STRING"
+                },
+                "displayOrder": {
+                    "field": "display_order",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "tag": {
+                    "field": "tag",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "UserFamilyId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "user_families",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "user_family_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "BudgetSectionId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "budget_sections",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "budget_section_id",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "budget_sections": {
+            "tableName": "budget_sections",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "activeFrom": {
+                    "field": "active_from",
+                    "seqType": "Sequelize.DATE"
+                },
+                "activeTo": {
+                    "field": "active_to",
+                    "seqType": "Sequelize.DATE"
+                },
+                "name": {
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "description": {
+                    "field": "description",
+                    "seqType": "Sequelize.STRING"
+                },
+                "direction": {
+                    "field": "direction",
+                    "seqType": "Sequelize.STRING"
+                },
+                "displayOrder": {
+                    "field": "display_order",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "tag": {
+                    "field": "tag",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "UserFamilyId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "user_families",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "user_family_id",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "user_authorizations": {
+            "tableName": "user_authorizations",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "source": {
+                    "allowNull": false,
+                    "field": "source",
+                    "seqType": "Sequelize.STRING"
+                },
+                "sourceId": {
+                    "allowNull": false,
+                    "field": "source_id",
+                    "seqType": "Sequelize.STRING"
+                },
+                "passwordHash": {
+                    "field": "password_hash",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "UserUserId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "user_users",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "user_user_id",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "user_families": {
+            "tableName": "user_families",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "activeFrom": {
+                    "field": "active_from",
+                    "seqType": "Sequelize.DATE"
+                },
+                "activeTo": {
+                    "field": "active_to",
+                    "seqType": "Sequelize.DATE"
+                },
+                "name": {
+                    "allowNull": false,
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "isInitial": {
+                    "field": "is_initial",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "tag": {
+                    "field": "tag",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "user_family_roles": {
+            "tableName": "user_family_roles",
+            "schema": {
+                "id": {
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "allowNull": false,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "UserUserId": {
+                    "unique": "user_family_roles_UserFamilyId_UserUserId_unique",
+                    "references": {
+                        "model": "user_users",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "field": "user_user_id",
+                    "allowNull": true,
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "UserFamilyId": {
+                    "unique": "user_family_roles_UserFamilyId_UserUserId_unique",
+                    "references": {
+                        "model": "user_families",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "field": "user_family_id",
+                    "allowNull": true,
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "UserRoleId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "user_roles",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "user_role_id",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "user_grants": {
+            "tableName": "user_grants",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "allowNull": false,
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "UserRoleId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "user_roles",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "user_role_id",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "user_roles": {
+            "tableName": "user_roles",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "allowNull": false,
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "isHead": {
+                    "default": false,
+                    "field": "is_head",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "UserFamilyId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "user_families",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "user_family_id",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "user_users": {
+            "tableName": "user_users",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "activeFrom": {
+                    "field": "active_from",
+                    "seqType": "Sequelize.DATE"
+                },
+                "activeTo": {
+                    "field": "active_to",
+                    "seqType": "Sequelize.DATE"
+                },
+                "name": {
+                    "allowNull": false,
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "email": {
+                    "allowNull": false,
+                    "unique": true,
+                    "field": "email",
+                    "seqType": "Sequelize.STRING"
+                },
+                "picture": {
+                    "field": "picture",
+                    "seqType": "Sequelize.STRING"
+                },
+                "subscription": {
+                    "field": "subscription",
+                    "seqType": "Sequelize.STRING"
+                },
+                "tag": {
+                    "field": "tag",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        }
+    },
+    "path": "D:\\Development\\Turbo.Money\\Turbo.Money.API\\app\\sequelize\\migrations\\_current.json",
+    "backupPath": "D:\\Development\\Turbo.Money\\Turbo.Money.API\\app\\sequelize\\migrations\\_current_bak.json",
+    "exists": false,
+    "revision": 1
+}

@@ -10,16 +10,16 @@ const validateRequest = (req, res, next) => {
     const jwt = require("jsonwebtoken");
 
     try {
-        const userCookie = req.cookies.user;
-        logger.verbose('User', 'validateRequest: userCookie', userCookie);
+        const signedUserCookie = req.cookies.user;
+        logger.verbose('User', 'validateRequest: signedUserCookie', signedUserCookie);
 
-        if (!userCookie) {
+        if (!signedUserCookie) {
             logger.verbose('User', 'validateRequest: return', { message: "Unauthorized" });
             return res.status(401).json({ message: "Unauthorized" });
         }
 
-        const userData = jwt.verify(userCookie, process.env.COOKIE_SECRET);
-        logger.verbose('User', 'validateRequest: userData', userData);
+        const userCookie = jwt.verify(signedUserCookie, process.env.COOKIE_SECRET);
+        logger.verbose('User', 'validateRequest: userCookie', userCookie);
 
         return next();
     } catch (error) {

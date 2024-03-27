@@ -4,8 +4,8 @@ module.exports = (logger, table) => {
     const encode = (transaction) => {
         const data = {
             //id: transaction.id,
-            account_id: transaction.accountId,
-            time_stamp: transaction.timestamp,
+            BankAccountId: transaction.accountId,
+            timeStamp: transaction.timestamp,
             description: transaction.description,
             amount: transaction.amount,
             sequence: transaction.sequence,
@@ -13,11 +13,17 @@ module.exports = (logger, table) => {
         return data;
     }
 
-    const decode = (data) => {
+    const decode = (userCookie, data) => {
+        if (!data)
+            return { error: "decode: data is not defined" };
+
+        if (data.UserFamilyId !== userCookie.familyId)
+            return { error: `decode: This data belongs to a family (${data.UserFamilyId}) that is different from the user's family (${userCookie.familyId}).` };
+
         const transaction = {
             id: data.id,
-            accountId: data.account_id,
-            timestamp: data.time_stamp,
+            accountId: data.BankAccountId,
+            timestamp: data.timeStamp,
             description: data.description,
             amount: data.amount,
             sequence: data.sequence,
@@ -25,9 +31,14 @@ module.exports = (logger, table) => {
         return transaction;
     }
 
-    const decodeList = (data) => {
+    const decodeList = (userCookie, data) => {
+        if (!data)
+            return { error: "decodeList: data is not defined" };
 
         const transactions = data.map(item => {
+            if (item.UserFamilyId !== userCookie.familyId)
+                return { error: `decodeList: This data item belongs to a family (${item.UserFamilyId}) that is different from the user's family (${userCookie.familyId}).` };
+
             return { id: item.id, name: item.name }
         });
 

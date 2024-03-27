@@ -2,10 +2,10 @@
 module.exports = (logger, data) => {
 
     // Validate Budget Category data
-    const validate = async (userInfo, testCategory) => {
+    const validate = async (userCookie, testCategory) => {
         logger.debug("Business", "BudgetCategoryBusiness.validate: testCategory = ", testCategory);
 
-        const categories = await data.getList(userInfo);
+        const categories = await data.getList(userCookie);
         logger.debug("Business", "BudgetCategoryBusiness.validate: categories = ", categories);
 
         if (categories.error) {
@@ -14,9 +14,8 @@ module.exports = (logger, data) => {
         if (!categories || !categories.list || categories.length == 0) {
             return null;
         }
-        categories = categories.list;
 
-        let matching = categories.find(category =>
+        let matching = categories.list.find(category =>
             category.name.toUpperCase() == testCategory.name.toUpperCase() &&
             category.id != testCategory.id);
         logger.debug("Business", "BudgetCategoryBusiness.validate: matching = ", matching);

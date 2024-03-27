@@ -2,10 +2,10 @@
 module.exports = (logger, data) => {
 
     // Validate Budget Section data
-    const validate = async (userInfo, testSection) => {
+    const validate = async (userCookie, testSection) => {
         logger.debug("Business", "BudgetSectionBusiness.validate: testSection = ", testSection);
 
-        const sections = await data.getList(userInfo);
+        const sections = await data.getList(userCookie);
         logger.debug("Business", "BudgetSectionBusiness.validate: sections = ", sections);
 
         if (sections.error) {
@@ -14,9 +14,8 @@ module.exports = (logger, data) => {
         if (!sections || !sections.list || sections.length == 0) {
             return null;
         }
-        sections = sections.list;
 
-        let matching = sections.find(section =>
+        let matching = sections.list.find(section =>
             section.name.toUpperCase() == testSection.name.toUpperCase() &&
             section.id != testSection.id);
         logger.debug("Business", "BudgetSectionBusiness.validate: matching = ", matching);

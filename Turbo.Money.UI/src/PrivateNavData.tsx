@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
+
+import BankDataService from './setup/bank/BankDataService';
+import BudgetDataService from './setup/budget/BudgetDataService';
 
 export default function PrivateNavData() {
 
@@ -34,7 +37,6 @@ export default function PrivateNavData() {
             {
                 content: "Reports",
                 width: 180,
-                enabled: false,
                 list: [
                     { content: "Report by Period", to: "/ReportByPeriod" },
                     { content: "Report by Account", to: "/ReportByAccount" }
@@ -46,19 +48,21 @@ export default function PrivateNavData() {
                 list: [
                     {
                         content: "Setup Bank Data",
-                        width: 180,
+                        width: 210,
                         list: [
-                            { content: "Bank Setup", to: "/BankView" },
+                            { content: "Bank Setup", to: "/BankBankView" },
                             { content: "Bank Account Setup", to: "/BankAccountView" },
+                            { content: "Create Sample Bank Data", func: BankDataService.createSampleData },
                         ]
                     },
                     {
                         content: "Setup Budget Data",
-                        width: 200,
+                        width: 230,
                         list: [
                             { content: "Budget Section Setup", to: "/BudgetSectionView" },
                             { content: "Budget Category Setup", to: "/BudgetCategoryView" },
-                            { content: "Budget Account Setup", to: "/BudgetAccountView" }
+                            { content: "Budget Account Setup", to: "/BudgetAccountView" },
+                            { content: "Create Sample Budget Data", func: BudgetDataService.createSampleData },
                         ]
                     },
                     { content: "---" },

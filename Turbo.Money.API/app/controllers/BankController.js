@@ -1,36 +1,16 @@
 
-module.exports = (logger, business) => {
+module.exports = function BankController(logger, business) {
+    const jwt = require("jsonwebtoken");
 
-    const decode = (data) => {
-        if (!data)
-            return { error: "parse error: data is not defined." };
-        if (!data.name)
-            return { error: "parse error: data.name is not defined." };
-        if (!data.number)
-            return { error: "parse error: data.number is not defined." };
-        if (!data.transit)
-            return { error: "parse error: data.transit is not defined." };
+    const createSampleData = async (req, res) => {
+        const userCookie = jwt.decode(req.cookies.user);
 
-        const bank = {
-            id: data.id,
-            name: data.name,
-            number: data.number,
-            transit: data.transit
-        };
+        const result = await business.createSampleData(userCookie);
 
-        return bank;
-    }
+        return res.json(result);
+    };
 
-    const encode = (bank) => {
-        return bank;
-    }
-
-    const encodeList = (bankList) => {
-        let dataList = bankList.map(bank => {
-            return { id: bank.id, name: bank.name }
-        });
-        return { list: dataList };
-    }
-
-    return require("./CommonController")(logger, "BankController", business, decode, encode, encodeList);
+    return {
+        createSampleData
+    };
 }

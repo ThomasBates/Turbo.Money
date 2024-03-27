@@ -1,3 +1,3 @@
 import CommonDataService from "../../common/data/CommonDataService";
 
-export default CommonDataService("budgetCategories");
+export default CommonDataService("budgetCategory");

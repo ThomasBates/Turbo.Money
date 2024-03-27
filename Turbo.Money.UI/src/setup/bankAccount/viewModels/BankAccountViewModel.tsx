@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import CommonViewModel from "../../common/viewModels/CommonViewModel";
 
-import BankDataService from "../../bank/data/BankDataService";
+import BankBankDataService from "../../bankBank/data/BankBankDataService";
 import BankAccountDataService from "../data/BankAccountDataService";
 
 import BankAccountDetailsViewModel from "./BankAccountDetailsViewModel";
@@ -35,7 +35,7 @@ const BankAccountViewModel = () => {
     }
 
     const retrieveAllBanks = () => {
-        BankDataService.getList()
+        BankBankDataService.getList()
             .then(response => {
                 console.log("retrieveAllBanks: ", response.data);
                 const newBanks = response.data.map(bank => {

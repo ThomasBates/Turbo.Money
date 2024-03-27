@@ -1,47 +1,53 @@
 
-module.exports = (logger, table) => {
+module.exports = function BankData(logger, db) {
+    const module = 'BankData';
+    const category = "Bank";
 
-    const encode = (bank) => {
-        const data = {
-            //id: bank.id,
-            name: bank.name,
-            number: bank.number,
-            transit: bank.transit
-        };
-        return data;
+    const createError = (context, code, message) => {
+        const error = { error: message, context, code, message };
+        logger.error('Error', `${context}: error =`, error);
+        return error;
     }
 
-    const decode = (data) => {
-        const bank = {
-            id: data.id,
-            name: data.name,
-            number: data.number,
-            transit: data.transit
-        };
-        return bank;
-    }
+    const createSampleData = async (userCookie, banks, bankAccounts) => {
+        const context = `${module}.createSampleData`;
+        logger.debug(category, `${context}: userCookie =`, userCookie);
 
-    const decodeList = (data) => {
+        try {
 
-        const banks = data.map(item => {
-            return { id: item.id, name: item.name }
-        });
-        
-        return { list: banks };
-    }
+            await Promise.all(
+                banks.map(async bank => {
+                    let data = await db.bank.create({
+                        name: bank.name,
+                        number: bank.number,
+                        transit: bank.transit,
+                        UserFamilyId: userCookie.familyId,
+                    });
+                    bank.id = data.id;
+                })
+            );
 
-    const validate = (bank) => {
-        if (!bank.name) {
-            return "Bank name can not be empty!";
+            await Promise.all(
+                bankAccounts.map(async account => {
+                    let bank = banks.find(bank => bank.name === account.bankName);
+                    await db.account.create({
+                        name: account.name,
+                        BankBankId: bank.id,
+                        number: account.number,
+                        UserFamilyId: userCookie.familyId,
+                    });
+                })
+            );
+
+            return {};
         }
-        if (!bank.number) {
-            return "Bank number can not be empty!";
+        catch (ex) {
+            logger.error(category, `${context}: ex =`, ex);
+            return createError(context, 'Catch', ex.message || 'Unknown catch');
         }
-        if (!bank.transit) {
-            return "Bank transit can not be empty!";
-        }
-        return null
-    }
+    };
 
-    return require('./CommonData')(logger, "BankData", table, encode, decode, decodeList, validate);
+    return {
+        createSampleData,
+    }
 }

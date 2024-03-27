@@ -6,16 +6,17 @@ module.exports = (app, logger, controllers) => {
         res.json({ message: "Welcome to Turbo Money." });
     });
 
-    //require("./auth.routes")(app, controllers.auth);
     require("./user.routes")(app, controllers.users);
 
-    require("./bank.routes")(app, controllers.banks);
-    require("./bankAccount.routes")(app, controllers.bankAccounts);
-    require("./bankTransaction.routes")(app, controllers.bankTransactions);
+    require("./bankBank.routes")(app, controllers.bankBank);
+    require("./bankAccount.routes")(app, controllers.bankAccount);
+    require("./bankTransaction.routes")(app, controllers.bankTransaction);
+    require("./bank.routes")(app, controllers.bank);
 
-    require("./budgetSection.routes")(app, controllers.budgetSections)
-    require("./budgetCategory.routes")(app, controllers.budgetCategories)
-    require("./budgetAccount.routes")(app, controllers.budgetAccounts);
+    require("./budgetSection.routes")(app, controllers.budgetSection)
+    require("./budgetCategory.routes")(app, controllers.budgetCategory)
+    require("./budgetAccount.routes")(app, controllers.budgetAccount);
+    require("./budget.routes")(app, controllers.budget);
 
     require("./post.routes")(app);
 }

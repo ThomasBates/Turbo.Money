@@ -14,9 +14,12 @@ module.exports = (logger, table) => {
         return data;
     }
 
-    const decode = (data) => {
+    const decode = (userCookie, data) => {
         if (!data)
-            return { error: "BudgetSectionData.decode: data is not defined" };
+            return { error: "decode: data is not defined" };
+
+        if (data.UserFamilyId !== userCookie.familyId)
+            return { error: `decode: This data belongs to a family (${data.UserFamilyId}) that is different from the user's family (${userCookie.familyId}).` };
 
         const section = {
             id: data.id,
@@ -27,11 +30,14 @@ module.exports = (logger, table) => {
         return section;
     }
 
-    const decodeList = (data) => {
+    const decodeList = (userCookie, data) => {
         if (!data)
-            return { error: "BudgetSectionData.decodeList: data is not defined" };
+            return { error: "decodeList: data is not defined" };
 
         const sections = data.map(item => {
+            if (item.UserFamilyId !== userCookie.familyId)
+                return { error: `decodeList: This data item belongs to a family (${item.UserFamilyId}) that is different from the user's family (${userCookie.familyId}).` };
+
             return { id: item.id, name: item.name }
         });
         return { list: sections };
