@@ -6,7 +6,7 @@ module.exports = function RequestValidation(logger, errors) {
     const category = 'User';
 
     const validateUserCookie = (req, res, next) => {
-        const context = `${module}.validateUserCookie`;
+        const context = `${module}.${validateUserCookie.name}`;
 
         const jwt = require("jsonwebtoken");
 

@@ -4,7 +4,7 @@ module.exports = function BankData(logger, errors, db) {
     const category = 'Bank';
 
     const createSampleData = async (userCookie, banks, bankAccounts) => {
-        const context = `${module}.createSampleData`;
+        const context = `${module}.${createSampleData.name}`;
         logger.debug(category, context, 'userCookie =', userCookie);
 
         try {

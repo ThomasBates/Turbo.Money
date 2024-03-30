@@ -11,7 +11,7 @@ const strategy = {
 };
 
 module.exports = function EmailStrategy(logger, errors) {
-    const module = 'EmailStrategy';
+    const module = EmailStrategy.name;
     const category = 'User';
 
     const jwt = require("jsonwebtoken");
@@ -23,7 +23,7 @@ module.exports = function EmailStrategy(logger, errors) {
     }
 
     async function getAccessToken(params) {
-        const context = `${module}.getAccessToken`;
+        const context = `${module}.${getAccessToken.name}`;
         try {
             logger.verbose(category, context, 'params =', params);
 
@@ -59,7 +59,7 @@ module.exports = function EmailStrategy(logger, errors) {
     }
 
     async function getUserData(accessToken) {
-        const context = `${module}.getUserData`;
+        const context = `${module}.${getUserData.name}`;
         try {
             const user = jwt.verify(accessToken, config.cookieSecret);
 
@@ -74,7 +74,7 @@ module.exports = function EmailStrategy(logger, errors) {
     }
 
     async function refreshAccessToken(refreshToken) {
-        const context = `${module}.refreshAccessToken`;
+        const context = `${module}.${refreshAccessToken.name}`;
         const tokens = {
             accessToken: refreshToken,
             refreshToken: refreshToken,

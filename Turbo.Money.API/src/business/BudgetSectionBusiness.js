@@ -5,7 +5,7 @@ module.exports = function BudgetSectionBusiness(logger, errors, data) {
 
     // Validate Budget Section data
     const validate = async (userCookie, testSection) => {
-        const context = `${module}.validate`;
+        const context = `${module}.${validate.name}`;
         logger.debug(category, context, 'testSection =', testSection);
 
         if (testSection.direction != 1 && testSection.direction != -1)

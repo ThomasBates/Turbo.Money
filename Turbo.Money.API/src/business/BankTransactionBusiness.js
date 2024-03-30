@@ -5,7 +5,7 @@ module.exports = function BankTransactionBusiness(logger, errors, data, bankAcco
 
     // Validate bank transaction data
     const validate = async (userCookie, testTransaction) => {
-        const context = `${module}.validate`;
+        const context = `${module}.${validate.name}`;
         logger.debug(category, context, 'testTransaction =', testTransaction);
 
         const accounts = await bankAccountData.getList(userCookie);
@@ -38,7 +38,7 @@ module.exports = function BankTransactionBusiness(logger, errors, data, bankAcco
     }
 
     const importTransactions = async (userCookie, file) => {
-        const context = `${module}.importTransactions`;
+        const context = `${module}.${importTransactions.name}`;
         logger.debug(category, context, '()');
 
         const ofx = await ofxToObject(file);

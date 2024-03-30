@@ -7,7 +7,7 @@ module.exports = function BankTransactionController(logger, errors, business) {
     const jwt = require("jsonwebtoken");
 
     const decode = (data) => {
-        const context = `${module}.decode`;
+        const context = `${module}.${decode.name}`;
 
         if (!data)
             return errors.create(context, 'ParseError', "data is not defined.");
@@ -57,7 +57,7 @@ module.exports = function BankTransactionController(logger, errors, business) {
         decode, encode, encodeList);
 
     const upload = async (req, res) => {
-        const context = `${module}.upload`;
+        const context = `${module}.${upload.name}`;
         const { user: userInfo } = jwt.decode(req.cookies.user);
         var busboy = require('busboy')({ headers: req.headers });
 

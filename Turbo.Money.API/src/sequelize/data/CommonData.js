@@ -6,7 +6,7 @@ module.exports = function CommonData(
 
     // Create and save a new record
     const create = async (userCookie, businessObject) => {
-        const context = `${module}.create`;
+        const context = `${module}.${create.name}`;
         logger.debug(category, context, 'businessObject =', businessObject);
 
         // Validate incoming business object.
@@ -42,7 +42,7 @@ module.exports = function CommonData(
 
     // Retrieve all records from the table.
     const getAll = async (userCookie) => {
-        const context = `${module}.getAll`;
+        const context = `${module}.${getAll.name}`;
         try {
             let dataList = await table.findAll({
                 where: { UserFamilyId: userCookie.familyId }
@@ -78,7 +78,7 @@ module.exports = function CommonData(
 
     // Retrieve all records from the table.
     const getList = async (userCookie) => {
-        const context = `${module}.getList`;
+        const context = `${module}.${getList.name}`;
         try {
             let data = await table.findAll({
                 where: { UserFamilyId: userCookie.familyId }
@@ -99,7 +99,7 @@ module.exports = function CommonData(
 
     // Find a single record with an id
     const getOne = async (userCookie, id) => {
-        const context = `${module}.getOne`;
+        const context = `${module}.${getOne.name}`;
         try {
             let data = await table.findByPk(id);
 
@@ -115,7 +115,7 @@ module.exports = function CommonData(
 
     // Update a record by the id in the request
     const update = async (userCookie, businessObject) => {
-        const context = `${module}.update`;
+        const context = `${module}.${update.name}`;
         logger.debug(category, context, 'businessObject =', businessObject);
 
         // Validate incoming business object.
@@ -146,7 +146,7 @@ module.exports = function CommonData(
 
     // Delete a record with the specified id in the request
     const deleteOne = async (userCookie, id) => {
-        const context = `${module}.deleteOne`;
+        const context = `${module}.${deleteOne.name}`;
 
         const returnObject = await getOne(userCookie, id);
         if (returnObject.error)
@@ -166,7 +166,7 @@ module.exports = function CommonData(
 
     // Delete all records from the table.
     const deleteAll = async (userCookie) => {
-        const context = `${module}.deleteAll`;
+        const context = `${module}.${deleteAll.name}`;
 
         const returnList = await getAll(userCookie);
         if (returnList.error)

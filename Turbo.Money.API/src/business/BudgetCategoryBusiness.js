@@ -5,7 +5,7 @@ module.exports = function BudgetCategoryBusiness(logger, errors, data) {
 
     // Validate Budget Category data
     const validate = async (userCookie, testCategory) => {
-        const context = `${module}.validate`;
+        const context = `${module}.${validate.name}`;
         logger.debug(category, context, 'testCategory =', testCategory);
 
         const categories = await data.getList(userCookie);

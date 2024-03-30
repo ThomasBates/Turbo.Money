@@ -4,7 +4,7 @@ module.exports = function BankTransactionData(logger, errors, table) {
     category = 'BankTransaction';
 
     const encode = (transaction) => {
-        const context = `${module}.encode`;
+        const context = `${module}.${encode.name}`;
 
         if (!transaction)
             return errors.create(context, 'InvalidArgument', 'transaction is not defined');
@@ -21,7 +21,7 @@ module.exports = function BankTransactionData(logger, errors, table) {
     }
 
     const decode = (userCookie, data) => {
-        const context = `${module}.decode`;
+        const context = `${module}.${decode.name}`;
 
         if (!data)
             return errors.create(context, 'InvalidArgument', 'data is not defined');
@@ -41,7 +41,7 @@ module.exports = function BankTransactionData(logger, errors, table) {
     }
 
     const decodeList = (userCookie, data) => {
-        const context = `${module}.decodeList`;
+        const context = `${module}.${decodeList.name}`;
 
         if (!data)
             return errors.create(context, 'InvalidArgument', 'data is not defined');
@@ -66,7 +66,7 @@ module.exports = function BankTransactionData(logger, errors, table) {
     }
 
     const validate = (transaction) => {
-        const context = `${module}.validate`;
+        const context = `${module}.${validate.name}`;
 
         if (!transaction.accountId)
             return errors.create(context, 'InvalidData', "Transaction accountId can not be empty!");
@@ -111,7 +111,7 @@ module.exports = function BankTransactionData(logger, errors, table) {
 
     // Find a single Bank transaction with a sequence number
     const getOneBySequence = async (sequence) => {
-        const context = `${module}.getOneBySequence`;
+        const context = `${module}.${getOneBySequence.name}`;
 
         try {
             const data = await table.findAll({ where: { sequence: sequence } })

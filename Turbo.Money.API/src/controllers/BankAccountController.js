@@ -4,7 +4,7 @@ module.exports = function BankAccountController(logger, errors, business) {
     const category = 'BankAccount';
 
     const decode = (data) => {
-        const context = `${module}.decode`;
+        const context = `${module}.${decode.name}`;
 
         if (!data)
             return errors.create(context, 'ParseError', "data is not defined.");

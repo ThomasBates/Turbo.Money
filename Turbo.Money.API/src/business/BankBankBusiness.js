@@ -5,7 +5,7 @@ module.exports = function BankBankBusiness(logger, errors, data) {
 
     // Validate bank data
     const validate = async (userCookie, testBank) => {
-        const context = `${module}.validate`;
+        const context = `${module}.${validate.name}`;
         logger.debug(category, context, 'testBank =', testBank);
 
         const banks = await data.getList(userCookie);

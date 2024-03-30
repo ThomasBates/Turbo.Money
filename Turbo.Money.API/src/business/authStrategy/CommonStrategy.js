@@ -21,7 +21,7 @@ module.exports = function CommonStrategy(logger, errors, strategy) {
     }
 
     async function getAccessToken(params) {
-        const context = `${module}.getAccessToken`;
+        const context = `${module}.${getAccessToken.name}`;
         try {
             if (!('code' in params))
                 return errors.create(context, 'InvalidArgument', 'Authorization code must be provided');
@@ -47,7 +47,7 @@ module.exports = function CommonStrategy(logger, errors, strategy) {
     }
 
     async function getUserData(accessToken) {
-        const context = `${module}.getUserData`;
+        const context = `${module}.${getUserData.name}`;
         try {
             const http = strategy.user.getHttp(accessToken);
 
@@ -70,7 +70,7 @@ module.exports = function CommonStrategy(logger, errors, strategy) {
     }
 
     async function refreshAccessToken(refreshToken) {
-        const context = `${module}.refreshAccessToken`;
+        const context = `${module}.${refreshAccessToken.name}`;
         try {
             const http = strategy.refresh.getHttp(refreshToken);
 

@@ -5,7 +5,7 @@ module.exports = function BudgetAccountBusiness(logger, errors, data) {
 
     // Validate budget account data
     const validate = async (userCookie, testAccount) => {
-        const context = `${module}.validate`;
+        const context = `${module}.${validate.name}`;
         logger.debug(category, context, 'testAccount =', testAccount);
 
         const accountTypes = ["min", "fix", "max", "est", "avg"];

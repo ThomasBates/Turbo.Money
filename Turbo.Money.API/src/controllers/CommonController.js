@@ -8,7 +8,7 @@ module.exports = function CommonController(
 
     // Create and save a new object record
     const create = async (req, res) => {
-        const context = `${module}.create`;
+        const context = `${module}.${create.name}`;
         const userCookie = jwt.decode(req.cookies.user);
 
         logger.debug(category, context, 'req.body =', req.body);
@@ -36,7 +36,7 @@ module.exports = function CommonController(
 
     // Retrieve all objects from the database.
     const getAll = async (req, res) => {
-        const context = `${module}.getAll`;
+        const context = `${module}.${getAll.name}`;
         const userCookie = jwt.decode(req.cookies.user);
 
         const returnList = await business.getAll(userCookie);
@@ -66,7 +66,7 @@ module.exports = function CommonController(
 
     // Retrieve all objects from the database.
     const getList = async (req, res) => {
-        const context = `${module}.getList`;
+        const context = `${module}.${getList.name}`;
         const userCookie = jwt.decode(req.cookies.user);
 
         const returnList = await business.getList(userCookie);
@@ -84,7 +84,7 @@ module.exports = function CommonController(
 
     // Find a single object with an id
     const getOne = async (req, res) => {
-        const context = `${module}.getOne`;
+        const context = `${module}.${getOne.name}`;
         const userCookie = jwt.decode(req.cookies.user);
 
         const id = req.params.id;
@@ -104,7 +104,7 @@ module.exports = function CommonController(
 
     // Update an object by the id in the request
     const update = async (req, res) => {
-        const context = `${module}.update`;
+        const context = `${module}.${update.name}`;
         const userCookie = jwt.decode(req.cookies.user);
 
         const id = req.params.id;
@@ -136,7 +136,7 @@ module.exports = function CommonController(
 
     // Delete an object with the specified id in the request
     const deleteOne = async (req, res) => {
-        const context = `${module}.deleteOne`;
+        const context = `${module}.${deleteOne.name}`;
         const userCookie = jwt.decode(req.cookies.user);
 
         const id = req.params.id;
@@ -155,7 +155,7 @@ module.exports = function CommonController(
 
     // Delete all objects from the database.
     const deleteAll = async (req, res) => {
-        const context = `${module}.deleteAll`;
+        const context = `${module}.${deleteAll.name}`;
         const userCookie = jwt.decode(req.cookies.user);
 
         const deletedList = await business.deleteAll(userCookie);

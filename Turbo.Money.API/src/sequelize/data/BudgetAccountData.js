@@ -3,7 +3,7 @@ module.exports = function BudgetAccountData(logger, errors, table) {
     const module = 'BudgetAccountData';
 
     const encode = (account) => {
-        const context = `${module}.encode`;
+        const context = `${module}.${encode.name}`;
 
         if (!account)
             return errors.create(context, 'InvalidArgument', 'account is not defined');
@@ -21,7 +21,7 @@ module.exports = function BudgetAccountData(logger, errors, table) {
     }
 
     const decode = (userCookie, data) => {
-        const context = `${module}.decode`;
+        const context = `${module}.${decode.name}`;
 
         if (!data)
             return errors.create(context, 'InvalidArgument', 'data is not defined');
@@ -42,7 +42,7 @@ module.exports = function BudgetAccountData(logger, errors, table) {
     }
 
     const decodeList = (userCookie, data) => {
-        const context = `${module}.decodeList`;
+        const context = `${module}.${decodeList.name}`;
 
         if (!data)
             return errors.create(context, 'InvalidArgument', 'data is not defined');
@@ -67,7 +67,7 @@ module.exports = function BudgetAccountData(logger, errors, table) {
     }
 
     const validate = (account) => {
-        const context = `${module}.validate`;
+        const context = `${module}.${validate.name}`;
 
         if (!account.name)
             return errors.create(context, 'InvalidData', "Account name can not be empty!");

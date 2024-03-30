@@ -4,7 +4,7 @@ module.exports = function BankAccountData(logger, errors, table) {
     const category = 'BankAccount';
 
     const encode = (account) => {
-        const context = `${module}.encode`;
+        const context = `${module}.${encode.name}`;
 
         if (!account)
             return errors.create(context, 'InvalidArgument', 'account is not defined');
@@ -19,7 +19,7 @@ module.exports = function BankAccountData(logger, errors, table) {
     }
 
     const decode = (userCookie, data) => {
-        const context = `${module}.decode`;
+        const context = `${module}.${decode.name}`;
 
         if (!data)
             return errors.create(context, 'InvalidArgument', 'data is not defined');
@@ -37,7 +37,7 @@ module.exports = function BankAccountData(logger, errors, table) {
     }
 
     const decodeList = (userCookie, data) => {
-        const context = `${module}.decodeList`;
+        const context = `${module}.${decodeList.name}`;
 
         if (!data)
             return errors.create(context, 'InvalidArgument', 'data is not defined');
@@ -62,7 +62,7 @@ module.exports = function BankAccountData(logger, errors, table) {
     }
 
     const validate = (account) => {
-        const context = `${module}.validate`;
+        const context = `${module}.${validate.name}`;
 
         if (!account.name)
             return errors.create(context, 'InvalidData', "Account name can not be empty!");
@@ -82,7 +82,7 @@ module.exports = function BankAccountData(logger, errors, table) {
 
     // Find a single Bank account with an account number
     const getOneByNumber = async (accountNumber) => {
-        const context = `${module}.getOneByNumber`;
+        const context = `${module}.${getOneByNumber.name}`;
         try {
             let data = await table.findAll({ where: { number: accountNumber } })
 

@@ -4,7 +4,7 @@ module.exports = function BudgetSectionController(logger, errors, business) {
     const category = 'BudgetSection';
 
     const decode = (data) => {
-        const context = `${module}.decode`;
+        const context = `${module}.${decode.name}`;
 
         if (!data)
             return errors.create(context, 'ParseError', "data is not defined.");
@@ -29,7 +29,7 @@ module.exports = function BudgetSectionController(logger, errors, business) {
     }
 
     const encode = (section) => {
-        const context = `${module}.encode`;
+        const context = `${module}.${encode.name}`;
 
         if (!section)
             return errors.create(context, 'InvalidArgument', "section is not defined");
@@ -44,7 +44,7 @@ module.exports = function BudgetSectionController(logger, errors, business) {
     }
 
     const encodeList = (sectionList) => {
-        const context = `${module}.encodeList`;
+        const context = `${module}.${encodeList.name}`;
 
         if (!section)
             return errors.create(context, 'InvalidArgument', "sectionList is not defined");

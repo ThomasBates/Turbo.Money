@@ -3,7 +3,7 @@ module.exports = function BudgetSectionData(logger, errors, table) {
     const module = 'BudgetSectionData';
 
     const encode = (section) => {
-        const context = `${module}.encode`;
+        const context = `${module}.${encode.name}`;
 
         if (!section)
             return errors.create(context, 'InvalidArgument', 'section is not defined');
@@ -18,7 +18,7 @@ module.exports = function BudgetSectionData(logger, errors, table) {
     }
 
     const decode = (userCookie, data) => {
-        const context = `${module}.decode`;
+        const context = `${module}.${decode.name}`;
 
         if (!data)
             return errors.create(context, 'InvalidArgument', 'data is not defined');
@@ -36,7 +36,7 @@ module.exports = function BudgetSectionData(logger, errors, table) {
     }
 
     const decodeList = (userCookie, data) => {
-        const context = `${module}.decodeList`;
+        const context = `${module}.${decodeList.name}`;
 
         if (!data)
             return errors.create(context, 'InvalidArgument', 'data is not defined');
@@ -61,7 +61,7 @@ module.exports = function BudgetSectionData(logger, errors, table) {
     }
 
     const validate = (section) => {
-        const context = `${module}.validate`;
+        const context = `${module}.${validate.name}`;
 
         if (!section.name)
             return errors.create(context, 'InvalidData', 'Section name can not be empty!');

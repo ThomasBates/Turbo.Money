@@ -4,7 +4,7 @@ module.exports = function BudgetData(logger, errors, db) {
     const category = "Budget";
 
     const createSampleData = async (userCookie, budgetSections, budgetCategories, budgetAccounts) => {
-        const context = `${module}.createSampleData`;
+        const context = `${module}.${createSampleData.name}`;
 
         try {
 

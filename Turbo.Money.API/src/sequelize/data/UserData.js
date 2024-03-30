@@ -45,7 +45,7 @@ module.exports = function UserData(logger, errors, db) {
     }
 
     const validateUser = (user) => {
-        const context = `${module}.validateUser`;
+        const context = `${module}.${validateUser.name}`;
 
         if (!user.authorization.source)
             return errors.create(context, 'InvalidData', "User source can not be empty!");
@@ -73,7 +73,7 @@ module.exports = function UserData(logger, errors, db) {
 
     // Create and save a new record
     const createUser = async (user) => {
-        const context = `${module}.createUser`;
+        const context = `${module}.${createUser.name}`;
         logger.debug(category, context, 'user =', user);
 
         // Validate incoming business object.
@@ -116,7 +116,7 @@ module.exports = function UserData(logger, errors, db) {
 
     // Find a single record with an id
     const getUser = async (id) => {
-        const context = `${module}.getUser`;
+        const context = `${module}.${getUser.name}`;
         logger.debug(category, context, 'id =', id);
         try {
             const data = await db.user.findByPk(id, {
@@ -138,7 +138,7 @@ module.exports = function UserData(logger, errors, db) {
     };
 
     const getUserByAuthorization = async ({ source, sourceId }) => {
-        const context = `${module}.getUserByAuthorization`;
+        const context = `${module}.${getUserByAuthorization.name}`;
         logger.debug(category, context, `source="${source}", sourceId="${sourceId}"`);
         try {
             const userRecord = await db.user.findOne({
@@ -167,7 +167,7 @@ module.exports = function UserData(logger, errors, db) {
     }
 
     const getUserFamily = async (user, familyId) => {
-        const context = `${module}.getUserFamily`;
+        const context = `${module}.${getUserFamily.name}`;
         logger.debug(category, context, 'user =', user);
         logger.debug(category, context, 'familyId =', familyId);
 
@@ -205,7 +205,7 @@ module.exports = function UserData(logger, errors, db) {
 
     // Update a record by the id in the request
     const updateUser = async (user) => {
-        const context = `${module}.updateUser`;
+        const context = `${module}.${updateUser.name}`;
         logger.debug(category, context, 'user =', user);
 
         // Validate incoming business object.
@@ -237,7 +237,7 @@ module.exports = function UserData(logger, errors, db) {
 
     // Create and save a new record
     const initializeNewUser = async (user, family, role) => {
-        const context = `${module}.initializeNewUser`;
+        const context = `${module}.${initializeNewUser.name}`;
         logger.debug(category, context, 'user =', user);
         logger.debug(category, context, 'family =', family);
         logger.debug(category, context, 'role =', role);
@@ -303,7 +303,7 @@ module.exports = function UserData(logger, errors, db) {
     };
 
     const getUserFamilyRoleGrants = async (userId, familyId) => {
-        const context = `${module}.getUserFamilyRoleGrants`;
+        const context = `${module}.${getUserFamilyRoleGrants.name}`;
         logger.debug(category, context, 'userId =', userId);
         logger.debug(category, context, 'familyId =', familyId);
 
@@ -380,7 +380,7 @@ module.exports = function UserData(logger, errors, db) {
     };
 
     const getUserDefaultFamilyId = async (user) => {
-        const context = `${module}.getUserFamilyId`;
+        const context = `${module}.${getUserFamilyId.name}`;
         logger.debug(category, context, 'user =', user);
 
         if (!user)

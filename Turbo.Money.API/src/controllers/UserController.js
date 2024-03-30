@@ -13,7 +13,7 @@ module.exports = function UserController(logger, errors, business) {
     //  Cookie Functions  --------------------------------------------------------------------------
 
     function setCookie(res, cookieName, cookieData) {
-        const context = `${module}.setCookie`;
+        const context = `${module}.${setCookie.name}`;
         logger.debug(category, context, cookieName, cookieData);
         const signedCookie = jwt.sign(cookieData, config.cookieSecret, { expiresIn: config.cookieExpiration });
         res.cookie(cookieName, signedCookie, { maxAge: config.cookieExpiration, httpOnly: true, })
@@ -28,7 +28,7 @@ module.exports = function UserController(logger, errors, business) {
     }
 
     function clearCookie(res, cookieName) {
-        const context = `${module}.clearCookie`;
+        const context = `${module}.${clearCookie.name}`;
         logger.debug(category, context, cookieName);
         res.clearCookie(cookieName);
     }
@@ -36,7 +36,7 @@ module.exports = function UserController(logger, errors, business) {
     //  Exported Functions  ------------------------------------------------------------------------
 
     const getSignInUrl = (req, res) => {
-        const context = `${module}.getSignInUrl`;
+        const context = `${module}.${getSignInUrl.name}`;
         logger.debug(category, context, '***********************************************************************');
         logger.debug(category, context, 'req.query =', req.query);
 
@@ -69,7 +69,7 @@ module.exports = function UserController(logger, errors, business) {
     };
 
     const getSignedIn = async (req, res) => {
-        const context = `${module}.getSignedIn`;
+        const context = `${module}.${getSignedIn.name}`;
         logger.debug(category, context, '************************************************************************');
         logger.debug(category, context, 'req.cookies =', req.cookies);
 
@@ -136,7 +136,7 @@ module.exports = function UserController(logger, errors, business) {
     };
 
     const signIn = async (req, res) => {
-        const context = `${module}.signIn`;
+        const context = `${module}.${signIn.name}`;
         logger.debug(category, context, '*****************************************************************************');
         logger.debug(category, context, 'req.query =', req.query);
         logger.debug(category, context, 'req.cookies =', req.cookies);
@@ -174,7 +174,7 @@ module.exports = function UserController(logger, errors, business) {
     };
 
     const signOut = async (_, res) => {
-        const context = `${module}.signOut`;
+        const context = `${module}.${signOut.name}`;
         const result = { signedIn: false, message: 'Signed out' };
         logger.debug(category, context, 'return', result);
         clearCookie(res, 'user');

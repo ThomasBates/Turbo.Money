@@ -93,7 +93,7 @@ module.exports = function UserBusiness(logger, errors, data) {
     //  Exported Functions  ------------------------------------------------------------------------
 
     const getSignInUrl = (source, mode) => {
-        const context = `${module}.getSignInUrl`;
+        const context = `${module}.${getSignInUrl.name}`;
         logger.debug(category, context, '***************************************************');
         logger.debug(category, context, `source = "${source}", mode = "${mode}"`);
 
@@ -112,7 +112,7 @@ module.exports = function UserBusiness(logger, errors, data) {
     };
 
     const getSignedIn = async (userCookie, tokenCookie) => {
-        const context = `${module}.getSignedIn`;
+        const context = `${module}.${getSignedIn.name}`;
         logger.debug(category, context, '****************************************************');
         logger.debug(category, context, 'userCookie =', userCookie);
         logger.debug(category, context, 'tokenCookie =', tokenCookie);
@@ -176,7 +176,7 @@ module.exports = function UserBusiness(logger, errors, data) {
     };
 
     const signIn = async (source, mode, params) => {
-        const context = `${module}.signIn`;
+        const context = `${module}.${signIn.name}`;
         logger.debug(category, context, '****************************************************');
         logger.debug(category, context, 'params =', params);
 
@@ -250,7 +250,7 @@ module.exports = function UserBusiness(logger, errors, data) {
     //  Local Functions  ---------------------------------------------------------------------------
 
     const validateUserCookie = async (userCookie) => {
-        const context = `${module}.validateUserCookie`;
+        const context = `${module}.${validateUserCookie.name}`;
         logger.debug(category, context, 'userCookie =', userCookie);
 
         if (!userCookie.source)
@@ -282,7 +282,7 @@ module.exports = function UserBusiness(logger, errors, data) {
     }
 
     const signUpUser = async (user) => {
-        const context = `${module}.signUpUser`;
+        const context = `${module}.${signUpUser.name}`;
         logger.debug(category, context, 'user =', user);
 
         const existingUser = await data.getUserByAuthorization(user.authorization);
@@ -325,7 +325,7 @@ module.exports = function UserBusiness(logger, errors, data) {
     }
 
     const signInUser = async (user) => {
-        const context = `${module}.signInUser`;
+        const context = `${module}.${signInUser.name}`;
         logger.debug(category, context, 'user =', user);
 
         const existingUser = await data.getUserByAuthorization(user.authorization);
@@ -344,7 +344,7 @@ module.exports = function UserBusiness(logger, errors, data) {
     }
 
     const updateUserAuthAttributes = async (user) => {
-        const context = `${module}.updateUserAuthAttributes`;
+        const context = `${module}.${updateUserAuthAttributes.name}`;
         logger.debug(category, context, 'user =', user);
 
         const existingUser = await data.getUserByAuthorization(user.authorization);
@@ -370,7 +370,7 @@ module.exports = function UserBusiness(logger, errors, data) {
     }
 
     const getUserFamilyRoleGrants = async (userId, familyId) => {
-        const context = `${module}.getUserFamilyRoleGrants`;
+        const context = `${module}.${getUserFamilyRoleGrants.name}`;
         const user = await data.getUserFamilyRoleGrants(userId, familyId);
         logger.debug(category, context, 'user =', user);
         if (user.error) {
@@ -387,7 +387,7 @@ module.exports = function UserBusiness(logger, errors, data) {
     }
 
     const initializeNewUser = async (user) => {
-        const context = `${module}.initializeNewUser`;
+        const context = `${module}.${initializeNewUser.name}`;
         const result = await data.initializeNewUser(user,
             family = { name: user.name }, 
             role = { name: 'Administrator', isHead: true }
