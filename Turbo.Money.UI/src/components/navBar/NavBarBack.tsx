@@ -1,9 +1,9 @@
 import React from "react";
 
-function NavBarBack({ item, onListSelected }) {
+export default function NavBarBack({ style, item, onListSelected }) {
     const isText = (typeof item.content === 'string');
-    const className = isText ? "tb-navbar-item" : "tb-navbar-logo";
-    const iconClass = isText ? "bi-caret-left-fill tb-navbar-back-icon-color" : "";
+    const className = isText ? style.item : style.logo;
+    const iconClass = isText ? `bi-caret-left-fill ${style.back_icon_color}` : "";
 
     const handleClick = () => {
         if (onListSelected) {
@@ -22,5 +22,3 @@ function NavBarBack({ item, onListSelected }) {
         </div>
     );
 }
-
-export default NavBarBack;

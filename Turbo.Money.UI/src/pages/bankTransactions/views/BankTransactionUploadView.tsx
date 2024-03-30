@@ -1,6 +1,6 @@
 import React from 'react';
 
-function BankTransactionUploadView({ viewModel }) {
+export default function BankTransactionUploadView({ viewModel }) {
     viewModel = viewModel();
 
     return (
@@ -11,5 +11,3 @@ function BankTransactionUploadView({ viewModel }) {
         </div>
     );
 }
-
-export default BankTransactionUploadView;

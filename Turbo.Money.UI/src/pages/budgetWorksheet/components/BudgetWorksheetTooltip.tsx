@@ -2,7 +2,7 @@ import React from "react";
 
 import Overlay from 'react-bootstrap/Overlay';
 
-const BudgetWorksheetTooltip = ({target, show, placement, children }) => {
+export default function BudgetWorksheetTooltip({target, show, placement, children }) {
     return (
         <Overlay target={target} show={show} placement={placement}>
             {({
@@ -23,5 +23,3 @@ const BudgetWorksheetTooltip = ({target, show, placement, children }) => {
         </Overlay>
     );
 }
-
-export default BudgetWorksheetTooltip;

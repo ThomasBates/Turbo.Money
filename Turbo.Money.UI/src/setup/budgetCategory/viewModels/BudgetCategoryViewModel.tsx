@@ -8,7 +8,7 @@ import BudgetCategoryDataService from "../data/BudgetCategoryDataService";
 import BudgetCategoryDetailsViewModel from "./BudgetCategoryDetailsViewModel";
 import BudgetCategoryEditViewModel from "./BudgetCategoryEditViewModel";
 
-const BudgetCategoryViewModel = () => {
+export default function BudgetCategoryViewModel() {
     const initialBudgetCategory = {
         id: null,
         name: "",
@@ -66,5 +66,3 @@ const BudgetCategoryViewModel = () => {
         detailsViewModel,
         editViewModel);
 };
-
-export default BudgetCategoryViewModel;

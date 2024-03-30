@@ -2,7 +2,7 @@ import React from "react";
 
 import Overlay from 'react-bootstrap/Overlay';
 
-const BudgetWorksheetMenuList = ({target, show, children }) => {
+export default function BudgetWorksheetMenuList({target, show, children }) {
     return (
         <Overlay target={target} show={show} placement="left">
             {({
@@ -23,5 +23,3 @@ const BudgetWorksheetMenuList = ({target, show, children }) => {
         </Overlay>
     );
 }
-
-export default BudgetWorksheetMenuList;

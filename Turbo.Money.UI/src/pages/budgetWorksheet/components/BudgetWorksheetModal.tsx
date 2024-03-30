@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 
 import Modal from 'react-bootstrap/Modal';
 
-const BudgetWorksheetModal = ({show, onHide, children }) => {
+export default function BudgetWorksheetModal({show, onHide, children }) {
     return (
         show && (
             <Modal
@@ -19,5 +19,3 @@ const BudgetWorksheetModal = ({show, onHide, children }) => {
         )
     );
 }
-
-export default BudgetWorksheetModal;

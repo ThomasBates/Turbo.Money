@@ -1,6 +1,6 @@
 import axios from "./AxiosCommon";
 
-export default function CommonDataService(api) {
+export default function CommonDataProvider(api) {
 
     const create = data => {
         return axios.post(`/${api}`, data);

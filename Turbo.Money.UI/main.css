@@ -85,6 +85,10 @@ body {
     display: table;
 }
 
+.tb-header-item {
+    padding: 0 5px;
+}
+
 .tb-header-left {
     float: left;
 }
@@ -182,77 +186,17 @@ body {
 }
 
 .tb-social-link {
-    color: #888;
-    font-size: 2em;
-    /*background-color: #ccc;*/
-    /*
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    border-width: 0px;
-    border-radius: 20px;
-    margin: 2px;
-    */
     padding: 4px;
 }
 
 @media (hover:hover) and (pointer:fine) {
-    .tb-social-links .bi-twitter-x:hover {
-        color: #ff0;
+    .tb-social-link img {
+        filter: grayscale(1);
+        width: 24px;
     }
 
-    .tb-social-links .bi-wordpress:hover {
-        color: #0ff;
-    }
-
-    .tb-social-links .bi-youtube:hover {
-        color: #f00;
-    }
-
-    .tb-social-links .bi-instagram:hover {
-        color: #0f0;
-    }
-
-    .tb-social-links .bi-facebook:hover {
-        color: #44f;
-    }
-}
-
-@media (pointer:fine) {
-    .tb-social-link {
-        font-size: 1em;
-    }
-}
-
-/* SETTINGS LINKS ----------------------------------------------------------- */
-
-.tb-settings {
-}
-
-.tb-settings-link {
-    color: #888;
-    font-size: 2em;
-    /*
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    border-width: 0px;
-    border-radius: 20px;
-    margin: 2px;
-    */
-    padding: 4px;
-}
-
-.tb-settings .bi-person-fill:hover {
-    color: #ccc;
-}
-
-.tb-settings .bi-three-dots-vertical:hover {
-    color: #ccc;
-}
-
-@media (pointer:fine) {
-    .tb-settings-link {
-        font-size: 1em;
+    .tb-social-link:hover img {
+        filter: grayscale(0);
+        width: 30px;
     }
 }

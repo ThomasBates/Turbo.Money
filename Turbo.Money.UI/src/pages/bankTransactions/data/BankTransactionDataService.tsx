@@ -2,7 +2,7 @@ import React from 'react';
 
 import dataProvider from "./BankTransactionDataProvider";
 
-function BankTransactionDataService() {
+export default function BankTransactionDataService() {
 
     function uploadFile(file) {
         dataProvider().uploadFile(file);
@@ -12,5 +12,3 @@ function BankTransactionDataService() {
         uploadFile
     };
 }
-
-export default BankTransactionDataService;

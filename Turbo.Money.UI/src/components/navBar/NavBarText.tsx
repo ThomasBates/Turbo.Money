@@ -1,11 +1,11 @@
 import React from "react";
 
-function NavBarText({ item }) {
+export default function NavBarText({ style, item }) {
 
     if (item.content === "---") {
         return (
             <div
-                className="tb-navbar-divider"
+                className={style.divider}
                 key={item}
                 data-value={item.content}
             />
@@ -13,8 +13,8 @@ function NavBarText({ item }) {
     }
 
     const isText = (typeof item.content === 'string');
-    const className = isText ? "tb-navbar-text" : "tb-navbar-logo";
-    const iconClass = isText ? "bi-dot tb-navbar-text-icon-color" : "";
+    const className = isText ? style.text : style.logo;
+    const iconClass = isText ? "bi-dot " + style.text_icon_color : "";
 
     return (
         <div
@@ -26,5 +26,3 @@ function NavBarText({ item }) {
         </div>
     );
 }
-
-export default NavBarText;

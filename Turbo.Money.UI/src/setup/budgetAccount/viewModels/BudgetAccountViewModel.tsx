@@ -8,7 +8,7 @@ import BudgetAccountDataService from "../data/BudgetAccountDataService";
 import BudgetAccountDetailsViewModel from "./BudgetAccountDetailsViewModel";
 import BudgetAccountEditViewModel from "./BudgetAccountEditViewModel";
 
-const BudgetAccountViewModel = () => {
+export default function BudgetAccountViewModel() {
     const initialAccount = {
         id: null,
         name: "",
@@ -69,5 +69,3 @@ const BudgetAccountViewModel = () => {
         detailsViewModel,
         editViewModel);
 };
-
-export default BudgetAccountViewModel;

@@ -3,7 +3,7 @@ import React from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-const BankAccountEditView = ({ viewModel }) => {
+export default function BankAccountEditView({ viewModel }) {
 
     const handleInputChange = event => {
         const { name, value } = event.target;
@@ -108,5 +108,3 @@ const BankAccountEditView = ({ viewModel }) => {
         </div>
     );
 };
-
-export default BankAccountEditView;

@@ -13,7 +13,7 @@ export default function SignInEmailView({ viewModel }) {
 
     return (
         <div className="login-wrapper">
-            <h1 className='tb-page-title'>Sign Up with Email</h1>
+            <h1 className='tb-page-title'>Sign In with Email</h1>
             <form className='tb-form' onSubmit={handleSubmit}>
 
                 <label className='tb-form-label'> Email </label>

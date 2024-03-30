@@ -13,10 +13,8 @@ const modeViews = {
     none: BudgetCategoryDetailsView
 }
 
-const BudgetCategoryView = ({ viewModel }) => {
+export default function BudgetCategoryView({ viewModel }) {
     return (
         <CommonView viewModel={viewModel} modeViews={modeViews} />
     );
 };
-
-export default BudgetCategoryView;

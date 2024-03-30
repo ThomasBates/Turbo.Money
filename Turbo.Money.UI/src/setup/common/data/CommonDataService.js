@@ -1,6 +1,6 @@
 import axios from "../../../axios/AxiosCommon";
 
-const CommonDataService = (api) => {
+export default function CommonDataService(api) {
 
     const create = data => {
         return axios.post(`/${api}`, data);
@@ -35,5 +35,3 @@ const CommonDataService = (api) => {
         remove
     };
 };
-
-export default CommonDataService;

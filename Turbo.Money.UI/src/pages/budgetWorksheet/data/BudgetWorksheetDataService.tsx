@@ -4,7 +4,7 @@ import BudgetSectionDataService from "../../../setup/budgetSection/data/BudgetSe
 import BudgetCategoryDataService from "../../../setup/budgetCategory/data/BudgetCategoryDataService";
 import BudgetAccountDataService from "../../../setup/budgetAccount/data/BudgetAccountDataService";
 
-const BudgetWorksheetDataService = () => {
+export default function BudgetWorksheetDataService() {
     const name = BudgetWorksheetDataService.name;
 
     const [sectionList, setSectionList] = useState([]);
@@ -512,5 +512,3 @@ const BudgetWorksheetDataService = () => {
         getBudgetAccountTotal,
     };
 };
-
-export default BudgetWorksheetDataService;

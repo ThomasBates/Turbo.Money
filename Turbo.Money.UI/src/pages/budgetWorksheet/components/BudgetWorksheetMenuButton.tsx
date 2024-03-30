@@ -12,7 +12,7 @@ import Button from 'react-bootstrap/Button';
 import BudgetWorksheetTooltip from "./BudgetWorksheetTooltip";
 import BudgetWorksheetMenuList from "./BudgetWorksheetMenuList";
 
-const BudgetWorksheetMenuButton = ({tooltip, children}) => {
+export default function BudgetWorksheetMenuButton({tooltip, children}) {
     const [showTooltip, setShowTooltip] = useState(false);
     const [showMenuList, setShowMenuList] = useState(false);
     const tooltipRef = useRef(null);
@@ -48,5 +48,3 @@ const BudgetWorksheetMenuButton = ({tooltip, children}) => {
         </>
     );
 }
-
-export default BudgetWorksheetMenuButton;

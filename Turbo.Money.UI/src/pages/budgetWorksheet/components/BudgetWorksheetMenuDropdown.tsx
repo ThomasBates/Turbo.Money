@@ -11,7 +11,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 
 import BudgetWorksheetTooltip from "./BudgetWorksheetTooltip";
 
-const BudgetWorksheetMenuDropdown = ({tooltip, children}) => {
+export default function BudgetWorksheetMenuDropdown({tooltip, children}) {
     const [showTooltip, setShowTooltip] = useState(false);
     const tooltipRef = useRef(null);
 
@@ -41,5 +41,3 @@ const BudgetWorksheetMenuDropdown = ({tooltip, children}) => {
         </>
     );
 }
-
-export default BudgetWorksheetMenuDropdown;

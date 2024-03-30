@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 import NavBarItem from "./NavBarItem";
 
-function NavBarList({ item, top, hover, wide, onListSelected, onItemSelected }) {
+export default function NavBarList({ style, item, top, hover, wide, onListSelected, onItemSelected }) {
     const [showList, setShowList] = useState(false);
     const [listPosition, setListPosition] = useState("");
     const mainRef = useRef(null);
@@ -90,20 +90,20 @@ function NavBarList({ item, top, hover, wide, onListSelected, onItemSelected }) 
     const isText = (typeof item.content === 'string');
     const isRoot = (item.content === "root");
     const className = isRoot
-        ? "tb-navbar-toggle bi-list"
+        ? style.toggle + " bi-list"
         : !isText
-            ? "tb-navbar-logo"
+            ? style.logo
             : enabled
-                ? "tb-navbar-item"
-                : "tb-navbar-disabled-item";
+                ? style.item
+                : style.disabled_item;
 
     let iconClass = "";
     if (isText) {
-        iconClass = (top ? "bi-caret-down-fill" : "bi-caret-right-fill")
-            + (enabled ? " tb-navbar-list-icon-color" : " tb-navbar-disabled-icon-color");
+        iconClass = (top ? "bi-caret-down-fill " : "bi-caret-right-fill ")
+            + (enabled ? style.list_icon_color : style.disabled_icon_color);
     }
 
-    const listClass = `tb-navbar-list tb-navbar-list-position-${listPosition} ${isRoot ? "tb-navbar-toggle-restore" : ""}`;
+    const listClass = `${style.list} ${style[`list_position_${listPosition}`]} ${isRoot ? style.toggle_restore : ""}`;
 
     return (
         <div
@@ -125,6 +125,7 @@ function NavBarList({ item, top, hover, wide, onListSelected, onItemSelected }) 
                 >
                     {item.list.map(item => (
                         <NavBarItem
+                            style={style}
                             item={item}
                             top={false}
                             hover={hover}
@@ -138,5 +139,3 @@ function NavBarList({ item, top, hover, wide, onListSelected, onItemSelected }) 
         </div>
     );
 }
-
-export default NavBarList;

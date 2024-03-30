@@ -32,7 +32,7 @@ const modeViewModels = {
     }
 }
 
-const BudgetWorksheetViewModel = () => {
+export default function BudgetWorksheetViewModel() {
     const dataService = BudgetWorksheetDataService();
 
     const [modeViewModelProps, setModeViewModelProps] = useState(null);
@@ -111,4 +111,3 @@ const BudgetWorksheetViewModel = () => {
     }
 };
 
-export default BudgetWorksheetViewModel;

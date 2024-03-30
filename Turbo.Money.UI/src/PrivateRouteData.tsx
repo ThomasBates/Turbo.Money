@@ -3,14 +3,17 @@ import { Outlet } from 'react-router-dom';
 
 //  ----------------------------------------------------------------------------
 
+import PrivateHeaderData from './PrivateHeaderData';
 import PrivateNavData from './PrivateNavData';
 
-import Header from './components/Header';
+import HeaderNavBar from './components/header/HeaderNavBar';
 import NavBar from './components/navBar/NavBar';
 import SideBar from './components/SideBar';
 import Footer from './components/Footer';
 
-import Dashboard from './pages/Dashboard';
+import DashboardDataProvider from './pages/dashboard/data/DashboardDataProvider';
+import DashboardViewModel from './pages/dashboard/viewModels/DashboardViewModel';
+import DashboardView from './pages/dashboard/views/DashboardView';
 
 import BudgetWorksheetViewModel from './pages/budgetWorksheet/viewModels/BudgetWorksheetViewModel';
 import BudgetWorksheetView from './pages/budgetWorksheet/views/BudgetWorksheetView';
@@ -22,8 +25,8 @@ import TransactionEntry from './pages/TransactionEntry';
 import BankTransactionUploadViewModel from './pages/bankTransactions/viewModels/BankTransactionUploadViewModel';
 import BankTransactionUploadView from './pages/bankTransactions/views/BankTransactionUploadView';
 
-import ReportByPeriod from './pages/ReportByPeriod';
-import ReportByAccount from './pages/ReportByAccount';
+import ReportByPeriod from './pages/reports/views/ReportByPeriod';
+import ReportByAccount from './pages/reports/views/ReportByAccount';
 
 import BankBankViewModel from './setup/bankBank/viewModels/BankBankViewModel';
 import BankBankView from './setup/bankBank/views/BankBankView';
@@ -45,12 +48,13 @@ import NotFound from './pages/NotFound';
 
 //  ----------------------------------------------------------------------------
 
-export default function PrivateRouteData() {
+export default function PrivateRouteData(app) {
 
     return [{
         element:
             <div>
-                <Header />
+                {/*<PrivateHeaderView viewModel={PrivateHeaderViewModel(HeaderDataProvider())} />*/}
+                <HeaderNavBar navData={PrivateHeaderData(app.users)} />
                 <NavBar navData={PrivateNavData()} />
                 <div className="tb-content">
                     <SideBar />
@@ -62,8 +66,7 @@ export default function PrivateRouteData() {
             </div>,
         children: [
             //  dashboard
-            { path: "/", element: <Dashboard />, },
-            { path: "/dashboard", element: <Dashboard />, },
+            { path: "/", element: <DashboardView viewModel={DashboardViewModel} viewModelArgs={{ dashboardDataProvider: DashboardDataProvider() }} /> },
 
             //  Budget 
             { path: "/BudgetWorksheetView", element: < BudgetWorksheetView viewModel={BudgetWorksheetViewModel} /> },

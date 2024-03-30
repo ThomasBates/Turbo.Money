@@ -7,7 +7,7 @@ import BudgetSectionDataService from "../data/BudgetSectionDataService";
 import BudgetSectionDetailsViewModel from "./BudgetSectionDetailsViewModel";
 import BudgetSectionEditViewModel from "./BudgetSectionEditViewModel";
 
-const BudgetSectionViewModel = () => {
+export default function BudgetSectionViewModel() {
     const initialBudgetSection = {
         id: null,
         name: "",
@@ -22,5 +22,3 @@ const BudgetSectionViewModel = () => {
         BudgetSectionDetailsViewModel,
         BudgetSectionEditViewModel);
 };
-
-export default BudgetSectionViewModel;

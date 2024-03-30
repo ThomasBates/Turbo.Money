@@ -2,7 +2,7 @@ import React from "react";
 
 import CommonEditViewModel from "../../common/viewModels/CommonEditViewModel";
 
-const BudgetCategoryEditViewModel = ({ mode, item, setItem, list, sections, onSubmitted, onCancelled }) => {
+export default function BudgetCategoryEditViewModel({ mode, item, setItem, list, sections, onSubmitted, onCancelled }) {
 
     const common = CommonEditViewModel(
         "Budget Category",
@@ -48,5 +48,3 @@ const BudgetCategoryEditViewModel = ({ mode, item, setItem, list, sections, onSu
         canSubmit
     }
 };
-
-export default BudgetCategoryEditViewModel;

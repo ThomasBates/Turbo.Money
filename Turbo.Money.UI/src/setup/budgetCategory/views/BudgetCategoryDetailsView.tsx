@@ -2,7 +2,7 @@ import React from "react";
 
 import Button from 'react-bootstrap/Button';
 
-const BankDetailsView = ({ viewModel }) => {
+export default function BankDetailsView({ viewModel }) {
 
     return (
         <div className="col-md-6">
@@ -53,5 +53,3 @@ const BankDetailsView = ({ viewModel }) => {
         </div >
     );
 };
-
-export default BankDetailsView;

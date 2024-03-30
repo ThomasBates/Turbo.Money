@@ -3,7 +3,7 @@ import React from 'react'
 import AppContextProvider from "./AppContextProvider";
 import RouteData from "./RouteData";
 
-function App() {
+export default function App() {
     return (
         <div className="App">
             <AppContextProvider>
@@ -12,5 +12,3 @@ function App() {
         </div>
     );
 }
-
-export default App;

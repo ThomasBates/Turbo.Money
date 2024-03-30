@@ -3,7 +3,7 @@ import React from 'react';
 import axios from "../../../axios/AxiosCommon";
 import CommonDataProvider from "../../../axios/CommonDataProvider";
 
-function BankTransactionDataProvider() {
+export default function BankTransactionDataProvider() {
 
     const common = CommonDataProvider("bankTransactions")
 
@@ -29,5 +29,3 @@ function BankTransactionDataProvider() {
         uploadFile,
     };
 }
-
-export default BankTransactionDataProvider;

@@ -7,7 +7,7 @@ import BankDataService from "../data/BankBankDataService";
 import BankDetailsViewModel from "./BankBankDetailsViewModel";
 import BankEditViewModel from "./BankBankEditViewModel";
 
-const BankViewModel = () => {
+export default function BankViewModel() {
     const initialBank = {
         id: null,
         name: "",
@@ -22,5 +22,3 @@ const BankViewModel = () => {
         BankDetailsViewModel,
         BankEditViewModel);
 };
-
-export default BankViewModel;

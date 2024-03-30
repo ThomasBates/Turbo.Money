@@ -28,7 +28,7 @@ function Menu({ viewModel }) {
     );
 };
 
-const BudgetWorksheetSectionView = ({ viewModel }) => {
+export default function BudgetWorksheetSectionView({ viewModel }) {
     const query = window.matchMedia("(min-width:641px)");
     const [wide, setWide] = useState(query.matches);
     useEffect(() => {
@@ -59,5 +59,3 @@ const BudgetWorksheetSectionView = ({ viewModel }) => {
         </>
     );
 };
-
-export default BudgetWorksheetSectionView;

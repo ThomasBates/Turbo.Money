@@ -2,11 +2,11 @@ import React from "react";
 
 import BudgetWorksheetCategoryViewModel from "./BudgetWorksheetCategoryViewModel";
 
-const BudgetWorksheetSectionViewModel = (
+export default function BudgetWorksheetSectionViewModel(
     section,
     dataService,
     setModeItem,
-    setModeViewModelProps) => {
+    setModeViewModelProps) {
 
     const categoryViewModels = dataService.listBudgetCategories(section)
         .map(category => BudgetWorksheetCategoryViewModel(
@@ -119,5 +119,3 @@ const BudgetWorksheetSectionViewModel = (
         addCategory,
     }
 };
-
-export default BudgetWorksheetSectionViewModel;

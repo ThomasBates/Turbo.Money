@@ -2,7 +2,7 @@ import React from "react";
 
 import CommonDetailsViewModel from "../../common/viewModels/CommonDetailsViewModel";
 
-const BankDetailsViewModel = ({ mode, item, onSubmitted, onCancelled }) => {
+export default function BankDetailsViewModel({ mode, item, onSubmitted, onCancelled }) {
 
     return CommonDetailsViewModel(
         "Bank",
@@ -12,5 +12,3 @@ const BankDetailsViewModel = ({ mode, item, onSubmitted, onCancelled }) => {
         onSubmitted,
         onCancelled);
 };
-
-export default BankDetailsViewModel;

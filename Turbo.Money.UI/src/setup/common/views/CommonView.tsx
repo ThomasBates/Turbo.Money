@@ -5,7 +5,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 
 const ModeView = ({ modeView, viewModel }) => modeView({ viewModel });
 
-const CommonView = ({ viewModel, modeViews }) => {
+export default function CommonView({ viewModel, modeViews }) {
     viewModel = viewModel();
 
     return (
@@ -46,5 +46,3 @@ const CommonView = ({ viewModel, modeViews }) => {
         </div>
     );
 };
-
-export default CommonView;

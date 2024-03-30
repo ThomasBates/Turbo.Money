@@ -1,10 +1,10 @@
 import React from "react";
 
-const BudgetWorksheetAccountViewModel = (
+export default function BudgetWorksheetAccountViewModel(
     account,
     dataService,
     setModeItem,
-    setModeViewModelProps) => {
+    setModeViewModelProps) {
 
     const amountTypes = {
         "min": "Minimum",
@@ -106,5 +106,3 @@ const BudgetWorksheetAccountViewModel = (
         deleteAccount
     }
 };
-
-export default BudgetWorksheetAccountViewModel;

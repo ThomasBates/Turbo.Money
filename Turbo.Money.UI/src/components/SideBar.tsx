@@ -2,7 +2,7 @@ import React from "react";
 
 import SocialLinks from './SocialLinks';
 
-function SideBar() {
+export default function SideBar() {
 
     return (
         <div className="tb-sidebar">
@@ -14,5 +14,3 @@ function SideBar() {
         </div>
     );
 }
-
-export default SideBar;

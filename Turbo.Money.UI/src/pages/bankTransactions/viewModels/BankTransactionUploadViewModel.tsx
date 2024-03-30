@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import dataService from "../data/BankTransactionDataService";
 
-function BankTransactionUploadViewModel() {
+export default function BankTransactionUploadViewModel() {
     const [file, setFile] = useState(null);
 
     const canSubmit = () => {
@@ -26,5 +26,3 @@ function BankTransactionUploadViewModel() {
         submit,
     };
 }
-
-export default BankTransactionUploadViewModel;

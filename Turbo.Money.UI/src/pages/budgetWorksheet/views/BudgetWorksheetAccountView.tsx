@@ -22,7 +22,7 @@ function Menu({ viewModel }) {
     );
 };
 
-const BudgetWorksheetAccountView = ({ viewModel }) => {
+export default function BudgetWorksheetAccountView({ viewModel }) {
     return (
         <>
             <tr className="tb-worksheet-row">
@@ -38,5 +38,3 @@ const BudgetWorksheetAccountView = ({ viewModel }) => {
         </>
     );
 };
-
-export default BudgetWorksheetAccountView;

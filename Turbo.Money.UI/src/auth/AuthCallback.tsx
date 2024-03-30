@@ -2,37 +2,34 @@ import React, { useEffect, useRef, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 import AppContext from "../AppContext";
-import AuthDataProvider from "./data/AuthDataProvider";
 
-const AuthCallback = () => {
+export default function AuthCallback() {
+    const module = AuthCallback.name;
+
     const called = useRef(false);
-    const { signedIn, checkSignInState } = useContext(AppContext);
+    const { users } = useContext(AppContext);
     const navigate = useNavigate();
 
-    const authDataProvider = AuthDataProvider();
-
-    console.log("AuthCallback:");
+    console.log(module,':');
 
     useEffect(() => {
+        const context = `${module}.${useEffect.name}:`;
         (async () => {
-            console.log(`AuthCallback.useEffect: signedIn = ${signedIn}, called = ${called.current}`);
-            if (!signedIn) {
+            console.log(context, `signedIn = ${users.signedIn}, called = ${called.current}`);
+            if (!users.signedIn) {
                 try {
                     // prevent rerender caused by StrictMode
                     if (called.current)
                         return;
 
+                    called.current = true;
+
                     //  window.location.search is the query part (?...) 
                     //  of the url sent by x / google / facebook / etc.
                     //  we're passing it through to get(api/auth/sign_up).
-                    console.log(`AuthCallback.useEffect: window.location.search = "${window.location.search}"`);
+                    console.log(context, `window.location.search = "${window.location.search}"`);
 
-                    called.current = true;
-
-                    const data = await authDataProvider.signIn(window.location.search);
-                    console.log('AuthCallback.useEffect: data =', data);
-
-                    checkSignInState(data);
+                    await users.auth.callbackOAuth(window.location.search);
                     navigate('/');
                 } catch (err) {
                     console.error(err);
@@ -42,9 +39,7 @@ const AuthCallback = () => {
                 navigate('/');
             }
         })();
-    }, [checkSignInState, signedIn, navigate]);
+    }, []);
 
     return <></>
 };
-
-export default AuthCallback;

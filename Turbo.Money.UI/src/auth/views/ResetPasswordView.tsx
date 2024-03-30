@@ -1,7 +1,7 @@
 import React from 'react';
 import './Auth.css';
 
-export default function Login() {
+export default function ResetPasswordView() {
     return (
         <div className="login-wrapper">
             <h1>Please Log In</h1>

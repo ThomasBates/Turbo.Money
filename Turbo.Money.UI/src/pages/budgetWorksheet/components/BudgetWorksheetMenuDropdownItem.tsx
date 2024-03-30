@@ -11,7 +11,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 
 import BudgetWorksheetTooltip from "./BudgetWorksheetTooltip";
 
-const BudgetWorksheetMenuDropdownItem = ({ icon, text, onClick }) => {
+export default function BudgetWorksheetMenuDropdownItem({ icon, text, onClick }) {
     return (
         <>
             <Dropdown.Item onClick={onClick} >
@@ -30,5 +30,3 @@ const BudgetWorksheetMenuDropdownItem = ({ icon, text, onClick }) => {
         </>
     );
 }
-
-export default BudgetWorksheetMenuDropdownItem;

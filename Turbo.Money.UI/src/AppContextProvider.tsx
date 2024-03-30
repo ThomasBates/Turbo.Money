@@ -1,42 +1,17 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect } from 'react'
 
 import AppContext from "./AppContext";
-import AuthDataProvider from "./auth/data/AuthDataProvider";
+import UserService from './services/user/UserService';
 
-const AppContextProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [signedIn, setSignedIn] = useState(false);
+export default function AppContextProvider({ children }) {
 
-    const authDataProvider = AuthDataProvider();
-
-    const checkSignInState = useCallback(async (data) => {
-        try {
-            console.log('AppContextProvider.checkSignInState: data =', data);
-            if (!data) {
-                data = await authDataProvider.getSignedIn();
-                console.log('AppContextProvider.checkSignInState: data =', data);
-            }
-
-            if (data.message === "In Progress") {
-                return;
-            }
-
-            setSignedIn(data.signedIn);
-            data.user && setUser(data.user);
-        } catch (error) {
-            console.error('AppContextProvider.checkSignInState: catch: error =', error);
-        }
-    }, []);
-
-    useEffect(() => {
-        checkSignInState(null);
-    }, []);
+    const errors = null;
+    const logger = null;
+    const users = UserService();
 
     return (
-        <AppContext.Provider value={{ user, signedIn, checkSignInState }}>
+        <AppContext.Provider value={{ errors, logger, users }}>
             {children}
         </AppContext.Provider>
     );
 }
-
-export default AppContextProvider;

@@ -9,7 +9,7 @@ import React, { useRef, useState } from "react";
 
 import Button from 'react-bootstrap/Button';
 
-const BudgetWorksheetMenuButtonItem = ({ icon, text, onClick }) => {
+export default function BudgetWorksheetMenuButtonItem({ icon, text, onClick }) {
     let variant;
     let iconClass;
     switch (icon) {
@@ -51,5 +51,3 @@ const BudgetWorksheetMenuButtonItem = ({ icon, text, onClick }) => {
         </>
     );
 }
-
-export default BudgetWorksheetMenuButtonItem;

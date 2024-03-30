@@ -8,7 +8,7 @@ import BankAccountDataService from "../data/BankAccountDataService";
 import BankAccountDetailsViewModel from "./BankAccountDetailsViewModel";
 import BankAccountEditViewModel from "./BankAccountEditViewModel";
 
-const BankAccountViewModel = () => {
+export default function BankAccountViewModel() {
     const initialAccount = {
         id: null,
         name: "",
@@ -66,5 +66,3 @@ const BankAccountViewModel = () => {
         detailsViewModel,
         editViewModel);
 };
-
-export default BankAccountViewModel;

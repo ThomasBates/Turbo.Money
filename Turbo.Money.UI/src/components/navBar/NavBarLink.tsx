@@ -1,13 +1,17 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function NavBarLink({ item, onItemSelected }) {
+export default function NavBarLink({ style, item, onItemSelected }) {
     const navigate = useNavigate();
     const isText = (typeof item.content === 'string');
     const enabled = !("enabled" in item) || item.enabled;
-    const className = isText ? (enabled ? "tb-navbar-item" : "tb-navbar-disabled-item") : "tb-navbar-logo";
-    const iconClass = (isText ? "bi-record-fill" : "")
-        + (enabled ? " tb-navbar-link-icon-color" : " tb-navbar-disabled-icon-color");
+    const className = isText ? (enabled ? style.item : style.disabled_item) : style.logo;
+    //const iconClass = (isText ? "bi-record-fill" : "")
+    //    + ` ${enabled ? style.link_icon_color : style.disabled_icon_color}`;
+
+    const icon = !isText ? "" : enabled
+        ? (item.icon || (<img src="/assets/icons/icons8-green-circle-48.png" alt="Link" width="24" />))
+        : (item.disabledIcon || (<img src="/assets/icons/icons8-red-circle-48.png" alt="Link" width="24" />));
 
     const handleClick = () => {
         const enabled = !("enabled" in item) || item.enabled;
@@ -18,7 +22,12 @@ function NavBarLink({ item, onItemSelected }) {
         if (onItemSelected) {
             onItemSelected(item);
         }
-        navigate(item.to);
+
+        if (item.action)
+            item.action();
+
+        if (item.to)
+            navigate(item.to);
     }
 
     return (
@@ -28,9 +37,9 @@ function NavBarLink({ item, onItemSelected }) {
             onClick={handleClick}
             data-value={item.content}
         >
-            <span className={iconClass} />{item.content}
+            {/*<span className={iconClass} />{item.content}*/}
+            <span className={style.link_icon}>{icon}</span>
+            <span className={style.link_content}>{item.content}</span>
         </div>
     );
 }
-
-export default NavBarLink;

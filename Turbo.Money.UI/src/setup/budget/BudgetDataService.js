@@ -1,6 +1,6 @@
 import axios from "../../axios/AxiosCommon";
 
-function BudgetDataService() {
+export default function BudgetDataService() {
 
     const createSampleData = () => {
         return axios.post(`/budget/create_sample_data`);
@@ -10,5 +10,3 @@ function BudgetDataService() {
         createSampleData,
     };
 };
-
-export default BudgetDataService();

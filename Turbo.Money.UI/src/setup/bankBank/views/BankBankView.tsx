@@ -13,10 +13,8 @@ const modeViews = {
     none: BankDetailsView
 }
 
-const BankView = ({ viewModel }) => {
+export default function BankView({ viewModel }) {
     return (
         <CommonView viewModel={viewModel} modeViews={modeViews} />
     );
 };
-
-export default BankView;

@@ -2,8 +2,8 @@ import React, { useState, useContext } from 'react';
 
 import AppContext from "../../AppContext";
 
-export default function SignInEmailViewModel(authDataProvider) {
-    const { signedIn, checkSignInState } = useContext(AppContext);
+export default function SignInEmailViewModel() {
+    const { users } = useContext(AppContext);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -27,16 +27,7 @@ export default function SignInEmailViewModel(authDataProvider) {
             return;
 
         try {
-            const urlData = await authDataProvider.getSignInUrl('email', 'signIn');
-            console.log('SignInEmailViewModel.submit: urlData =', urlData);
-
-            const params = { email, password };
-            console.log('SignInEmailViewModel.submit: params =', params);
-
-            const signInData = await authDataProvider.signIn(params);
-            console.log('SignInEmailViewModel.submit: signInData =', signInData);
-
-            checkSignInState(signInData);
+            await users.auth.signInEmail(email, password);
             navigate('/');
 
         } catch (error) {

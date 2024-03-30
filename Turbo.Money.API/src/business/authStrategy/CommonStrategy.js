@@ -1,13 +1,13 @@
 
 module.exports = function CommonStrategy(logger, errors, strategy) {
-    const module = 'CommonStrategy';
+    const module = CommonStrategy.name;
     const category = 'User';
 
     const axios = require("axios");
     const queryString = require('node:querystring');
 
     function getSignInUrl() {
-        const context = `${module}.getSignInUrl`;
+        const context = `${module}.${getSignInUrl.name}`;
         const { url, params } = strategy.auth;
 
         logger.verbose(category, context, 'url =', url);

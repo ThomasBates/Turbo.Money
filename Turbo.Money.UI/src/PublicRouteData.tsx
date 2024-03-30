@@ -7,30 +7,26 @@ import {
 
 //  ----------------------------------------------------------------------------
 
+import PublicHeaderData from './PublicHeaderData';
 import PublicNavData from './PublicNavData';
 
-import Header from './components/Header';
+import HeaderNavBar from './components/header/HeaderNavBar';
 import NavBar from './components/navBar/NavBar';
 import SideBar from './components/SideBar';
 import Footer from './components/Footer';
 
-import AuthDataProvider from './auth/data/AuthDataProvider';
-import SignInViewModel from './auth/viewModels/SignInViewModel';
-import SignInView from './auth/views/SignInView';
-
 import AuthCallback from "./auth/AuthCallback";
-
-import SignInOAuthViewModel from './auth/viewModels/SignInOAuthViewModel';
-import SignInOAuthView from './auth/views/SignInOAuthView';
 
 import SignUpEmailViewModel from './auth/viewModels/SignUpEmailViewModel';
 import SignUpEmailView from './auth/views/SignUpEmailView';
 
 import SignInEmailViewModel from './auth/viewModels/SignInEmailViewModel';
 import SignInEmailView from './auth/views/SignInEmailView';
-import Recover from './auth/views/ResetPasswordView';
+import ResetPasswordView from './auth/views/ResetPasswordView';
 
-import Public from './pages/Public';
+import PublicDataProvider from './pages/public/data/PublicDataProvider';
+import PublicViewModel from './pages/public/viewModels/PublicViewModel';
+import PublicView from './pages/public/views/PublicView';
 
 import About from './pages/About';
 
@@ -45,14 +41,12 @@ function NotFoundRedirect() {
     return <Navigate to="/" replace state={{ from: location }} />;
 }
 
-export default function PublicRouteData() {
-
-    const authDataProvider = AuthDataProvider();
+export default function PublicRouteData(app) {
 
     return [{
         element:
             <div>
-                <Header />
+                <HeaderNavBar navData={PublicHeaderData(app.users)} />
                 <NavBar navData={PublicNavData()} />
                 <div className="tb-content">
                     <SideBar />
@@ -64,26 +58,16 @@ export default function PublicRouteData() {
             </div>,
         children: [
             //  dashboard
-            { path: "/", element: <Public /> },
+            { path: "/", element: <PublicView viewModel={PublicViewModel(PublicDataProvider())} /> },
 
             // OAuth 2.0 sources will redirect here
             { path: '/auth_callback', element: <AuthCallback /> },
             { path: '/auth/callback_google_signin', element: <AuthCallback /> },  // google will redirect here
 
-            { path: "/signUp", element: <SignInView viewModel={SignInViewModel(authDataProvider, 'signUp')} /> },
-            { path: "/signIn", element: <SignInView viewModel={SignInViewModel(authDataProvider, 'signIn')} /> },
+            { path: "/signUpEmail", element: <SignUpEmailView viewModel={SignUpEmailViewModel()} /> },
+            { path: "/signInEmail", element: <SignInEmailView viewModel={SignInEmailViewModel()} /> },
 
-            { path: "/signUpFacebook", element: <SignInOAuthView viewModel={SignInOAuthViewModel(authDataProvider, 'facebook', 'signUp')} /> },
-            { path: "/signUpGoogle", element: <SignInOAuthView viewModel={SignInOAuthViewModel(authDataProvider, 'google', 'signUp')} /> },
-            { path: "/signUpTwitter", element: <SignInOAuthView viewModel={SignInOAuthViewModel(authDataProvider, 'twitter', 'signUp')} /> },
-            { path: "/signUpEmail", element: <SignUpEmailView viewModel={SignUpEmailViewModel(authDataProvider)} /> },
-
-            { path: "/signInFacebook", element: <SignInOAuthView viewModel={SignInOAuthViewModel(authDataProvider, 'facebook', 'signIn')} /> },
-            { path: "/signInGoogle", element: <SignInOAuthView viewModel={SignInOAuthViewModel(authDataProvider, 'google', 'signIn')} /> },
-            { path: "/signInTwitter", element: <SignInOAuthView viewModel={SignInOAuthViewModel(authDataProvider, 'twitter', 'signIn')} /> },
-            { path: "/signInEmail", element: <SignInEmailView viewModel={SignInEmailViewModel(authDataProvider)} /> },
-
-            { path: "/recover", element: <Recover /> },
+            { path: "/resetPassword", element: <ResetPasswordView /> },
 
             //  about
             { path: "/about", element: <About /> },

@@ -2,7 +2,7 @@ import React from "react";
 
 import CommonEditViewModel from "../../common/viewModels/CommonEditViewModel";
 
-const BudgetAccountEditViewModel = ({ mode, item, setItem, list, categories, onSubmitted, onCancelled }) => {
+export default function BudgetAccountEditViewModel({ mode, item, setItem, list, categories, onSubmitted, onCancelled }) {
 
     const amountTypes = [
         { value: "min", text: "Minimum" },
@@ -68,5 +68,3 @@ const BudgetAccountEditViewModel = ({ mode, item, setItem, list, categories, onS
         canSubmit
     }
 };
-
-export default BudgetAccountEditViewModel;

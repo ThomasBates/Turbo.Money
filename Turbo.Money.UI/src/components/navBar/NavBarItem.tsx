@@ -3,13 +3,13 @@ import React from "react";
 import NavBarList from "./NavBarList";
 import NavBarBack from "./NavBarBack";
 import NavBarLink from "./NavBarLink";
-import NavBarFunc from "./NavBarFunc";
 import NavBarText from "./NavBarText";
 
-function NavBarItem({ item, top, hover, wide, onListSelected, onItemSelected }) {
+export default function NavBarItem({ style, item, top, hover, wide, onListSelected, onItemSelected }) {
     if ("list" in item)
         return (
             <NavBarList
+                style={style}
                 item={item}
                 top={top}
                 hover={hover}
@@ -20,25 +20,21 @@ function NavBarItem({ item, top, hover, wide, onListSelected, onItemSelected }) 
     else if ("backList" in item)
         return (
             <NavBarBack
+                style={style}
                 item={item}
                 onListSelected={onListSelected} />
         );
-    else if ("to" in item)
+    else if (("action" in item) || ("to" in item))
         return (
             <NavBarLink
-                item={item}
-                onItemSelected={onItemSelected} />
-        );
-    else if ("func" in item)
-        return (
-            <NavBarFunc
+                style={style}
                 item={item}
                 onItemSelected={onItemSelected} />
         );
     else
         return (
-            <NavBarText item={item} />
+            <NavBarText
+                style={style}
+                item={item} />
         );
 }
-
-export default NavBarItem;

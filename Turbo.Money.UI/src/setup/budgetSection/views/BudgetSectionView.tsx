@@ -14,10 +14,8 @@ const modeViews = {
     none: BudgetSectionDetailsView
 }
 
-const BudgetSectionView = ({ viewModel }) => {
+export default function BudgetSectionView({ viewModel }) {
     return (
         <CommonView viewModel={viewModel} modeViews={modeViews} />
     );
 };
-
-export default BudgetSectionView;

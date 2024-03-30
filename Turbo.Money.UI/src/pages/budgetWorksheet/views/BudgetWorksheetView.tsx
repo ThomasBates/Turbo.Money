@@ -61,7 +61,7 @@ function Menu({ viewModel }) {
     );
 };
 
-const BudgetWorksheetView = ({ viewModel }) => {
+export default function BudgetWorksheetView({ viewModel }) {
     viewModel = viewModel();
     const query = window.matchMedia("(min-width:641px)");
     const [wide, setWide] = useState(query.matches);
@@ -115,5 +115,3 @@ const BudgetWorksheetView = ({ viewModel }) => {
         </>
     );
 };
-
-export default BudgetWorksheetView;

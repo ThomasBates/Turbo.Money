@@ -11,7 +11,7 @@ import Button from 'react-bootstrap/Button';
 
 import BudgetWorksheetTooltip from "./BudgetWorksheetTooltip";
 
-const BudgetWorksheetButton = ({ type, placement, tooltip, onClick }) => {
+export default function BudgetWorksheetButton({ type, placement, tooltip, onClick }) {
     const [showTooltip, setShowTooltip] = useState(false);
     const tooltipRef = useRef(null);
 
@@ -74,5 +74,3 @@ const BudgetWorksheetButton = ({ type, placement, tooltip, onClick }) => {
         </>
     );
 }
-
-export default BudgetWorksheetButton;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function About() {
+export default function About() {
 
     const [dimensions, setDimensions] = useState(`${window.innerWidth}x${window.innerHeight}`);
 
@@ -16,6 +16,10 @@ function About() {
             <p>Front-end: JavaScript, React, Axios<br /></p>
             <p>Server: Node.js, Express, Sequelize<br /></p>
             <p>Back-end: MySQL (mariadb)<br /></p>
+
+            <h3>Credit:</h3>
+            <a target="_blank" href="https://icons8.com/icon/17949/google">Google</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+
             <h3>Device:</h3>
             <p>{dimensions}<br/></p>
             <p className="test-size-0">    0 -  320: nothing<br /></p>
@@ -35,5 +39,3 @@ function About() {
         </div>
     );
 }
-
-export default About;

@@ -52,7 +52,7 @@ export default function PrivateNavData() {
                         list: [
                             { content: "Bank Setup", to: "/BankBankView" },
                             { content: "Bank Account Setup", to: "/BankAccountView" },
-                            { content: "Create Sample Bank Data", func: BankDataService.createSampleData },
+                            { content: "Create Sample Bank Data", action: BankDataService.createSampleData },
                         ]
                     },
                     {
@@ -62,7 +62,7 @@ export default function PrivateNavData() {
                             { content: "Budget Section Setup", to: "/BudgetSectionView" },
                             { content: "Budget Category Setup", to: "/BudgetCategoryView" },
                             { content: "Budget Account Setup", to: "/BudgetAccountView" },
-                            { content: "Create Sample Budget Data", func: BudgetDataService.createSampleData },
+                            { content: "Create Sample Budget Data", action: BudgetDataService.createSampleData },
                         ]
                     },
                     { content: "---" },

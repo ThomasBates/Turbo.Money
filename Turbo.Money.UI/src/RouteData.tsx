@@ -10,11 +10,11 @@ import PrivateRouteData from './PrivateRouteData';
 //  ----------------------------------------------------------------------------
 
 export default function RouteData() {
-    const { signedIn } = useContext(AppContext);
+    const app = useContext(AppContext);
 
     //console.log("RouteData.RouteData: signedIn = ", signedIn);
 
-    const routeData = signedIn ? PrivateRouteData() : PublicRouteData();
+    const routeData = app.users.signedIn ? PrivateRouteData(app) : PublicRouteData(app);
 
     return (
         <RouterProvider router={createBrowserRouter(routeData)} />

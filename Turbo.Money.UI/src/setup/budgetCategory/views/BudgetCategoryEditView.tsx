@@ -3,7 +3,7 @@ import React from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-const BudgetCategoryEditView = ({ viewModel }) => {
+export default function BudgetCategoryEditView({ viewModel }) {
 
     const handleInputChange = event => {
         const { name, value } = event.target;
@@ -72,5 +72,3 @@ const BudgetCategoryEditView = ({ viewModel }) => {
         </div>
     );
 };
-
-export default BudgetCategoryEditView;

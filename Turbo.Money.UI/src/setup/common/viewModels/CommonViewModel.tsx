@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const CommonViewModel = (title, dataService, initialItem, detailsViewModel, editViewModel) => {
+export default function CommonViewModel(title, dataService, initialItem, detailsViewModel, editViewModel) {
     const [list, setList] = useState([]);
     const [selectedIndex, setSelectedIndex] = useState(null);
     const [mode, setMode] = useState("none");
@@ -276,5 +276,3 @@ const CommonViewModel = (title, dataService, initialItem, detailsViewModel, edit
         deleteItem
     }
 };
-
-export default CommonViewModel;
