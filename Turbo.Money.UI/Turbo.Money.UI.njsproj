@@ -48,6 +48,9 @@
     <Content Include="src\pages\budgetWorksheet\views\BudgetWorksheet.css" />
     <Content Include="src\pages\dashboard\data\DashboardDataProvider.js" />
     <Content Include="src\pages\public\data\PublicDataProvider.js" />
+    <Content Include="src\services\errors\Errors.js" />
+    <Content Include="src\services\logger\Logger.js" />
+    <Content Include="src\services\logger\LoggerConsoleProvider.js" />
     <Content Include="src\setup\bank\BankDataService.js" />
     <Content Include="src\setup\budget\BudgetDataService.js" />
     <Content Include="test.css" />

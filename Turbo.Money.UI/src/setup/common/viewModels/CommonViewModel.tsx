@@ -1,6 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
+
+import AppContext from '../../../AppContext';
 
 export default function CommonViewModel(title, dataService, initialItem, detailsViewModel, editViewModel) {
+    const module = CommonViewModel.name;
+    const category = 'Common';
+
+    const { logger, errors } = useContext(AppContext);
+
     const [list, setList] = useState([]);
     const [selectedIndex, setSelectedIndex] = useState(null);
     const [mode, setMode] = useState("none");
@@ -36,28 +43,30 @@ export default function CommonViewModel(title, dataService, initialItem, details
 
     //  Data Service Methods
 
-    const retrieveAllItems = () => {
-        dataService.getList()
-            .then(response => {
-                console.log("retrieveAllItems: ", response.data);
-                const newList = response.data.sort(compareItems);
+    const retrieveAllItems = async () => {
+        const context = `${module}.${retrieveAllItems.name}`;
+        try {
+            const response = await dataService.getList();
+            logger.debug(category, context, 'response.data =', response.data);
+
+            const newList = response.data.sort(compareItems);
                 setList(newList);
-            })
-            .catch(e => {
-                console.log(e);
-            });
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+        }
     };
 
-    const retrieveModeItem = () => {
+    const retrieveModeItem = async () => {
+        const context = `${module}.${retrieveModeItem.name}`;
         if (modeItemId) {
-            dataService.get(modeItemId)
-                .then(response => {
-                    console.log("retrieveModeItem: ", response.data);
-                    setModeItem(response.data);
-                })
-                .catch(e => {
-                    console.log(e);
-                });
+            try {
+                const response = await dataService.get(modeItemId);
+                logger.debug(category, context, 'response.data =', response.data);
+
+                setModeItem(response.data);
+            } catch (ex) {
+                logger.error(category, context, 'ex =', ex);
+            }
         }
         else {
             setModeItem(null);
@@ -65,35 +74,38 @@ export default function CommonViewModel(title, dataService, initialItem, details
     };
 
     const createModeItem = async () => {
+        const context = `${module}.${createModeItem.name}`;
         try {
             const response = await dataService.create(modeItem);
-            console.log("createItem: ", response.data);
+            logger.debug(category, context, 'response.data =', response.data);
             return response.data;
-        } catch (e) {
-            console.log(e);
-            return null;
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+            return errors.create(context, 'Catch', ex.message);
         }
     };
 
     const updateModeItem = async () => {
+        const context = `${module}.${updateModeItem.name}`;
         try {
             const response = await dataService.update(modeItem.id, modeItem);
-            console.log("updateCategory: ", response.data);
+            logger.debug(category, context, 'response.data =', response.data);
             return response.data;
-        } catch (e) {
-            console.log(e);
-            return null;
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+            return errors.create(context, 'Catch', ex.message);
         }
     };
 
     const deleteModeItem = async () => {
+        const context = `${module}.${deleteModeItem.name}`;
         try {
             const response = await dataService.remove(modeItem.id);
-            console.log("deleteCategory: ", response.data);
+            logger.debug(category, context, 'response.data =', response.data);
             return response.data;
-        } catch (e) {
-            console.log(e);
-            return null;
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+            return errors.create(context, 'Catch', ex.message);
         }
     };
 

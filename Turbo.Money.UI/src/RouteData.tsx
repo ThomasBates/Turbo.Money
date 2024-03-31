@@ -12,7 +12,7 @@ import PrivateRouteData from './PrivateRouteData';
 export default function RouteData() {
     const app = useContext(AppContext);
 
-    //console.log("RouteData.RouteData: signedIn = ", signedIn);
+    app.logger.debug('Route', 'RouteData', 'app.users.signedIn =', app.users.signedIn);
 
     const routeData = app.users.signedIn ? PrivateRouteData(app) : PublicRouteData(app);
 

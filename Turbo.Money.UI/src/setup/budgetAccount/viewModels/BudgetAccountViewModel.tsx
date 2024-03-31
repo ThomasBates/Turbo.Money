@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
+
+import AppContext from '../../../AppContext';
 
 import CommonViewModel from "../../common/viewModels/CommonViewModel";
 
@@ -9,6 +11,9 @@ import BudgetAccountDetailsViewModel from "./BudgetAccountDetailsViewModel";
 import BudgetAccountEditViewModel from "./BudgetAccountEditViewModel";
 
 export default function BudgetAccountViewModel() {
+    const module = BudgetAccountViewModel.name;
+    const category = 'BudgetAccount';
+
     const initialAccount = {
         id: null,
         name: "",
@@ -18,6 +23,8 @@ export default function BudgetAccountViewModel() {
         type: "max",
         method: "",
     };
+
+    const { logger } = useContext(AppContext);
 
     const [categories, setCategories] = useState([]);
 
@@ -37,21 +44,23 @@ export default function BudgetAccountViewModel() {
         return 0;
     }
 
-    const retrieveAllCategories = () => {
-        BudgetCategoryDataService.getList()
-            .then(response => {
-                console.log("retrieveAllCategories: ", response.data);
-                const newCategories = response.data.map(category => {
-                    return {
-                        id: category.id,
-                        name: category.name
-                    }
-                }).sort(compareItems);
-                setCategories(newCategories);
-            })
-            .catch(e => {
-                console.log(e);
-            });
+    const retrieveAllCategories = async () => {
+        const context = `${module}.${retrieveAllCategories.name}`;
+        try {
+            const response = await BudgetCategoryDataService.getList();
+            logger.debug(category, context, 'response.data =', response.data);
+
+            const newCategories = response.data
+                .map(category => ({
+                    id: category.id,
+                    name: category.name
+                }))
+                .sort(compareItems);
+
+            setCategories(newCategories);
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+        }
     };
 
     const detailsViewModel = (props) => {

@@ -5,17 +5,18 @@ import AppContext from "../AppContext";
 
 export default function AuthCallback() {
     const module = AuthCallback.name;
+    const category = 'User';
 
     const called = useRef(false);
-    const { users } = useContext(AppContext);
+    const { logger, users } = useContext(AppContext);
     const navigate = useNavigate();
 
-    console.log(module,':');
+    logger.debug(category, module, ':');
 
     useEffect(() => {
-        const context = `${module}.${useEffect.name}:`;
+        const context = `${module}.${useEffect.name}`;
         (async () => {
-            console.log(context, `signedIn = ${users.signedIn}, called = ${called.current}`);
+            logger.debug(category, context, `signedIn = ${users.signedIn}, called = ${called.current}`);
             if (!users.signedIn) {
                 try {
                     // prevent rerender caused by StrictMode
@@ -27,12 +28,12 @@ export default function AuthCallback() {
                     //  window.location.search is the query part (?...) 
                     //  of the url sent by x / google / facebook / etc.
                     //  we're passing it through to get(api/auth/sign_up).
-                    console.log(context, `window.location.search = "${window.location.search}"`);
+                    logger.debug(category, context, `window.location.search = "${window.location.search}"`);
 
                     await users.auth.callbackOAuth(window.location.search);
                     navigate('/');
-                } catch (err) {
-                    console.error(err);
+                } catch (ex) {
+                    logger.error(category, context, 'ex =', ex);
                     navigate('/');
                 }
             } else {

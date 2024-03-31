@@ -66,7 +66,7 @@ export default function PrivateRouteData(app) {
             </div>,
         children: [
             //  dashboard
-            { path: "/", element: <DashboardView viewModel={DashboardViewModel} viewModelArgs={{ dashboardDataProvider: DashboardDataProvider() }} /> },
+            { path: "/", element: <DashboardView viewModel={DashboardViewModel} viewModelArgs={{ dashboardDataProvider: DashboardDataProvider(app.logger, app.errors) }} /> },
 
             //  Budget 
             { path: "/BudgetWorksheetView", element: < BudgetWorksheetView viewModel={BudgetWorksheetViewModel} /> },

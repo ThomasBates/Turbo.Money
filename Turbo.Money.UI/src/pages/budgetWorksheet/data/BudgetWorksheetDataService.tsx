@@ -4,17 +4,20 @@ import BudgetSectionDataService from "../../../setup/budgetSection/data/BudgetSe
 import BudgetCategoryDataService from "../../../setup/budgetCategory/data/BudgetCategoryDataService";
 import BudgetAccountDataService from "../../../setup/budgetAccount/data/BudgetAccountDataService";
 
-export default function BudgetWorksheetDataService() {
-    const name = BudgetWorksheetDataService.name;
+export default function BudgetWorksheetDataService(logger) {
+    const module = BudgetWorksheetDataService.name;
+    const category = 'BudgetWorksheet';
 
     const [sectionList, setSectionList] = useState([]);
     const [categoryList, setCategoryList] = useState([]);
     const [accountList, setAccountList] = useState([]);
 
     useEffect(() => {
-        retrieveSections();
-        retrieveCategories();
-        retrieveAccounts();
+        (async () => {
+            await retrieveSections();
+            await retrieveCategories();
+            await retrieveAccounts();
+        })();
     }, []);
 
     const compareSections = (section1, section2) => {
@@ -49,49 +52,56 @@ export default function BudgetWorksheetDataService() {
 
     //  Data Access ------------------------------------------------------------
 
-    const retrieveSections = () => {
-        BudgetSectionDataService.getAll()
-            .then(response => {
-                console.log(`${name}.${retrieveSections.name}: `, response.data);
-                let sections = response.data
-                    .map(section => ({ ...section, state: "read" }))
-                    .sort(compareSections);
-                setSectionList(sections);
-            })
-            .catch(e => {
-                console.log(`${name}.${retrieveSections.name}: `, e);
-            });
+    const retrieveSections = async () => {
+        const context = `${module}.${retrieveSections.name}`;
+        try {
+            const response = await BudgetSectionDataService.getAll();
+            logger.debug(category, context, 'response.data =', response.data);
+
+            let sections = response.data
+                .map(section => ({ ...section, state: "read" }))
+                .sort(compareSections);
+            setSectionList(sections);
+
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+        }
     };
 
-    const retrieveCategories = () => {
-        BudgetCategoryDataService.getAll()
-            .then(response => {
-                console.log(`${name}.${retrieveCategories.name}: `, response.data);
-                let categories = response.data
-                    .map(category => ({ ...category, state: "read" }))
-                    .sort(compareItems);
-                setCategoryList(categories);
-            })
-            .catch(e => {
-                console.log(`${name}.${retrieveCategories.name}: `, e);
-            });
+    const retrieveCategories = async () => {
+        const context = `${module}.${retrieveCategories.name}`;
+        try {
+            const response = await BudgetCategoryDataService.getAll();
+            logger.debug(category, context, 'response.data =', response.data);
+
+            let categories = response.data
+                .map(category => ({ ...category, state: "read" }))
+                .sort(compareItems);
+            setCategoryList(categories);
+
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+        }
     };
 
-    const retrieveAccounts = () => {
-        BudgetAccountDataService.getAll()
-            .then(response => {
-                console.log(`${name}.${retrieveAccounts.name}: `, response.data);
-                let accounts = response.data
-                    .map(account => ({ ...account, state: "read" }))
-                    .sort(compareItems);
-                setAccountList(accounts);
-            })
-            .catch(e => {
-                console.log(`${name}.${retrieveAccounts.name}: `, e);
-            });
+    const retrieveAccounts = async () => {
+        const context = `${module}.${retrieveAccounts.name}`;
+        try {
+            const response = await BudgetAccountDataService.getAll();
+            logger.debug(category, context, 'response.data =', response.data);
+
+            let accounts = response.data
+                .map(account => ({ ...account, state: "read" }))
+                .sort(compareItems);
+            setAccountList(accounts);
+
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+        }
     };
 
     const saveSections = async (sections) => {
+        const context = `${module}.${saveSections.name}`;
         let createdIdMap = new Map();
         let deletedIdList = [];
 
@@ -117,7 +127,7 @@ export default function BudgetWorksheetDataService() {
                 })
             );
         } catch (ex) {
-            console.log(ex);
+            logger.error(category, context, 'ex =', ex);
         }
 
         let categories = categoryList;
@@ -154,6 +164,7 @@ export default function BudgetWorksheetDataService() {
     };
 
     const saveCategories = async (categories) => {
+        const context = `${module}.${saveCategories.name}`;
         let createdIdMap = new Map();
         let deletedIdList = [];
 
@@ -179,7 +190,7 @@ export default function BudgetWorksheetDataService() {
                 })
             );
         } catch (ex) {
-            console.log(ex);
+            logger.error(category, context, 'ex =', ex);
         }
 
         let accounts = accountList;
@@ -216,6 +227,7 @@ export default function BudgetWorksheetDataService() {
     };
 
     const saveAccounts = async (accounts) => {
+        const context = `${module}.${saveAccounts.name}`;
         try {
             await Promise.all(
                 accounts.map(async account => {
@@ -235,7 +247,7 @@ export default function BudgetWorksheetDataService() {
                 })
             );
         } catch (ex) {
-            console.log(ex);
+            logger.error(category, context, 'ex =', ex);
         }
     };
 
@@ -406,7 +418,7 @@ export default function BudgetWorksheetDataService() {
 
     //  Totals -----------------------------------------------------------------
 
-    const Currency = (number) => {
+    const getCurrencyFormat = (number) => {
         const value = Number(number);
 
         const localeFormat = new Intl.NumberFormat('en-US', {
@@ -466,19 +478,19 @@ export default function BudgetWorksheetDataService() {
     };
 
     const getBudgetTotal = () => {
-        return Currency(calcBudgetTotal());
+        return getCurrencyFormat(calcBudgetTotal());
     };
 
     const getBudgetSectionTotal = (section) => {
-        return Currency(calcSectionTotal(section));
+        return getCurrencyFormat(calcSectionTotal(section));
     };
 
     const getBudgetCategoryTotal = (category) => {
-        return Currency(calcCategoryTotal(category));
+        return getCurrencyFormat(calcCategoryTotal(category));
     };
 
     const getBudgetAccountTotal = (account) => {
-        return Currency(calcAccountTotal(account));
+        return getCurrencyFormat(calcAccountTotal(account));
     };
 
     return {

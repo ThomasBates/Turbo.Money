@@ -1,11 +1,13 @@
 import React from 'react';
 
-import dataProvider from "./BankTransactionDataProvider";
+import BankTransactionDataProvider from "./BankTransactionDataProvider";
 
-export default function BankTransactionDataService() {
+export default function BankTransactionDataService(logger, errors) {
+
+    const bankTransactionDataProvider = BankTransactionDataProvider(logger, errors);
 
     function uploadFile(file) {
-        dataProvider().uploadFile(file);
+        bankTransactionDataProvider.uploadFile(file);
     }
 
     return {

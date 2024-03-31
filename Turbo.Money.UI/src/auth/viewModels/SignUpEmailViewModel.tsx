@@ -27,14 +27,8 @@ export default function SignUpEmailViewModel() {
         if (!canSubmit())
             return;
 
-        try {
-            await users.auth.signUpEmail(name, email, password);
-            navigate('/');
-
-        } catch (error) {
-            console.log('SignUpEmailViewModel.submit: error =', error);
-            navigate('/');
-        }
+        await users.auth.signUpEmail(name, email, password);
+        navigate('/');
     }
 
     return {

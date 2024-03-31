@@ -1,11 +1,9 @@
-import React from "react";
-import {
-    Navigate,
-    Outlet,
-    useLocation
-} from 'react-router-dom';
+import React, { useContext } from "react";
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 //  ----------------------------------------------------------------------------
+
+import AppContext from './AppContext';
 
 import PublicHeaderData from './PublicHeaderData';
 import PublicNavData from './PublicNavData';
@@ -35,8 +33,9 @@ import About from './pages/About';
 
 function NotFoundRedirect() {
     const location = useLocation();
+    const { logger } = useContext(AppContext);
 
-    console.log("RouteData.NotFoundRedirect: location = ", location);
+    logger.debug('NotFound', 'PublicRouteData.NotFoundRedirect', 'location =', location);
 
     return <Navigate to="/" replace state={{ from: location }} />;
 }
@@ -58,7 +57,7 @@ export default function PublicRouteData(app) {
             </div>,
         children: [
             //  dashboard
-            { path: "/", element: <PublicView viewModel={PublicViewModel(PublicDataProvider())} /> },
+            { path: "/", element: <PublicView viewModel={PublicViewModel(PublicDataProvider(app.logger, app.errors))} /> },
 
             // OAuth 2.0 sources will redirect here
             { path: '/auth_callback', element: <AuthCallback /> },

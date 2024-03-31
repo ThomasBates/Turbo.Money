@@ -1,26 +1,27 @@
 import React, { useCallback, useState, useEffect } from "react";
 
-import AuthDataProvider from "../../auth/data/AuthDataProvider";
+//import AuthDataProvider from "../../auth/data/AuthDataProvider";
 
-export default function UserService() {
+export default function UserService(logger, errors, authDataProvider) {
     const module = UserService.name;
+    const category = 'User';
 
     const [user, setUser] = useState(null);
     const [signedIn, setSignedIn] = useState(false);
 
-    const authDataProvider = AuthDataProvider();
+    //const authDataProvider = AuthDataProvider();
 
     useEffect(() => {
         checkSignInState(null);
     }, []);
 
     const checkSignInState = async (data) => {
-        const context = `${module}.${checkSignInState.name}:`;
+        const context = `${module}.${checkSignInState.name}`;
+        logger.debug(category, context, 'data =', data);
         try {
-            console.log(context, 'data =', data);
             if (!data) {
                 data = await authDataProvider.getSignedIn();
-                console.log(context, 'data =', data);
+                logger.debug(category, context, 'data =', data);
             }
 
             if (data.message === "In Progress") {
@@ -29,23 +30,22 @@ export default function UserService() {
 
             setSignedIn(data.signedIn);
             data.user && setUser(data.user);
-        } catch (error) {
-            console.error(context, 'catch: error =', error);
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
         }
     }
 
     const internalSignInOAuth = async (source, mode) => {
-        const context = `${module}.${internalSignInOAuth.name}:`;
+        const context = `${module}.${internalSignInOAuth.name}`;
         try {
             const data = await authDataProvider.getSignInUrl(source, mode);
+            logger.debug(category, context, 'data =', data);
 
-            if (data.error)
-                console.error(data.error);
-            else
+            if (!data.error)
                 // Navigate to consent screen
                 window.location.assign(data.url);
-        } catch (error) {
-            console.error(context, 'catch: error =', error);
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
         }
     }
 
@@ -58,30 +58,37 @@ export default function UserService() {
     }
 
     const callbackOAuth = async (params) => {
-        const context = `${module}.${callbackOAuth.name}:`;
-        console.log(context, 'params =', params);
+        const context = `${module}.${callbackOAuth.name}`;
+        logger.debug(category, context, 'params =', params);
+        try {
+            const data = await authDataProvider.signIn(params);
+            logger.debug(category, context, 'data =', data);
 
-        const data = await authDataProvider.signIn(params);
-        console.log(context, 'data =', data);
-
-        // Check sign-in state again
-        checkSignInState(data);
+            // Check sign-in state again
+            checkSignInState(data);
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+        }
     }
 
     const internalSignInEmail = async (mode, params) => {
-        const context = `${module}.${internalSignInEmail.name}:`;
+        const context = `${module}.${internalSignInEmail.name}`;
 
-        console.log(context, 'mode =', mode);
-        console.log(context, 'params =', params);
+        logger.debug(category, context, 'mode =', mode);
+        logger.debug(category, context, 'params =', params);
 
-        // We only need to do this step to initialize the process on the back-end. 
-        // We can ignore the result.
-        await authDataProvider.getSignInUrl('email', mode);
+        try {
+            // We only need to do this step to initialize the process on the back-end. 
+            // We can ignore the result.
+            await authDataProvider.getSignInUrl('email', mode);
 
-        const signInData = await authDataProvider.signIn(params);
-        console.log(context, 'signInData =', signInData);
+            const signInData = await authDataProvider.signIn(params);
+            logger.debug(category, context, 'signInData =', signInData);
 
-        checkSignInState(signInData);
+            checkSignInState(signInData);
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+        }
     }
 
     const signUpEmail = async (name, email, password) => {
@@ -93,15 +100,15 @@ export default function UserService() {
     }
 
     const signOut = async () => {
-        const context = `${module}.${signOut.name}:`;
+        const context = `${module}.${signOut.name}`;
         try {
             const data = await authDataProvider.signOut();
-            console.log(context, 'data =', data);
+            logger.debug(category, context, 'data =', data);
 
             // Check sign-in state again
             checkSignInState(data);
-        } catch (error) {
-            console.error(context, 'catch: error =', error);
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
         }
     }
 

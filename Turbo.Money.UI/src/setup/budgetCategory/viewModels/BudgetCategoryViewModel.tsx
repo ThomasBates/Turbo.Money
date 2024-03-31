@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
+
+import AppContext from '../../../AppContext';
 
 import CommonViewModel from "../../common/viewModels/CommonViewModel";
 
@@ -9,12 +11,17 @@ import BudgetCategoryDetailsViewModel from "./BudgetCategoryDetailsViewModel";
 import BudgetCategoryEditViewModel from "./BudgetCategoryEditViewModel";
 
 export default function BudgetCategoryViewModel() {
+    const module = BudgetCategoryViewModel.name;
+    const category = 'BudgetCategory';
+
     const initialBudgetCategory = {
         id: null,
         name: "",
         description: "",
         direction: "out"
     };
+
+    const { logger } = useContext(AppContext);
 
     const [sections, setSections] = useState([]);
 
@@ -34,21 +41,23 @@ export default function BudgetCategoryViewModel() {
         return 0;
     }
 
-    const retrieveAllSections = () => {
-        BudgetSectionDataService.getList()
-            .then(response => {
-                console.log("retrieveAllSections: ", response.data);
-                const newSections = response.data.map(section => {
-                    return {
-                        id: section.id,
-                        name: section.name
-                    }
-                }).sort(compareItems);
-                setSections(newSections);
-            })
-            .catch(e => {
-                console.log(e);
-            });
+    const retrieveAllSections = async () => {
+        const context = `${module}.${retrieveAllSections.name}`;
+        try {
+            const response = await BudgetSectionDataService.getList()
+            logger.debug(category, context, 'response.data =', response.data);
+
+            const newSections = response.data
+                .map(section => ({
+                    id: section.id,
+                    name: section.name
+                }))
+                .sort(compareItems);
+
+            setSections(newSections);
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+        }
     };
 
     const detailsViewModel = (props) => {

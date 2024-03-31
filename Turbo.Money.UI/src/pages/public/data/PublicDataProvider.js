@@ -1,20 +1,20 @@
 import axios from "../../../axios/AxiosCommon";
 
-export default function PublicDataProvider() {
+export default function PublicDataProvider(logger, errors) {
     const module = PublicDataProvider.name;
+    const category = 'Public';
 
     const getPosts = async () => {
-        const context = `${module}.${getPosts.name}:`;
-        console.log(context);
+        const context = `${module}.${getPosts.name}`;
 
         try {
             const response = await axios.get(`posts`)
-            console.log(context, 'response.data =', response.data);
+            logger.debug(category, context, 'response.data =', response.data);
             return response.data.posts;
 
-        } catch (error) {
-            console.error(context, 'error =', error);
-            return { error };
+        } catch (ex) {
+            logger.error(category, context, 'error =', ex);
+            return errors.create(context, 'Catch', ex.message);
         }
     }
 

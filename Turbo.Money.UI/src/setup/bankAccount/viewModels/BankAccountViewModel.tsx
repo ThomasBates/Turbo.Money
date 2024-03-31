@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
+
+import AppContext from '../../../AppContext';
 
 import CommonViewModel from "../../common/viewModels/CommonViewModel";
 
@@ -9,12 +11,17 @@ import BankAccountDetailsViewModel from "./BankAccountDetailsViewModel";
 import BankAccountEditViewModel from "./BankAccountEditViewModel";
 
 export default function BankAccountViewModel() {
+    const module = BankAccountViewModel.name;
+    const category = 'BankAccount';
+
     const initialAccount = {
         id: null,
         name: "",
         bankId: 0,
         number: ""
     };
+
+    const { logger } = useContext(AppContext);
 
     const [banks, setBanks] = useState([]);
 
@@ -34,21 +41,23 @@ export default function BankAccountViewModel() {
         return 0;
     }
 
-    const retrieveAllBanks = () => {
-        BankBankDataService.getList()
-            .then(response => {
-                console.log("retrieveAllBanks: ", response.data);
-                const newBanks = response.data.map(bank => {
-                    return {
-                        id: bank.id,
-                        name: bank.name
-                    }
-                }).sort(compareItems);
-                setBanks(newBanks);
-            })
-            .catch(e => {
-                console.log(e);
-            });
+    const retrieveAllBanks = async () => {
+        const context = `${module}.${retrieveAllBanks.name}`;
+        try {
+            const response = await BankBankDataService.getList();
+            logger.debug(category, context, 'response.data =', response.data);
+
+            const newBanks = response.data
+                .map(bank => ({
+                    id: bank.id,
+                    name: bank.name
+                }))
+                .sort(compareItems);
+
+            setBanks(newBanks);
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+        }
     };
 
     const detailsViewModel = (props) => {
