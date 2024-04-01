@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-import AppContext from "../../../AppContext";
+import AppContext from "app/AppContext";
 
-export default function DashboardViewModel({ dashboardDataProvider }) {
+export default function DashboardViewModel({ postDataProvider }) {
     const module = DashboardViewModel.name;
     const category = 'Dashboard';
 
@@ -15,7 +15,7 @@ export default function DashboardViewModel({ dashboardDataProvider }) {
         (async () => {
             try {
                 // Get posts from server
-                const posts = await dashboardDataProvider.getPosts();
+                const posts = await postDataProvider.getPosts();
                 logger.debug(category, context, 'posts =', posts);
 
                 setPosts(posts);

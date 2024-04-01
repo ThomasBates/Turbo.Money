@@ -38,29 +38,27 @@
     <Content Include="index.html">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="src\auth\Auth.css" />
-    <Content Include="src\auth\data\AuthDataProvider.js" />
-    <Content Include="src\auth\views\Auth.css" />
-    <Content Include="src\axios\AxiosCommon.js" />
-    <Content Include="src\axios\CommonDataProvider.js" />
+    <Content Include="src\data\bankAccount\BankAccountDataProvider.js" />
+    <Content Include="src\data\bankBank\BankBankDataProvider.js" />
+    <Content Include="src\data\bank\BankDataProvider.js" />
+    <Content Include="src\data\budgetAccount\BudgetAccountDataProvider.js" />
+    <Content Include="src\data\budgetCategory\BudgetCategoryDataProvider.js" />
+    <Content Include="src\data\budgetSection\BudgetSectionDataProvider.js" />
+    <Content Include="src\data\budget\BudgetDataProvider.js" />
+    <Content Include="src\pages\auth\Auth.css" />
+    <Content Include="src\data\auth\AuthDataProvider.js" />
+    <Content Include="src\pages\auth\views\Auth.css" />
+    <Content Include="src\data\axios\AxiosCommon.js" />
+    <Content Include="src\data\axios\CommonDataProvider.js" />
     <Content Include="src\components\header\HeaderNavBar.module.css" />
     <Content Include="src\components\navBar\NavBar.module.css" />
     <Content Include="src\pages\budgetWorksheet\views\BudgetWorksheet.css" />
-    <Content Include="src\pages\dashboard\data\DashboardDataProvider.js" />
-    <Content Include="src\pages\public\data\PublicDataProvider.js" />
+    <Content Include="src\data\post\PostDataProvider.js" />
     <Content Include="src\services\errors\Errors.js" />
     <Content Include="src\services\logger\Logger.js" />
     <Content Include="src\services\logger\LoggerConsoleProvider.js" />
-    <Content Include="src\setup\bank\BankDataService.js" />
-    <Content Include="src\setup\budget\BudgetDataService.js" />
     <Content Include="test.css" />
     <Content Include="src\pages\budgetWorksheet\data\BudgetWorksheetDataService.tsx" />
-    <Content Include="src\setup\budgetAccount\data\BudgetAccountDataService.js" />
-    <Content Include="src\setup\bankAccount\data\BankAccountDataService.js" />
-    <Content Include="src\setup\budgetCategory\data\BudgetCategoryDataService.js" />
-    <Content Include="src\setup\budgetSection\data\BudgetSectionDataService.js" />
-    <Content Include="src\setup\common\data\CommonDataService.js" />
-    <Content Include="src\setup\bankBank\data\BankBankDataService.js" />
     <Content Include="main.css">
       <SubType>Code</SubType>
     </Content>
@@ -76,14 +74,14 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="src\AppContext.tsx" />
-    <TypeScriptCompile Include="src\AppContextProvider.tsx" />
-    <TypeScriptCompile Include="src\auth\AuthCallback.tsx" />
-    <TypeScriptCompile Include="src\auth\viewModels\SignInEmailViewModel.tsx" />
-    <TypeScriptCompile Include="src\auth\views\ResetPasswordView.tsx" />
-    <TypeScriptCompile Include="src\auth\viewModels\SignUpEmailViewModel.tsx" />
-    <TypeScriptCompile Include="src\auth\views\SignInEmailView.tsx" />
-    <TypeScriptCompile Include="src\auth\views\SignUpEmailView.tsx" />
+    <TypeScriptCompile Include="src\app\AppContext.tsx" />
+    <TypeScriptCompile Include="src\app\AppContextProvider.tsx" />
+    <TypeScriptCompile Include="src\pages\auth\AuthCallback.tsx" />
+    <TypeScriptCompile Include="src\pages\auth\viewModels\SignInEmailViewModel.tsx" />
+    <TypeScriptCompile Include="src\pages\auth\views\ResetPasswordView.tsx" />
+    <TypeScriptCompile Include="src\pages\auth\viewModels\SignUpEmailViewModel.tsx" />
+    <TypeScriptCompile Include="src\pages\auth\views\SignInEmailView.tsx" />
+    <TypeScriptCompile Include="src\pages\auth\views\SignUpEmailView.tsx" />
     <TypeScriptCompile Include="src\components\header\HeaderNavBar.tsx" />
     <TypeScriptCompile Include="src\components\header\HeaderNavBar.module.css.d.ts" />
     <TypeScriptCompile Include="src\components\navBar\NavBar.module.css.d.ts" />
@@ -96,17 +94,17 @@
     <TypeScriptCompile Include="src\components\SideBar.tsx" />
     <TypeScriptCompile Include="src\pages\dashboard\viewModels\DashboardViewModel.tsx" />
     <TypeScriptCompile Include="src\pages\public\viewModels\PublicViewModel.tsx" />
-    <TypeScriptCompile Include="src\PrivateHeaderData.tsx" />
-    <TypeScriptCompile Include="src\PublicHeaderData.tsx" />
-    <TypeScriptCompile Include="src\PublicNavData.tsx" />
+    <TypeScriptCompile Include="src\routes\private\PrivateHeaderData.tsx" />
+    <TypeScriptCompile Include="src\routes\public\PublicHeaderData.tsx" />
+    <TypeScriptCompile Include="src\routes\public\PublicNavData.tsx" />
     <TypeScriptCompile Include="src\pages\NotFound.tsx" />
     <TypeScriptCompile Include="src\pages\public\views\PublicView.tsx" />
-    <TypeScriptCompile Include="src\PrivateRouteData.tsx" />
-    <TypeScriptCompile Include="src\PublicRouteData.tsx" />
-    <TypeScriptCompile Include="src\RouteData.tsx" />
-    <TypeScriptCompile Include="src\PrivateNavData.tsx" />
+    <TypeScriptCompile Include="src\routes\private\PrivateRouteData.tsx" />
+    <TypeScriptCompile Include="src\routes\public\PublicRouteData.tsx" />
+    <TypeScriptCompile Include="src\routes\RouteData.tsx" />
+    <TypeScriptCompile Include="src\routes\private\PrivateNavData.tsx" />
     <TypeScriptCompile Include="src\pages\About.tsx" />
-    <TypeScriptCompile Include="src\pages\bankTransactions\data\BankTransactionDataProvider.tsx" />
+    <TypeScriptCompile Include="src\data\bankTransaction\BankTransactionDataProvider.tsx" />
     <TypeScriptCompile Include="src\pages\bankTransactions\data\BankTransactionDataService.tsx" />
     <TypeScriptCompile Include="src\pages\bankTransactions\viewModels\BankTransactionUploadViewModel.tsx" />
     <TypeScriptCompile Include="src\pages\budgetWorksheet\components\BudgetWorksheetMenuButton.tsx" />
@@ -163,7 +161,7 @@
     <TypeScriptCompile Include="src\components\navBar\NavBar.tsx" />
     <TypeScriptCompile Include="src\components\SocialLinks.tsx" />
     <TypeScriptCompile Include="main.tsx" />
-    <TypeScriptCompile Include="src\App.tsx">
+    <TypeScriptCompile Include="src\app\App.tsx">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\pages\reports\views\ReportByAccount.tsx" />
@@ -176,18 +174,30 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dist\" />
-    <Folder Include="src\auth\data\" />
-    <Folder Include="src\auth\viewModels\" />
-    <Folder Include="src\auth\views\" />
+    <Folder Include="src\data\" />
+    <Folder Include="src\data\bankAccount\" />
+    <Folder Include="src\data\bankBank\" />
+    <Folder Include="src\data\bank\" />
+    <Folder Include="src\data\budgetAccount\" />
+    <Folder Include="src\data\budgetCategory\" />
+    <Folder Include="src\data\budgetSection\" />
+    <Folder Include="src\data\budget\" />
+    <Folder Include="src\data\bankTransaction\" />
+    <Folder Include="src\data\auth\" />
+    <Folder Include="src\pages\auth\viewModels\" />
+    <Folder Include="src\pages\auth\views\" />
     <Folder Include="src\components\" />
     <Folder Include="src\" />
     <Folder Include="src\components\navBar\" />
-    <Folder Include="src\axios\" />
-    <Folder Include="src\auth\" />
+    <Folder Include="src\data\axios\" />
+    <Folder Include="src\pages\auth\" />
     <Folder Include="src\components\header\" />
+    <Folder Include="src\app\" />
+    <Folder Include="src\routes\" />
+    <Folder Include="src\routes\private\" />
+    <Folder Include="src\routes\public\" />
     <Folder Include="src\services\" />
     <Folder Include="src\pages\bankTransactions\data\" />
-    <Folder Include="src\pages\bankTransactions\components\" />
     <Folder Include="src\pages\bankTransactions\viewModels\" />
     <Folder Include="src\pages\bankTransactions\views\" />
     <Folder Include="src\pages\budgetWorksheet\" />
@@ -197,14 +207,11 @@
     <Folder Include="src\pages\budgetWorksheet\viewModels\" />
     <Folder Include="src\pages\bankTransactions\" />
     <Folder Include="src\pages\dashboard\" />
-    <Folder Include="src\pages\dashboard\components\" />
-    <Folder Include="src\pages\dashboard\data\" />
+    <Folder Include="src\data\post\" />
     <Folder Include="src\pages\dashboard\viewModels\" />
     <Folder Include="src\pages\dashboard\views\" />
     <Folder Include="src\pages\reports\" />
     <Folder Include="src\pages\public\" />
-    <Folder Include="src\pages\public\components\" />
-    <Folder Include="src\pages\public\data\" />
     <Folder Include="src\pages\public\views\" />
     <Folder Include="src\pages\public\viewModels\" />
     <Folder Include="src\pages\reports\components\" />
@@ -215,25 +222,18 @@
     <Folder Include="src\services\errors\" />
     <Folder Include="src\services\user\" />
     <Folder Include="src\setup\" />
-    <Folder Include="src\setup\bankAccount\data\" />
     <Folder Include="src\setup\bankAccount\viewModels\" />
     <Folder Include="src\setup\bankAccount\views\" />
-    <Folder Include="src\setup\bankBank\data\" />
-    <Folder Include="src\setup\budgetAccount\data\" />
     <Folder Include="src\setup\budgetAccount\viewModels\" />
     <Folder Include="src\setup\budgetAccount\views\" />
-    <Folder Include="src\setup\budgetCategory\data\" />
     <Folder Include="src\setup\budgetCategory\viewModels\" />
     <Folder Include="src\setup\budgetCategory\views\" />
-    <Folder Include="src\setup\budgetSection\data\" />
     <Folder Include="src\setup\budgetSection\views\" />
     <Folder Include="src\setup\budgetSection\viewModels\" />
     <Folder Include="src\setup\common\" />
-    <Folder Include="src\setup\bank\" />
     <Folder Include="src\setup\bankAccount\" />
     <Folder Include="src\setup\budgetCategory\" />
     <Folder Include="src\setup\budgetAccount\" />
-    <Folder Include="src\setup\common\data\" />
     <Folder Include="src\setup\common\views\" />
     <Folder Include="src\setup\common\viewModels\" />
     <Folder Include="src\setup\budgetSection\" />
@@ -241,7 +241,6 @@
     <Folder Include="src\setup\bankBank\views\" />
     <Folder Include="src\pages\" />
     <Folder Include="src\setup\bankBank\" />
-    <Folder Include="src\setup\budget\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
   <ProjectExtensions>

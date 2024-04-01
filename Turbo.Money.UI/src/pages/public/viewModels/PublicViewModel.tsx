@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-import AppContext from "../../../AppContext";
+import AppContext from "app/AppContext";
 
-export default function PublicViewModel(publicDataProvider) {
+export default function PublicViewModel(postDataProvider) {
     const module = PublicViewModel.name;
     const category = 'Public';
 
@@ -15,7 +15,7 @@ export default function PublicViewModel(publicDataProvider) {
         (async () => {
             try {
                 // Get posts from server
-                const posts = await publicDataProvider.getPosts();
+                const posts = await postDataProvider.getPosts();
                 logger.debug(category, context, 'posts =', posts);
 
                 setPosts(posts);

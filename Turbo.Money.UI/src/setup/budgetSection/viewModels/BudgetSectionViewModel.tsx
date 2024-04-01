@@ -1,8 +1,8 @@
 import React from "react";
 
-import CommonViewModel from "../../common/viewModels/CommonViewModel";
+import BudgetSectionDataProvider from "data/budgetSection/BudgetSectionDataProvider";
 
-import BudgetSectionDataService from "../data/BudgetSectionDataService";
+import CommonViewModel from "../../common/viewModels/CommonViewModel";
 
 import BudgetSectionDetailsViewModel from "./BudgetSectionDetailsViewModel";
 import BudgetSectionEditViewModel from "./BudgetSectionEditViewModel";
@@ -17,7 +17,7 @@ export default function BudgetSectionViewModel() {
 
     return CommonViewModel(
         "Budget Sections",
-        BudgetSectionDataService,
+        BudgetSectionDataProvider,
         initialBudgetSection,
         BudgetSectionDetailsViewModel,
         BudgetSectionEditViewModel);

@@ -380,7 +380,7 @@ module.exports = function UserData(logger, errors, db) {
     };
 
     const getUserDefaultFamilyId = async (user) => {
-        const context = `${module}.${getUserFamilyId.name}`;
+        const context = `${module}.${getUserDefaultFamilyId.name}`;
         logger.debug(category, context, 'user =', user);
 
         if (!user)

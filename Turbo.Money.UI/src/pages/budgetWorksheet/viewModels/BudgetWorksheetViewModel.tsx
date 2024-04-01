@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 
-import AppContext from '../../../AppContext';
+import AppContext from 'app/AppContext';
 
-import BudgetSectionDetailsViewModel from "../../../setup/budgetSection/viewModels/BudgetSectionDetailsViewModel";
-import BudgetSectionEditViewModel from "../../../setup/budgetSection/viewModels/BudgetSectionEditViewModel";
-import BudgetCategoryDetailsViewModel from "../../../setup/budgetCategory/viewModels/BudgetCategoryDetailsViewModel";
-import BudgetCategoryEditViewModel from "../../../setup/budgetCategory/viewModels/BudgetCategoryEditViewModel";
-import BudgetAccountDetailsViewModel from "../../../setup/budgetAccount/viewModels/BudgetAccountDetailsViewModel";
-import BudgetAccountEditViewModel from "../../../setup/budgetAccount/viewModels/BudgetAccountEditViewModel";
+import BudgetSectionDetailsViewModel from "setup/budgetSection/viewModels/BudgetSectionDetailsViewModel";
+import BudgetSectionEditViewModel from "setup/budgetSection/viewModels/BudgetSectionEditViewModel";
+import BudgetCategoryDetailsViewModel from "setup/budgetCategory/viewModels/BudgetCategoryDetailsViewModel";
+import BudgetCategoryEditViewModel from "setup/budgetCategory/viewModels/BudgetCategoryEditViewModel";
+import BudgetAccountDetailsViewModel from "setup/budgetAccount/viewModels/BudgetAccountDetailsViewModel";
+import BudgetAccountEditViewModel from "setup/budgetAccount/viewModels/BudgetAccountEditViewModel";
 
 import BudgetWorksheetDataService from "../data/BudgetWorksheetDataService";
 

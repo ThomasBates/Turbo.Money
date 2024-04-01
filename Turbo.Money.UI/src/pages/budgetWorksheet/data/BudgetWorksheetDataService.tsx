@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-import BudgetSectionDataService from "../../../setup/budgetSection/data/BudgetSectionDataService";
-import BudgetCategoryDataService from "../../../setup/budgetCategory/data/BudgetCategoryDataService";
-import BudgetAccountDataService from "../../../setup/budgetAccount/data/BudgetAccountDataService";
+import BudgetSectionDataProvider from "data/budgetSection/BudgetSectionDataProvider";
+import BudgetCategoryDataProvider from "data/budgetCategory/BudgetCategoryDataProvider";
+import BudgetAccountDataProvider from "data/budgetAccount/BudgetAccountDataProvider";
 
 export default function BudgetWorksheetDataService(logger) {
     const module = BudgetWorksheetDataService.name;
@@ -55,7 +55,7 @@ export default function BudgetWorksheetDataService(logger) {
     const retrieveSections = async () => {
         const context = `${module}.${retrieveSections.name}`;
         try {
-            const response = await BudgetSectionDataService.getAll();
+            const response = await BudgetSectionDataProvider.getAll();
             logger.debug(category, context, 'response.data =', response.data);
 
             let sections = response.data
@@ -71,7 +71,7 @@ export default function BudgetWorksheetDataService(logger) {
     const retrieveCategories = async () => {
         const context = `${module}.${retrieveCategories.name}`;
         try {
-            const response = await BudgetCategoryDataService.getAll();
+            const response = await BudgetCategoryDataProvider.getAll();
             logger.debug(category, context, 'response.data =', response.data);
 
             let categories = response.data
@@ -87,7 +87,7 @@ export default function BudgetWorksheetDataService(logger) {
     const retrieveAccounts = async () => {
         const context = `${module}.${retrieveAccounts.name}`;
         try {
-            const response = await BudgetAccountDataService.getAll();
+            const response = await BudgetAccountDataProvider.getAll();
             logger.debug(category, context, 'response.data =', response.data);
 
             let accounts = response.data
@@ -112,15 +112,15 @@ export default function BudgetWorksheetDataService(logger) {
                         case "read":
                             break;
                         case "created":
-                            const response = await BudgetSectionDataService.create(section);
+                            const response = await BudgetSectionDataProvider.create(section);
                             const createdSection = response.data;
                             createdIdMap.set(section.id, createdSection.id);
                             break;
                         case "updated":
-                            await BudgetSectionDataService.update(section.id, section);
+                            await BudgetSectionDataProvider.update(section.id, section);
                             break;
                         case "deleted":
-                            await BudgetSectionDataService.remove(section.id);
+                            await BudgetSectionDataProvider.remove(section.id);
                             deletedIdList.push(section.id);
                             break;
                     }
@@ -175,15 +175,15 @@ export default function BudgetWorksheetDataService(logger) {
                         case "read":
                             break;
                         case "created":
-                            const response = await BudgetCategoryDataService.create(category);
+                            const response = await BudgetCategoryDataProvider.create(category);
                             const createdCategory = response.data;
                             createdIdMap.set(category.id, createdCategory.id);
                             break;
                         case "updated":
-                            await BudgetCategoryDataService.update(category.id, category);
+                            await BudgetCategoryDataProvider.update(category.id, category);
                             break;
                         case "deleted":
-                            await BudgetCategoryDataService.remove(category.id);
+                            await BudgetCategoryDataProvider.remove(category.id);
                             deletedIdList.push(category.id);
                             break;
                     }
@@ -235,13 +235,13 @@ export default function BudgetWorksheetDataService(logger) {
                         case "read":
                             break;
                         case "created":
-                            await BudgetAccountDataService.create(account);
+                            await BudgetAccountDataProvider.create(account);
                             break;
                         case "updated":
-                            await BudgetAccountDataService.update(account.id, account);
+                            await BudgetAccountDataProvider.update(account.id, account);
                             break;
                         case "deleted":
-                            await BudgetAccountDataService.remove(account.id);
+                            await BudgetAccountDataProvider.remove(account.id);
                             break;
                     }
                 })

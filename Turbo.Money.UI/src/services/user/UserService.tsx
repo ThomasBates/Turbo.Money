@@ -1,6 +1,4 @@
-import React, { useCallback, useState, useEffect } from "react";
-
-//import AuthDataProvider from "../../auth/data/AuthDataProvider";
+import React, { useState, useEffect } from "react";
 
 export default function UserService(logger, errors, authDataProvider) {
     const module = UserService.name;
@@ -8,8 +6,6 @@ export default function UserService(logger, errors, authDataProvider) {
 
     const [user, setUser] = useState(null);
     const [signedIn, setSignedIn] = useState(false);
-
-    //const authDataProvider = AuthDataProvider();
 
     useEffect(() => {
         checkSignInState(null);

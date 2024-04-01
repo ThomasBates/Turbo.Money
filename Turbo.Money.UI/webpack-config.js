@@ -1,3 +1,4 @@
+const path = require('path');
 module.exports = {
     devtool: 'source-map',
     entry: "./main.tsx",
@@ -12,7 +13,15 @@ module.exports = {
 
     },
     resolve: {
-        extensions: ['.Webpack.js', '.web.js', '.ts', '.js', '.jsx', '.tsx']
+        extensions: ['.Webpack.js', '.web.js', '.ts', '.js', '.jsx', '.tsx'],
+        alias: {
+            'app': path.resolve(process.cwd(), './src/app'),
+            'components': path.resolve(process.cwd(), './src/components'),
+            'data': path.resolve(process.cwd(), './src/data'),
+            'pages': path.resolve(process.cwd(), './src/pages'),
+            'services': path.resolve(process.cwd(), './src/services'),
+            'setup': path.resolve(process.cwd(), './src/setup'),
+            }
     },
     module: {
         rules: [

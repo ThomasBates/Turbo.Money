@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 
-import AppContext from '../../../AppContext';
+import AppContext from 'app/AppContext';
 
-export default function CommonViewModel(title, dataService, initialItem, detailsViewModel, editViewModel) {
+export default function CommonViewModel(title, dataProvider, initialItem, detailsViewModel, editViewModel) {
     const module = CommonViewModel.name;
     const category = 'Common';
 
@@ -46,7 +46,7 @@ export default function CommonViewModel(title, dataService, initialItem, details
     const retrieveAllItems = async () => {
         const context = `${module}.${retrieveAllItems.name}`;
         try {
-            const response = await dataService.getList();
+            const response = await dataProvider.getList();
             logger.debug(category, context, 'response.data =', response.data);
 
             const newList = response.data.sort(compareItems);
@@ -60,7 +60,7 @@ export default function CommonViewModel(title, dataService, initialItem, details
         const context = `${module}.${retrieveModeItem.name}`;
         if (modeItemId) {
             try {
-                const response = await dataService.get(modeItemId);
+                const response = await dataProvider.get(modeItemId);
                 logger.debug(category, context, 'response.data =', response.data);
 
                 setModeItem(response.data);
@@ -76,7 +76,7 @@ export default function CommonViewModel(title, dataService, initialItem, details
     const createModeItem = async () => {
         const context = `${module}.${createModeItem.name}`;
         try {
-            const response = await dataService.create(modeItem);
+            const response = await dataProvider.create(modeItem);
             logger.debug(category, context, 'response.data =', response.data);
             return response.data;
         } catch (ex) {
@@ -88,7 +88,7 @@ export default function CommonViewModel(title, dataService, initialItem, details
     const updateModeItem = async () => {
         const context = `${module}.${updateModeItem.name}`;
         try {
-            const response = await dataService.update(modeItem.id, modeItem);
+            const response = await dataProvider.update(modeItem.id, modeItem);
             logger.debug(category, context, 'response.data =', response.data);
             return response.data;
         } catch (ex) {
@@ -100,7 +100,7 @@ export default function CommonViewModel(title, dataService, initialItem, details
     const deleteModeItem = async () => {
         const context = `${module}.${deleteModeItem.name}`;
         try {
-            const response = await dataService.remove(modeItem.id);
+            const response = await dataProvider.remove(modeItem.id);
             logger.debug(category, context, 'response.data =', response.data);
             return response.data;
         } catch (ex) {

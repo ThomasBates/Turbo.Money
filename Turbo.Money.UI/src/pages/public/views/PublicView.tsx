@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 
-import AppContext from "../../../AppContext";
+import AppContext from "app/AppContext";
 
 export default function PublicView({ viewModel }) {
     return (

@@ -1,11 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
 
-import AppContext from '../../../AppContext';
+import AppContext from 'app/AppContext';
+
+import BudgetSectionDataProvider from "data/budgetSection/BudgetSectionDataProvider";
+import BudgetCategoryDataProvider from "data/budgetCategory/BudgetCategoryDataProvider";
 
 import CommonViewModel from "../../common/viewModels/CommonViewModel";
-
-import BudgetSectionDataService from "../../budgetSection/data/BudgetSectionDataService";
-import BudgetCategoryDataService from "../data/BudgetCategoryDataService";
 
 import BudgetCategoryDetailsViewModel from "./BudgetCategoryDetailsViewModel";
 import BudgetCategoryEditViewModel from "./BudgetCategoryEditViewModel";
@@ -44,7 +44,7 @@ export default function BudgetCategoryViewModel() {
     const retrieveAllSections = async () => {
         const context = `${module}.${retrieveAllSections.name}`;
         try {
-            const response = await BudgetSectionDataService.getList()
+            const response = await BudgetSectionDataProvider.getList()
             logger.debug(category, context, 'response.data =', response.data);
 
             const newSections = response.data
@@ -70,7 +70,7 @@ export default function BudgetCategoryViewModel() {
 
     return CommonViewModel(
         "Budget Categories",
-        BudgetCategoryDataService,
+        BudgetCategoryDataProvider,
         initialBudgetCategory,
         detailsViewModel,
         editViewModel);

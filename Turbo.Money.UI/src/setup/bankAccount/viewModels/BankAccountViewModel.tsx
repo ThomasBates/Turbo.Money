@@ -1,11 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
 
-import AppContext from '../../../AppContext';
+import AppContext from 'app/AppContext';
+
+import BankBankDataProvider from "data/bankBank/BankBankDataProvider";
+import BankAccountDataProvider from "data/bankAccount/BankAccountDataProvider";
 
 import CommonViewModel from "../../common/viewModels/CommonViewModel";
-
-import BankBankDataService from "../../bankBank/data/BankBankDataService";
-import BankAccountDataService from "../data/BankAccountDataService";
 
 import BankAccountDetailsViewModel from "./BankAccountDetailsViewModel";
 import BankAccountEditViewModel from "./BankAccountEditViewModel";
@@ -44,7 +44,7 @@ export default function BankAccountViewModel() {
     const retrieveAllBanks = async () => {
         const context = `${module}.${retrieveAllBanks.name}`;
         try {
-            const response = await BankBankDataService.getList();
+            const response = await BankBankDataProvider.getList();
             logger.debug(category, context, 'response.data =', response.data);
 
             const newBanks = response.data
@@ -70,7 +70,7 @@ export default function BankAccountViewModel() {
 
     return CommonViewModel(
         "Bank Accounts",
-        BankAccountDataService,
+        BankAccountDataProvider,
         initialAccount,
         detailsViewModel,
         editViewModel);

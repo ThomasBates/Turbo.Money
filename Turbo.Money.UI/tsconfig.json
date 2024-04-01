@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "src",
+    "baseUrl": "./",
     "noImplicitAny": false,
     "module": "commonjs",
     "moduleResolution": "node",
@@ -11,7 +11,12 @@
     "jsx": "react",
     "esModuleInterop": true,
     "paths": {
-      "src/*":  ["src/*"]
+      "app/*": [ "./src/app/*" ],
+      "components/*": [ "./src/components/*" ],
+      "data/*": [ "./src/data/*" ],
+      "pages/*": [ "./src/pages/*" ],
+      "services/*": [ "./src/services/*" ],
+      "setup/*": [ "./src/setup/*" ]
     }
   },
   "exclude": [

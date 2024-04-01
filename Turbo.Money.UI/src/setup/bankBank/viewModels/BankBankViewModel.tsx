@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-import CommonViewModel from "../../common/viewModels/CommonViewModel";
+import BankBankDataProvider from "data/bankBank/BankBankDataProvider";
 
-import BankDataService from "../data/BankBankDataService";
+import CommonViewModel from "../../common/viewModels/CommonViewModel";
 
 import BankDetailsViewModel from "./BankBankDetailsViewModel";
 import BankEditViewModel from "./BankBankEditViewModel";
@@ -17,7 +17,7 @@ export default function BankViewModel() {
 
     return CommonViewModel(
         "Banks",
-        BankDataService,
+        BankBankDataProvider,
         initialBank,
         BankDetailsViewModel,
         BankEditViewModel);

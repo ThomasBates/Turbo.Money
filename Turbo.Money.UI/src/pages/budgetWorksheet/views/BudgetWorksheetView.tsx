@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import Modal from 'react-bootstrap/Modal';
 import Table from 'react-bootstrap/Table';
 
-import BudgetSectionDetailsView from "../../../setup/budgetSection/views/BudgetSectionDetailsView";
-import BudgetSectionEditView from "../../../setup/budgetSection/views/BudgetSectionEditView";
-import BudgetCategoryDetailsView from "../../../setup/budgetCategory/views/BudgetCategoryDetailsView";
-import BudgetCategoryEditView from "../../../setup/budgetCategory/views/BudgetCategoryEditView";
-import BudgetAccountDetailsView from "../../../setup/budgetAccount/views/BudgetAccountDetailsView";
-import BudgetAccountEditView from "../../../setup/budgetAccount/views/BudgetAccountEditView";
+import BudgetSectionDetailsView from "setup/budgetSection/views/BudgetSectionDetailsView";
+import BudgetSectionEditView from "setup/budgetSection/views/BudgetSectionEditView";
+import BudgetCategoryDetailsView from "setup/budgetCategory/views/BudgetCategoryDetailsView";
+import BudgetCategoryEditView from "setup/budgetCategory/views/BudgetCategoryEditView";
+import BudgetAccountDetailsView from "setup/budgetAccount/views/BudgetAccountDetailsView";
+import BudgetAccountEditView from "setup/budgetAccount/views/BudgetAccountEditView";
 
 import BudgetWorksheetMenu from "../components/BudgetWorksheetMenuDropdown";
 import BudgetWorksheetMenuItem from "../components/BudgetWorksheetMenuDropdownItem";

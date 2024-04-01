@@ -1,6 +1,6 @@
 import React from 'react';
 
-import BankTransactionDataProvider from "./BankTransactionDataProvider";
+import BankTransactionDataProvider from "data/bankTransaction/BankTransactionDataProvider";
 
 export default function BankTransactionDataService(logger, errors) {
 
