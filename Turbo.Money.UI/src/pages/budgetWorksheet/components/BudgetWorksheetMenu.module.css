@@ -1,34 +1,34 @@
 
 .menu {
     list-style-type: none;
-    background-color: #000;
-    margin: 5px 0;
+    display: flex;
+    justify-content: flex-end;
+    background-color: #222;
+    margin: 0 0;
     padding: 0;
     user-select: none;
 }
 
 .toggle {
-    color: #ccc;
-    font-size: 2em;
-}
-
-.toggle_restore {
-    font-size: 0.5em;
+    /*content: url(/assets/icons/menu/action.png);*/
+    content: url(/assets/icons/menu/reunion.jpg);
+    /*content: url('https://gallery.turbobutterfly.com/gallery/menu/menu.png');*/
+    /*filter: invert(1);*/
+    width: 24px;
 }
 
 .list {
     position: absolute;
     display: flex;
     flex-direction: column;
-    background-color: #000;
+    background-color: #444;
     padding: 10px 0;
     z-index: 1;
-    border-top: 1px solid red;
-    border-bottom: 1px solid red;
 }
 
 .list_position_top {
     position: absolute;
+    right: 0px;
 }
 
 .list_position_right {
@@ -57,17 +57,21 @@
     position: relative;
     display: inline-block;
     white-space: nowrap;
-    color: #ccc;
+    color: #888;
     padding: 5px 10px;
     text-decoration: none;
     cursor: pointer;
+}
+
+.item img {
+    filter: invert(1);
 }
 
 .text {
     position: relative;
     display: inline-block;
     white-space: nowrap;
-    color: #ccc;
+    color: #888;
     padding: 5px 10px;
     text-decoration: none;
     cursor: default;
@@ -75,7 +79,7 @@
 
 @media (hover:hover) and (pointer: fine) {
     .item:hover {
-        color: red;
+        color: white;
     }
 }
 
@@ -100,7 +104,7 @@
 }
 
 .list_icon_color {
-    color: #880;
+    color: #888;
 }
 
 .link_icon_color {

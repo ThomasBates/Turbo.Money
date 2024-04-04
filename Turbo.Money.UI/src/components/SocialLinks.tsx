@@ -3,7 +3,7 @@ import React from "react";
 function SocialLink({ icon, href }) {
     return (
         <a className="tb-social-link" target="_blank" href={href} >
-            <img src={`/assets/icons/icons8-${icon}-48.png`} alt={icon} width="24" />
+            <img src={`/assets/icons/logos/${icon}.png`} alt={icon} width="24" />
         </a>
     );
 }

@@ -1,7 +1,9 @@
 
 .menu {
     list-style-type: none;
-    background-color: #000;
+    display: flex;
+    justify-content: flex-end;
+    background-color: #400;
     margin: 5px 0;
     padding: 0;
     user-select: none;
@@ -29,6 +31,7 @@
 
 .list_position_top {
     position: absolute;
+    right: 0px;
 }
 
 .list_position_right {
@@ -57,7 +60,7 @@
     position: relative;
     display: inline-block;
     white-space: nowrap;
-    color: #ccc;
+    color: #888;
     padding: 5px 10px;
     text-decoration: none;
     cursor: pointer;
@@ -67,7 +70,7 @@
     position: relative;
     display: inline-block;
     white-space: nowrap;
-    color: #ccc;
+    color: #888;
     padding: 5px 10px;
     text-decoration: none;
     cursor: default;
@@ -100,7 +103,7 @@
 }
 
 .list_icon_color {
-    color: #880;
+    color: #888;
 }
 
 .link_icon_color {

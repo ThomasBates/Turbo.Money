@@ -37,11 +37,9 @@ module.exports = {
                 use: ['style-loader', 'css-loader']
             },
             {
-                test: /\.svg$/,
-                use: {
-                    loader: 'svg-inline-loader'
-                }
-            },
+                test: /\.(jpe?g|png|gif|svg)$/i,
+                type: 'asset/resource',
+            }
         ]
     },
     devServer: {

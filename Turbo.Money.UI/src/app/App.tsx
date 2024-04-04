@@ -1,7 +1,7 @@
 import React from 'react'
 
 import AppContextProvider from "./AppContextProvider";
-import RouteData from "../routes/RouteData";
+import RouteData from "./routes/RouteData";
 
 export default function App() {
     return (

@@ -1,28 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-import BudgetWorksheetMenu from "../components/BudgetWorksheetMenuDropdown";
-import BudgetWorksheetMenuItem from "../components/BudgetWorksheetMenuDropdownItem";
-
-function Menu({ viewModel }) {
-    return (
-        <BudgetWorksheetMenu tooltip="Budget Account Actions" >
-            <BudgetWorksheetMenuItem
-                icon="show"
-                text="Show details of this budget account"
-                onClick={viewModel.showAccount} />
-            <BudgetWorksheetMenuItem
-                icon="edit"
-                text="Edit this budget account"
-                onClick={viewModel.editAccount} />
-            <BudgetWorksheetMenuItem
-                icon="delete"
-                text="Delete this budget account"
-                onClick={viewModel.deleteAccount} />
-        </BudgetWorksheetMenu>
-    );
-};
+import BudgetWorksheetMenu from '../components/BudgetWorksheetMenu';
 
 export default function BudgetWorksheetAccountView({ viewModel }) {
+
+    const menuData = {
+        content: "root",
+        tooltip: "Budget Account Actions",
+        list: [
+            { action: viewModel.showAccount, content: "Show details of this budget account", icon: "show", },
+            { action: viewModel.editAccount, content: "Edit this budget account", icon: "edit", },
+            { action: viewModel.deleteAccount, content: "Delete this budget account", icon: "delete", },
+        ]
+    };
+
     return (
         <>
             <tr className="tb-worksheet-row">
@@ -32,7 +23,7 @@ export default function BudgetWorksheetAccountView({ viewModel }) {
                 <td className="tb-worksheet-account-currency">{viewModel.amount}</td>
                 <td className="tb-worksheet-account-text">{viewModel.typeName}</td>
                 <td className="tb-worksheet-buttons">
-                    <Menu viewModel={viewModel} />
+                    <BudgetWorksheetMenu menuData={menuData} />
                 </td>
             </tr>
         </>
