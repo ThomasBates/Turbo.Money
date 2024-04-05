@@ -1,4 +1,3 @@
-import React from "react";
 
 import BudgetSectionDataProvider from "data/budgetSection/BudgetSectionDataProvider";
 

@@ -1,6 +1,3 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-
-import AppContext from 'app/AppContext';
 
 //import style from "./Modal.module.css";
 import "./Modal.css";

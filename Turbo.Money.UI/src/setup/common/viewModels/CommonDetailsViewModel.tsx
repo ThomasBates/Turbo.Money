@@ -1,4 +1,3 @@
-import React from "react";
 
 export default function CommonDetailsViewModel(title, entity, mode, item, onSubmitted, onCancelled) {
 

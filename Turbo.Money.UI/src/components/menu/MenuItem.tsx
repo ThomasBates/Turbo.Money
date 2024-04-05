@@ -1,4 +1,3 @@
-import React from "react";
 
 import MenuList from "./MenuList";
 import MenuBack from "./MenuBack";

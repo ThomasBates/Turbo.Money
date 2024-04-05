@@ -1,4 +1,3 @@
-import React from "react";
 
 import BankDataProvider from 'data/bank/BankDataProvider';
 import BudgetDataProvider from 'data/budget/BudgetDataProvider';

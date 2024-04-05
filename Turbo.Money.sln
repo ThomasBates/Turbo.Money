@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "Turbo.Money.UI", "Turbo.Money.UI\Turbo.Money.UI.njsproj", "{73625B96-E46D-4F94-A948-F9A3E0CB81D9}"
-EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "Turbo.Money.API", "Turbo.Money.API\Turbo.Money.API.njsproj", "{7B578470-1FA6-41CF-BC1D-7D5815D1D9C1}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "turbo.money.ui", "Turbo.Money.UI\turbo.money.ui.esproj", "{CCB9B1DE-01EB-4F15-8B30-90ED52657FDC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,16 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{73625B96-E46D-4F94-A948-F9A3E0CB81D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{73625B96-E46D-4F94-A948-F9A3E0CB81D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{73625B96-E46D-4F94-A948-F9A3E0CB81D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{73625B96-E46D-4F94-A948-F9A3E0CB81D9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7B578470-1FA6-41CF-BC1D-7D5815D1D9C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7B578470-1FA6-41CF-BC1D-7D5815D1D9C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B578470-1FA6-41CF-BC1D-7D5815D1D9C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B578470-1FA6-41CF-BC1D-7D5815D1D9C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCB9B1DE-01EB-4F15-8B30-90ED52657FDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCB9B1DE-01EB-4F15-8B30-90ED52657FDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCB9B1DE-01EB-4F15-8B30-90ED52657FDC}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{CCB9B1DE-01EB-4F15-8B30-90ED52657FDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCB9B1DE-01EB-4F15-8B30-90ED52657FDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCB9B1DE-01EB-4F15-8B30-90ED52657FDC}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,3 @@
-import React from "react";
 
 export default function MenuBack({ style, item, onListSelected }) {
     const isText = (typeof item.content === 'string');

@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react'
 
 import AppContext from "./AppContext";
 
-import LoggerConsoleProvider from 'services/logger/LoggerConsoleProvider';
-import Logger from 'services/logger/Logger';
+import LoggerConsoleProvider from 'services/logger/loggerConsoleProvider';
+import Logger from 'services/logger/logger';
 
-import Errors from 'services/errors/Errors';
+import Errors from 'services/errors/errors';
 
 import AuthDataProvider from 'data/auth/AuthDataProvider';
 import UserService from 'services/user/UserService';

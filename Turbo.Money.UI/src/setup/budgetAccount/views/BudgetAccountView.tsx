@@ -1,4 +1,3 @@
-import React from "react";
 
 import CommonView from '../../common/views/CommonView';
 

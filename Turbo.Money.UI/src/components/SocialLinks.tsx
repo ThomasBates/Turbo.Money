@@ -1,4 +1,3 @@
-import React from "react";
 
 function SocialLink({ icon, href }) {
     return (

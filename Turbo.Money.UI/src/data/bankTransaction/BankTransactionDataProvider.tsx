@@ -1,4 +1,3 @@
-import React from 'react';
 
 import axios from "data/axios/AxiosCommon";
 import CommonDataProvider from "data/axios/CommonDataProvider";

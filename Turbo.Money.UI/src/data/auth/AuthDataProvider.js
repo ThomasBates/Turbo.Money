@@ -1,4 +1,4 @@
-import axios from "data/axios/AxiosCommon";
+import axios from "../axios/AxiosCommon";
 
 export default function AuthDataProvider(logger, errors) {
     const module = AuthDataProvider.name;

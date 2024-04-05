@@ -1,4 +1,3 @@
-import React from 'react';
 
 import BankTransactionDataProvider from "data/bankTransaction/BankTransactionDataProvider";
 

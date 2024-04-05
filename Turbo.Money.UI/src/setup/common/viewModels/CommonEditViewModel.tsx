@@ -1,4 +1,3 @@
-import React from "react";
 
 export default function CommonEditViewModel(title, entity, mode, item, setItem, onSubmitted, onCancelled) {
     title = mode === "edit" ? `Edit ${title}:` : `Add ${title}:`;

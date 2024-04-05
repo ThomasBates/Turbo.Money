@@ -1,4 +1,3 @@
-import React, { useContext } from 'react'
 
 export default function DashboardView({ viewModel, viewModelArgs }) {
     viewModel = viewModel(viewModelArgs);

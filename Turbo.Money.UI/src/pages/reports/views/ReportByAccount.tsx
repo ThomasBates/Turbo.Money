@@ -1,5 +1,3 @@
-declare var require: any
-var React = require('react');
 
 export default function ReportByAccount() {
 

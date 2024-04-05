@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 
 import AppContext from 'app/AppContext';
 
-import BankBankEditView, { BankBankEditData } from './BankBankEditview';
+import BankBankEditView, { BankBankEditData } from './bankBankEditView';
 
 const BankWorksheetView: React.FC = () => {
     const module = BankWorksheetView.name;

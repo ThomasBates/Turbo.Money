@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import BudgetSectionDataProvider from "data/budgetSection/BudgetSectionDataProvider";
 import BudgetCategoryDataProvider from "data/budgetCategory/BudgetCategoryDataProvider";

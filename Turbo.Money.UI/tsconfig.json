@@ -1,31 +1,35 @@
 {
   "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": [ "ES2020", "DOM", "DOM.Iterable" ],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
     "baseUrl": "./",
-    "noImplicitAny": false,
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "noEmitOnError": true,
-    "removeComments": false,
-    "sourceMap": true,
-    "target": "es5",
-    "jsx": "react",
-    "esModuleInterop": true,
     "paths": {
-      "app/*": [ "./src/app/*" ],
-      "components/*": [ "./src/components/*" ],
-      "data/*": [ "./src/data/*" ],
-      "pages/*": [ "./src/pages/*" ],
-      "services/*": [ "./src/services/*" ],
-      "setup/*": [ "./src/setup/*" ]
-    }
+      "app/*": [ "src/app/*" ],
+      "components/*": [ "src/components/*" ],
+      "data/*": [ "src/data/*" ],
+      "pages/*": [ "src/pages/*" ],
+      "services/*": [ "src/services/*" ],
+      "setup/*": [ "src/setup/*" ]
+    },
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
   },
-  "exclude": [
-    "node_modules"
-  ],
-  //"include": [
-  //  "src"
-  //],
-  "files": [
-    "main.tsx"
-  ]
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

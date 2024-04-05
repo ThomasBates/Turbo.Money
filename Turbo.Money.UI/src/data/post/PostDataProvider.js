@@ -1,4 +1,4 @@
-import axios from "data/axios/AxiosCommon";
+import axios from "../axios/AxiosCommon";
 
 export default function PostDataProvider(logger, errors) {
     const module = PostDataProvider.name;
