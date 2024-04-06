@@ -1,12 +1,12 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 
-import AppContext from 'app/AppContext';
+import { useAppContext } from 'app/AppContextAccess';
 
 import BankTransactionDataService from "../data/BankTransactionDataService";
 
 export default function BankTransactionUploadViewModel() {
 
-    const { logger, errors } = useContext(AppContext);
+    const { logger, errors } = useAppContext();
     const [file, setFile] = useState(null);
 
     const bankTransactionDataService = BankTransactionDataService(logger, errors)

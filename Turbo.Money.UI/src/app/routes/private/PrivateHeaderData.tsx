@@ -1,5 +1,7 @@
 
-export default function PrivateHeaderData(users) {
+import IUserService from 'services/user/IUserService';
+
+export default function PrivateHeaderData(users: IUserService) {
 
     const signOutItem = {
         content: "Sign Out",
@@ -40,8 +42,8 @@ export default function PrivateHeaderData(users) {
         : {
             content: `Family: ${users.user.selectedFamily.name}`,
             list: familyNames
-                .filter(familyName => familyName !== users.user.selectedFamily.name)
-                .map(familyName => ({
+                .filter((familyName: string) => familyName !== users.user?.selectedFamily.name)
+                .map((familyName: string) => ({
                     content: `Switch to ${familyName}`,
                     action: () => users.switchFamily(familyName)
                 }))

@@ -10,7 +10,7 @@ export default function PrivateNavData() {
         list: [
             {
                 content: (<img src="/assets/images/logo.png" alt="It's My Money" width="200" />),
-                to: "/",
+                to: "/dashboard",
             },
             {
                 content: "Home",
@@ -52,7 +52,7 @@ export default function PrivateNavData() {
                             { content: "Bank Worksheet", to: "/BankWorksheet" },
                             { content: "Bank Setup", to: "/BankBankView" },
                             { content: "Bank Account Setup", to: "/BankAccountView" },
-                            { content: "Create Sample Bank Data", action: BankDataProvider.createSampleData },
+                            { content: "Create Sample Bank Data", action: BankDataProvider().createSampleData },
                         ]
                     },
                     {
@@ -62,7 +62,7 @@ export default function PrivateNavData() {
                             { content: "Budget Section Setup", to: "/BudgetSectionView" },
                             { content: "Budget Category Setup", to: "/BudgetCategoryView" },
                             { content: "Budget Account Setup", to: "/BudgetAccountView" },
-                            { content: "Create Sample Budget Data", action: BudgetDataProvider.createSampleData },
+                            { content: "Create Sample Budget Data", action: BudgetDataProvider().createSampleData },
                         ]
                     },
                     { content: "---" },

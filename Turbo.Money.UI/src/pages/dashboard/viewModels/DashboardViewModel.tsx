@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import AppContext from "app/AppContext";
+import { useAppContext } from 'app/AppContextAccess';
 
 export default function DashboardViewModel({ postDataProvider }) {
     const module = DashboardViewModel.name;
@@ -8,7 +8,7 @@ export default function DashboardViewModel({ postDataProvider }) {
 
     const [posts, setPosts] = useState([]);
 
-    const { logger, users } = useContext(AppContext);
+    const { logger, users } = useAppContext();
 
     useEffect(() => {
         const context = `${module}.${useEffect.name}`;

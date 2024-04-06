@@ -1,9 +1,10 @@
-import { useContext } from "react";
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
+
+import { AppContextType } from 'app/AppContextType';
 
 //  ----------------------------------------------------------------------------
 
-import AppContext from 'app/AppContext';
+import { useAppContext } from 'app/AppContextAccess';
 
 import PublicHeaderData from './PublicHeaderData';
 import PublicNavData from './PublicNavData';
@@ -33,14 +34,14 @@ import About from 'pages/About';
 
 function NotFoundRedirect() {
     const location = useLocation();
-    const { logger } = useContext(AppContext);
+    const { logger } = useAppContext();
 
     logger.debug('NotFound', 'PublicRouteData.NotFoundRedirect', 'location =', location);
 
     return <Navigate to="/" replace state={{ from: location }} />;
 }
 
-export default function PublicRouteData(app) {
+export default function PublicRouteData(app: AppContextType) {
 
     return [{
         element:

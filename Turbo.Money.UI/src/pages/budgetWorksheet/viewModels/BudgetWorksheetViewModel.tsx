@@ -1,6 +1,6 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 
-import AppContext from 'app/AppContext';
+import { useAppContext } from 'app/AppContextAccess';
 
 import BudgetSectionDetailsViewModel from "setup/budgetSection/viewModels/BudgetSectionDetailsViewModel";
 import BudgetSectionEditViewModel from "setup/budgetSection/viewModels/BudgetSectionEditViewModel";
@@ -36,7 +36,7 @@ const modeViewModels = {
 
 export default function BudgetWorksheetViewModel() {
 
-    const { logger } = useContext(AppContext);
+    const { logger } = useAppContext();
     const dataService = BudgetWorksheetDataService(logger);
 
     const [modeViewModelProps, setModeViewModelProps] = useState(null);

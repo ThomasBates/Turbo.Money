@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-import AppContext from 'app/AppContext';
+import { useAppContext } from 'app/AppContextAccess';
 
 //import './bankWorksheet.css';
 
@@ -28,7 +28,7 @@ const BankBankEditView: React.FC<BankBankEditProps> = ({ isOpen, onSubmit, onClo
     const module = BankBankEditView.name;
     const category = 'BankWorksheet';
 
-    const { logger } = useContext(AppContext);
+    const { logger } = useAppContext();
 
     const focusInputRef = useRef<HTMLInputElement | null>(null);
     const [formState, setFormState] = useState<BankBankEditData>(initialBankBankEditData);

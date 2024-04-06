@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 
-import AppContext from 'app/AppContext';
+import { useAppContext } from 'app/AppContextAccess';
 
 import BankBankEditView, { BankBankEditData } from './bankBankEditView';
 
@@ -8,7 +8,7 @@ const BankWorksheetView: React.FC = () => {
     const module = BankWorksheetView.name;
     const category = 'BankWorksheet';
 
-    const { logger } = useContext(AppContext);
+    const { logger } = useAppContext();
 
     const [isBankBankEditViewOpen, setBankBankEditViewOpen] = useState<boolean>(false);
     const [bankBankEditData, setBankBankEditData] = useState<BankBankEditData | null>(null);

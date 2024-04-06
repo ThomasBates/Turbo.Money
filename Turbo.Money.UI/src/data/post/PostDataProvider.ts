@@ -1,6 +1,9 @@
-import axios from "../axios/AxiosCommon";
+import axios from "data/axios/AxiosCommon";
 
-export default function PostDataProvider(logger, errors) {
+import ILoggerService from 'services/logger/ILoggerService';
+import IErrorService from 'services/errors/IErrorService';
+
+export default function PostDataProvider(logger: ILoggerService, errors: IErrorService) {
     const module = PostDataProvider.name;
     const category = 'Post';
 
@@ -13,8 +16,7 @@ export default function PostDataProvider(logger, errors) {
             return response.data.posts;
 
         } catch (ex) {
-            logger.error(category, context, 'error =', ex);
-            return errors.create(context, 'Catch', ex.message);
+            return errors.handleCatch(ex, context);
         }
     }
 

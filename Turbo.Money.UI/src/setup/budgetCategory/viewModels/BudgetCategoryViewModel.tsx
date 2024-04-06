@@ -1,6 +1,6 @@
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-import AppContext from 'app/AppContext';
+import { useAppContext } from 'app/AppContextAccess';
 
 import BudgetSectionDataProvider from "data/budgetSection/BudgetSectionDataProvider";
 import BudgetCategoryDataProvider from "data/budgetCategory/BudgetCategoryDataProvider";
@@ -21,7 +21,7 @@ export default function BudgetCategoryViewModel() {
         direction: "out"
     };
 
-    const { logger } = useContext(AppContext);
+    const { logger } = useAppContext();
 
     const [sections, setSections] = useState([]);
 

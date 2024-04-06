@@ -1,15 +1,20 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import axios from "data/axios/AxiosCommon";
 import CommonDataProvider from "data/axios/CommonDataProvider";
 
-export default function BankTransactionDataProvider(logger, errors) {
+import ILoggerService from 'services/logger/ILoggerService';
+
+export default function BankTransactionDataProvider(logger: ILoggerService) {
     const module = BankTransactionDataProvider.name;
     const category = 'Bank';
 
     const common = CommonDataProvider("bankTransactions")
 
-    const uploadFile = async (file) => {
+    const uploadFile = async (file: any) => {
         const context = `${module}.${uploadFile.name}`;
+
+        logger.debug(category, context, 'file =', file);
 
         try {
             const formData = new FormData();

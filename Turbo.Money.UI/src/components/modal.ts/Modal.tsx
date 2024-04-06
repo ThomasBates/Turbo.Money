@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-import AppContext from 'app/AppContext';
+import { useAppContext } from 'app/AppContextAccess';
 
 //import style from "./Modal.module.css";
 import "./Modal.module.css";
@@ -18,7 +18,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, hasCloseBtn, onClose, children })
     const module = Modal.name;
     const category = 'Modal';
 
-    const { logger } = useContext(AppContext);
+    const { logger } = useAppContext();
 
     const [isModalOpen, setModalOpen] = useState(isOpen);
     const modalRef = useRef<HTMLDialogElement | null>(null);

@@ -1,12 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "./AxiosCommon";
 
-export default function CommonDataProvider(api) {
+export default function CommonDataProvider(api: string) {
 
-    const create = data => {
+    const create = (data: any) => {
         return axios.post(`/${api}`, data);
     };
 
-    const get = id => {
+    const get = (id: number) => {
         return axios.get(`/${api}/${id}`);
     };
 
@@ -18,11 +19,11 @@ export default function CommonDataProvider(api) {
         return axios.get(`/${api}/list`);
     };
 
-    const update = (id, data) => {
+    const update = (id: number, data: any) => {
         return axios.put(`/${api}/${id}`, data);
     };
 
-    const remove = id => {
+    const remove = (id: number) => {
         return axios.delete(`/${api}/${id}`);
     };
 

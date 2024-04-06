@@ -1,20 +1,28 @@
-import { useContext } from "react";
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+
+import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 //  ----------------------------------------------------------------------------
 
-import AppContext from "app/AppContext";
+import { AppContextType } from 'app/AppContextType';
+import { useAppContext } from 'app/AppContextAccess';
+import { SignInStatus } from 'services/user/IUserService';
+
+import PendingRouteData from './pending/PendingRouteData';
 import PublicRouteData from './public/PublicRouteData';
 import PrivateRouteData from './private/PrivateRouteData';
 
 //  ----------------------------------------------------------------------------
 
+const routeMap: Record<SignInStatus, (app: AppContextType) => RouteObject[]> = {
+    [SignInStatus.Pending]: PendingRouteData,
+    [SignInStatus.SignedIn]: PrivateRouteData,
+    [SignInStatus.SignedOut]: PublicRouteData,
+}
+
 export default function RouteData() {
-    const app = useContext(AppContext);
+    const app = useAppContext();
 
-    app.logger.debug('Route', 'RouteData', 'app.users.signedIn =', app.users.signedIn);
-
-    const routeData = app.users.signedIn ? PrivateRouteData(app) : PublicRouteData(app);
+    const routeData = routeMap[app.users.signInStatus](app);
 
     return (
         <RouterProvider router={createBrowserRouter(routeData)} />

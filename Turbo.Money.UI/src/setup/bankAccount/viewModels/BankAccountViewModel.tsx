@@ -1,6 +1,6 @@
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-import AppContext from 'app/AppContext';
+import { useAppContext } from 'app/AppContextAccess';
 
 import BankBankDataProvider from "data/bankBank/BankBankDataProvider";
 import BankAccountDataProvider from "data/bankAccount/BankAccountDataProvider";
@@ -21,7 +21,7 @@ export default function BankAccountViewModel() {
         number: ""
     };
 
-    const { logger } = useContext(AppContext);
+    const { logger } = useAppContext();
 
     const [banks, setBanks] = useState([]);
 

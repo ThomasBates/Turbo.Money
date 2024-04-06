@@ -1,4 +1,4 @@
-import axios from "../axios/AxiosCommon";
+import axios from "data/axios/AxiosCommon";
 
 export default function BudgetDataProvider() {
 
@@ -9,4 +9,4 @@ export default function BudgetDataProvider() {
     return {
         createSampleData,
     };
-};
+}

@@ -1,5 +1,7 @@
 import { Outlet } from 'react-router-dom';
 
+import { AppContextType } from 'app/AppContextType';
+
 //  ----------------------------------------------------------------------------
 
 import PrivateHeaderData from './PrivateHeaderData';
@@ -49,7 +51,7 @@ import NotFound from 'pages/NotFound';
 
 //  ----------------------------------------------------------------------------
 
-export default function PrivateRouteData(app) {
+export default function PrivateRouteData(app: AppContextType) {
 
     return [{
         element:
@@ -67,7 +69,7 @@ export default function PrivateRouteData(app) {
             </div>,
         children: [
             //  dashboard
-            //{ path: "/", element: <DashboardView viewModel={DashboardViewModel} viewModelArgs={{ postDataProvider: PostDataProvider(app.logger, app.errors) }} /> },
+            { path: "/dashboard", element: <DashboardView viewModel={DashboardViewModel} viewModelArgs={{ postDataProvider: PostDataProvider(app.logger, app.errors) }} /> },
 
             //  Budget 
             { path: "/", element: < BudgetWorksheetView viewModel={BudgetWorksheetViewModel} /> },

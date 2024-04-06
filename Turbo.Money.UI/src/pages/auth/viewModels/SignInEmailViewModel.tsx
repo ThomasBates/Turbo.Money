@@ -1,9 +1,9 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 
-import AppContext from "app/AppContext";
+import { useAppContext } from 'app/AppContextAccess';
 
 export default function SignInEmailViewModel() {
-    const { users } = useContext(AppContext);
+    const { users } = useAppContext();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

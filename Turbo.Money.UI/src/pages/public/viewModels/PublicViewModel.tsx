@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import AppContext from "app/AppContext";
+import { useAppContext } from 'app/AppContextAccess';
 
 export default function PublicViewModel(postDataProvider) {
     const module = PublicViewModel.name;
@@ -8,7 +8,7 @@ export default function PublicViewModel(postDataProvider) {
 
     const [posts, setPosts] = useState([]);
 
-    const { logger } = useContext(AppContext);
+    const { logger } = useAppContext();
 
     useEffect(() => {
         const context = `${module}.${useEffect.name}`;

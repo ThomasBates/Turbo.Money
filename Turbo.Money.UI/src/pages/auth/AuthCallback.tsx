@@ -1,14 +1,14 @@
-import { useEffect, useRef, useContext } from 'react'
+import { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 
-import AppContext from "app/AppContext";
+import { useAppContext } from 'app/AppContextAccess';
 
 export default function AuthCallback() {
     const module = AuthCallback.name;
     const category = 'User';
 
     const called = useRef(false);
-    const { logger, users } = useContext(AppContext);
+    const { logger, users } = useAppContext();
     const navigate = useNavigate();
 
     logger.debug(category, module, ':');

@@ -1,12 +1,12 @@
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-import AppContext from 'app/AppContext';
+import { useAppContext } from 'app/AppContextAccess';
 
 export default function CommonViewModel(title, dataProvider, initialItem, detailsViewModel, editViewModel) {
     const module = CommonViewModel.name;
     const category = 'Common';
 
-    const { logger, errors } = useContext(AppContext);
+    const { logger, errors } = useAppContext();
 
     const [list, setList] = useState([]);
     const [selectedIndex, setSelectedIndex] = useState(null);

@@ -1,6 +1,6 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-import AppContext from 'app/AppContext';
+import { useAppContext } from 'app/AppContextAccess';
 
 import MenuItem from "./MenuItem";
 
@@ -22,7 +22,7 @@ export default function Menu({ style, hover, wide, menuData }) {
 
     //hover = false;  //  for testing mobile on desktop
 
-    const { logger } = useContext(AppContext);
+    const { logger } = useAppContext();
 
     // in situ one list for !hover and !wide
     const [list, setList] = useState(null);
@@ -84,7 +84,7 @@ export default function Menu({ style, hover, wide, menuData }) {
         }
     }
 
-    logger.debug(category, module, 'list =', list);
+    //logger.debug(category, module, 'list =', list);
 
     // ------------------
 

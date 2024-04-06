@@ -1,5 +1,7 @@
 
-export default function PublicHeaderData(users) {
+import IUserService from 'services/user/IUserService';
+
+export default function PublicHeaderData(users: IUserService) {
 
     const initialHeaderData = {
         content: "root",

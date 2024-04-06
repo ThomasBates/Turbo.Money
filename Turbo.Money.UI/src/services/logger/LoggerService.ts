@@ -1,7 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-export default function Logger(provider) {
+import ILoggerProvider from './ILoggerProvider';
+import ILogger from './ILoggerService';
 
-    const levels = {
+export default function LoggerService(provider: ILoggerProvider): ILogger {
+
+    const levels: Record<string, number> = {
         error: 0,
         warning: 1,
         info: 2,
@@ -9,18 +13,18 @@ export default function Logger(provider) {
         verbose: 4
     }
 
-    let categories = {};
+    let categories: Record<string, boolean> = {};
     let severityLevel = levels.debug;
 
-    function enableSeverity(level) {
+    function enableSeverity(level: string) {
         severityLevel = levels[level];
     }
 
-    function isSeverityEnabled(level) {
+    function isSeverityEnabled(level: string) {
         return levels[level] <= severityLevel;
     }
 
-    function enableCategory(category) {
+    function enableCategory(category: string) {
         if (category === 'all') {
             categories = { all: true };
         }
@@ -29,7 +33,7 @@ export default function Logger(provider) {
         }
     }
 
-    function disableCategory(category) {
+    function disableCategory(category: string) {
         if (category === 'all') {
             categories = { };
         }
@@ -38,7 +42,7 @@ export default function Logger(provider) {
         }
     }
 
-    function isCategoryEnabled(category) {
+    function isCategoryEnabled(category: string) {
         const all = ('all' in categories && categories['all']);
         if (all) {
             return !(category in categories) || categories[category];
@@ -48,7 +52,7 @@ export default function Logger(provider) {
         }
     }
 
-    function send(severity, category, context, message, object) {
+    function send(severity: string, category: string, context: string, message: string, object?: any) {
         if (!isSeverityEnabled(severity))
             return;
         if ((levels[severity] > levels.error) && !isCategoryEnabled(category))
@@ -56,23 +60,23 @@ export default function Logger(provider) {
         provider.send(severity, category, context, message, object);
     }
 
-    function error(category, context, message, object) {
+    function error(category: string, context: string, message: string, object?: any) {
         send('error', category, context, message, object);
     }
 
-    function warning(category, context, message, object) {
+    function warning(category: string, context: string, message: string, object?: any) {
         send('warning', category, context, message, object);
     }
 
-    function info(category, context, message, object) {
+    function info(category: string, context: string, message: string, object?: any) {
         send('info', category, context, message, object);
     }
 
-    function debug(category, context, message, object) {
+    function debug(category: string, context: string, message: string, object?: any) {
         send('debug', category, context, message, object);
     }
 
-    function verbose(category, context, message, object) {
+    function verbose(category: string, context: string, message: string, object?: any) {
         send('verbose', category, context, message, object);
     }
 
