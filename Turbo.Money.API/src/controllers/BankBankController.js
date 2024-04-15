@@ -15,14 +15,14 @@ module.exports = function BankBankController(logger, errors, business) {
         if (!data.number)
             return errors.create(context, 'ParseError', "data.number is not defined.");
 
-        if (!data.transit)
-            return errors.create(context, 'ParseError', "data.transit is not defined.");
+        //if (!data.branch)
+        //    return errors.create(context, 'ParseError', "data.branch is not defined.");
 
         const bank = {
             id: data.id,
             name: data.name,
             number: data.number,
-            transit: data.transit
+            branch: data.branch
         };
 
         return bank;

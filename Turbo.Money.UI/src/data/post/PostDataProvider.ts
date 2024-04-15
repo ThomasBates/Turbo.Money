@@ -3,7 +3,9 @@ import axios from "data/axios/AxiosCommon";
 import ILoggerService from 'services/logger/ILoggerService';
 import IErrorService from 'services/errors/IErrorService';
 
-export default function PostDataProvider(logger: ILoggerService, errors: IErrorService) {
+import IPostDataProvider from "./IPostDataProvider";
+
+export default function PostDataProvider(logger: ILoggerService, errors: IErrorService): IPostDataProvider {
     const module = PostDataProvider.name;
     const category = 'Post';
 

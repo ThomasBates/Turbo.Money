@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
-export interface ErrorInfo {
+export interface IErrorInfo {
     error: {
         context: string
         code: string
@@ -9,7 +8,7 @@ export interface ErrorInfo {
 }
 
 export default interface IErrorService {
-    createError: (context: string, code: string, message: string) => ErrorInfo;
-    isError: (data: any) => boolean;
-    handleCatch: (ex: unknown, context: string) => ErrorInfo;
+    createError: (context: string, code: string, message: string) => IErrorInfo;
+    isError: (data: object) => boolean;
+    handleCatch: (ex: unknown, context: string) => IErrorInfo;
 }

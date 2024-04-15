@@ -13,49 +13,19 @@ import NavBar from 'components/navBar/NavBar';
 import SideBar from 'components/SideBar';
 import Footer from 'components/Footer';
 
-import About from 'pages/About';
-import NotFound from 'pages/NotFound';
+import AuthCallback from "pages/auth/AuthCallback";
+
+import About from 'pages/app/About';
+import NotFound from 'pages/app/NotFound';
 
 //  ----------------------------------------------------------------------------
 
-//function About() {
-//    return (<>
-//        <h1>About <span>It's My Money</span></h1>
-//    </>);
-//}
-
-//function Header() {
-//    return (<>
-//        <h1>Header</h1>
-//    </>);
-//}
-
-//function SideBar() {
-//    return (<>
-//        <h1>Side Bar</h1>
-//    </>);
-//}
-
-//function Footer() {
-//    return (<>
-//        <h1>Footer</h1>
-//    </>);
-//}
-
-//function NotFound() {
-//    return (<>
-//        <h1>Page not found.</h1>
-//    </>);
-//}
-
-//  ----------------------------------------------------------------------------
-
-export default function PendingRouteData(_app: AppContextType) {
+export default function PendingRouteData(app: AppContextType) {
 
     return [{
         element:
             <div>
-                <Header headerData={PendingHeaderData()} />
+                <Header headerData={PendingHeaderData(app.users)} />
                 <NavBar navData={PendingNavData()} />
                 <div className="tb-content">
                     <SideBar />
@@ -66,6 +36,10 @@ export default function PendingRouteData(_app: AppContextType) {
                 <Footer />
             </div>,
         children: [
+            // OAuth 2.0 sources will redirect here
+            { path: '/auth_callback', element: <AuthCallback /> },
+            { path: '/auth/callback_google_signin', element: <AuthCallback /> },  // google will redirect here
+
             //  about
             { path: "/", element: <About /> },
             { path: "*", element: <NotFound /> },

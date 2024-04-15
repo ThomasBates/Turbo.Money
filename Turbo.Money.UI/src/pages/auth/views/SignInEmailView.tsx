@@ -1,12 +1,18 @@
 import { useNavigate } from 'react-router-dom';
 
+import IViewProps from 'pages/common/views/IViewProps';
+
+import ISignInEmailViewModel from '../viewModels/ISignInEmailViewModel';
+
 import './Auth.css';
 
-export default function SignInEmailView({ viewModel }) {
+export default function SignInEmailView({ dataContext }: IViewProps) {
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const viewModel = dataContext as ISignInEmailViewModel;
+
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
         await viewModel.submit(navigate)
     }
 

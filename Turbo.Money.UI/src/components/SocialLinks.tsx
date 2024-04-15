@@ -1,5 +1,10 @@
 
-function SocialLink({ icon, href }) {
+interface ILinkProps {
+    icon: string;
+    href: string;
+}
+
+function SocialLink({ icon, href }: ILinkProps) {
     return (
         <a className="tb-social-link" target="_blank" href={href} >
             <img src={`/assets/icons/logos/${icon}.png`} alt={icon} width="24" />
@@ -7,7 +12,11 @@ function SocialLink({ icon, href }) {
     );
 }
 
-export default function SocialLinks({ className }) {
+interface IProps {
+    className: string;
+}
+
+export default function SocialLinks({ className }: IProps) {
     return (
         <div className={"tb-social-links " + className}>
             <SocialLink icon="twitterx"  href="https://twitter.com/RoboTurbo2"/>

@@ -1,16 +1,30 @@
+import { useEffect } from "react";
 
-export default function DashboardView({ viewModel, viewModelArgs }) {
-    viewModel = viewModel(viewModelArgs);
+import IViewFactoryProps from "pages/common/views/IViewFactoryProps";
+
+import IDashboardViewModel from "../viewModels/IDashboardViewModel";
+
+export default function DashboardView({ dataContext }: IViewFactoryProps) {
+
+    const viewModel = dataContext() as IDashboardViewModel;
+
+    useEffect(() => {
+        (async () => {
+            await viewModel.initializeData();
+        })();
+    }, []);
+
+    //viewModel = viewModel(viewModelArgs);
 
     return (
         <div>
             <h1 className='tb-page-title'>It's My Money</h1>
-            <h4>{viewModel.user.name}</h4>
+            <h4>{viewModel.user?.name}</h4>
             <br />
-            <img src={viewModel.user.picture} alt={viewModel.user.name} />
+            <img src={viewModel.user?.picture} alt={viewModel.user?.name} />
             <br />
             <div>
-                {viewModel.posts.map((post, idx) => <div key={post.title}>
+                {viewModel.posts.map((post) => <div key={post.title}>
                     <h5>{post.title}</h5>
                     <p>{post.body}</p>
                 </div>)}

@@ -7,14 +7,14 @@ import "./Modal.module.css";
 
 //  https://blog.logrocket.com/creating-reusable-pop-up-modal-react/
 
-interface ModalProps {
+interface IModalProps {
     isOpen: boolean;
     hasCloseBtn?: boolean;
     onClose?: () => void;
     children: React.ReactNode;
-};
+}
 
-const Modal: React.FC<ModalProps> = ({ isOpen, hasCloseBtn, onClose, children }) => {
+const Modal: React.FC<IModalProps> = ({ isOpen, hasCloseBtn, onClose, children }) => {
     const module = Modal.name;
     const category = 'Modal';
 

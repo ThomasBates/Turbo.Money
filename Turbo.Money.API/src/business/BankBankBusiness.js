@@ -26,11 +26,11 @@ module.exports = function BankBankBusiness(logger, errors, data) {
 
         matching = banks.list.find(bank =>
             bank.number == testBank.number &&
-            bank.transit == testBank.transit &&
+            bank.branch == testBank.branch &&
             bank.id != testBank.id);
         logger.debug(category, context, 'matching =', matching);
         if (matching)
-            return errors.create(context, 'InvalidData', "Bank number+transit must be unique.");
+            return errors.create(context, 'InvalidData', "Bank number+branch must be unique.");
 
         return {};
     }

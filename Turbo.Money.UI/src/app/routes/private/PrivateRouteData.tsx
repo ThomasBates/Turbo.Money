@@ -16,38 +16,38 @@ import PostDataProvider from 'data/post/PostDataProvider';
 import DashboardViewModel from 'pages/dashboard/viewModels/DashboardViewModel';
 import DashboardView from 'pages/dashboard/views/DashboardView';
 
-import BankWorksheetView from 'pages/bankWorksheet/views/BankWorksheetView';
+import BankWorksheetView from 'pages/bank/bankWorksheet/views/BankWorksheetView';
 
-import BudgetWorksheetViewModel from 'pages/budgetWorksheet/viewModels/BudgetWorksheetViewModel';
-import BudgetWorksheetView from 'pages/budgetWorksheet/views/BudgetWorksheetView';
+import BudgetWorksheetViewModel from 'pages/budget/budgetWorksheet/viewModels/BudgetWorksheetViewModel';
+import BudgetWorksheetView from 'pages/budget/budgetWorksheet/views/BudgetWorksheetView';
 
-import BudgetView from 'pages/BudgetView';
+import BudgetView from 'pages/budget/BudgetView';
 
-import TransactionEntry from 'pages/TransactionEntry';
+import TransactionEntry from 'pages/bank/TransactionEntry';
 
-import BankTransactionUploadViewModel from 'pages/bankTransactions/viewModels/BankTransactionUploadViewModel';
-import BankTransactionUploadView from 'pages/bankTransactions/views/BankTransactionUploadView';
+import BankTransactionUploadViewModel from 'pages/bank/bankTransactions/viewModels/BankTransactionUploadViewModel';
+import BankTransactionUploadView from 'pages/bank/bankTransactions/views/BankTransactionUploadView';
 
 import ReportByPeriod from 'pages/reports/views/ReportByPeriod';
 import ReportByAccount from 'pages/reports/views/ReportByAccount';
 
-import BankBankViewModel from 'setup/bankBank/viewModels/BankBankViewModel';
-import BankBankView from 'setup/bankBank/views/BankBankView';
+import BankBankViewModel from 'pages/bank/bankBank/viewModels/BankBankViewModel';
+import BankBankView from 'pages/bank/bankBank/views/BankBankView';
 
-import BankAccountViewModel from 'setup/bankAccount/viewModels/BankAccountViewModel';
-import BankAccountView from 'setup/bankAccount/views/BankAccountView';
+import BankAccountViewModel from 'pages/bank/bankAccount/viewModels/BankAccountViewModel';
+import BankAccountView from 'pages/bank/bankAccount/views/BankAccountView';
 
-import BudgetSectionViewModel from 'setup/budgetSection/viewModels/BudgetSectionViewModel';
-import BudgetSectionView from 'setup/budgetSection/views/BudgetSectionView';
+import BudgetSectionViewModel from 'pages/budget/budgetSection/viewModels/BudgetSectionViewModel';
+import BudgetSectionView from 'pages/budget/budgetSection/views/BudgetSectionView';
 
-import BudgetCategoryViewModel from 'setup/budgetCategory/viewModels/BudgetCategoryViewModel';
-import BudgetCategoryView from 'setup/budgetCategory/views/BudgetCategoryView';
+import BudgetCategoryViewModel from 'pages/budget/budgetCategory/viewModels/BudgetCategoryViewModel';
+import BudgetCategoryView from 'pages/budget/budgetCategory/views/BudgetCategoryView';
 
-import BudgetAccountViewModel from 'setup/budgetAccount/viewModels/BudgetAccountViewModel';
-import BudgetAccountView from 'setup/budgetAccount/views/BudgetAccountView';
+import BudgetAccountViewModel from 'pages/budget/budgetAccount/viewModels/BudgetAccountViewModel';
+import BudgetAccountView from 'pages/budget/budgetAccount/views/BudgetAccountView';
 
-import About from 'pages/About';
-import NotFound from 'pages/NotFound';
+import About from 'pages/app/About';
+import NotFound from 'pages/app/NotFound';
 
 //  ----------------------------------------------------------------------------
 
@@ -69,16 +69,20 @@ export default function PrivateRouteData(app: AppContextType) {
             </div>,
         children: [
             //  dashboard
-            { path: "/dashboard", element: <DashboardView viewModel={DashboardViewModel} viewModelArgs={{ postDataProvider: PostDataProvider(app.logger, app.errors) }} /> },
+            {
+                path: "/dashboard", element: <DashboardView
+                    dataContext={() => DashboardViewModel(PostDataProvider(app.logger, app.errors))}
+                />
+            },
 
             //  Budget 
-            { path: "/", element: < BudgetWorksheetView viewModel={BudgetWorksheetViewModel} /> },
-            { path: "/BudgetWorksheetView", element: < BudgetWorksheetView viewModel={BudgetWorksheetViewModel} /> },
+            { path: "/", element: < BudgetWorksheetView dataContext={() => BudgetWorksheetViewModel()} /> },
+            { path: "/BudgetWorksheetView", element: < BudgetWorksheetView dataContext={() => BudgetWorksheetViewModel()} /> },
             { path: "/BudgetView", element: < BudgetView /> },
 
             //  Transactions
             { path: "/TransactionEntry", element: < TransactionEntry /> },
-            { path: "/TransactionFileImport", element: < BankTransactionUploadView viewModel={BankTransactionUploadViewModel} /> },
+            { path: "/TransactionFileImport", element: < BankTransactionUploadView dataContext={() => BankTransactionUploadViewModel()} /> },
 
             //  Reports
             { path: "/ReportByPeriod", element: < ReportByPeriod /> },
@@ -86,11 +90,11 @@ export default function PrivateRouteData(app: AppContextType) {
 
             //  Setup
             { path: "/BankWorksheet", element: < BankWorksheetView /> },
-            { path: "/BankBankView", element: < BankBankView viewModel={BankBankViewModel} /> },
-            { path: "/BankAccountView", element: < BankAccountView viewModel={BankAccountViewModel} /> },
-            { path: "/BudgetSectionView", element: < BudgetSectionView viewModel={BudgetSectionViewModel} /> },
-            { path: "/BudgetCategoryView", element: < BudgetCategoryView viewModel={BudgetCategoryViewModel} /> },
-            { path: "/BudgetAccountView", element: < BudgetAccountView viewModel={BudgetAccountViewModel} /> },
+            { path: "/BankBankView", element: < BankBankView dataContext={() => BankBankViewModel()} /> },
+            { path: "/BankAccountView", element: < BankAccountView dataContext={() => BankAccountViewModel()} /> },
+            { path: "/BudgetSectionView", element: < BudgetSectionView dataContext={() => BudgetSectionViewModel()} /> },
+            { path: "/BudgetCategoryView", element: < BudgetCategoryView dataContext={() => BudgetCategoryViewModel()} /> },
+            { path: "/BudgetAccountView", element: < BudgetAccountView dataContext={() => BudgetAccountViewModel()} /> },
 
             //  about
             { path: "/about", element: <About /> },

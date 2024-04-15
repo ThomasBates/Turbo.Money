@@ -1,17 +1,17 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import axios from "data/axios/AxiosCommon";
 
 import ILoggerService from 'services/logger/ILoggerService';
-import IErrorService, { ErrorInfo } from 'services/errors/IErrorService';
+import IErrorService, { IErrorInfo } from 'services/errors/IErrorService';
 
-import IAuthDataProvider, { SignInUrlResult, SignInResult } from './IAuthDataProvider';
+import IAuthDataProvider, { ISignInUrlResult, ISignInResult } from './IAuthDataProvider';
 
 export default function AuthDataProvider(logger: ILoggerService, errors: IErrorService): IAuthDataProvider {
     const module = AuthDataProvider.name;
     const category = 'User';
 
     // Gets 3rd party authentication url from backend server
-    const getSignInUrl = async (source: string, mode: string): Promise<SignInUrlResult | ErrorInfo> => {
+    const getSignInUrl = async (source: string, mode: string): Promise<ISignInUrlResult | IErrorInfo> => {
         const context = `${module}.${getSignInUrl.name}`;
         logger.debug(category, context, `('${source}', '${mode}')`);
 
@@ -30,7 +30,7 @@ export default function AuthDataProvider(logger: ILoggerService, errors: IErrorS
     }
 
     // Gets whether user is already signed in using browser cookie
-    const getSignedIn = async (): Promise<SignInResult | ErrorInfo> => {
+    const getSignedIn = async (): Promise<ISignInResult | IErrorInfo> => {
         const context = `${module}.${getSignedIn.name}`;
         logger.debug(category, context, '()');
 
@@ -44,7 +44,7 @@ export default function AuthDataProvider(logger: ILoggerService, errors: IErrorS
     }
 
     // Sends code from 3rd party authorization to backend server
-    const signIn = async (params: any): Promise<SignInResult | ErrorInfo> => {
+    const signIn = async (params: string | object): Promise<ISignInResult | IErrorInfo> => {
         const context = `${module}.${signIn.name}`;
         logger.debug(category, context, 'params =', params);
 
@@ -60,7 +60,7 @@ export default function AuthDataProvider(logger: ILoggerService, errors: IErrorS
     }
 
     // clears browser cookie
-    const signOut = async (): Promise<SignInResult | ErrorInfo> => {
+    const signOut = async (): Promise<ISignInResult | IErrorInfo> => {
         const context = `${module}.${signOut.name}`;
         logger.debug(category, context, '()');
 
@@ -73,10 +73,44 @@ export default function AuthDataProvider(logger: ILoggerService, errors: IErrorS
         }
     }
 
+    // aborts in case auth process is stuck "In Progress".
+    const abort = async (): Promise<ISignInResult | IErrorInfo> => {
+        const context = `${module}.${abort.name}`;
+        logger.debug(category, context, '()');
+
+        try {
+            const response = await axios.post(`user/abort`);
+            logger.debug(category, context, 'return', response.data);
+            return response.data;
+        } catch (ex) {
+            return errors.handleCatch(ex, context);
+        }
+    }
+
+    // aborts in case auth process is stuck "In Progress".
+    const switchFamily = async (familyName: string): Promise<ISignInResult | IErrorInfo> => {
+        const context = `${module}.${switchFamily.name}`;
+        logger.debug(category, context, `('${familyName}')`);
+
+        try {
+            const response = await axios.get(`user/switch_family`, {
+                params: {
+                    familyName: familyName,
+                }
+            });
+            logger.debug(category, context, 'return', response.data);
+            return response.data;
+        } catch (ex) {
+            return errors.handleCatch(ex, context);
+        }
+    }
+
     return {
         getSignInUrl,
         getSignedIn,
         signIn,
         signOut,
+        abort,
+        switchFamily,
     };
 }

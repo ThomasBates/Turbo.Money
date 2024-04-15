@@ -1,82 +1,88 @@
-import { useEffect, useRef, useState } from "react";
+
+import React, { useEffect, useRef, useState } from "react";
 
 import { useAppContext } from 'app/AppContextAccess';
+import { getRandomString } from 'services/tools/tools';
 
+import { IMenuData, IMenuDataItem } from "./IMenuData";
 import MenuItem from "./MenuItem";
 
-export default function Menu({ style, hover, wide, menuData }) {
+import IMenuStyle, { combineStyles } from "./IMenuStyle";
+import MenuStyle from "./MenuStyle";
+
+interface IProps {
+    customStyle: IMenuStyle;
+    hover: boolean
+    wide: boolean
+    menuData: IMenuData
+}
+
+export default function Menu({ customStyle, hover, wide, menuData }: IProps) {
     const module = Menu.name;
     const category = Menu.name;
-
-    // device settings
-    //const hoverQuery = window.matchMedia(`(hover:hover) and (pointer:fine)`);
-    //const wideQuery = window.matchMedia(`(min-width: ${menuData.minWidth})`);
-
-    //let [hover, setHover] = useState(hoverQuery.matches);
-    //const [wide, setWide] = useState(wideQuery.matches);
-
-    //useEffect(() => {
-    //    hoverQuery.addEventListener("change", e => setHover(e.matches));
-    //    wideQuery.addEventListener("change", e => setWide(e.matches));
-    //}, []);
-
-    //hover = false;  //  for testing mobile on desktop
 
     const { logger } = useAppContext();
 
     // in situ one list for !hover and !wide
-    const [list, setList] = useState(null);
-    const listRef = useRef(null);
+    const [list, setList] = useState<IMenuDataItem[] | null>(null);
+    const listRef = useRef<HTMLInputElement>(null);
+
+    const style = MenuStyle(customStyle);
+    //if (!style)
+    //    style = defaultStyle;
 
     useEffect(() => {
         if (!hover && !wide) {
             document.addEventListener("mousedown", handleMouseDown);
         }
-    }, [listRef]);
+    });
 
-    const handleMouseDown = (e) => {
-        if (!listRef.current?.contains(e.target)) {
+    const handleMouseDown = (event: MouseEvent) => {
+        if (!listRef.current?.contains(event.target as Node)) {
             setList(null);
         }
     }
 
-    const handleClick = (e) => {
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         const context = `${module}.${handleClick.name}`
-        e.preventDefault();
+        event.preventDefault();
 
-        let dataValue = (e.target as HTMLElement).getAttribute('data-value');
-        logger.debug(category, context, 'dataValue =', dataValue);
+        const dataValue = (event.target as HTMLElement).getAttribute('data-value');
+        logger.verbose(category, context, 'dataValue =', dataValue);
         if (dataValue !== "root") {
             return;
-        };
+        }
 
-        logger.debug(category, context, 'list =', list);
+        logger.verbose(category, context, 'list =', list);
         if (!list) {
-            logger.debug(category, context, 'menuData =', menuData);
-            setList(menuData.list);
+            logger.verbose(category, context, 'menuData =', menuData);
+
+            if (menuData.list !== undefined)
+                setList(menuData.list);
         }
         else {
             setList(null);
         }
     }
 
-    const handleListSelected = (item) => {
-        if ("list" in item) {
-            setList(backList => [
+    const handleListSelected = (item: IMenuDataItem) => {
+        if ('list' in item) {
+            const newList: IMenuDataItem[] = [
                 {
                     content: item.content,
-                    backList: backList
+                    backList: list || []
                 },
                 ...item.list
-            ]);
+            ];
+            setList(newList);
         }
-        else if ("backList" in item) {
+        else if ('backList' in item) {
             setList(item.backList);
         }
     }
 
-    const handleItemSelected = (item) => {
-        if ("backList" in item) {
+    const handleItemSelected = (item: IMenuDataItem) => {
+        if ('backList' in item) {
             setList(item.backList);
         }
         else {
@@ -88,17 +94,24 @@ export default function Menu({ style, hover, wide, menuData }) {
 
     // ------------------
 
+    //logger.debug(category, module, 'style =', style);
+    //logger.debug(category, module, 'defaultStyle =', defaultStyle);
+
+    const rootClass = combineStyles(style.root_control, style.root_theme);
+    const rootIconClass = style.root_icon;
+    const inSituClass = combineStyles(style.list_control, style.list_position_top, style.list_theme);
+
     return (
-        <nav className={style.menu} >
+        <nav className={rootClass} >
             {wide ? (
-                menuData.list.map(item => (
+                menuData.list.map((item: IMenuDataItem) => (
                     <MenuItem
                         style={style}
                         item={item}
                         top={true}
                         hover={hover}
                         wide={wide}
-                        key={item.content}
+                        key={getRandomString(8)}
                         onListSelected={null}
                         onItemSelected={null} />
                 ))
@@ -109,27 +122,27 @@ export default function Menu({ style, hover, wide, menuData }) {
                     top={true}
                     hover={hover}
                     wide={wide}
-                    key={menuData.content}
+                    key={getRandomString(8)}
                     onListSelected={null}
                     onItemSelected={null} />
             ) : (
                 <div ref={listRef} >
                     <div
-                        className={style.toggle}
+                        className={rootIconClass}
                         onClick={handleClick}
                         data-value="root"
                     />
 
                     {list && (
-                        <div className={`${style.list} ${style.list_position_top}`} >
-                            {list.map(item => (
+                        <div className={inSituClass} >
+                            {list.map((item: IMenuDataItem) => (
                                 <MenuItem
                                     style={style}
                                     item={item}
                                     top={false}
                                     hover={hover}
                                     wide={wide}
-                                    key={item.content}
+                                    key={getRandomString(8)}
                                     onListSelected={handleListSelected}
                                     onItemSelected={handleItemSelected}
                                 />

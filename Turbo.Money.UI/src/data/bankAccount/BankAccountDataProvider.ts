@@ -1,3 +1,6 @@
 import CommonDataProvider from "data/axios/CommonDataProvider";
 
-export default CommonDataProvider("bankAccount");
+import IBankAccount from "models/bank/IBankAccount";
+import ICommonItem from "models/common/ICommonItem";
+
+export default CommonDataProvider<IBankAccount, ICommonItem>("bankAccount");

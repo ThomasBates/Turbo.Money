@@ -13,8 +13,7 @@
       "data/*": [ "src/data/*" ],
       "models/*": [ "src/models/*" ],
       "pages/*": [ "src/pages/*" ],
-      "services/*": [ "src/services/*" ],
-      "setup/*": [ "src/setup/*" ]
+      "services/*": [ "src/services/*" ]
     },
 
     /* Bundler mode */

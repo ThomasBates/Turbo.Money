@@ -1,10 +1,23 @@
 
+import { IMenuDataItem } from "./IMenuData";
+import IMenuStyle from "./IMenuStyle";
+
 import MenuList from "./MenuList";
 import MenuBack from "./MenuBack";
 import MenuLink from "./MenuLink";
 import MenuText from "./MenuText";
 
-export default function MenuItem({ style, item, top, hover, wide, onListSelected, onItemSelected }) {
+interface IProps {
+    style: IMenuStyle;
+    item: IMenuDataItem;
+    top: boolean;
+    hover: boolean;
+    wide: boolean;
+    onListSelected: null | ((item: IMenuDataItem | null) => void);
+    onItemSelected: null | ((item: IMenuDataItem) => void);
+}
+
+export default function MenuItem({ style, item, top, hover, wide, onListSelected, onItemSelected }: IProps) {
     if ("list" in item)
         return (
             <MenuList

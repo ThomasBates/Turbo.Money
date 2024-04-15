@@ -1,30 +1,33 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import ICommonDataProvider from "data/common/ICommonDataProvider";
+import ICommonDataProviderResponse from "data/common/ICommonDataProviderResponse";
+
 import axios from "./AxiosCommon";
 
-export default function CommonDataProvider(api: string) {
+export default function CommonDataProvider<EntityT, ListT>(api: string): ICommonDataProvider<EntityT, ListT> {
 
-    const create = (data: any) => {
-        return axios.post(`/${api}`, data);
+    const create = async (data: object): Promise<ICommonDataProviderResponse<EntityT>> => {
+        return await axios.post(`/${api}`, data);
     };
 
-    const get = (id: number) => {
-        return axios.get(`/${api}/${id}`);
+    const get = async (id: number): Promise<ICommonDataProviderResponse<EntityT>> => {
+        return await axios.get(`/${api}/${id}`);
     };
 
-    const getAll = () => {
-        return axios.get(`/${api}/all`);
+    const getAll = async (): Promise<ICommonDataProviderResponse<EntityT[]>> => {
+        return await axios.get(`/${api}/all`);
     };
 
-    const getList = () => {
-        return axios.get(`/${api}/list`);
+    const getList = async (): Promise<ICommonDataProviderResponse<ListT[]>> => {
+        return await axios.get(`/${api}/list`);
     };
 
-    const update = (id: number, data: any) => {
-        return axios.put(`/${api}/${id}`, data);
+    const update = async (id: number, data: object): Promise<ICommonDataProviderResponse<EntityT>> => {
+        return await axios.put(`/${api}/${id}`, data);
     };
 
-    const remove = (id: number) => {
-        return axios.delete(`/${api}/${id}`);
+    const remove = async (id: number): Promise<ICommonDataProviderResponse<EntityT>> => {
+        return await axios.delete(`/${api}/${id}`);
     };
 
     return {

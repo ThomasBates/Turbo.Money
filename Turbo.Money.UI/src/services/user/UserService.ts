@@ -1,12 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useCallback } from "react";
 
-import IAuthDataProvider, { SignInUrlResult, SignInResult } from 'data/auth/IAuthDataProvider';
+import IAuthDataProvider, { ISignInUrlResult, ISignInResult } from 'data/auth/IAuthDataProvider';
 
-import UserInfo from 'models/UserInfo';
+import IUserInfo from 'models/user/IUserInfo';
 
 import ILoggerService from 'services/logger/ILoggerService';
-import IErrorService, { ErrorInfo } from 'services/errors/IErrorService';
+import IErrorService, { IErrorInfo } from 'services/errors/IErrorService';
 
 import IUserService, { SignInStatus } from './IUserService';
 
@@ -17,10 +16,10 @@ export default function UserService(
     const module = UserService.name;
     const category = 'User';
 
-    const [user, setUser] = useState<UserInfo|null>(null);
+    const [user, setUser] = useState<IUserInfo|null>(null);
     const [signInStatus, setSignInStatus] = useState<SignInStatus>(SignInStatus.Pending);
 
-    const checkSignInState = useCallback(async (data: SignInResult | ErrorInfo | null): Promise<void> => {
+    const checkSignInState = useCallback(async (data: ISignInResult | IErrorInfo | null): Promise<void> => {
         const context = `${module}.checkSignInState`;
         logger.debug(category, context, 'data =', data);
         try {
@@ -32,7 +31,7 @@ export default function UserService(
             if (!data || errors.isError(data))
                 return;
 
-            data = data as SignInResult;
+            data = data as ISignInResult;
 
             if (data.message === "In Progress") {
                 return;
@@ -59,7 +58,7 @@ export default function UserService(
             if (!data || errors.isError(data))
                 return;
 
-            data = data as SignInUrlResult;
+            data = data as ISignInUrlResult;
 
             // Navigate to consent screen
             window.location.assign(data.url);
@@ -76,7 +75,7 @@ export default function UserService(
         await internalSignInOAuth(source, 'signIn');
     }
 
-    const callbackOAuth = async (params: any): Promise<void> => {
+    const callbackOAuth = async (params: string): Promise<void> => {
         const context = `${module}.${callbackOAuth.name}`;
         logger.debug(category, context, 'params =', params);
         try {
@@ -90,7 +89,7 @@ export default function UserService(
         }
     }
 
-    const internalSignInEmail = async (mode: string, params: any) => {
+    const internalSignInEmail = async (mode: string, params: object) => {
         const context = `${module}.${internalSignInEmail.name}`;
 
         logger.debug(category, context, 'mode =', mode);
@@ -131,9 +130,37 @@ export default function UserService(
         }
     }
 
+    const switchFamily = async (familyName: string): Promise<void> => {
+        const context = `${module}.${switchFamily.name}`;
+        try {
+            const data = await authDataProvider.switchFamily(familyName);
+            logger.debug(category, context, 'data =', data);
+
+            // Check sign-in state again
+            checkSignInState(data);
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+        }
+    }
+
+    const abort = async (): Promise<void> => {
+        const context = `${module}.${abort.name}`;
+        try {
+            const data = await authDataProvider.abort();
+            logger.debug(category, context, 'data =', data);
+
+            // Check sign-in state again
+            checkSignInState(data);
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+        }
+    }
+
     return {
         user,
         signInStatus,
+
+        switchFamily,
 
         auth: {
             signUpOAuth,
@@ -144,6 +171,7 @@ export default function UserService(
             signInEmail,
 
             signOut,
+            abort,
         }
     };
 }

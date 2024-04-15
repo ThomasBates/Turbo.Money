@@ -1,127 +1,113 @@
 
-.menu {
-    list-style-type: none;
+.aaaa_navBar{
+
+}
+
+.tb_logo {
+    content: url(/assets/images/logo.png);
+    padding: 0;
+    width: 200px;
+}
+
+.root_theme {
     background-color: #000;
     margin: 5px 0;
     padding: 0;
-    user-select: none;
 }
 
-.toggle {
-    color: #ccc;
-    font-size: 2em;
-}
+/*  ------------------------------------------------------------------------  */
 
-.toggle_restore {
-    font-size: 0.5em;
-}
-
-.list {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
+.list_theme {
     background-color: #000;
     padding: 10px 0;
-    z-index: 1;
     border-top: 1px solid red;
     border-bottom: 1px solid red;
 }
 
-.list_position_top {
-    position: absolute;
+.list_top_icon {
+    content: url(/assets/icons/menu/down.png);
+    filter: invert();
+    width: 12px;
 }
 
-.list_position_right {
-    position: absolute;
-    top: -10px;
-    left: calc(100% - 5px);
+.list_top_disabled_icon {
+    content: url(/assets/icons/menu/disabled.png);
+    width: 16px;
 }
 
-.list_position_left {
-    position: absolute;
-    top: -10px;
-    right: calc(100% - 5px);
+.list_sub_icon {
+    content: url(/assets/icons/menu/right.png);
+    filter: invert();
+    width: 12px;
 }
 
-.list_position_below {
-    position: absolute;
-    left: 30px;
+.list_sub_disabled_icon {
+    content: url(/assets/icons/menu/disabled.png);
+    width: 16px;
 }
 
-.logo {
-    display: inline-block;
-    cursor: default;
-}
+/*  ------------------------------------------------------------------------  */
 
-.item {
-    position: relative;
-    display: inline-block;
-    white-space: nowrap;
+.item_theme {
     color: #ccc;
     padding: 5px 10px;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.text {
-    position: relative;
-    display: inline-block;
-    white-space: nowrap;
-    color: #ccc;
-    padding: 5px 10px;
-    text-decoration: none;
-    cursor: default;
 }
 
 @media (hover:hover) and (pointer: fine) {
-    .item:hover {
+    .item_theme:hover {
         color: red;
     }
 }
 
-.disabled_item {
-    display: inline-block;
-    white-space: nowrap;
+.disabled_item_theme {
     color: #444;
     padding: 5px 10px;
-    text-decoration: none;
-    cursor: default;
 }
 
-.menu > .item {
-    padding: 12px 10px;
+/*  ------------------------------------------------------------------------  */
+
+.back_icon {
+    content: url(/assets/icons/menu/left.png);
+    filter: invert();
+    width: 16px;
 }
 
-.divider {
-    position: relative;
-    left: 30px;
-    width: calc(100% - 60px);
+/*  ------------------------------------------------------------------------  */
+
+.link_icon {
+    content: url(/assets/icons/menu/link.png);
+    width: 12px;
+}
+
+.link_action_icon {
+    content: url(/assets/icons/menu/action.png);
+    width: 12px;
+}
+
+.link_disabled_icon {
+    content: url(/assets/icons/menu/disabled.png);
+    width: 12px;
+}
+
+.link_disabled_action_icon {
+    content: url(/assets/icons/menu/disabled.png);
+    width: 12px;
+}
+
+/*  ------------------------------------------------------------------------  */
+
+.text_theme {
+    color: #ccc;
+    padding: 5px 10px;
+}
+
+.divider_theme {
     border-top: 1px solid red;
 }
 
-.list_icon_color {
-    color: #880;
+.text_icon {
+    content: url(/assets/icons/menu/dot.png);
+    width: 16px;
 }
 
-.link_icon_color {
-    color: #080;
-}
-
-.back_icon_color {
-    color: #088;
-}
-
-.disabled_icon_color {
-    color: #800;
-}
-
-.text_icon_color {
-    color: #800;
-}
-
-.link_icon {
-    padding: 0 5px;
-}
-
-.link_content {
-}
+/*  ------------------------------------------------------------------------  */

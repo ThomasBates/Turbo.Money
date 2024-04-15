@@ -46,7 +46,7 @@ module.exports = function BudgetSectionController(logger, errors, business) {
     const encodeList = (sectionList) => {
         const context = `${module}.${encodeList.name}`;
 
-        if (!section)
+        if (!sectionList)
             return errors.create(context, 'InvalidArgument', "sectionList is not defined");
 
         let dataList = sectionList.map(section => {

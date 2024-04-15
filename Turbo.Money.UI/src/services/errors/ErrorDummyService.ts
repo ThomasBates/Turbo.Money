@@ -1,19 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
-import IErrorService, { ErrorInfo } from './IErrorService';
+import IErrorService, { IErrorInfo } from './IErrorService';
 
 export default function ErrorService(): IErrorService {
 
-    const createError = (context: string, code: string, message: string): ErrorInfo => {
+    const createError = (context: string, code: string, message: string): IErrorInfo => {
         return { error: { context, code, message } };
     }
 
-    const isError = (_data: any): boolean => {
+    const isError = (_data: object): boolean => {
         return false;
     }
 
-    const handleCatch = (_ex: unknown, context: string): ErrorInfo => {
+    const handleCatch = (_ex: unknown, context: string): IErrorInfo => {
         return createError(context, 'Catch', 'Dummy');
     }
 

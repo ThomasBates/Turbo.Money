@@ -12,7 +12,7 @@ module.exports = function BankBankData(logger, errors, table) {
             //id: bank.id,
             name: bank.name,
             number: bank.number,
-            transit: bank.transit
+            transit: bank.branch
         };
         return data;
     }
@@ -30,7 +30,7 @@ module.exports = function BankBankData(logger, errors, table) {
             id: data.id,
             name: data.name,
             number: data.number,
-            transit: data.transit
+            branch: data.transit
         };
         return bank;
     }
@@ -69,8 +69,8 @@ module.exports = function BankBankData(logger, errors, table) {
         if (!bank.number)
             return errors.create(context, 'InvalidData', "Bank number can not be empty!");
 
-        if (!bank.transit)
-            return errors.create(context, 'InvalidData', "Bank transit can not be empty!");
+        //if (!bank.branch)
+        //    return errors.create(context, 'InvalidData', "Bank branch can not be empty!");
 
         return {}
     }

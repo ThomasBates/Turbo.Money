@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 import { useAppContext } from 'app/AppContextAccess';
+import { SignInStatus } from '../../services/user/IUserService';
 
 export default function AuthCallback() {
     const module = AuthCallback.name;
@@ -16,8 +17,8 @@ export default function AuthCallback() {
     useEffect(() => {
         const context = `${module}.${useEffect.name}`;
         (async () => {
-            logger.debug(category, context, `signedIn = ${users.signedIn}, called = ${called.current}`);
-            if (!users.signedIn) {
+            logger.debug(category, context, `signInStatus = ${users.signInStatus}, called = ${called.current}`);
+            if (users.signInStatus != SignInStatus.SignedIn) {
                 try {
                     // prevent rerender caused by StrictMode
                     if (called.current)
@@ -43,4 +44,4 @@ export default function AuthCallback() {
     }, []);
 
     return <></>
-};
+}

@@ -4,8 +4,8 @@ module.exports = function BankBusiness(logger, data) {
     const createSampleData = async (userCookie) => {
 
         let banks = [
-            { name: "National Bank", number: "001", transit: "00001" },
-            { name: "Credit Card Company", number: "009", transit: "00009" }
+            { name: "National Bank", number: "001", branch: "00001" },
+            { name: "Credit Card Company", number: "009", branch: "00009" }
         ];
 
         let bankAccounts = [

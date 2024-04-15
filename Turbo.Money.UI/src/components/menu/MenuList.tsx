@@ -1,31 +1,47 @@
+
 import { useEffect, useRef, useState } from "react";
 
-import MenuItem from "./MenuItem";
+import { getRandomString } from "services/tools/tools";
 
-export default function MenuList({ style, item, top, hover, wide, onListSelected, onItemSelected }) {
+import MenuItem from "./MenuItem";
+import { IMenuDataList, IMenuDataItem } from "./IMenuData";
+import IMenuStyle, { combineStyles } from "./IMenuStyle";
+
+
+interface IProps {
+    style: IMenuStyle;
+    item: IMenuDataList;
+    top: boolean;
+    hover: boolean;
+    wide: boolean;
+    onListSelected: null | ((item: IMenuDataItem | null) => void);
+    onItemSelected: null | ((item: IMenuDataItem) => void);
+}
+
+export default function MenuList({ style, item, top, hover, wide, onListSelected, onItemSelected }: IProps) {
     const [showList, setShowList] = useState(false);
     const [listPosition, setListPosition] = useState("");
-    const mainRef = useRef(null);
+    const mainRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         if (!hover && wide) {
             document.addEventListener("mousedown", handleMouseDown);
         }
         calcListPosition();
-    }, [mainRef]);
+    });//, [mainRef]);
 
-    const handleMouseDown = (e) => {
-        if (!mainRef.current?.contains(e.target)) {
+    const handleMouseDown = (event: MouseEvent) => {
+        if (!mainRef.current?.contains(event.target as Node)) {
             setShowList(false);
         }
     }
 
-    const calcListPosition = ()=>{
+    const calcListPosition = () => {
         if (top) {
             setListPosition("top");
         }
         else if (mainRef && mainRef.current) {
-            var mainRect = mainRef.current.getBoundingClientRect();
+            const mainRect = mainRef.current.getBoundingClientRect();
             const mainLeft = mainRect.left + document.body.scrollLeft;
 
             if (mainLeft + mainRef.current.offsetWidth + item.width < window.innerWidth) {
@@ -40,10 +56,10 @@ export default function MenuList({ style, item, top, hover, wide, onListSelected
         }
     }
 
-    const enabled = !("enabled" in item) || item.enabled;
+    const isEnabled = !("enabled" in item) || item.enabled;
 
     const handleMouseEnter = () => {
-        if (hover && enabled) {
+        if (hover && isEnabled) {
             setShowList(true);
         }
     }
@@ -54,30 +70,30 @@ export default function MenuList({ style, item, top, hover, wide, onListSelected
         }
     }
 
-    const handleClick = (e) => {
-        if (!hover && enabled) {
-            e.preventDefault();
-            let dataValue = (e.target as HTMLElement).getAttribute('data-value');
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        if (!hover && isEnabled) {
+            event.preventDefault();
+            const dataValue = (event.target as HTMLElement).getAttribute('data-value');
             if (dataValue !== item.content) {
                 return;
-            };
+            }
 
             if (wide) {
                 setShowList(prev => !prev);
             }
-            else {
+            else if (onListSelected) {
                 onListSelected(item);
             }
         }
     }
 
-    const handleListSelected = (item) => {
+    const handleListSelected = (item: IMenuDataItem) => {
         if (onListSelected) {
             onListSelected(item);
         }
     }
 
-    const handleItemSelected = (item) => {
+    const handleItemSelected = (item: IMenuDataItem) => {
         setShowList(false);
         if (onListSelected) {
             onListSelected(null);
@@ -87,36 +103,48 @@ export default function MenuList({ style, item, top, hover, wide, onListSelected
         }
     }
 
-    const isText = (typeof item.content === 'string');
     const isRoot = (item.content === "root");
+
     const className = isRoot
-        ? style.toggle + " bi-list"
-        : !isText
-            ? style.logo
-            : enabled
-                ? style.item
-                : style.disabled_item;
+        ? style.root_icon
+        : isEnabled
+            ? combineStyles(style.item_control, style.item_theme)
+            : combineStyles(style.disabled_item_control, style.disabled_item_theme);
 
-    let iconClass = "";
-    if (isText) {
-        iconClass = (top ? "bi-caret-down-fill " : "bi-caret-right-fill ")
-            + (enabled ? style.list_icon_color : style.disabled_icon_color);
-    }
+    const iconClass = isRoot
+        ? style.root_icon
+        : isEnabled
+            ? top
+                ? ((item.icon && style[item.icon]) || style.list_top_icon)
+                : ((item.icon && style[item.icon]) || style.list_sub_icon)
+            : top
+                ? ((item.disabledIcon && style[item.disabledIcon]) || style.list_top_disabled_icon)
+                : ((item.disabledIcon && style[item.disabledIcon]) || style.list_sub_disabled_icon);
 
-    const listClass = `${style.list} ${style[`list_position_${listPosition}`]} ${isRoot ? style.toggle_restore : ""}`;
+    const contentClass = isEnabled
+        ? style.list_content
+        : style.list_disabled_content;
+
+    const listClass = combineStyles(
+        style.list_control,
+        style[`list_position_${listPosition}`],
+        style.list_theme);
 
     return (
         <div
             ref={mainRef}
             className={className}
-            key={item.content}
+            key={getRandomString(8)}
             data-value={item.content}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             onClick={handleClick}
         >
             {!isRoot && (
-                <><span className={iconClass} />{item.content}</>
+                <>
+                    <span className={iconClass} />
+                    <span className={contentClass}>{item.content}</span>
+                </>
             )}
 
             {showList && (
@@ -130,7 +158,7 @@ export default function MenuList({ style, item, top, hover, wide, onListSelected
                             top={false}
                             hover={hover}
                             wide={wide}
-                            key={item.content}
+                            key={getRandomString(8)}
                             onListSelected={handleListSelected}
                             onItemSelected={handleItemSelected} />
                     ))}

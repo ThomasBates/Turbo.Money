@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
-import UserInfo from 'models/UserInfo';
+import IUserInfo from 'models/user/IUserInfo';
 
 export enum SignInStatus {
     Pending,
@@ -9,17 +8,18 @@ export enum SignInStatus {
 }
 
 export default interface IUserService {
-    user: UserInfo | null,
+    user: IUserInfo | null,
     signInStatus: SignInStatus,
 
-    switchFamily(familyName: string): any;
+    switchFamily(familyName: string): Promise<void>;
 
     auth: {
         signUpOAuth(source: string): Promise<void>;
         signInOAuth(source: string): Promise<void>;
-        callbackOAuth(params: any): Promise<void>;
+        callbackOAuth(params: string): Promise<void>;
         signUpEmail(name: string, email: string, password: string): Promise<void>;
         signInEmail(email: string, password: string): Promise<void>;
         signOut(): Promise<void>;
+        abort(): Promise<void>;
     }
 }

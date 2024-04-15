@@ -27,7 +27,7 @@ import PostDataProvider from 'data/post/PostDataProvider';
 import PublicViewModel from 'pages/public/viewModels/PublicViewModel';
 import PublicView from 'pages/public/views/PublicView';
 
-import About from 'pages/About';
+import About from 'pages/app/About';
 
 
 //  ----------------------------------------------------------------------------
@@ -58,14 +58,14 @@ export default function PublicRouteData(app: AppContextType) {
             </div>,
         children: [
             //  dashboard
-            { path: "/", element: <PublicView viewModel={PublicViewModel(PostDataProvider(app.logger, app.errors))} /> },
+            { path: "/", element: <PublicView dataContext={PublicViewModel(PostDataProvider(app.logger, app.errors))} /> },
 
             // OAuth 2.0 sources will redirect here
             { path: '/auth_callback', element: <AuthCallback /> },
             { path: '/auth/callback_google_signin', element: <AuthCallback /> },  // google will redirect here
 
-            { path: "/signUpEmail", element: <SignUpEmailView viewModel={SignUpEmailViewModel()} /> },
-            { path: "/signInEmail", element: <SignInEmailView viewModel={SignInEmailViewModel()} /> },
+            { path: "/signUpEmail", element: <SignUpEmailView dataContext={SignUpEmailViewModel()} /> },
+            { path: "/signInEmail", element: <SignInEmailView dataContext={SignInEmailViewModel()} /> },
 
             { path: "/resetPassword", element: <ResetPasswordView /> },
 

@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
 
+import { IMenuData } from "components/menu/IMenuData";
 import Menu from "components/menu/Menu";
 
-import style from './Header.module.css';
+import headerStyle from './Header.module.css';
 
-export default function Header({ headerData }) {
+interface IProps {
+    headerData: IMenuData
+}
+
+export default function Header({ headerData }: IProps) {
     // device settings
     const hoverQuery = window.matchMedia(`(hover:hover) and (pointer:fine)`);
     const wideQuery = window.matchMedia(`(min-width: ${headerData.minWidth})`);
 
-    let [hover, setHover] = useState(hoverQuery.matches);
+    const [hover, setHover] = useState(hoverQuery.matches);
     const [wide, setWide] = useState(wideQuery.matches);
 
     useEffect(() => {
@@ -18,7 +23,7 @@ export default function Header({ headerData }) {
     }, []);
 
     return (
-        <Menu menuData={headerData} style={style} hover={hover} wide={wide} />
+        <Menu menuData={headerData} customStyle={headerStyle} hover={hover} wide={wide} />
     );
 }
 

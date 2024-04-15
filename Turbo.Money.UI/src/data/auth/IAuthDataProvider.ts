@@ -1,21 +1,22 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { ErrorInfo } from 'services/errors/IErrorService';
-import UserInfo from 'models/UserInfo';
+import { IErrorInfo } from 'services/errors/IErrorService';
+import IUserInfo from 'models/user/IUserInfo';
 
-export interface SignInUrlResult {
+export interface ISignInUrlResult {
     url: string;
 }
 
-export interface SignInResult {
+export interface ISignInResult {
     message: string;
     signedIn: boolean;
-    user: UserInfo;
+    user: IUserInfo;
 }
 
 export default interface IAuthDataProvider {
-    getSignInUrl: (source: string, mode: string) => Promise<SignInUrlResult | ErrorInfo>;
-    getSignedIn: () => Promise<SignInResult | ErrorInfo>;
-    signIn: (params: any) => Promise<SignInResult | ErrorInfo>;
-    signOut: () => Promise<SignInResult | ErrorInfo>;
+    getSignInUrl(source: string, mode: string): Promise<ISignInUrlResult | IErrorInfo>;
+    getSignedIn(): Promise<ISignInResult | IErrorInfo>;
+    signIn(params: string | object): Promise<ISignInResult | IErrorInfo>;
+    signOut(): Promise<ISignInResult | IErrorInfo>;
+    abort(): Promise<ISignInResult | IErrorInfo>;
+    switchFamily(familyName: string): Promise<ISignInResult | IErrorInfo>;
 }

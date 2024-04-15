@@ -1,18 +1,41 @@
+
 import { useNavigate } from "react-router-dom";
 
-export default function MenuLink({ style, item, onItemSelected }) {
-    const navigate = useNavigate();
-    const isText = (typeof item.content === 'string');
-    const enabled = !("enabled" in item) || item.enabled;
-    const className = isText ? (enabled ? style.item : style.disabled_item) : style.logo;
+import { getRandomString } from "services/tools/tools";
 
-    const icon = !isText ? "" : enabled
-        ? (item.icon || (<img src="/assets/icons/menu/link.png" alt="Link" width="16" />))
-        : (item.disabledIcon || (<img src="/assets/icons/menu/disabled.png" alt="Link" width="16" />));
+import { IMenuDataItem, IMenuDataLink } from "./IMenuData";
+import IMenuStyle, { combineStyles } from "./IMenuStyle";
+
+interface IProps {
+    style: IMenuStyle;
+    item: IMenuDataLink;
+    onItemSelected: null | ((item: IMenuDataItem) => void);
+}
+
+export default function MenuLink({ style, item, onItemSelected }: IProps) {
+    const navigate = useNavigate();
+
+    const isEnabled = !("enabled" in item) || item.enabled;
+
+    const className = isEnabled
+        ? combineStyles(style.item_control, style.item_theme)
+        : combineStyles(style.disabled_item_control, style.disabled_item_theme);
+
+    const iconClass = item.action
+        ? isEnabled
+            ? ((item.icon && style[item.icon]) || style.link_action_icon)
+            : ((item.disabledIcon && style[item.disabledIcon]) || style.link_disabled_action_icon)
+        : isEnabled
+            ? ((item.icon && style[item.icon]) || style.link_icon)
+            : ((item.disabledIcon && style[item.disabledIcon]) || style.link_disabled_icon);
+
+    const contentClass = isEnabled
+        ? style.link_content
+        : style.link_disabled_content;
 
     const handleClick = () => {
-        const enabled = !("enabled" in item) || item.enabled;
-        if (!enabled) {
+        const isEnabled = !("enabled" in item) || item.enabled;
+        if (!isEnabled) {
             return;
         }
 
@@ -30,13 +53,12 @@ export default function MenuLink({ style, item, onItemSelected }) {
     return (
         <div
             className={className}
-            key={item.content}
+            key={getRandomString(8)}
             onClick={handleClick}
             data-value={item.content}
         >
-            {/*<span className={iconClass} />{item.content}*/}
-            <span className={style.link_icon}>{icon}</span>
-            <span className={style.link_content}>{item.content}</span>
+            <span className={iconClass} />
+            <span className={contentClass}>{item.content}</span>
         </div>
     );
 }

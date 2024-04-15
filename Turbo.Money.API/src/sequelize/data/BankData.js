@@ -14,7 +14,7 @@ module.exports = function BankData(logger, errors, db) {
                     let data = await db.bank.create({
                         name: bank.name,
                         number: bank.number,
-                        transit: bank.transit,
+                        branch: bank.branch,
                         UserFamilyId: userCookie.familyId,
                     });
                     bank.id = data.id;

@@ -10,7 +10,7 @@ module.exports = function CommonData(
         logger.debug(category, context, 'businessObject =', businessObject);
 
         // Validate incoming business object.
-        let validation = await validate(userCookie, businessObject);
+        let validation = validate(businessObject);
         if (validation.error)
             return errors.create(context, 'InvalidData', validation);
 
@@ -119,7 +119,7 @@ module.exports = function CommonData(
         logger.debug(category, context, 'businessObject =', businessObject);
 
         // Validate incoming business object.
-        let validation = await validate(userCookie, businessObject);
+        let validation = validate(businessObject);
         if (validation.error)
             return errors.create(context, 'InvalidData', validation);
 

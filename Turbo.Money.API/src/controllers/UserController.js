@@ -182,12 +182,42 @@ module.exports = function UserController(logger, errors, business) {
         res.json(result);
     };
 
+    const abort = async (_, res) => {
+        const context = `${module}.${abort.name}`;
+        const result = { signedIn: false, message: 'Signed out' };
+        logger.debug(category, context, 'return', result);
+        clearCookie(res, 'signInState');
+        clearCookie(res, 'user');
+        clearCookie(res, 'token');
+        res.json(result);
+    };
+
+    const switchFamily = async (_, res) => {
+        const context = `${module}.${switchFamily.name}`;
+        logger.debug(category, context, '*****************************************************************************');
+        logger.debug(category, context, 'req.query =', req.query);
+        logger.debug(category, context, 'req.cookies =', req.cookies);
+        const params = req.query;
+
+        const signInResult = await business.switchFamily(source, mode, params);
+
+        setCookie(res, 'user', signInResult.userCookie);
+        setCookie(res, 'token', signInResult.tokenCookie);
+        
+
+        const result = { signedIn: false, user: {} };
+        logger.debug(category, context, 'return', result);
+        res.json(result);
+    };
+
     //  --------------------------------------------------------------------------------------------
 
     return {
         getSignedIn,
         getSignInUrl,
         signIn,
-        signOut
+        signOut,
+        abort,
+        switchFamily,
     };
 }

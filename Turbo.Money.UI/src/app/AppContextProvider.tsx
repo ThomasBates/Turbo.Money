@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-import AppContextType from "./AppContext";
+import AppContext from "./AppContext";
 
 import LoggerConsoleProvider from 'services/logger/LoggerConsoleProvider';
 import ILoggerService from 'services/logger/ILoggerService';
@@ -13,11 +13,11 @@ import AuthDataProvider from 'data/auth/AuthDataProvider';
 import IUserService from 'services/user/IUserService';
 import UserService from 'services/user/UserService';
 
-interface Props {
+interface IProps {
     children: ReactNode;
 }
 
-export default function AppContextProvider({ children }: Props) {
+export default function AppContextProvider({ children }: IProps) {
 
     const logger: ILoggerService = LoggerService(LoggerConsoleProvider());
     const errors: IErrorService = ErrorService(logger);
@@ -27,8 +27,8 @@ export default function AppContextProvider({ children }: Props) {
     logger.enableCategory('all');
 
     return (
-        <AppContextType.Provider value={{ logger, errors, users }}>
+        <AppContext.Provider value={{ logger, errors, users }}>
             {children}
-        </AppContextType.Provider>
+        </AppContext.Provider>
     );
 }
