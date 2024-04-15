@@ -12,6 +12,7 @@ module.exports = function BankAccountData(logger, errors, table) {
         const data = {
             //id: account.id,
             name: account.name,
+            description: account.description,
             BankBankId: account.bankId,
             number: account.number,
         };
@@ -30,6 +31,7 @@ module.exports = function BankAccountData(logger, errors, table) {
         const account = {
             id: data.id,
             name: data.name,
+            description: data.description,
             bankId: data.BankBankId,
             number: data.number,
         };

@@ -11,8 +11,9 @@ module.exports = function BankBankData(logger, errors, table) {
         const data = {
             //id: bank.id,
             name: bank.name,
+            description: bank.description,
             number: bank.number,
-            transit: bank.branch
+            branch: bank.branch,
         };
         return data;
     }
@@ -29,8 +30,9 @@ module.exports = function BankBankData(logger, errors, table) {
         const bank = {
             id: data.id,
             name: data.name,
+            description: data.description,
             number: data.number,
-            branch: data.transit
+            branch: data.branch,
         };
         return bank;
     }

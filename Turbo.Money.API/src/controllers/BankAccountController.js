@@ -20,8 +20,9 @@ module.exports = function BankAccountController(logger, errors, business) {
         const account = {
             id: data.id,
             name: data.name,
+            description: data.description,
             bankId: parseInt(data.bankId),
-            number: data.number
+            number: data.number,
         };
 
         return account;

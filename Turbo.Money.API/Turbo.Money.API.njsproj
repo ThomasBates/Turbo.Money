@@ -88,6 +88,8 @@
     <Content Include="src\sequelize\data\BankBankData.js" />
     <Content Include="src\sequelize\data\index.js" />
     <Content Include="src\sequelize\index.js" />
+    <Content Include="src\sequelize\migrations\20240415172008_bank_transit_to_branch.js" />
+    <Content Include="src\sequelize\migrations\20240415172350_bank_account_description.js" />
     <Content Include="src\sequelize\migrations\common\common_migration.js" />
     <Content Include="src\sequelize\migrations\_current.json" />
     <Content Include="src\sequelize\migrations\_current_bak.json" />

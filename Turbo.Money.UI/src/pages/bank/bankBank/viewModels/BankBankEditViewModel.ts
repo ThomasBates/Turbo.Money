@@ -35,10 +35,10 @@ export default function BankEditViewModel(
     }
 
     const getIsValidNumber = (): boolean => {
-        if (!bank.number || bank.number.length != 3)
-            return false;
-        if (isNaN(+bank.number))
-            return false;
+        //if (!bank.number || bank.number.length != 3)
+        //    return false;
+        //if (isNaN(+bank.number))
+        //    return false;
         const matching = list && list.find((item: ICommonItem) =>
             item.number == bank.number &&
             item.branch == bank.branch &&
@@ -49,10 +49,10 @@ export default function BankEditViewModel(
     }
 
     const getIsValidBranch = (): boolean => {
-        if (!bank.branch || bank.branch.length != 5)
-            return false;
-        if (isNaN(+bank.branch))
-            return false;
+        //if (!bank.branch || bank.branch.length != 5)
+        //    return false;
+        //if (isNaN(+bank.branch))
+        //    return false;
         const matching = list && list.find((item: ICommonItem) =>
             item.number == bank.number &&
             item.branch == bank.branch &&

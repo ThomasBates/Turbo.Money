@@ -129,7 +129,7 @@ export default function BankWorksheetBankViewModel(
     return {
         name: bank.name,
         number: bank.number,
-        description: bank.name + ", " + bank.name + ", " + bank.name,
+        description: bank.description,
         accountViewModels,
 
         showBank,

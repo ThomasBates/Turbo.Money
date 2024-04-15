@@ -32,6 +32,18 @@ export default function BankBankEditView({ dataContext }: IViewProps) {
                             onChange={handleInputChange} />
                     </Form.Group>
                     <Form.Group>
+                        <Form.Label>Description</Form.Label>
+                        <Form.Control
+                            required
+                            type="text"
+                            placeholder="Description"
+                            id="description"
+                            name="description"
+                            value={viewModel.bank.description}
+                            isValid={true}
+                            onChange={handleInputChange} />
+                    </Form.Group>
+                    <Form.Group>
                         <Form.Label>Bank Number</Form.Label>
                         <Form.Control
                             id="number"
@@ -41,7 +53,7 @@ export default function BankBankEditView({ dataContext }: IViewProps) {
                             onChange={handleInputChange} />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Branch Number</Form.Label>
+                        <Form.Label>Branch</Form.Label>
                         <Form.Control
                             id="branch"
                             name="branch"

@@ -95,7 +95,7 @@ export default function BankWorksheetAccountViewModel(
     return {
         name: account.name,
         number: account.number,
-        description: account.name + ", " + account.name + ", " + account.name,
+        description: account.description,
 
 
         showAccount,

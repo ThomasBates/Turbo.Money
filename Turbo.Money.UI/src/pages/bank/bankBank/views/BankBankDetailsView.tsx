@@ -23,6 +23,12 @@ export default function BankBankDetailsView({ dataContext }: IViewProps) {
                         </div>
                         <div>
                             <label>
+                                <strong>Description:</strong>
+                            </label>{" "}
+                            {viewModel.bank.description}
+                        </div>
+                        <div>
+                            <label>
                                 <strong>Bank Number:</strong>
                             </label>{" "}
                             {viewModel.bank.number}

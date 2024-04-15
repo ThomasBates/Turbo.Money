@@ -26,10 +26,6 @@
                     "field": "number",
                     "seqType": "Sequelize.STRING"
                 },
-                "description": {
-                    "field": "description",
-                    "seqType": "Sequelize.STRING"
-                },
                 "tag": {
                     "field": "tag",
                     "seqType": "Sequelize.STRING"
@@ -97,10 +93,6 @@
                 },
                 "branch": {
                     "field": "branch",
-                    "seqType": "Sequelize.STRING"
-                },
-                "description": {
-                    "field": "description",
                     "seqType": "Sequelize.STRING"
                 },
                 "tag": {
@@ -707,5 +699,5 @@
     "path": "D:\\Development\\Turbo.Money\\Turbo.Money.API\\src\\sequelize\\migrations\\_current.json",
     "backupPath": "D:\\Development\\Turbo.Money\\Turbo.Money.API\\src\\sequelize\\migrations\\_current_bak.json",
     "exists": true,
-    "revision": 3
+    "revision": 2
 }

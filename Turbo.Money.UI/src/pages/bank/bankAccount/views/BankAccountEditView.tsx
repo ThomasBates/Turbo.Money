@@ -26,17 +26,6 @@ export default function BankAccountEditView({ dataContext }: IViewProps) {
                 <h4>{viewModel.title}</h4>
                 <Form>
                     <Form.Group>
-                        <Form.Label>Account Name</Form.Label>
-                        <Form.Control
-                            required
-                            type="text"
-                            id="name"
-                            name="name"
-                            value={viewModel.account.name}
-                            isValid={viewModel.isValidName}
-                            onChange={handleInputChange} />
-                    </Form.Group>
-                    <Form.Group>
                         <Form.Label>Bank</Form.Label>
                         <Form.Select
                             id="bankId"
@@ -53,6 +42,28 @@ export default function BankAccountEditView({ dataContext }: IViewProps) {
                                 </option>
                             ))}
                         </Form.Select>
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Account Name</Form.Label>
+                        <Form.Control
+                            required
+                            type="text"
+                            id="name"
+                            name="name"
+                            value={viewModel.account.name}
+                            isValid={viewModel.isValidName}
+                            onChange={handleInputChange} />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Description</Form.Label>
+                        <Form.Control
+                            required
+                            type="text"
+                            id="description"
+                            name="description"
+                            value={viewModel.account.description}
+                            isValid={true}
+                            onChange={handleInputChange} />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Account Number</Form.Label>

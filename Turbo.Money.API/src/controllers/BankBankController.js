@@ -21,8 +21,9 @@ module.exports = function BankBankController(logger, errors, business) {
         const bank = {
             id: data.id,
             name: data.name,
+            description: data.description,
             number: data.number,
-            branch: data.branch
+            branch: data.branch,
         };
 
         return bank;

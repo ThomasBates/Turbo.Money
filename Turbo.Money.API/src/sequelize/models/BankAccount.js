@@ -27,6 +27,9 @@ module.exports = (db) => {
         name: {
             type: DataTypes.STRING
         },
+        description: {
+            type: DataTypes.STRING
+        },
         number: {
             type: DataTypes.STRING
         },

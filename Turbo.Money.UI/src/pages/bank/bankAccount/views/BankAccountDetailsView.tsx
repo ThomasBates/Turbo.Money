@@ -17,15 +17,21 @@ export default function BankAccountDetailsView({ dataContext }: IViewProps) {
                         <h4>{viewModel.title}</h4>
                         <div>
                             <label>
+                                <strong>Bank Name:</strong>
+                            </label>{" "}
+                            {viewModel.bankName}
+                        </div>
+                        <div>
+                            <label>
                                 <strong>Account Name:</strong>
                             </label>{" "}
                             {viewModel.account.name}
                         </div>
                         <div>
                             <label>
-                                <strong>Bank Name:</strong>
+                                <strong>Description:</strong>
                             </label>{" "}
-                            {viewModel.bankName}
+                            {viewModel.account.description}
                         </div>
                         <div>
                             <label>
