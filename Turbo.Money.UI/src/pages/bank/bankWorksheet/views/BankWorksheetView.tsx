@@ -1,57 +1,110 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from "react";
 
-import { useAppContext } from 'app/AppContextAccess';
+import Modal from 'components/modal/Modal';
 
-import BankBankEditView, { IBankBankEditData } from './bankBankEditView';
+import ICommonModeViewModel from "pages/common/viewModels/ICommonModeViewModel";
+import IViewFactoryProps from "pages/common/views/IViewFactoryProps";
 
-const BankWorksheetView: React.FC = () => {
-    const module = BankWorksheetView.name;
-    const category = 'BankWorksheet';
+import BankBankDetailsView from "pages/bank/bankBank/views/BankBankDetailsView";
+import BankBankEditView from "pages/bank/bankBank/views/BankBankEditView";
+import BankAccountDetailsView from "pages/bank/bankAccount/views/BankAccountDetailsView";
+import BankAccountEditView from "pages/bank/bankAccount/views/BankAccountEditView";
 
-    const { logger } = useAppContext();
+import BankWorksheetMenu from '../components/BankWorksheetMenu';
 
-    const [isBankBankEditViewOpen, setBankBankEditViewOpen] = useState<boolean>(false);
-    const [bankBankEditData, setBankBankEditData] = useState<IBankBankEditData | null>(null);
+import IBankWorksheetViewModel from "../viewModels/IBankWorksheetViewModel";
 
-    const handleOpenBankBankEditView = () => {
-        const context = `${module}.${handleOpenBankBankEditView.name}`;
-        logger.debug(category, context, 'setBankBankEditViewOpen(true)');
-        setBankBankEditViewOpen(true);
+import BankWorksheetBankView from "./BankWorksheetBankView";
+
+import styleContext from "./BankWorksheet.module.css";
+import IBankWorksheetBankViewModel from "../viewModels/IBankWorksheetBankViewModel";
+import IBankWorksheetModeViews from "./IBankWorksheetModeViews";
+import IBankWorksheetStyle from "./IBankWorksheetStyle";
+
+const modeViews: Record<string, IBankWorksheetModeViews> = {
+    BankBank: {
+        add: BankBankEditView,
+        edit: BankBankEditView,
+        show: BankBankDetailsView,
+        delete: BankBankDetailsView,
+    },
+    BankAccount: {
+        add: BankAccountEditView,
+        edit: BankAccountEditView,
+        show: BankAccountDetailsView,
+        delete: BankAccountDetailsView,
     }
+}
 
-    const handleCloseBankBankEditView = () => {
-        const context = `${module}.${handleCloseBankBankEditView.name}`;
-        logger.debug(category, context, 'setBankBankEditViewOpen(false)');
-        setBankBankEditViewOpen(false);
-    }
+interface IModeViewProps {
+    modeViewModel: ICommonModeViewModel;
+}
 
-    const handleFormSubmit = (data: IBankBankEditData): void => {
-        const context = `${module}.${handleFormSubmit.name}`;
-        logger.debug(category, context, 'data =', data);
-        setBankBankEditData(data);
-        handleCloseBankBankEditView();
-    }
-
+const ModeView = ({ modeViewModel }: IModeViewProps) => {
+    const SelectedModeView = modeViews[modeViewModel.entity][modeViewModel.mode];
     return (
-        <>
-            <div style={{ display: "flex", gap: "1em" }}>
-                <button onClick={handleOpenBankBankEditView}>Edit Bank</button>
-            </div>
-
-            {bankBankEditData && (
-                <div className="msg-box msg-box--success">
-                    Bank <b>{bankBankEditData.name}</b>
-                    Number <b>{bankBankEditData.number}</b>
-                    Branch <b>{bankBankEditData.branch}</b>
-                </div>
-            )}
-
-            <BankBankEditView
-                isOpen={isBankBankEditViewOpen}
-                onSubmit={handleFormSubmit}
-                onClose={handleCloseBankBankEditView} />
-        </>
+        <SelectedModeView dataContext={modeViewModel} />
     );
 }
 
-export default BankWorksheetView;
+export default function BankWorksheetView({ dataContext }: IViewFactoryProps) {
+
+    const viewModel = dataContext() as IBankWorksheetViewModel;
+    const style = styleContext as IBankWorksheetStyle;
+
+    useEffect(() => {
+        viewModel.loadBankData();
+    }, []);
+
+    const menuData = {
+        content: "root",
+        tooltip: "Bank Actions",
+        list: [
+            { action: viewModel.loadBankData, icon: "load_icon", content: "Reload bank data", },
+            { action: viewModel.saveBankData, icon: "save_icon", content: "Save bank data",},
+            { action: viewModel.addBank, icon: "add_icon", content: "Create new bank", },
+        ]
+    };
+
+    return (
+        <>
+            <div>
+                <table className={style.table}> 
+                    <tbody>
+                        <tr>
+                            <td colSpan={5} className={style.title}><h1>{viewModel.title}</h1></td>
+                        </tr>
+                        <tr>
+                            <td colSpan={4}></td>
+                            <td className={style.buttons}>
+                                <BankWorksheetMenu menuData={menuData} />
+                            </td>
+                        </tr>
+
+                        {viewModel.bankViewModels &&
+                            viewModel.bankViewModels.map((viewModel: IBankWorksheetBankViewModel) => (
+                                <BankWorksheetBankView
+                                    key={viewModel.name}
+                                    dataContext={viewModel}
+                                    styleContext={style} />
+                            ))
+                        }
+
+                        <tr>
+                            <td colSpan={4}></td>
+                            <td className={style.buttons}>
+                                <BankWorksheetMenu menuData={menuData} />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            {viewModel.modeViewModel &&
+                <Modal >
+                    <ModeView modeViewModel={viewModel.modeViewModel} />
+                </Modal>
+            }
+        </>
+    );
+}

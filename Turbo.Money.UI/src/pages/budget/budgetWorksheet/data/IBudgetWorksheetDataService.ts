@@ -32,8 +32,8 @@ export interface INameItem {
 
 export interface IBudgetWorksheetDataService {
 
-    loadBudget: () => Promise<void>;
-    saveBudget: () => Promise<void>;
+    loadBudgetData: () => Promise<void>;
+    saveBudgetData: () => Promise<void>;
 
     createBudgetSection: (item: IBudgetSection) => void;
     updateBudgetSection: (item: IBudgetSection) => void;

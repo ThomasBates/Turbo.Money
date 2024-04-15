@@ -16,6 +16,7 @@ import PostDataProvider from 'data/post/PostDataProvider';
 import DashboardViewModel from 'pages/dashboard/viewModels/DashboardViewModel';
 import DashboardView from 'pages/dashboard/views/DashboardView';
 
+import BankWorksheetViewModel from 'pages/bank/bankWorksheet/viewModels/BankWorksheetViewModel';
 import BankWorksheetView from 'pages/bank/bankWorksheet/views/BankWorksheetView';
 
 import BudgetWorksheetViewModel from 'pages/budget/budgetWorksheet/viewModels/BudgetWorksheetViewModel';
@@ -76,7 +77,7 @@ export default function PrivateRouteData(app: AppContextType) {
             },
 
             //  Budget 
-            { path: "/", element: < BudgetWorksheetView dataContext={() => BudgetWorksheetViewModel()} /> },
+            { path: "/", element: < BankWorksheetView dataContext={() => BankWorksheetViewModel()} /> },
             { path: "/BudgetWorksheetView", element: < BudgetWorksheetView dataContext={() => BudgetWorksheetViewModel()} /> },
             { path: "/BudgetView", element: < BudgetView /> },
 
@@ -89,7 +90,7 @@ export default function PrivateRouteData(app: AppContextType) {
             { path: "/ReportByAccount", element: < ReportByAccount /> },
 
             //  Setup
-            { path: "/BankWorksheet", element: < BankWorksheetView /> },
+            { path: "/BankWorksheet", element: <BankWorksheetView dataContext = { () => BankWorksheetViewModel() } /> },
             { path: "/BankBankView", element: < BankBankView dataContext={() => BankBankViewModel()} /> },
             { path: "/BankAccountView", element: < BankAccountView dataContext={() => BankAccountViewModel()} /> },
             { path: "/BudgetSectionView", element: < BudgetSectionView dataContext={() => BudgetSectionViewModel()} /> },

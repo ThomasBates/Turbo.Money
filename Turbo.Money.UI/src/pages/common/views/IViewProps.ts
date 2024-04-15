@@ -1,4 +1,4 @@
 
 export default interface IViewProps {
-    dataContext: object | (() => object);
+    dataContext: object;
 }

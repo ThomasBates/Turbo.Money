@@ -85,12 +85,12 @@ export default function BudgetWorksheetViewModel(): IBudgetWorksheetViewModel {
             internalSetModeItem,
             internalSetModeViewModelProps));
 
-    const loadBudget = async () => {
-        await dataService.loadBudget();
+    const loadBudgetData = async () => {
+        await dataService.loadBudgetData();
     };
 
-    const saveBudget = async () => {
-        await dataService.saveBudget();
+    const saveBudgetData = async () => {
+        await dataService.saveBudgetData();
     };
 
     const addSection = () => {
@@ -132,8 +132,8 @@ export default function BudgetWorksheetViewModel(): IBudgetWorksheetViewModel {
         total: dataService.getBudgetTotalAbsolute(),
         status: dataService.getBudgetStatus(),
 
-        loadBudget,
-        saveBudget,
+        loadBudgetData,
+        saveBudgetData,
         addSection
     }
 }

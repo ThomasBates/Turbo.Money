@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 
-import IViewProps from "pages/common/views/IViewProps";
+import IStyledViewProps from "pages/common/views/IStyledViewProps";
 
 import BudgetWorksheetMenu from '../components/BudgetWorksheetMenu';
 
+import IBudgetWorksheetCategoryViewModel from "../viewModels/IBudgetWorksheetCategoryViewModel";
 import IBudgetWorksheetSectionViewModel from "../viewModels/IBudgetWorksheetSectionViewModel";
 
 import BudgetWorksheetCategoryView from "./BudgetWorksheetCategoryView";
-import IBudgetWorksheetCategoryViewModel from "../viewModels/IBudgetWorksheetCategoryViewModel";
+import IBudgetWorksheetStyle from "./IBudgetWorksheetStyle";
 
-export default function BudgetWorksheetSectionView({ dataContext }: IViewProps) {
+export default function BudgetWorksheetSectionView({ dataContext, styleContext }: IStyledViewProps) {
 
     const viewModel = dataContext as IBudgetWorksheetSectionViewModel;
+    const style = styleContext as IBudgetWorksheetStyle;
 
     const query = window.matchMedia("(min-width:641px)");
     const [wide, setWide] = useState(query.matches);
@@ -32,22 +34,25 @@ export default function BudgetWorksheetSectionView({ dataContext }: IViewProps) 
 
     return (
         <>
-            <tr className="tb-worksheet-row">
-                <td colSpan={5} className="tb-worksheet-section-text">{viewModel.name}</td>
-                <td className="tb-worksheet-buttons">
+            <tr className={style.row}>
+                <td colSpan={5} className={style.section_text}>{viewModel.name}</td>
+                <td className={style.buttons}>
                     <BudgetWorksheetMenu menuData={menuData} />
                 </td>
             </tr>
 
             {viewModel.categoryViewModels.map((viewModel: IBudgetWorksheetCategoryViewModel) => (
-                <BudgetWorksheetCategoryView key={viewModel.name} dataContext={viewModel} />
+                <BudgetWorksheetCategoryView
+                    key={viewModel.name}
+                    dataContext={viewModel}
+                    styleContext={style} />
             ))}
 
-            <tr className="tb-worksheet-row">
+            <tr className={style.row}>
                 <td colSpan={3}></td >
-                <td className="tb-worksheet-section-currency">{viewModel.total}</td>
-                <td className="tb-worksheet-section-text">{wide ? "Total " + viewModel.name : "Total"}</td>
-                <td className="tb-worksheet-buttons">
+                <td className={style.section_currency}>{viewModel.total}</td>
+                <td className={style.section_text}>{wide ? "Total " + viewModel.name : "Total"}</td>
+                <td className={style.buttons}>
                     <BudgetWorksheetMenu menuData={menuData} />
                 </td>
             </tr >

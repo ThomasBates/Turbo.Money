@@ -1,0 +1,112 @@
+
+.aaaa_bank_worksheet{
+
+}
+
+.root_control {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    list-style-type: none;
+    user-select: none;
+}
+
+.root_theme {
+    background-color: #222;
+    margin: 0;
+    padding: 0;
+}
+
+.root_icon {
+    content: url(/assets/icons/menu/menu.png);
+    width: 14px;
+    margin: 0;
+}
+
+@media (hover:hover) and (pointer: fine) {
+    tr:hover .root_theme {
+        background-color: #333;
+        margin: 0;
+        padding: 0;
+    }
+    tr:hover .root_icon {
+        content: url(/assets/icons/menu/menu.png);
+        filter: invert();
+        width: 14px;
+        margin: 0;
+    }
+}
+
+/*  ------------------------------------------------------------------------  */
+
+.list_theme {
+    background-color: #444;
+    padding: 10px 0;
+}
+
+.list_position_top {
+    position: absolute;
+    right: 0px;
+}
+
+/*  ------------------------------------------------------------------------  */
+
+.item_theme {
+    color: #888;
+    padding: 5px 10px;
+}
+
+@media (hover:hover) and (pointer: fine) {
+    .item_theme:hover {
+        color: white;
+    }
+}
+
+.disabled_item_theme {
+    color: #444;
+    padding: 5px 10px;
+}
+
+/*  ------------------------------------------------------------------------  */
+
+.load_icon {
+    content: url(/assets/icons/worksheet/load.png);
+    width: 12px;
+    filter: invert();
+    margin: 0 5px 0 0;
+}
+
+.save_icon {
+    content: url(/assets/icons/worksheet/save.png);
+    width: 12px;
+    filter: invert();
+    margin: 0 5px 0 0;
+}
+
+.add_icon {
+    content: url(/assets/icons/worksheet/add.png);
+    width: 12px;
+    filter: invert();
+    margin: 0 5px 0 0;
+}
+
+.edit_icon {
+    content: url(/assets/icons/worksheet/edit.png);
+    width: 12px;
+    filter: invert();
+    margin: 0 5px 0 0;
+}
+
+.show_icon {
+    content: url(/assets/icons/worksheet/show.png);
+    width: 12px;
+    filter: invert();
+    margin: 0 5px 0 0;
+}
+
+.delete_icon {
+    content: url(/assets/icons/worksheet/delete.png);
+    width: 12px;
+    filter: invert();
+    margin: 0 5px 0 0;
+}

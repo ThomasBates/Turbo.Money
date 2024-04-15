@@ -249,17 +249,17 @@ export default function BudgetWorksheetDataService(logger: ILoggerService): IBud
         }
     };
 
-    const loadBudget = async () => {
+    const loadBudgetData = async () => {
         await retrieveSections();
         await retrieveCategories();
         await retrieveAccounts();
     };
 
-    const saveBudget = async () => {
+    const saveBudgetData = async () => {
         const categories = await saveSections(sectionList);
         const accounts = await saveCategories(categories);
         await saveAccounts(accounts);
-        await loadBudget();
+        await loadBudgetData();
     };
 
     //  Generic Items ----------------------------------------------------------
@@ -529,8 +529,8 @@ export default function BudgetWorksheetDataService(logger: ILoggerService): IBud
     };
 
     return {
-        loadBudget,
-        saveBudget,
+        loadBudgetData,
+        saveBudgetData,
 
         createBudgetSection,
         updateBudgetSection,

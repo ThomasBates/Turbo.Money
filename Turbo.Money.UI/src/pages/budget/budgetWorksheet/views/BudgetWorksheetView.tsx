@@ -18,9 +18,10 @@ import IBudgetWorksheetViewModel from "../viewModels/IBudgetWorksheetViewModel";
 
 import BudgetWorksheetSectionView from "./BudgetWorksheetSectionView";
 
-import "./BudgetWorksheet.css";
+import styleContext from "./BudgetWorksheet.module.css";
 import IBudgetWorksheetSectionViewModel from "../viewModels/IBudgetWorksheetSectionViewModel";
 import IBudgetWorksheetModeViews from "./IBudgetWorksheetModeViews";
+import IBudgetWorksheetStyle from "./IBudgetWorksheetStyle";
 
 const modeViews: Record<string, IBudgetWorksheetModeViews> = {
     BudgetSection: {
@@ -57,9 +58,10 @@ const ModeView = ({ modeViewModel }: IModeViewProps) => {
 export default function BudgetWorksheetView({ dataContext }: IViewFactoryProps) {
 
     const viewModel = dataContext() as IBudgetWorksheetViewModel;
+    const style = styleContext as IBudgetWorksheetStyle;
 
     useEffect(() => {
-        viewModel.loadBudget();
+        viewModel.loadBudgetData();
     }, []);
 
     const query = window.matchMedia("(min-width:641px)");
@@ -72,8 +74,8 @@ export default function BudgetWorksheetView({ dataContext }: IViewFactoryProps) 
         content: "root",
         tooltip: "Budget Actions",
         list: [
-            { action: viewModel.loadBudget, icon: "load_icon", content: "Reload Budget", },
-            { action: viewModel.saveBudget, icon: "save_icon", content: "Save Budget",},
+            { action: viewModel.loadBudgetData, icon: "load_icon", content: "Reload Budget", },
+            { action: viewModel.saveBudgetData, icon: "save_icon", content: "Save Budget",},
             { action: viewModel.addSection, icon: "add_icon", content: "Create new budget section", },
         ]
     };
@@ -81,31 +83,34 @@ export default function BudgetWorksheetView({ dataContext }: IViewFactoryProps) 
     return (
         <>
             <div>
-                <table className='tb-worksheet-table'> 
+                <table className={style.table}> 
                     <tbody>
                         <tr>
-                            <td colSpan={6} className="tb-worksheet-title"><h1>{viewModel.title}</h1></td>
+                            <td colSpan={6} className={style.title}><h1>{viewModel.title}</h1></td>
                         </tr>
                         <tr>
                             <td colSpan={3}></td>
-                            <td className="tb-worksheet-currency">{viewModel.total}</td>
-                            <td className="tb-worksheet-text">{(wide ? "Budget " : "") + viewModel.status}</td>
-                            <td className="tb-worksheet-buttons">
+                            <td className={style.currency}>{viewModel.total}</td>
+                            <td className={style.text}>{(wide ? "Budget " : "") + viewModel.status}</td>
+                            <td className={style.buttons}>
                                 <BudgetWorksheetMenu menuData={menuData} />
                             </td>
                         </tr>
 
                         {viewModel.sectionViewModels &&
                             viewModel.sectionViewModels.map((viewModel: IBudgetWorksheetSectionViewModel) => (
-                                <BudgetWorksheetSectionView key={viewModel.name} dataContext={viewModel} />
+                                <BudgetWorksheetSectionView
+                                    key={viewModel.name}
+                                    dataContext={viewModel}
+                                    styleContext={style} />
                             ))
                         }
 
                         <tr>
                             <td colSpan={3}></td>
-                            <td className="tb-worksheet-currency">{viewModel.total}</td>
-                            <td className="tb-worksheet-text">{(wide ? "Budget " : "") + viewModel.status}</td>
-                            <td className="tb-worksheet-buttons">
+                            <td className={style.currency}>{viewModel.total}</td>
+                            <td className={style.text}>{(wide ? "Budget " : "") + viewModel.status}</td>
+                            <td className={style.buttons}>
                                 <BudgetWorksheetMenu menuData={menuData} />
                             </td>
                         </tr>

@@ -10,8 +10,8 @@ export default interface IBudgetWorksheetViewModel {
     total: string;
     status: string;
 
-    loadBudget: () => Promise<void>;
-    saveBudget: () => Promise<void>;
+    loadBudgetData: () => Promise<void>;
+    saveBudgetData: () => Promise<void>;
 
     addSection: () => void;
 }

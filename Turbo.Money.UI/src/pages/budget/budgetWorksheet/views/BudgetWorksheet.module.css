@@ -1,18 +1,21 @@
 
-.tb-worksheet-table {
+.table {
     width: 100%;
     background-color: #222;
 }
 
-    .tb-worksheet-table td {
+    .table td {
         padding: 0 5px;
     }
 
-    .tb-worksheet-table tr:hover {
+    .table tr:hover {
         background-color: #333;
     }
 
-.tb-worksheet-button-left {
+.row {
+}
+
+.button_left {
     height: 25px;
     padding: 0px 2px;
     margin: 0px 2px;
@@ -20,7 +23,7 @@
     float: left;
 }
 
-.tb-worksheet-button-right {
+.button_right {
     height: 25px;
     padding: 0px 2px;
     margin: 0px 2px;
@@ -29,25 +32,25 @@
     color: #888;
 }
 
-tr:hover .tb-worksheet-button-left {
+tr:hover .button_left {
     opacity: 1;
 }
 
-tr:hover .tb-worksheet-button-right {
+tr:hover .button_right {
     /*opacity: 1;*/
     color: #fff;
 }
 
-.tb-worksheet-buttons {
+.buttons {
 }
 
-    .tb-worksheet-buttons::after {
+    .buttons::after {
         content: "";
         clear: both;
         display: table;
     }
 
-.tb-worksheet-tooltip {
+.tooltip {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.85);
     padding: 2px 10px;
@@ -55,51 +58,44 @@ tr:hover .tb-worksheet-button-right {
     border-radius: 3px;
 }
 
-.tb-worksheet-menu-list {
-    position: absolute;
-    padding: 2px 10px;
-    color: white;
-    border-radius: 3px;
-}
-
-.tb-worksheet-title {
+.title {
     color: #ffffff !important;
     text-align: center !important;
     text-shadow: 0 0 5px #ff0000;
 }
 
-.tb-worksheet-text {
+.text {
     color: #808080 !important;
 }
 
-.tb-worksheet-currency {
+.currency {
     color: #ffffff !important;
     text-align: right !important;
 }
 
-.tb-worksheet-section-text {
+.section_text {
     color: #008080 !important;
 }
 
-.tb-worksheet-section-currency {
+.section_currency {
     color: #00ffff !important;
     text-align: right !important;
 }
 
-.tb-worksheet-category-text {
+.category_text {
     color: #008000 !important;
 }
 
-.tb-worksheet-category-currency {
+.category_currency {
     color: #00cc00 !important;
     text-align: right !important;
 }
 
-.tb-worksheet-account-text {
+.account_text {
     color: #c0c080 !important;
 }
 
-.tb-worksheet-account-currency {
+.account_currency {
     color: #ffff00 !important;
     text-align: right !important;
 }

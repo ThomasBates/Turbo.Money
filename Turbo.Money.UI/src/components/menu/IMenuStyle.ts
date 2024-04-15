@@ -42,6 +42,6 @@ export default interface IMenuStyle {
     [key: string]: undefined | string;
 }
 
-export function combineStyles(...args: (string|undefined)[]): string {
+export function combineStyles(...args: (string | undefined)[]): string {
     return args.filter(arg => arg != undefined).join(" ");
 }
