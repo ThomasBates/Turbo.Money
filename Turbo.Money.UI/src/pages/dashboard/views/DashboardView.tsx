@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 
-import IViewFactoryProps from "pages/common/views/IViewFactoryProps";
+import IFactoryViewProps from "pages/common/views/IFactoryViewProps";
 
 import IDashboardViewModel from "../viewModels/IDashboardViewModel";
 
-export default function DashboardView({ dataContext }: IViewFactoryProps) {
+export default function DashboardView({ dataContext }: IFactoryViewProps) {
 
     const viewModel = dataContext() as IDashboardViewModel;
 

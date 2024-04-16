@@ -5,8 +5,9 @@ import ICommonModeViewModelProps from './ICommonModeViewModelProps';
 export default function CommonDetailsViewModel(
     { title, entity, mode, item, onSubmitted, onCancelled }: ICommonModeViewModelProps
 ): ICommonDetailsViewModel {
+    const modeText = mode === "show" ? `Show` : `Delete`;
 
-    title = mode === "delete" ? `Delete ${title}:` : `${title} Details:`;
+    const notSelected = `No ${title} selected`
     const showDetails = !!(item && item.id);
     const showButtons = (mode === "delete");
     const showOKButton = (mode === "show");
@@ -25,8 +26,10 @@ export default function CommonDetailsViewModel(
         title,
         entity,
         mode,
+        modeText,
         item,
 
+        notSelected,
         showDetails,
         showButtons,
         showOKButton,

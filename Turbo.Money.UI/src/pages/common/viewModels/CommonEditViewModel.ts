@@ -5,10 +5,10 @@ import ICommonModeViewModelProps from './ICommonModeViewModelProps';
 export default function CommonEditViewModel(
     { title, entity, mode, item, setItem, onSubmitted, onCancelled }: ICommonModeViewModelProps
 ): ICommonEditViewModel {
-    title = mode === "edit" ? `Edit ${title}:` : `Add ${title}:`;
+    const modeText = mode === "edit" ? `Update` : `Create`;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const setProperty = (name: string, value: any) => {
+    const setProperty = (name: string, value: string | string[] | number) => {
         if (setItem && item)
             setItem({ ...item, [name]: value });
     };
@@ -27,6 +27,7 @@ export default function CommonEditViewModel(
         title,
         entity,
         mode,
+        modeText,
         item,
 
         canSubmit: true,

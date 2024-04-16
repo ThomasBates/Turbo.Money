@@ -1,76 +1,40 @@
 
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-
-import IViewProps from 'pages/common/views/IViewProps';
+import CommonEditInputControl from 'pages/common/views/CommonEditInputControl';
+import CommonEditSelectControl from 'pages/common/views/CommonEditSelectControl';
+import CommonEditView from 'pages/common/views/CommonEditView';
+import ICommonStyle from 'pages/common/views/ICommonStyle';
+import IStyledViewProps from 'pages/common/views/IStyledViewProps';
 
 import IBudgetSectionEditViewModel from '../viewModels/IBudgetSectionEditViewModel';
 
-export default function BudgetSectionEditView({ dataContext }: IViewProps) {
+export default function BudgetSectionEditView({ dataContext, styleContext }: IStyledViewProps) {
 
     const viewModel = dataContext as IBudgetSectionEditViewModel;
-
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.currentTarget;
-        viewModel.setProperty(name, value);
-    };
-
-    const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const { name, value } = event.currentTarget;
-        viewModel.setProperty(name, value);
-    };
+    const style = styleContext as ICommonStyle;
 
     return (
-        <div>
-            <div className="edit-form">
-                <h4>{viewModel.title}</h4>
-                <Form>
-                    <Form.Group>
-                        <Form.Label>Section Name</Form.Label>
-                        <Form.Control
-                            required
-                            type="text"
-                            placeholder=""
-                            id="name"
-                            name="name"
-                            value={viewModel.section.name}
-                            isValid={viewModel.isValidName}
-                            onChange={handleInputChange} />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Description</Form.Label>
-                        <Form.Control
-                            id="description"
-                            name="description"
-                            value={viewModel.section.description}
-                            isValid={viewModel.isValidDescription}
-                            onChange={handleInputChange} />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Income/Expenses</Form.Label>
-                        <Form.Select
-                            id="direction"
-                            name="direction"
-                            value={viewModel.section.direction}
-                            isValid={viewModel.isValidDirection}
-                            onChange={handleSelectChange}>
-                            <option value="out" key="out">Expenses</option>
-                            <option value="in" key="in">Income</option>
-                        </Form.Select>
-                    </Form.Group>
-                </Form>
-                <Button
-                    variant="success"
-                    onClick={viewModel.submit}
-                    disabled={!viewModel.canSubmit}>
-                    Submit
-                </Button>
-                <Button
-                    variant="danger"
-                    onClick={viewModel.cancel}>
-                    Cancel
-                </Button>
-            </div>
-        </div>
+        <CommonEditView dataContext={dataContext} styleContext={styleContext}>
+            <CommonEditInputControl style={style}
+                name='name'
+                label='Section Name'
+                value={viewModel.section.name}
+                isValid={viewModel.isValidName}
+                setProperty={viewModel.setProperty} />
+            <CommonEditInputControl style={style}
+                name='description'
+                label='Description'
+                value={viewModel.section.description}
+                isValid={viewModel.isValidDescription}
+                setProperty={viewModel.setProperty} />
+            <CommonEditSelectControl style={style}
+                name='categoryId'
+                label='Income/Expenses'
+                value={viewModel.section.categoryId}
+                isValid={viewModel.isValidDirection}
+                options={[
+                    { value: 'out', text: 'Expenses' },
+                    { value: 'in', text: 'Income' }]}
+                setProperty={viewModel.setProperty} />
+        </CommonEditView>
     );
 }

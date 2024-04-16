@@ -1,79 +1,41 @@
 
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import CommonEditInputControl from 'pages/common/views/CommonEditInputControl';
+import CommonEditView from 'pages/common/views/CommonEditView';
+import ICommonStyle from 'pages/common/views/ICommonStyle';
+import IStyledViewProps from 'pages/common/views/IStyledViewProps';
 
-import IViewProps from 'pages/common/views/IViewProps';
 import IBankBankEditViewModel from '../viewModels/IBankBankEditViewModel';
 
-export default function BankBankEditView({ dataContext }: IViewProps) {
+export default function BankBankEditView({ dataContext, styleContext }: IStyledViewProps) {
 
     const viewModel = dataContext as IBankBankEditViewModel;
-
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.currentTarget;
-        viewModel.setProperty(name, value);
-    };
+    const style = styleContext as ICommonStyle;
 
     return (
-        <div>
-            <div className="edit-form">
-                <h4>{viewModel.title}</h4>
-                <Form>
-                    <Form.Group>
-                        <Form.Label>Bank Name</Form.Label>
-                        <Form.Control
-                            required
-                            type="text"
-                            placeholder="Bank Name"
-                            id="name"
-                            name="name"
-                            value={viewModel.bank.name}
-                            isValid={viewModel.isValidName}
-                            onChange={handleInputChange} />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Description</Form.Label>
-                        <Form.Control
-                            required
-                            type="text"
-                            placeholder="Description"
-                            id="description"
-                            name="description"
-                            value={viewModel.bank.description}
-                            isValid={true}
-                            onChange={handleInputChange} />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Bank Number</Form.Label>
-                        <Form.Control
-                            id="number"
-                            name="number"
-                            value={viewModel.bank.number}
-                            isValid={viewModel.isValidNumber}
-                            onChange={handleInputChange} />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Branch</Form.Label>
-                        <Form.Control
-                            id="branch"
-                            name="branch"
-                            value={viewModel.bank.branch}
-                            isValid={viewModel.isValidBranch}
-                            onChange={handleInputChange} />
-                    </Form.Group>
-                </Form>
-                <Button
-                    variant="success"
-                    onClick={viewModel.submit}
-                    disabled={!viewModel.canSubmit}>
-                    Submit
-                </Button>
-                <Button
-                    variant="danger"
-                    onClick={viewModel.cancel}>
-                    Cancel
-                </Button>
-            </div>
-        </div>
+        <CommonEditView dataContext={dataContext} styleContext={styleContext}>
+            <CommonEditInputControl style={style}
+                name='name'
+                label='Bank Name'
+                value={viewModel.bank.name}
+                isValid={viewModel.isValidName}
+                setProperty={viewModel.setProperty} />
+            <CommonEditInputControl style={style}
+                name='description'
+                label='Description'
+                value={viewModel.bank.description}
+                setProperty={viewModel.setProperty} />
+            <CommonEditInputControl style={style}
+                name='number'
+                label='Bank Number'
+                value={viewModel.bank.number}
+                isValid={viewModel.isValidNumber}
+                setProperty={viewModel.setProperty} />
+            <CommonEditInputControl style={style}
+                name='branch'
+                label='Bank Branch'
+                value={viewModel.bank.branch}
+                isValid={viewModel.isValidBranch}
+                setProperty={viewModel.setProperty} />
+        </CommonEditView>
     );
 }

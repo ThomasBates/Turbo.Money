@@ -1,6 +1,6 @@
 import ICommonModeViews from "./ICommonModeViews";
-import IViewFactoryProps from "./IViewFactoryProps";
+import IStyledFactoryViewProps from "./IStyledFactoryViewProps";
 
-export default interface ICommonViewProps extends IViewFactoryProps {
+export default interface ICommonViewProps extends IStyledFactoryViewProps {
     modeViews: ICommonModeViews;
 }

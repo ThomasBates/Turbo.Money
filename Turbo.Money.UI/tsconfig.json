@@ -10,6 +10,7 @@
     "paths": {
       "app/*": [ "src/app/*" ],
       "components/*": [ "src/components/*" ],
+      "controls/*": [ "src/controls/*" ],
       "data/*": [ "src/data/*" ],
       "models/*": [ "src/models/*" ],
       "pages/*": [ "src/pages/*" ],

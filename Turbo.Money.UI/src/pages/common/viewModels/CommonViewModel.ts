@@ -205,6 +205,7 @@ export default function CommonViewModel(
             }
             return item;
         }).sort(compareItems);
+
         setList(newList);
 
         selectItem(validItem);

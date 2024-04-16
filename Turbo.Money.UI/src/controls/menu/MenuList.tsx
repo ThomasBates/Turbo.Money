@@ -1,11 +1,11 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { getRandomString } from "services/tools/tools";
+import { combineStyles, getRandomString } from "services/tools/tools";
 
 import MenuItem from "./MenuItem";
 import { IMenuDataList, IMenuDataItem } from "./IMenuData";
-import IMenuStyle, { combineStyles } from "./IMenuStyle";
+import IMenuStyle from "./IMenuStyle";
 
 
 interface IProps {

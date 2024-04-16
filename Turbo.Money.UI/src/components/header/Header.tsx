@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-import { IMenuData } from "components/menu/IMenuData";
-import Menu from "components/menu/Menu";
+import { IMenuData } from "src/controls/menu/IMenuData";
+import Menu from "src/controls/menu/Menu";
 
 import headerStyle from './Header.module.css';
 

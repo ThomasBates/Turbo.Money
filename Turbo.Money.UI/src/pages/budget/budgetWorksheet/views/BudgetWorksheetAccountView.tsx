@@ -15,7 +15,7 @@ export default function BudgetWorksheetAccountView({ dataContext, styleContext }
         tooltip: "Budget Account Actions",
         list: [
             { action: viewModel.showAccount, icon: "show_icon", content: "Show details of this budget account", },
-            { action: viewModel.editAccount, icon: "edit_icon", content: "Edit this budget account", },
+            { action: viewModel.editAccount, icon: "edit_icon", content: "Update this budget account", },
             { action: viewModel.deleteAccount, icon: "delete_icon", content: "Delete this budget account", },
         ]
     };

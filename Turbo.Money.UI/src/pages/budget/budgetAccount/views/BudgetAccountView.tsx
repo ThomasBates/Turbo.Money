@@ -1,7 +1,7 @@
 
 import CommonView from 'pages/common/views/CommonView';
 import ICommonModeViews from 'pages/common/views/ICommonModeViews';
-import IViewFactoryProps from 'pages/common/views/IViewFactoryProps';
+import IFactoryViewProps from 'pages/common/views/IFactoryViewProps';
 
 import BudgetAccountDetailsView from './BudgetAccountDetailsView';
 import BudgetAccountEditView from './BudgetAccountEditView';
@@ -14,7 +14,7 @@ const modeViews: ICommonModeViews = {
     none: BudgetAccountDetailsView
 }
 
-export default function BudgetAccountView({ dataContext }: IViewFactoryProps) {
+export default function BudgetAccountView({ dataContext }: IFactoryViewProps) {
     return (
         <CommonView dataContext={dataContext} modeViews={modeViews} />
     );

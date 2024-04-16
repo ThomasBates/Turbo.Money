@@ -1,0 +1,181 @@
+
+/*  Common Layout  ---------------------------------------------------------  */
+
+.main_form {
+}
+
+.title_panel {
+    padding: 10px;
+}
+
+.main_panel {
+    display: flex;
+    flex-direction: row;
+}
+
+.list_panel {
+    flex: 30%;
+    padding: 10px;
+}
+
+.button_panel {
+}
+
+.mode_panel {
+    flex: 70%;
+    background-color: #333;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+}
+
+@media (max-width: 800px) {
+    .main_panel {
+        flex-direction: column;
+    }
+}
+
+.title {
+    color: #ffffff;
+    text-align: center;
+    text-shadow: 0 0 5px #f00;
+}
+
+/*  List  ------------------------------------------------------------------  */
+
+.list_control {
+    list-style-type: none;
+}
+
+.list {
+
+}
+
+/*  List Items -------------------------------------------------------------  */
+
+.list_item_control {
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.disabled_list_item_control {
+    padding: 10px;
+    border-radius: 10px;
+    cursor: default;
+}
+
+.enabled_unselected_list_item {
+    color: #ccc;
+}
+
+.enabled_selected_list_item {
+    background-color: #ccc;
+    color: #000;
+}
+
+.disabled_unselected_list_item {
+    color: #444;
+}
+
+.disabled_selected_list_item {
+    background-color: #444;
+    color: #000;
+}
+
+/*  Buttons  ---------------------------------------------------------------  */
+
+.button_control {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #444;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.disabled_button_control {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #444;
+    border-radius: 10px;
+    opacity: 50%;
+    cursor: default;
+}
+
+.add_button {
+    background-color: #030;
+    color: #ccc;
+}
+
+.edit_button {
+    background-color: #006;
+    color: #ccc;
+}
+
+.delete_button {
+    background-color: #400;
+    color: #ccc;
+}
+
+.submit_button {
+    background-color: #030;
+    color: #ccc;
+}
+
+.cancel_button {
+    background-color: #400;
+    color: #ccc;
+}
+
+.ok_button {
+    background-color: #030;
+    color: #ccc;
+}
+
+/*  Mode View  -------------------------------------------------------------  */
+
+.mode_form {
+}
+
+.mode_title {
+    padding: 10px;
+}
+
+.mode_table {
+    background-color: #222;
+    width: 100%;
+    padding: 10px;
+}
+
+.mode_row {
+}
+
+.mode_label {
+    width: 50%;
+    text-align: right;
+    padding: 0 10px;
+}
+    .mode_label::after {
+        content: ':';
+    }
+
+.mode_button_panel {
+}
+
+.mode_value {
+}
+
+.mode_not_selected {
+    background-color: #222;
+    width: 100%;
+    padding: 10px;
+}
+
+.mode_control {
+    width: 100%;
+}
+
+.mode_invalid_control {
+    width: 100%;
+    border: 1px solid red;
+}

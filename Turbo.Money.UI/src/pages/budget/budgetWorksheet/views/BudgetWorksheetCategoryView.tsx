@@ -26,7 +26,7 @@ export default function BudgetWorksheetCategoryView({ dataContext, styleContext 
         tooltip: "Budget Category Actions",
         list: [
             { action: viewModel.showCategory, icon: "show_icon", content: "Show details of this budget category", },
-            { action: viewModel.editCategory, icon: "edit_icon", content: "Edit this budget category", },
+            { action: viewModel.editCategory, icon: "edit_icon", content: "Update this budget category", },
             { action: viewModel.addAccount, icon: "add_icon", content: "Create new budget account", },
             { action: viewModel.deleteCategory, icon: "delete_icon", content: "Delete this budget category", },
         ]

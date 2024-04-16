@@ -90,3 +90,7 @@ tr:hover .button_right {
     color: #ffff00 !important;
     text-align: right !important;
 }
+
+.modal_theme {
+    background-color: #333;
+}

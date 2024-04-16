@@ -11,8 +11,8 @@ export default function SignUpEmailView({ dataContext }: IViewProps) {
 
     const viewModel = dataContext as ISignUpEmailViewModel;
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
         await viewModel.submit(navigate)
     }
 

@@ -1,4 +1,6 @@
 
+import ICommonStyle from "pages/common/views/ICommonStyle";
+
 export function getRandomString(size: number) {
 
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890';
@@ -8,4 +10,29 @@ export function getRandomString(size: number) {
         result += characters[Math.floor(Math.random() * charactersLength)];
     }
     return result;
+}
+
+export function mergeStyles(customStyle: ICommonStyle, defaultStyle: ICommonStyle) {
+    if (!customStyle)
+        return defaultStyle;
+
+    const mergedStyle: ICommonStyle = {}
+
+    for (const key in defaultStyle) {
+        if (key in customStyle)
+            mergedStyle[key] = customStyle[key];
+        else
+            mergedStyle[key] = defaultStyle[key];
+    }
+
+    for (const key in customStyle) {
+        if (!(key in defaultStyle))
+            mergedStyle[key] = customStyle[key];
+    }
+
+    return mergedStyle;
+}
+
+export function combineStyles(...args: (string | undefined)[]): string {
+    return args.filter(arg => arg != undefined).join(" ");
 }

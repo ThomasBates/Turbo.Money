@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 
-import Modal from 'components/modal/Modal';
+import Modal from 'controls/modal/Modal';
 
+import commonStyleModule from 'pages/common/views/CommonView.module.css';
 import ICommonModeViewModel from "pages/common/viewModels/ICommonModeViewModel";
-import IViewFactoryProps from "pages/common/views/IViewFactoryProps";
+import ICommonStyle from "pages/common/views/ICommonStyle";
+import IFactoryViewProps from "pages/common/views/IFactoryViewProps";
 
 import BudgetSectionDetailsView from "pages/budget/budgetSection/views/BudgetSectionDetailsView";
 import BudgetSectionEditView from "pages/budget/budgetSection/views/BudgetSectionEditView";
@@ -18,10 +20,9 @@ import IBudgetWorksheetViewModel from "../viewModels/IBudgetWorksheetViewModel";
 
 import BudgetWorksheetSectionView from "./BudgetWorksheetSectionView";
 
-import styleContext from "./BudgetWorksheet.module.css";
+import styleModule from "./BudgetWorksheet.module.css";
 import IBudgetWorksheetSectionViewModel from "../viewModels/IBudgetWorksheetSectionViewModel";
 import IBudgetWorksheetModeViews from "./IBudgetWorksheetModeViews";
-import IBudgetWorksheetStyle from "./IBudgetWorksheetStyle";
 
 const modeViews: Record<string, IBudgetWorksheetModeViews> = {
     BudgetSection: {
@@ -46,19 +47,21 @@ const modeViews: Record<string, IBudgetWorksheetModeViews> = {
 
 interface IModeViewProps {
     modeViewModel: ICommonModeViewModel;
+    style: ICommonStyle;
 }
 
-const ModeView = ({ modeViewModel }: IModeViewProps) => {
+const ModeView = ({ modeViewModel, style }: IModeViewProps) => {
     const SelectedModeView = modeViews[modeViewModel.entity][modeViewModel.mode];
     return (
-        <SelectedModeView dataContext={modeViewModel} />
+        <SelectedModeView dataContext={modeViewModel} styleContext={style} />
     );
 }
 
-export default function BudgetWorksheetView({ dataContext }: IViewFactoryProps) {
+export default function BudgetWorksheetView({ dataContext }: IFactoryViewProps) {
 
     const viewModel = dataContext() as IBudgetWorksheetViewModel;
-    const style = styleContext as IBudgetWorksheetStyle;
+    const style = styleModule as ICommonStyle;
+    const commonStyle = commonStyleModule as ICommonStyle;
 
     useEffect(() => {
         viewModel.loadBudgetData();
@@ -119,8 +122,8 @@ export default function BudgetWorksheetView({ dataContext }: IViewFactoryProps) 
             </div>
 
             {viewModel.modeViewModel &&
-                <Modal >
-                    <ModeView modeViewModel={viewModel.modeViewModel} />
+                <Modal className={style.modal_theme}>
+                    <ModeView modeViewModel={viewModel.modeViewModel} style={commonStyle} />
                 </Modal>
             }
         </>

@@ -1,5 +1,7 @@
 
-export default interface IMenuStyle {
+import ICommonStyle from "../../pages/common/views/ICommonStyle"
+
+export default interface IMenuStyle extends ICommonStyle {
     root_control?: string
     root_theme?: string
     root_icon?: string
@@ -38,10 +40,4 @@ export default interface IMenuStyle {
     divider_theme?: string
     text_icon?: string
     text_content?: string
-
-    [key: string]: undefined | string;
-}
-
-export function combineStyles(...args: (string | undefined)[]): string {
-    return args.filter(arg => arg != undefined).join(" ");
 }

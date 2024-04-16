@@ -1,11 +1,11 @@
-import IViewProps from './IViewProps';
+import IStyledViewProps from './IStyledViewProps';
 
 export default interface ICommonModeViews {
-    details: (props: IViewProps) => JSX.Element;
-    add: (props: IViewProps) => JSX.Element;
-    edit: (props: IViewProps) => JSX.Element;
-    delete: (props: IViewProps) => JSX.Element;
-    none: (props: IViewProps) => JSX.Element;
+    details: (props: IStyledViewProps) => JSX.Element;
+    add: (props: IStyledViewProps) => JSX.Element;
+    edit: (props: IStyledViewProps) => JSX.Element;
+    delete: (props: IStyledViewProps) => JSX.Element;
+    none: (props: IStyledViewProps) => JSX.Element;
 
-    [key: string]: (props: IViewProps) => JSX.Element;
+    [key: string]: (props: IStyledViewProps) => JSX.Element;
 }

@@ -1,5 +1,5 @@
 
-import { IMenuData } from "components/menu/IMenuData";
+import { IMenuData } from "src/controls/menu/IMenuData";
 import BankDataProvider from 'data/bank/BankDataProvider';
 import BudgetDataProvider from 'data/budget/BudgetDataProvider';
 

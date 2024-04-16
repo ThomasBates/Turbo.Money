@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 
-import Modal from 'components/modal/Modal';
+import Modal from 'controls/modal/Modal';
 
 import ICommonModeViewModel from "pages/common/viewModels/ICommonModeViewModel";
-import IViewFactoryProps from "pages/common/views/IViewFactoryProps";
+import IFactoryViewProps from "pages/common/views/IFactoryViewProps";
 
+import commonStyleModule from 'pages/common/views/CommonView.module.css';
 import BankBankDetailsView from "pages/bank/bankBank/views/BankBankDetailsView";
 import BankBankEditView from "pages/bank/bankBank/views/BankBankEditView";
 import BankAccountDetailsView from "pages/bank/bankAccount/views/BankAccountDetailsView";
@@ -19,7 +20,7 @@ import BankWorksheetBankView from "./BankWorksheetBankView";
 import styleContext from "./BankWorksheet.module.css";
 import IBankWorksheetBankViewModel from "../viewModels/IBankWorksheetBankViewModel";
 import IBankWorksheetModeViews from "./IBankWorksheetModeViews";
-import IBankWorksheetStyle from "./IBankWorksheetStyle";
+import ICommonStyle from "../../../common/views/ICommonStyle";
 
 const modeViews: Record<string, IBankWorksheetModeViews> = {
     BankBank: {
@@ -38,19 +39,21 @@ const modeViews: Record<string, IBankWorksheetModeViews> = {
 
 interface IModeViewProps {
     modeViewModel: ICommonModeViewModel;
+    style: ICommonStyle;
 }
 
-const ModeView = ({ modeViewModel }: IModeViewProps) => {
+const ModeView = ({ modeViewModel, style }: IModeViewProps) => {
     const SelectedModeView = modeViews[modeViewModel.entity][modeViewModel.mode];
     return (
-        <SelectedModeView dataContext={modeViewModel} />
+        <SelectedModeView dataContext={modeViewModel} styleContext={style} />
     );
 }
 
-export default function BankWorksheetView({ dataContext }: IViewFactoryProps) {
+export default function BankWorksheetView({ dataContext }: IFactoryViewProps) {
 
     const viewModel = dataContext() as IBankWorksheetViewModel;
-    const style = styleContext as IBankWorksheetStyle;
+    const style = styleContext as ICommonStyle;
+    const commonStyle = commonStyleModule as ICommonStyle;
 
     useEffect(() => {
         viewModel.loadBankData();
@@ -101,8 +104,8 @@ export default function BankWorksheetView({ dataContext }: IViewFactoryProps) {
             </div>
 
             {viewModel.modeViewModel &&
-                <Modal >
-                    <ModeView modeViewModel={viewModel.modeViewModel} />
+                <Modal className={style.modal_theme}>
+                    <ModeView modeViewModel={viewModel.modeViewModel} style={commonStyle} />
                 </Modal>
             }
         </>

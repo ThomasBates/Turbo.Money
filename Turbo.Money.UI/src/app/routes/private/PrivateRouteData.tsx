@@ -69,6 +69,9 @@ export default function PrivateRouteData(app: AppContextType) {
                 <Footer />
             </div>,
         children: [
+            //  home
+            { path: "/", element: < BudgetAccountView dataContext={() => BudgetAccountViewModel()} /> },
+
             //  dashboard
             {
                 path: "/dashboard", element: <DashboardView
@@ -77,7 +80,6 @@ export default function PrivateRouteData(app: AppContextType) {
             },
 
             //  Budget 
-            { path: "/", element: < BankWorksheetView dataContext={() => BankWorksheetViewModel()} /> },
             { path: "/BudgetWorksheetView", element: < BudgetWorksheetView dataContext={() => BudgetWorksheetViewModel()} /> },
             { path: "/BudgetView", element: < BudgetView /> },
 
@@ -93,6 +95,7 @@ export default function PrivateRouteData(app: AppContextType) {
             { path: "/BankWorksheet", element: <BankWorksheetView dataContext = { () => BankWorksheetViewModel() } /> },
             { path: "/BankBankView", element: < BankBankView dataContext={() => BankBankViewModel()} /> },
             { path: "/BankAccountView", element: < BankAccountView dataContext={() => BankAccountViewModel()} /> },
+
             { path: "/BudgetSectionView", element: < BudgetSectionView dataContext={() => BudgetSectionViewModel()} /> },
             { path: "/BudgetCategoryView", element: < BudgetCategoryView dataContext={() => BudgetCategoryViewModel()} /> },
             { path: "/BudgetAccountView", element: < BudgetAccountView dataContext={() => BudgetAccountViewModel()} /> },

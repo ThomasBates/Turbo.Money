@@ -1,78 +1,26 @@
 
-import Button from 'react-bootstrap/Button';
-
-import IViewProps from 'pages/common/views/IViewProps';
+import CommonDetailsField from 'pages/common/views/CommonDetailsField';
+import CommonDetailsView from 'pages/common/views/CommonDetailsView';
+import ICommonStyle from 'pages/common/views/ICommonStyle';
+import IStyledViewProps from 'pages/common/views/IStyledViewProps';
 
 import IBudgetAccountDetailsViewModel from '../viewModels/IBudgetAccountDetailsViewModel';
 
-export default function BankDetailsView({ dataContext }: IViewProps) {
+export default function BudgetAccountDetailsView({ dataContext, styleContext }: IStyledViewProps) {
 
     const viewModel = dataContext as IBudgetAccountDetailsViewModel;
+    const style = styleContext as ICommonStyle;
 
     return (
-        <div className="col-md-6">
-            {viewModel.showDetails ? (
-                <>
-                    <div>
-                        <h4>{viewModel.title}</h4>
-                        <div>
-                            <label>
-                                <strong>Account Name:</strong>
-                            </label>{" "}
-                            {viewModel.account.name}
-                        </div>
-                        <div>
-                            <label>
-                                <strong>Description:</strong>
-                            </label>{" "}
-                            {viewModel.account.description}
-                        </div>
-                        <div>
-                            <label>
-                                <strong>Category:</strong>
-                            </label>{" "}
-                            {viewModel.categoryName}
-                        </div>
-                        <div>
-                            <label>
-                                <strong>Budgeted Amount:</strong>
-                            </label>{" "}
-                            {viewModel.account.amount}
-                        </div>
-                        <div>
-                            <label>
-                                <strong>Amount Type:</strong>
-                            </label>{" "}
-                            {viewModel.typeName}
-                        </div>
-                        <div>
-                            <label>
-                                <strong>Payment Method:</strong>
-                            </label>{" "}
-                            {viewModel.account.method}
-                        </div>
-                    </div>
-
-                    {viewModel.showButtons && <>
-                        <Button variant="success" onClick={viewModel.submit}>
-                            Submit
-                        </Button>
-                        <Button variant="danger" onClick={viewModel.cancel}>
-                            Cancel
-                        </Button>
-                    </>}
-                    {viewModel.showOKButton &&
-                        <Button variant="primary" onClick={viewModel.cancel}>
-                            OK
-                        </Button>}
-                </>
-            ) : (
-                <div>
-                    <br />
-                    <p>No Bank Account selected</p>
-                </div>
-
-            )}
-        </div >
+        <CommonDetailsView dataContext={dataContext} styleContext={styleContext}>
+            {viewModel.showDetails && <>
+                <CommonDetailsField style={style} label="Budget Category" value={viewModel.categoryName} />
+                <CommonDetailsField style={style} label="Account Name" value={viewModel.account.name} />
+                <CommonDetailsField style={style} label="Description" value={viewModel.account.description} />
+                <CommonDetailsField style={style} label="Budgeted Amount" value={viewModel.account.amount} />
+                <CommonDetailsField style={style} label="Amount Type" value={viewModel.typeName} />
+                <CommonDetailsField style={style} label="Payment Method" value={viewModel.account.method} />
+            </>}
+        </CommonDetailsView>
     );
 }

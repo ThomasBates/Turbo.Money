@@ -1,60 +1,23 @@
 
-import Button from 'react-bootstrap/Button';
-
-import IViewProps from 'pages/common/views/IViewProps';
+import CommonDetailsField from 'pages/common/views/CommonDetailsField';
+import CommonDetailsView from 'pages/common/views/CommonDetailsView';
+import ICommonStyle from 'pages/common/views/ICommonStyle';
+import IStyledViewProps from 'pages/common/views/IStyledViewProps';
 
 import IBudgetCategoryDetailsViewModel from '../viewModels/IBudgetCategoryDetailsViewModel';
 
-export default function BankDetailsView({ dataContext }: IViewProps) {
+export default function BankDetailsView({ dataContext, styleContext }: IStyledViewProps) {
 
     const viewModel = dataContext as IBudgetCategoryDetailsViewModel;
+    const style = styleContext as ICommonStyle;
 
     return (
-        <div className="col-md-6">
-            {viewModel.showDetails ? (
-                <>
-                    <div>
-                        <h4>{viewModel.title}</h4>
-                        <div>
-                            <label>
-                                <strong>Category Name:</strong>
-                            </label>{" "}
-                            {viewModel.category.name}
-                        </div>
-                        <div>
-                            <label>
-                                <strong>Description:</strong>
-                            </label>{" "}
-                            {viewModel.category.description}
-                        </div>
-                        <div>
-                            <label>
-                                <strong>Section:</strong>
-                            </label>{" "}
-                            {viewModel.sectionName}
-                        </div>
-                    </div>
-
-                    {viewModel.showButtons && <>
-                        <Button variant="success" onClick={viewModel.submit}>
-                            Submit
-                        </Button>
-                        <Button variant="danger" onClick={viewModel.cancel}>
-                            Cancel
-                        </Button>
-                    </>}
-                    {viewModel.showOKButton &&
-                        <Button variant="primary" onClick={viewModel.cancel}>
-                            OK
-                        </Button>}
-                </>
-            ) : (
-                <div>
-                    <br />
-                    <p>No Budget Category selected</p>
-                </div>
-
-            )}
-        </div >
+        <CommonDetailsView dataContext={dataContext} styleContext={styleContext}>
+            {viewModel.showDetails && <>
+                <CommonDetailsField style={style} label="Section" value={viewModel.sectionName} />
+                <CommonDetailsField style={style} label="Category Name" value={viewModel.category.name} />
+                <CommonDetailsField style={style} label="Description" value={viewModel.category.description} />
+            </>}
+        </CommonDetailsView>
     );
 }

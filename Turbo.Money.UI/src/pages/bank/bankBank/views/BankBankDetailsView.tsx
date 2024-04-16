@@ -1,66 +1,24 @@
 
-import Button from 'react-bootstrap/Button';
-
-import IViewProps from 'pages/common/views/IViewProps';
+import CommonDetailsField from 'pages/common/views/CommonDetailsField';
+import CommonDetailsView from 'pages/common/views/CommonDetailsView';
+import ICommonStyle from 'pages/common/views/ICommonStyle';
+import IStyledViewProps from 'pages/common/views/IStyledViewProps';
 
 import IBankBankDetailsViewModel from '../viewModels/IBankBankDetailsViewModel';
 
-export default function BankBankDetailsView({ dataContext }: IViewProps) {
+export default function BankBankDetailsView({ dataContext, styleContext }: IStyledViewProps) {
 
     const viewModel = dataContext as IBankBankDetailsViewModel;
+    const style = styleContext as ICommonStyle;
 
     return (
-        <div className="col-md-6">
-            {viewModel.showDetails ? (
-                <>
-                    <div>
-                        <h4>{viewModel.title}</h4>
-                        <div>
-                            <label>
-                                <strong>Bank Name:</strong>
-                            </label>{" "}
-                            {viewModel.bank.name}
-                        </div>
-                        <div>
-                            <label>
-                                <strong>Description:</strong>
-                            </label>{" "}
-                            {viewModel.bank.description}
-                        </div>
-                        <div>
-                            <label>
-                                <strong>Bank Number:</strong>
-                            </label>{" "}
-                            {viewModel.bank.number}
-                        </div>
-                        <div>
-                            <label>
-                                <strong>Branch Number:</strong>
-                            </label>{" "}
-                            {viewModel.bank.branch}
-                        </div>
-                    </div>
-
-                    {viewModel.showButtons && <>
-                        <Button variant="success" onClick={viewModel.submit}>
-                            Submit
-                        </Button>
-                        <Button variant="danger" onClick={viewModel.cancel}>
-                            Cancel
-                        </Button>
-                    </>}
-                    {viewModel.showOKButton &&
-                        <Button variant="primary" onClick={viewModel.cancel}>
-                            OK
-                        </Button>}
-                </>
-            ) : (
-                <div>
-                    <br />
-                    <p>No Bank selected</p>
-                </div>
-
-            )}
-        </div >
+        <CommonDetailsView dataContext={dataContext} styleContext={styleContext}>
+            {viewModel.showDetails && <>
+                <CommonDetailsField style={style} label="Bank Name" value={viewModel.bank.name} />
+                <CommonDetailsField style={style} label="Description" value={viewModel.bank.description} />
+                <CommonDetailsField style={style} label="Bank Number" value={viewModel.bank.number} />
+                <CommonDetailsField style={style} label="Bank Branch" value={viewModel.bank.branch} />
+            </>}
+        </CommonDetailsView>
     );
 }

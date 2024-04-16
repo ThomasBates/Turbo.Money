@@ -2,13 +2,13 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import { useAppContext } from 'app/AppContextAccess';
-import { getRandomString } from 'services/tools/tools';
+
+import { getRandomString, combineStyles, mergeStyles } from 'services/tools/tools';
 
 import { IMenuData, IMenuDataItem } from "./IMenuData";
 import MenuItem from "./MenuItem";
-
-import IMenuStyle, { combineStyles } from "./IMenuStyle";
-import MenuStyle from "./MenuStyle";
+import IMenuStyle from "./IMenuStyle";
+import defaultStyle from './Menu.module.css';
 
 interface IProps {
     customStyle: IMenuStyle;
@@ -27,9 +27,7 @@ export default function Menu({ customStyle, hover, wide, menuData }: IProps) {
     const [list, setList] = useState<IMenuDataItem[] | null>(null);
     const listRef = useRef<HTMLInputElement>(null);
 
-    const style = MenuStyle(customStyle);
-    //if (!style)
-    //    style = defaultStyle;
+    const style = mergeStyles(customStyle, defaultStyle);
 
     useEffect(() => {
         if (!hover && !wide) {
@@ -65,8 +63,11 @@ export default function Menu({ customStyle, hover, wide, menuData }: IProps) {
         }
     }
 
-    const handleListSelected = (item: IMenuDataItem) => {
-        if ('list' in item) {
+    const handleListSelected = (item: IMenuDataItem | null) => {
+        if (!item) {
+            setList(null);
+        }
+        else if ('list' in item) {
             const newList: IMenuDataItem[] = [
                 {
                     content: item.content,

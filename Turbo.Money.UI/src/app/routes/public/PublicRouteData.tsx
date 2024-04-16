@@ -58,14 +58,14 @@ export default function PublicRouteData(app: AppContextType) {
             </div>,
         children: [
             //  dashboard
-            { path: "/", element: <PublicView dataContext={PublicViewModel(PostDataProvider(app.logger, app.errors))} /> },
+            { path: "/", element: <PublicView dataContext={() => PublicViewModel(PostDataProvider(app.logger, app.errors))} /> },
 
             // OAuth 2.0 sources will redirect here
             { path: '/auth_callback', element: <AuthCallback /> },
             { path: '/auth/callback_google_signin', element: <AuthCallback /> },  // google will redirect here
 
-            { path: "/signUpEmail", element: <SignUpEmailView dataContext={SignUpEmailViewModel()} /> },
-            { path: "/signInEmail", element: <SignInEmailView dataContext={SignInEmailViewModel()} /> },
+            { path: "/signUpEmail", element: <SignUpEmailView dataContext={() => SignUpEmailViewModel()} /> },
+            { path: "/signInEmail", element: <SignInEmailView dataContext={() => SignInEmailViewModel()} /> },
 
             { path: "/resetPassword", element: <ResetPasswordView /> },
 

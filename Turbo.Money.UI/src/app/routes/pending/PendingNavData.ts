@@ -1,4 +1,4 @@
-import { IMenuData } from "components/menu/IMenuData";
+import { IMenuData } from "src/controls/menu/IMenuData";
 
 export default function PublicNavData(): IMenuData {
 

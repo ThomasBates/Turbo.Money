@@ -1,7 +1,7 @@
-import { getRandomString } from "services/tools/tools";
+import { combineStyles, getRandomString } from "services/tools/tools";
 
 import { IMenuDataText } from "./IMenuData";
-import IMenuStyle, { combineStyles } from "./IMenuStyle";
+import IMenuStyle from "./IMenuStyle";
 
 interface IProps {
     style: IMenuStyle;
