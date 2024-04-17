@@ -179,26 +179,3 @@ body {
 .tb-footer-links {
     float: right;
 }
-
-/* SOCIAL LINKS ------------------------------------------------------------- */
-
-.tb-social-links {
-}
-
-.tb-social-link {
-    padding: 4px;
-}
-
-@media (hover:hover) and (pointer:fine) {
-    .tb-social-link img {
-        filter: grayscale(1);
-        width: 24px;
-        margin: 3px;
-    }
-
-    .tb-social-link:hover img {
-        filter: grayscale(0);
-        width: 30px;
-        margin: 0;
-    }
-}

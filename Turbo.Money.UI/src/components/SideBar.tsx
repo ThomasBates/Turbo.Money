@@ -1,6 +1,4 @@
 
-import SocialLinks from './SocialLinks';
-
 export default function SideBar() {
 
     return (

@@ -1,4 +1,10 @@
 
+import ICommonStyle from "pages/common/views/ICommonStyle";
+
+import styleModule from './SocialLinks.module.css';
+
+const style = styleModule as ICommonStyle;
+
 interface ILinkProps {
     icon: string;
     href: string;
@@ -6,8 +12,8 @@ interface ILinkProps {
 
 function SocialLink({ icon, href }: ILinkProps) {
     return (
-        <a className="tb-social-link" target="_blank" href={href} >
-            <img src={`/assets/icons/logos/${icon}.png`} alt={icon} width="24" />
+        <a target="_blank" href={href} >
+            <img className={style[icon]} />
         </a>
     );
 }
@@ -18,7 +24,7 @@ interface IProps {
 
 export default function SocialLinks({ className }: IProps) {
     return (
-        <div className={"tb-social-links " + className}>
+        <div className={className}>
             <SocialLink icon="twitterx"  href="https://twitter.com/RoboTurbo2"/>
             <SocialLink icon="wordpress" href="https://turbobutterfly.wordpress.com/"/>
             <SocialLink icon="youtube"   href="https://www.youtube.com/@turbobutterfly1974/videos"/>

@@ -1,0 +1,95 @@
+
+.twitterx {
+    content: url(/assets/icons/logos/twitterx.png);
+    filter: invert();
+}
+
+.wordpress {
+    content: url(/assets/icons/logos/wordpress.png);
+}
+
+.youtube {
+    content: url(/assets/icons/logos/youtube.png);
+}
+
+.instagram {
+    content: url(/assets/icons/logos/instagram.png);
+}
+
+.facebook {
+    content: url(/assets/icons/logos/facebook.png);
+}
+
+@media (hover:hover) and (pointer:fine) {
+    .twitterx {
+        content: url(/assets/icons/logos/twitterx.png);
+        filter: grayscale(1);
+        filter: invert();
+        width: 24px;
+        margin: 3px;
+    }
+
+        .twitterx:hover {
+            content: url(/assets/icons/logos/twitterx.png);
+            filter: grayscale(0);
+            filter: invert();
+            width: 30px;
+            margin: 0;
+        }
+
+    .wordpress {
+        content: url(/assets/icons/logos/wordpress.png);
+        filter: grayscale(1);
+        width: 24px;
+        margin: 3px;
+    }
+
+        .wordpress:hover {
+            content: url(/assets/icons/logos/wordpress.png);
+            filter: grayscale(0);
+            width: 30px;
+            margin: 0;
+        }
+
+    .youtube {
+        content: url(/assets/icons/logos/youtube.png);
+        filter: grayscale(1);
+        width: 24px;
+        margin: 3px;
+    }
+
+        .youtube:hover {
+            content: url(/assets/icons/logos/youtube.png);
+            filter: grayscale(0);
+            width: 30px;
+            margin: 0;
+        }
+
+    .instagram {
+        content: url(/assets/icons/logos/instagram.png);
+        filter: grayscale(1);
+        width: 24px;
+        margin: 3px;
+    }
+
+        .instagram:hover {
+            content: url(/assets/icons/logos/instagram.png);
+            filter: grayscale(0);
+            width: 30px;
+            margin: 0;
+        }
+
+    .facebook {
+        content: url(/assets/icons/logos/facebook.png);
+        filter: grayscale(1);
+        width: 24px;
+        margin: 3px;
+    }
+
+        .facebook:hover {
+            content: url(/assets/icons/logos/facebook.png);
+            filter: grayscale(0);
+            width: 30px;
+            margin: 0;
+        }
+}
