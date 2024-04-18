@@ -27,9 +27,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // -----------------------------------------------------------------------------
 // Bootstrapper:
-const loggerProvider = require("./src/lib/logger/loggerConsoleProvider")();
-const logger = require("./src/lib/logger/logger")(loggerProvider);
-const errors = require("./src/lib/errors/errors")(logger);
+const loggerProvider = require("./src/services/logger/loggerConsoleProvider")();
+const logger = require("./src/services/logger/logger")(loggerProvider);
+const errors = require("./src/services/errors/errors")(logger);
 
 logger.enableSeverity('verbose');
 logger.enableCategory('all');

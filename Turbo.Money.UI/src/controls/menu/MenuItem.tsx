@@ -1,14 +1,14 @@
 
-import { IMenuDataItem } from "./IMenuData";
-import IMenuStyle from "./IMenuStyle";
+import ICommonStyle from "common/views/ICommonStyle";
 
+import { IMenuDataItem } from "./IMenuData";
 import MenuList from "./MenuList";
 import MenuBack from "./MenuBack";
 import MenuLink from "./MenuLink";
 import MenuText from "./MenuText";
 
 interface IProps {
-    style: IMenuStyle;
+    style: ICommonStyle;
     item: IMenuDataItem;
     top: boolean;
     hover: boolean;

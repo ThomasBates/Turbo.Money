@@ -1,13 +1,13 @@
-
 import { useNavigate } from "react-router-dom";
+
+import ICommonStyle from "common/views/ICommonStyle";
 
 import { combineStyles, getRandomString } from "services/tools/tools";
 
 import { IMenuDataItem, IMenuDataLink } from "./IMenuData";
-import IMenuStyle from "./IMenuStyle";
 
 interface IProps {
-    style: IMenuStyle;
+    style: ICommonStyle;
     item: IMenuDataLink;
     onItemSelected: null | ((item: IMenuDataItem) => void);
 }

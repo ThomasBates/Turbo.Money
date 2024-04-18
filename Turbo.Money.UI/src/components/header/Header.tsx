@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
-import { IMenuData } from "src/controls/menu/IMenuData";
-import Menu from "src/controls/menu/Menu";
+import { IMenuData } from "controls/menu/IMenuData";
+import Menu from "controls/menu/Menu";
 
-import headerStyle from './Header.module.css';
+import styleModule from './Header.module.css';
 
 interface IProps {
     headerData: IMenuData
@@ -23,7 +23,7 @@ export default function Header({ headerData }: IProps) {
     }, []);
 
     return (
-        <Menu menuData={headerData} customStyle={headerStyle} hover={hover} wide={wide} />
+        <Menu menuData={headerData} customStyle={styleModule} hover={hover} wide={wide} />
     );
 }
 

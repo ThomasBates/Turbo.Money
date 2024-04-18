@@ -1,7 +1,7 @@
 
-import ICommonItem from "../common/ICommonItem";
+import IModelItem from "common/models/IModelItem";
 
-export default interface IBankBank extends ICommonItem{
+export default interface IBankBank extends IModelItem{
     description: string;
     number: string;
     branch: string;

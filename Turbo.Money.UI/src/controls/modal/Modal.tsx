@@ -1,7 +1,8 @@
 import { ReactNode } from "react";
 
+import ICommonStyle from "common/views/ICommonStyle";
+
 import styleModule from "./Modal.module.css";
-import ICommonStyle from "pages/common/views/ICommonStyle";
 
 //  https://deadsimplechat.com/blog/creating-a-reusable-pop-up-modal-in-react-from-scratch/
 

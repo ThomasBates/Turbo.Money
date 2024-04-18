@@ -1,6 +1,6 @@
-import ICommonItem from "../common/ICommonItem";
+import IModelItem from "common/models/IModelItem";
 
-export default interface IBudgetSection extends ICommonItem {
+export default interface IBudgetSection extends IModelItem {
     description: string;
     direction: string;
 }

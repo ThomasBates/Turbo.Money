@@ -1,17 +1,13 @@
-
 import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom';
-
-//  ----------------------------------------------------------------------------
 
 import { AppContextType } from 'app/AppContextType';
 import { useAppContext } from 'app/AppContextAccess';
+
 import { SignInStatus } from 'services/user/IUserService';
 
 import PendingRouteData from './pending/PendingRouteData';
 import PublicRouteData from './public/PublicRouteData';
 import PrivateRouteData from './private/PrivateRouteData';
-
-//  ----------------------------------------------------------------------------
 
 const routeMap: Record<SignInStatus, (app: AppContextType) => RouteObject[]> = {
     [SignInStatus.Pending]: PendingRouteData,

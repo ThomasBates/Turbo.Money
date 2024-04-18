@@ -1,16 +1,18 @@
 
 module.exports = (logger, errors, business) => {
     return {
-        users: require("./UserController")(logger, errors, business.user),
+        //  Basic CRUD
+        bankBank: require("./basic/BankBankController")(logger, errors, business.bankBank),
+        bankAccount: require("./basic/BankAccountController")(logger, errors, business.bankAccount),
+        bankTransaction: require("./basic/BankTransactionController")(logger, errors, business.bankTransaction),
 
-        bankBank: require("./BankBankController")(logger, errors, business.bankBank),
-        bankAccount: require("./BankAccountController")(logger, errors, business.bankAccount),
-        bankTransaction: require("./BankTransactionController")(logger, errors, business.bankTransaction),
-        bank: require("./BankController")(logger, errors, business.bank),
+        budgetSection: require("./basic/BudgetSectionController")(logger, errors, business.budgetSection),
+        budgetCategory: require("./basic/BudgetCategoryController")(logger, errors, business.budgetCategory),
+        budgetAccount: require("./basic/BudgetAccountController")(logger, errors, business.budgetAccount),
 
-        budgetSection: require("./BudgetSectionController")(logger, errors, business.budgetSection),
-        budgetCategory: require("./BudgetCategoryController")(logger, errors, business.budgetCategory),
-        budgetAccount: require("./BudgetAccountController")(logger, errors, business.budgetAccount),
-        budget: require("./BudgetController")(logger, errors, business.budget),
+        //  Services
+        bank: require("./services/BankController")(logger, errors, business.bank),
+        budget: require("./services/BudgetController")(logger, errors, business.budget),
+        user: require("./services/UserController")(logger, errors, business.user),
     };
 };

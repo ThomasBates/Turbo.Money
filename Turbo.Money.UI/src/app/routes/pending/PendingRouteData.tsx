@@ -13,7 +13,7 @@ import NavBar from 'components/navBar/NavBar';
 import SideBar from 'components/SideBar';
 import Footer from 'components/Footer';
 
-import AuthCallback from "pages/auth/AuthCallback";
+import AuthCallback from "pages/services/auth/views/AuthCallback";
 
 import About from 'pages/app/About';
 import NotFound from 'pages/app/NotFound';

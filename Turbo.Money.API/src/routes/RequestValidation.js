@@ -2,7 +2,7 @@
 
 // Verify auth
 module.exports = function RequestValidation(logger, errors) {
-    const module = 'RequestValidation';
+    const module = RequestValidation.name;
     const category = 'User';
 
     const validateUserCookie = (req, res, next) => {

@@ -14,18 +14,18 @@ import NavBar from 'components/navBar/NavBar';
 import SideBar from 'components/SideBar';
 import Footer from 'components/Footer';
 
-import AuthCallback from "pages/auth/AuthCallback";
+import AuthCallback from "pages/services/auth/views/AuthCallback";
 
-import SignUpEmailViewModel from 'pages/auth/viewModels/SignUpEmailViewModel';
-import SignUpEmailView from 'pages/auth/views/SignUpEmailView';
+import SignUpEmailViewModel from 'pages/services/auth/viewModels/SignUpEmailViewModel';
+import SignUpEmailView from 'pages/services/auth/views/SignUpEmailView';
 
-import SignInEmailViewModel from 'pages/auth/viewModels/SignInEmailViewModel';
-import SignInEmailView from 'pages/auth/views/SignInEmailView';
-import ResetPasswordView from 'pages/auth/views/ResetPasswordView';
+import SignInEmailViewModel from 'pages/services/auth/viewModels/SignInEmailViewModel';
+import SignInEmailView from 'pages/services/auth/views/SignInEmailView';
+import ResetPasswordView from 'pages/services/auth/views/ResetPasswordView';
 
-import PostDataProvider from 'data/post/PostDataProvider';
-import PublicViewModel from 'pages/public/viewModels/PublicViewModel';
-import PublicView from 'pages/public/views/PublicView';
+import PostDataProvider from 'data/axios/services/PostDataProvider';
+import PublicViewModel from 'pages/app/public/viewModels/PublicViewModel';
+import PublicView from 'pages/app/public/views/PublicView';
 
 import About from 'pages/app/About';
 

@@ -9,7 +9,7 @@ import LoggerService from 'services/logger/LoggerService';
 import IErrorService from 'services/errors/IErrorService';
 import ErrorService from 'services/errors/ErrorService';
 
-import AuthDataProvider from 'data/auth/AuthDataProvider';
+import AuthDataProvider from 'data/axios/services/AuthDataProvider';
 import IUserService from 'services/user/IUserService';
 import UserService from 'services/user/UserService';
 

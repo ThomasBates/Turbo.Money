@@ -9,6 +9,7 @@
     "baseUrl": "./",
     "paths": {
       "app/*": [ "src/app/*" ],
+      "common/*": [ "src/common/*" ],
       "components/*": [ "src/components/*" ],
       "controls/*": [ "src/controls/*" ],
       "data/*": [ "src/data/*" ],

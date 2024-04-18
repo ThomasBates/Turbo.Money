@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
-import { IMenuData } from "src/controls/menu/IMenuData";
-import Menu from "src/controls/menu/Menu";
+import { IMenuData } from "controls/menu/IMenuData";
+import Menu from "controls/menu/Menu";
 
-import navBarStyle from './NavBar.module.css';
+import styleModule from './NavBar.module.css';
 
 interface IProps {
     navData: IMenuData
@@ -23,6 +23,6 @@ export default function NavBar({ navData }: IProps) {
     });
 
     return (
-        <Menu menuData={navData} customStyle={navBarStyle} hover={hover} wide={wide} />
+        <Menu menuData={navData} customStyle={styleModule} hover={hover} wide={wide} />
     );
 }

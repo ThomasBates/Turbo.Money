@@ -1,7 +1,8 @@
 
-import { IMenuData } from "src/controls/menu/IMenuData";
-import BankDataProvider from 'data/bank/BankDataProvider';
-import BudgetDataProvider from 'data/budget/BudgetDataProvider';
+import { IMenuData } from "controls/menu/IMenuData";
+
+import BankDataProvider from 'data/axios/services/BankDataProvider';
+import BudgetDataProvider from 'data/axios/services/BudgetDataProvider';
 
 export default function PrivateNavData(): IMenuData {
 

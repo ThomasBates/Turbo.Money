@@ -1,15 +1,15 @@
-
 import { useEffect, useRef, useState } from "react";
+
+import ICommonStyle from "common/views/ICommonStyle";
 
 import { combineStyles, getRandomString } from "services/tools/tools";
 
 import MenuItem from "./MenuItem";
 import { IMenuDataList, IMenuDataItem } from "./IMenuData";
-import IMenuStyle from "./IMenuStyle";
 
 
 interface IProps {
-    style: IMenuStyle;
+    style: ICommonStyle;
     item: IMenuDataList;
     top: boolean;
     hover: boolean;

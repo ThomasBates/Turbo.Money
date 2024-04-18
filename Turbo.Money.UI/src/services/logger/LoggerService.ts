@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import ILoggerProvider from './ILoggerProvider';
-import ILogger from './ILoggerService';
+import ILoggerService from './ILoggerService';
 
-export default function LoggerService(provider: ILoggerProvider): ILogger {
+export default function LoggerService(provider: ILoggerProvider): ILoggerService {
 
     const levels: Record<string, number> = {
         error: 0,

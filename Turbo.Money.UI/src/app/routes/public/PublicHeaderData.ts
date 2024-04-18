@@ -1,5 +1,5 @@
 
-import { IMenuData } from "src/controls/menu/IMenuData";
+import { IMenuData } from "controls/menu/IMenuData";
 import IUserService from 'services/user/IUserService';
 
 export default function PublicHeaderData(users: IUserService): IMenuData {

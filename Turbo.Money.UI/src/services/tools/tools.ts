@@ -1,5 +1,5 @@
 
-import ICommonStyle from "pages/common/views/ICommonStyle";
+import ICommonStyle from "common/views/ICommonStyle";
 
 export function getRandomString(size: number) {
 
@@ -12,9 +12,11 @@ export function getRandomString(size: number) {
     return result;
 }
 
-export function mergeStyles(customStyle: ICommonStyle, defaultStyle: ICommonStyle) {
+export function mergeStyles(customStyle: ICommonStyle | undefined, defaultStyle: ICommonStyle | undefined): ICommonStyle {
     if (!customStyle)
-        return defaultStyle;
+        return defaultStyle || {};
+    if (!defaultStyle)
+        return customStyle;
 
     const mergedStyle: ICommonStyle = {}
 

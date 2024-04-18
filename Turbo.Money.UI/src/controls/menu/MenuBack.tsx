@@ -1,11 +1,12 @@
 
+import ICommonStyle from "common/views/ICommonStyle";
+
 import { combineStyles, getRandomString } from "services/tools/tools";
 
 import { IMenuDataBack, IMenuDataItem } from "./IMenuData";
-import IMenuStyle from "./IMenuStyle";
 
 interface IProps {
-    style: IMenuStyle;
+    style: ICommonStyle;
     item: IMenuDataBack;
     onListSelected: null | ((item: IMenuDataItem | null) => void);
 }

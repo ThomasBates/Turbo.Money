@@ -1,5 +1,5 @@
 
-import ICommonStyle from "pages/common/views/ICommonStyle";
+import ICommonStyle from "common/views/ICommonStyle";
 
 import styleModule from './SocialLinks.module.css';
 

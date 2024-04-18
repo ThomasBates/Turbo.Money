@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 
-import IAuthDataProvider, { ISignInUrlResult, ISignInResult } from 'data/auth/IAuthDataProvider';
+import IAuthDataProvider, { ISignInUrlResult, ISignInResult } from 'data/interfaces/services/IAuthDataProvider';
 
 import IUserInfo from 'models/user/IUserInfo';
 
-import ILoggerService from 'services/logger/ILoggerService';
 import IErrorService, { IErrorInfo } from 'services/errors/IErrorService';
+import ILoggerService from 'services/logger/ILoggerService';
 
 import IUserService, { SignInStatus } from './IUserService';
 

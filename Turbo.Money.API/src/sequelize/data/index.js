@@ -1,20 +1,18 @@
 
 module.exports = (logger, errors, db) => {
-
-    const userData = require("./UserData")(logger, errors, db.user);
-
     return {
-        user: userData,
+        //  Basic CRUD
+        bankBank: require("./basic/BankBankData")(logger, errors, db.bank.bank),
+        bankAccount: require("./basic/BankAccountData")(logger, errors, db.bank.account),
+        bankTransaction: require("./basic/BankTransactionData")(logger, errors, db.bank.transaction),
 
-        bankBank: require("./BankBankData")(logger, errors, db.bank.bank),
-        bankAccount: require("./BankAccountData")(logger, errors, db.bank.account),
-        bankTransaction: require("./BankTransactionData")(logger, errors, db.bank.transaction),
-        bank: require("./BankData")(logger, errors, db.bank),
+        budgetSection: require("./basic/BudgetSectionData")(logger, errors, db.budget.section),
+        budgetCategory: require("./basic/BudgetCategoryData")(logger, errors, db.budget.category),
+        budgetAccount: require("./basic/BudgetAccountData")(logger, errors, db.budget.account),
 
-        budgetSection: require("./BudgetSectionData")(logger, errors, db.budget.section),
-        budgetCategory: require("./BudgetCategoryData")(logger, errors, db.budget.category),
-        budgetAccount: require("./BudgetAccountData")(logger, errors, db.budget.account),
-        budget: require("./BudgetData")(logger, errors, db.budget),
-
+        //  Services
+        bank: require("./services/BankData")(logger, errors, db.bank),
+        budget: require("./services/BudgetData")(logger, errors, db.budget),
+        user: require("./services/UserData")(logger, errors, db.user),
     };
 };

@@ -12,40 +12,40 @@ import NavBar from 'components/navBar/NavBar';
 import SideBar from 'components/SideBar';
 import Footer from 'components/Footer';
 
-import PostDataProvider from 'data/post/PostDataProvider';
-import DashboardViewModel from 'pages/dashboard/viewModels/DashboardViewModel';
-import DashboardView from 'pages/dashboard/views/DashboardView';
+import PostDataProvider from 'data/axios/services/PostDataProvider';
+import DashboardViewModel from 'pages/app/dashboard/viewModels/DashboardViewModel';
+import DashboardView from 'pages/app/dashboard/views/DashboardView';
 
-import BankWorksheetViewModel from 'pages/bank/bankWorksheet/viewModels/BankWorksheetViewModel';
-import BankWorksheetView from 'pages/bank/bankWorksheet/views/BankWorksheetView';
+import BankWorksheetViewModel from 'pages/worksheets/bankWorksheet/viewModels/BankWorksheetViewModel';
+import BankWorksheetView from 'pages/worksheets/bankWorksheet/views/BankWorksheetView';
 
-import BudgetWorksheetViewModel from 'pages/budget/budgetWorksheet/viewModels/BudgetWorksheetViewModel';
-import BudgetWorksheetView from 'pages/budget/budgetWorksheet/views/BudgetWorksheetView';
+import BudgetWorksheetViewModel from 'pages/worksheets/budgetWorksheet/viewModels/BudgetWorksheetViewModel';
+import BudgetWorksheetView from 'pages/worksheets/budgetWorksheet/views/BudgetWorksheetView';
 
-import BudgetView from 'pages/budget/BudgetView';
+import BudgetView from 'pages/worksheets/BudgetView';
 
-import TransactionEntry from 'pages/bank/TransactionEntry';
+import TransactionEntry from 'pages/services/TransactionEntry';
 
-import BankTransactionUploadViewModel from 'pages/bank/bankTransactions/viewModels/BankTransactionUploadViewModel';
-import BankTransactionUploadView from 'pages/bank/bankTransactions/views/BankTransactionUploadView';
+import BankTransactionUploadViewModel from 'pages/services/bankTransactions/viewModels/BankTransactionUploadViewModel';
+import BankTransactionUploadView from 'pages/services/bankTransactions/views/BankTransactionUploadView';
 
 import ReportByPeriod from 'pages/reports/views/ReportByPeriod';
 import ReportByAccount from 'pages/reports/views/ReportByAccount';
 
-import BankBankViewModel from 'pages/bank/bankBank/viewModels/BankBankViewModel';
-import BankBankView from 'pages/bank/bankBank/views/BankBankView';
+import BankBankViewModel from 'pages/basic/bankBank/viewModels/BankBankMainViewModel';
+import BankBankMainView from 'pages/basic/bankBank/views/BankBankMainView';
 
-import BankAccountViewModel from 'pages/bank/bankAccount/viewModels/BankAccountViewModel';
-import BankAccountView from 'pages/bank/bankAccount/views/BankAccountView';
+import BankAccountMainViewModel from 'pages/basic/bankAccount/viewModels/BankAccountMainViewModel';
+import BankAccountMainView from 'pages/basic/bankAccount/views/BankAccountMainView';
 
-import BudgetSectionViewModel from 'pages/budget/budgetSection/viewModels/BudgetSectionViewModel';
-import BudgetSectionView from 'pages/budget/budgetSection/views/BudgetSectionView';
+import BudgetSectionMainViewModel from 'pages/basic/budgetSection/viewModels/BudgetSectionMainViewModel';
+import BudgetSectionMainView from 'pages/basic/budgetSection/views/BudgetSectionMainView';
 
-import BudgetCategoryViewModel from 'pages/budget/budgetCategory/viewModels/BudgetCategoryViewModel';
-import BudgetCategoryView from 'pages/budget/budgetCategory/views/BudgetCategoryView';
+import BudgetCategoryMainViewModel from 'pages/basic/budgetCategory/viewModels/BudgetCategoryMainViewModel';
+import BudgetCategoryMainView from 'pages/basic/budgetCategory/views/BudgetCategoryMainView';
 
-import BudgetAccountViewModel from 'pages/budget/budgetAccount/viewModels/BudgetAccountViewModel';
-import BudgetAccountView from 'pages/budget/budgetAccount/views/BudgetAccountView';
+import BudgetAccountMainViewModel from 'pages/basic/budgetAccount/viewModels/BudgetAccountMainViewModel';
+import BudgetAccountMainView from 'pages/basic/budgetAccount/views/BudgetAccountMainView';
 
 import About from 'pages/app/About';
 import NotFound from 'pages/app/NotFound';
@@ -70,7 +70,7 @@ export default function PrivateRouteData(app: AppContextType) {
             </div>,
         children: [
             //  home
-            { path: "/", element: < BudgetAccountView dataContext={() => BudgetAccountViewModel()} /> },
+            { path: "/", element: < BudgetAccountMainView dataContext={() => BudgetAccountMainViewModel()} /> },
 
             //  dashboard
             {
@@ -93,12 +93,12 @@ export default function PrivateRouteData(app: AppContextType) {
 
             //  Setup
             { path: "/BankWorksheet", element: <BankWorksheetView dataContext = { () => BankWorksheetViewModel() } /> },
-            { path: "/BankBankView", element: < BankBankView dataContext={() => BankBankViewModel()} /> },
-            { path: "/BankAccountView", element: < BankAccountView dataContext={() => BankAccountViewModel()} /> },
+            { path: "/BankBankView", element: < BankBankMainView dataContext={() => BankBankViewModel()} /> },
+            { path: "/BankAccountView", element: < BankAccountMainView dataContext={() => BankAccountMainViewModel()} /> },
 
-            { path: "/BudgetSectionView", element: < BudgetSectionView dataContext={() => BudgetSectionViewModel()} /> },
-            { path: "/BudgetCategoryView", element: < BudgetCategoryView dataContext={() => BudgetCategoryViewModel()} /> },
-            { path: "/BudgetAccountView", element: < BudgetAccountView dataContext={() => BudgetAccountViewModel()} /> },
+            { path: "/BudgetSectionView", element: < BudgetSectionMainView dataContext={() => BudgetSectionMainViewModel()} /> },
+            { path: "/BudgetCategoryView", element: < BudgetCategoryMainView dataContext={() => BudgetCategoryMainViewModel()} /> },
+            { path: "/BudgetAccountView", element: < BudgetAccountMainView dataContext={() => BudgetAccountMainViewModel()} /> },
 
             //  about
             { path: "/about", element: <About /> },
