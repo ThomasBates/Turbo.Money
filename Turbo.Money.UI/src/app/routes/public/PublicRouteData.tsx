@@ -1,10 +1,6 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-import { AppContextType } from 'app/AppContextType';
-
 //  ----------------------------------------------------------------------------
-
-import { useAppContext } from 'app/AppContextAccess';
 
 import PublicHeaderData from './PublicHeaderData';
 import PublicNavData from './PublicNavData';
@@ -28,25 +24,31 @@ import PublicViewModel from 'pages/app/public/viewModels/PublicViewModel';
 import PublicView from 'pages/app/public/views/PublicView';
 
 import About from 'pages/app/About';
+import ILoggerService from '../../../services/logger/ILoggerService';
+import IErrorService from '../../../services/errors/IErrorService';
+import IUserService from '../../../services/user/IUserService';
 
 
 //  ----------------------------------------------------------------------------
 
-function NotFoundRedirect() {
+function NotFoundRedirect({ logger }: { logger: ILoggerService }) {
     const location = useLocation();
-    const { logger } = useAppContext();
 
     logger.debug('NotFound', 'PublicRouteData.NotFoundRedirect', 'location =', location);
 
     return <Navigate to="/" replace state={{ from: location }} />;
 }
 
-export default function PublicRouteData(app: AppContextType) {
+export default function PublicRouteData(
+    userService: IUserService,
+    loggerService: ILoggerService,
+    errorService: IErrorService
+) {
 
     return [{
         element:
             <div>
-                <Header headerData={PublicHeaderData(app.users)} />
+                <Header headerData={PublicHeaderData(userService)} />
                 <NavBar navData={PublicNavData()} />
                 <div className="tb-content">
                     <SideBar />
@@ -62,10 +64,10 @@ export default function PublicRouteData(app: AppContextType) {
                 path: "/",
                 element: <PublicView dataContext={() =>
                     PublicViewModel(
-                        app.logger,
+                        loggerService,
                         PostDataProvider(
-                            app.logger,
-                            app.errors
+                            loggerService,
+                            errorService
                         )
                     )
                 } />
@@ -75,14 +77,28 @@ export default function PublicRouteData(app: AppContextType) {
             { path: '/auth_callback', element: <AuthCallback /> },
             { path: '/auth/callback_google_signin', element: <AuthCallback /> },  // google will redirect here
 
-            { path: "/signUpEmail", element: <SignUpEmailView dataContext={() => SignUpEmailViewModel()} /> },
-            { path: "/signInEmail", element: <SignInEmailView dataContext={() => SignInEmailViewModel()} /> },
+            {
+                path: "/signUpEmail",
+                element: <SignUpEmailView dataContext={() =>
+                    SignUpEmailViewModel(
+                        userService
+                    )
+                } />
+            },
+            {
+                path: "/signInEmail",
+                element: <SignInEmailView dataContext={() =>
+                    SignInEmailViewModel(
+                        userService
+                    )
+                } />
+            },
 
             { path: "/resetPassword", element: <ResetPasswordView /> },
 
             //  about
             { path: "/about", element: <About /> },
-            { path: "*", element: <NotFoundRedirect /> },
+            { path: "*", element: <NotFoundRedirect logger={loggerService} /> },
         ],
     }];
 }

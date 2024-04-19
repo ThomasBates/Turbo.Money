@@ -8,16 +8,18 @@ import IBankAccount from "models/bank/IBankAccount";
 import IBankBank from "models/bank/IBankBank";
 
 import BasicMainViewModel from "pages/basic/common/viewModels/BasicMainViewModel";
-import IBasicModeViewModelProps from "pages/basic/common/viewModels/IBasicModeViewModelProps";
 import IBasicMainViewModel from "pages/basic/common/viewModels/IBasicMainViewModel";
+import IBasicModeViewModelProps from "pages/basic/common/viewModels/IBasicModeViewModelProps";
 
 import ILoggerService from "services/logger/ILoggerService";
+import IErrorService from "services/errors/IErrorService";
 
 import BankAccountDetailsViewModel from "./BankAccountDetailsViewModel";
 import BankAccountEditViewModel from "./BankAccountEditViewModel";
 
 export default function BankAccountMainViewModel(
     logger: ILoggerService,
+    errorService: IErrorService,
     bankAccountDataProvider: IBasicDataProvider<IBankAccount>,
     bankBankDataProvider: IBasicDataProvider<IBankBank>
 ): IBasicMainViewModel {
@@ -66,13 +68,17 @@ export default function BankAccountMainViewModel(
         return BankAccountEditViewModel({ ...props, parentList: banks });
     };
 
-    return BasicMainViewModel({
-        title: "Bank Accounts",
-        modeTitle: "Bank Account",
-        entity: "BankAccount",
-        dataProvider: bankAccountDataProvider,
-        initialItem: initialAccount,
+    return BasicMainViewModel(
+        logger,
+        errorService,
+        bankAccountDataProvider,
+
+        "Bank Accounts",
+        "Bank Account",
+        "BankAccount",
+
+        initialAccount,
         detailsViewModel,
         editViewModel
-    });
+    );
 }

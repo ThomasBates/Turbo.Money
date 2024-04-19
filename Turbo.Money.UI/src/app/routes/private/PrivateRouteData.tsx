@@ -1,6 +1,4 @@
-import { Outlet } from 'react-router-dom';
-
-import { AppContextType } from 'app/AppContextType';
+import { Outlet, RouteObject } from 'react-router-dom';
 
 //  ----------------------------------------------------------------------------
 
@@ -61,15 +59,22 @@ import BudgetAccountMainView from 'pages/basic/budgetAccount/views/BudgetAccount
 import About from 'pages/app/About';
 import NotFound from 'pages/app/NotFound';
 
+import ILoggerService from 'services/logger/ILoggerService';
+import IErrorService from 'services/errors/IErrorService';
+import IUserService from 'services/user/IUserService';
+
 //  ----------------------------------------------------------------------------
 
-export default function PrivateRouteData(app: AppContextType) {
+export default function PrivateRouteData(
+    userService: IUserService,
+    loggerService: ILoggerService,
+    errorService: IErrorService
+): RouteObject[] {
 
     return [{
         element:
             <div>
-                {/*<PrivateHeaderView viewModel={PrivateHeaderViewModel(HeaderDataProvider())} />*/}
-                <Header headerData={PrivateHeaderData(app.users)} />
+                <Header headerData={PrivateHeaderData(userService)} />
                 <NavBar navData={PrivateNavData()} />
                 <div className="tb-content">
                     <SideBar />
@@ -85,7 +90,8 @@ export default function PrivateRouteData(app: AppContextType) {
                 path: "/",
                 element: < BudgetAccountMainView dataContext={() =>
                     BudgetAccountMainViewModel(
-                        app.logger,
+                        loggerService,
+                        errorService,
                         BudgetAccountDataProvider,
                         BudgetCategoryDataProvider)} />
             },
@@ -96,11 +102,11 @@ export default function PrivateRouteData(app: AppContextType) {
                 element: <DashboardView
                     dataContext={() =>
                         DashboardViewModel(
-                            app.logger,
-                            app.users,
+                            loggerService,
+                            userService,
                             PostDataProvider(
-                                app.logger,
-                                app.errors)
+                                loggerService,
+                                errorService)
                         )
                     }
                 />
@@ -111,9 +117,9 @@ export default function PrivateRouteData(app: AppContextType) {
                 path: "/BudgetWorksheetView",
                 element: < BudgetWorksheetView dataContext={() =>
                     BudgetWorksheetViewModel(
-                        app.logger,
+                        loggerService,
                         BudgetWorksheetDataService(
-                            app.logger,
+                            loggerService,
                             BudgetAccountDataProvider,
                             BudgetCategoryDataProvider,
                             BudgetSectionDataProvider
@@ -137,7 +143,7 @@ export default function PrivateRouteData(app: AppContextType) {
                     BankTransactionUploadViewModel(
                         BankTransactionDataService(
                             BankTransactionDataProvider(
-                                app.logger
+                                loggerService
                             )
                         )
                     )
@@ -159,9 +165,9 @@ export default function PrivateRouteData(app: AppContextType) {
                 path: "/BankWorksheet",
                 element: <BankWorksheetView dataContext={() =>
                     BankWorksheetViewModel(
-                        app.logger,
+                        loggerService,
                         BankWorksheetDataService(
-                            app.logger,
+                            loggerService,
                             BankAccountDataProvider,
                             BankBankDataProvider
                         )
@@ -172,6 +178,8 @@ export default function PrivateRouteData(app: AppContextType) {
                 path: "/BankBankView",
                 element: < BankBankMainView dataContext={() =>
                     BankBankViewModel(
+                        loggerService,
+                        errorService,
                         BankBankDataProvider
                     )
                 } />
@@ -180,7 +188,8 @@ export default function PrivateRouteData(app: AppContextType) {
                 path: "/BankAccountView",
                 element: < BankAccountMainView dataContext={() =>
                     BankAccountMainViewModel(
-                        app.logger,
+                        loggerService,
+                        errorService,
                         BankAccountDataProvider,
                         BankBankDataProvider
                     )
@@ -191,6 +200,8 @@ export default function PrivateRouteData(app: AppContextType) {
                 path: "/BudgetSectionView",
                 element: < BudgetSectionMainView dataContext={() =>
                     BudgetSectionMainViewModel(
+                        loggerService,
+                        errorService,
                         BudgetSectionDataProvider
                     )
                 } />
@@ -199,7 +210,8 @@ export default function PrivateRouteData(app: AppContextType) {
                 path: "/BudgetCategoryView",
                 element: < BudgetCategoryMainView dataContext={() =>
                     BudgetCategoryMainViewModel(
-                        app.logger,
+                        loggerService,
+                        errorService,
                         BudgetCategoryDataProvider,
                         BudgetSectionDataProvider
                     )
@@ -209,7 +221,8 @@ export default function PrivateRouteData(app: AppContextType) {
                 path: "/BudgetAccountView",
                 element: < BudgetAccountMainView dataContext={() =>
                     BudgetAccountMainViewModel(
-                        app.logger,
+                        loggerService,
+                        errorService,
                         BudgetAccountDataProvider,
                         BudgetCategoryDataProvider
                     )

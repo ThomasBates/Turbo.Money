@@ -6,10 +6,15 @@ import IBankBank from "models/bank/IBankBank";
 import BasicMainViewModel from "pages/basic/common/viewModels/BasicMainViewModel";
 import IBasicMainViewModel from "pages/basic/common/viewModels/IBasicMainViewModel";
 
+import ILoggerService from "services/logger/ILoggerService";
+import IErrorService from "services/errors/IErrorService";
+
 import BankDetailsViewModel from "./BankBankDetailsViewModel";
 import BankEditViewModel from "./BankBankEditViewModel";
 
 export default function BankBankMainViewModel(
+    logger: ILoggerService,
+    errorService: IErrorService,
     bankBankDataProvider: IBasicDataProvider<IBankBank>
 ): IBasicMainViewModel {
 
@@ -21,13 +26,17 @@ export default function BankBankMainViewModel(
         branch: ""
     };
 
-    return BasicMainViewModel({
-        title: "Banks",
-        modeTitle: "Bank",
-        entity: "BankBank",
-        dataProvider: bankBankDataProvider,
-        initialItem: initialBankBank,
-        detailsViewModel: BankDetailsViewModel,
-        editViewModel: BankEditViewModel
-    });
+    return BasicMainViewModel(
+        logger,
+        errorService,
+        bankBankDataProvider,
+
+        "Banks",
+        "Bank",
+        "BankBank",
+
+        initialBankBank,
+        BankDetailsViewModel,
+        BankEditViewModel
+    );
 }

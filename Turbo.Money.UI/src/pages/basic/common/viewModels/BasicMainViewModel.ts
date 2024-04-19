@@ -1,29 +1,34 @@
 import { useState, useEffect } from "react";
 
-import { useAppContext } from 'app/AppContextAccess';
-
 import IModelItem, { compareItems } from "common/models/IModelItem";
+
+import IBasicDataProvider from "data/interfaces/basic/IBasicDataProvider";
+
+import ILoggerService from "services/logger/ILoggerService";
+import IErrorService from "services/errors/IErrorService";
 
 import IBasicMainViewModel from "./IBasicMainViewModel";
 import IBasicModeViewModel from "./IBasicModeViewModel";
-import IBasicMainViewModelProps from "./IBasicMainViewModelProps";
+import IBasicDetailsViewModel from "./IBasicDetailsViewModel";
+import IBasicEditViewModel from "./IBasicEditViewModel";
+import IBasicModeViewModelProps from "./IBasicModeViewModelProps";
 
 export default function BasicMainViewModel(
-    {
-        title,
-        modeTitle,
-        entity,
-        dataProvider,
-        initialItem,
-        detailsViewModel,
-        editViewModel,
-    }: IBasicMainViewModelProps
+    logger: ILoggerService,
+    errors: IErrorService,
+    dataProvider: IBasicDataProvider<IModelItem>,
+
+    title: string,
+    modeTitle: string,
+    entity: string,
+    initialItem: IModelItem,
+
+    detailsViewModel: (props: IBasicModeViewModelProps) => IBasicDetailsViewModel,
+    editViewModel: (props: IBasicModeViewModelProps) => IBasicEditViewModel
 ): IBasicMainViewModel {
 
     const module = BasicMainViewModel.name;
-    const category = 'Common';
-
-    const { logger, errors } = useAppContext();
+    const category = 'Basic';
 
     const [list, setList] = useState<IModelItem[]>([]);
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);

@@ -12,12 +12,14 @@ import IBasicModeViewModelProps from "pages/basic/common/viewModels/IBasicModeVi
 import IBasicMainViewModel from "pages/basic/common/viewModels/IBasicMainViewModel";
 
 import ILoggerService from "services/logger/ILoggerService";
+import IErrorService from "services/errors/IErrorService";
 
 import BudgetAccountDetailsViewModel from "./BudgetAccountDetailsViewModel";
 import BudgetAccountEditViewModel from "./BudgetAccountEditViewModel";
 
 export default function BudgetAccountMainViewModel(
     logger: ILoggerService,
+    errorService: IErrorService,
     budgetAccountDataProvider: IBasicDataProvider<IBudgetAccount>,
     budgetCategoryDataProvider: IBasicDataProvider<IBudgetCategory>
 ): IBasicMainViewModel {
@@ -68,13 +70,17 @@ export default function BudgetAccountMainViewModel(
         return BudgetAccountEditViewModel({ ...props, parentList: categories });
     };
 
-    return BasicMainViewModel({
-        title: "Budget Accounts",
-        modeTitle: "Budget Account",
-        entity: "BudgetAccount",
-        dataProvider: budgetAccountDataProvider,
-        initialItem: initialBudgetAccount,
+    return BasicMainViewModel(
+        logger,
+        errorService,
+        budgetAccountDataProvider,
+
+        "Budget Accounts",
+        "Budget Account",
+        "BudgetAccount",
+
+        initialBudgetAccount,
         detailsViewModel,
         editViewModel
-    });
+    );
 }

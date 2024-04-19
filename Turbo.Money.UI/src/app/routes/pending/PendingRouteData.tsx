@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Outlet } from 'react-router-dom';
-
-import { AppContextType } from 'app/AppContextType';
 
 //  ----------------------------------------------------------------------------
 
@@ -18,14 +15,20 @@ import AuthCallback from "pages/services/auth/views/AuthCallback";
 import About from 'pages/app/About';
 import NotFound from 'pages/app/NotFound';
 
+import IUserService from 'services/user/IUserService';
+import ILoggerService from 'services/logger/ILoggerService';
+
 //  ----------------------------------------------------------------------------
 
-export default function PendingRouteData(app: AppContextType) {
+export default function PendingRouteData(
+    userService: IUserService,
+    loggerService: ILoggerService
+) {
 
     return [{
         element:
             <div>
-                <Header headerData={PendingHeaderData(app.users)} />
+                <Header headerData={PendingHeaderData(userService)} />
                 <NavBar navData={PendingNavData()} />
                 <div className="tb-content">
                     <SideBar />
@@ -36,9 +39,14 @@ export default function PendingRouteData(app: AppContextType) {
                 <Footer />
             </div>,
         children: [
-            // OAuth 2.0 sources will redirect here
-            { path: '/auth_callback', element: <AuthCallback /> },
-            { path: '/auth/callback_google_signin', element: <AuthCallback /> },  // google will redirect here
+            {
+                path: '/auth_callback',     // OAuth 2.0 sources will redirect here
+                element: <AuthCallback logger={loggerService} userService={userService}  />
+            },
+            {
+                path: '/auth/callback_google_signin',   // google will redirect here
+                element: <AuthCallback logger={loggerService} userService={userService} />
+            },  
 
             //  about
             { path: "/", element: <About /> },

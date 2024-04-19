@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { NavigateFunction } from 'react-router-dom';
 
-import { useAppContext } from 'app/AppContextAccess';
+import IUserService from 'services/user/IUserService';
 
 import ISignUpEmailViewModel from './ISignUpEmailViewModel';
 
-export default function SignUpEmailViewModel(): ISignUpEmailViewModel {
-    const { users } = useAppContext();
+export default function SignUpEmailViewModel(
+    userService: IUserService
+): ISignUpEmailViewModel {
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -30,7 +31,7 @@ export default function SignUpEmailViewModel(): ISignUpEmailViewModel {
         if (!canSubmit())
             return;
 
-        await users.auth.signUpEmail(name, email, password);
+        await userService.auth.signUpEmail(name, email, password);
         navigate('/');
     }
 

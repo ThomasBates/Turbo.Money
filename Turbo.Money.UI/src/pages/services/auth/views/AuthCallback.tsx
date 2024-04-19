@@ -1,16 +1,19 @@
 import { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 
-import { useAppContext } from 'app/AppContextAccess';
+import IUserService, { SignInStatus } from 'services/user/IUserService';
+import ILoggerService from '../../../../services/logger/ILoggerService';
 
-import { SignInStatus } from 'services/user/IUserService';
+interface IProps {
+    logger: ILoggerService;
+    userService: IUserService;
+}
 
-export default function AuthCallback() {
+export default function AuthCallback({ logger, userService }: IProps) {
     const module = AuthCallback.name;
     const category = 'User';
 
     const called = useRef(false);
-    const { logger, users } = useAppContext();
     const navigate = useNavigate();
 
     logger.debug(category, module, ':');
@@ -18,8 +21,8 @@ export default function AuthCallback() {
     useEffect(() => {
         const context = `${module}.${useEffect.name}`;
         (async () => {
-            logger.debug(category, context, `signInStatus = ${users.signInStatus}, called = ${called.current}`);
-            if (users.signInStatus != SignInStatus.SignedIn) {
+            logger.debug(category, context, `signInStatus = ${userService.signInStatus}, called = ${called.current}`);
+            if (userService.signInStatus != SignInStatus.SignedIn) {
                 try {
                     // prevent rerender caused by StrictMode
                     if (called.current)
@@ -32,7 +35,7 @@ export default function AuthCallback() {
                     //  we're passing it through to get(api/auth/sign_up).
                     logger.debug(category, context, `window.location.search = "${window.location.search}"`);
 
-                    await users.auth.callbackOAuth(window.location.search);
+                    await userService.auth.callbackOAuth(window.location.search);
                     navigate('/');
                 } catch (ex) {
                     logger.error(category, context, 'ex =', ex);
