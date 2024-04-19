@@ -1,7 +1,5 @@
 import { useState } from "react";
 
-import { useAppContext } from 'app/AppContextAccess';
-
 import IModelItem from "common/models/IModelItem";
 
 import IBankBank from 'models/bank/IBankBank';
@@ -16,8 +14,9 @@ import IBasicDetailsViewModel from "pages/basic/common/viewModels/IBasicDetailsV
 import IBasicModeViewModel from "pages/basic/common/viewModels/IBasicModeViewModel";
 import IBasicModeViewModelProps from "pages/basic/common/viewModels/IBasicModeViewModelProps";
 
+import ILoggerService from "services/logger/ILoggerService";
+
 import IBankWorksheetDataService from "../data/IBankWorksheetDataService";
-import BankWorksheetDataService from "../data/BankWorksheetDataService";
 
 import BankWorksheetBankViewModel from "./BankWorksheetBankViewModel";
 import IBankWorksheetViewModel from "./IBankWorksheetViewModel";
@@ -46,10 +45,10 @@ const modeViewModels: Record<string, IBasicModeViewModels> = {
     }
 }
 
-export default function BankWorksheetViewModel(): IBankWorksheetViewModel {
-
-    const { logger } = useAppContext();
-    const dataService: IBankWorksheetDataService = BankWorksheetDataService(logger);
+export default function BankWorksheetViewModel(
+    logger: ILoggerService,
+    dataService: IBankWorksheetDataService
+): IBankWorksheetViewModel {
 
     const [modeViewModelProps, setModeViewModelProps] = useState<null | IBasicModeViewModelProps>(null);
 

@@ -1,8 +1,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
-import { useAppContext } from 'app/AppContextAccess';
-
 import ICommonStyle from "common/views/ICommonStyle";
 
 import { getRandomString, combineStyles, mergeStyles } from 'services/tools/tools';
@@ -20,10 +18,6 @@ interface IProps {
 }
 
 export default function Menu({ customStyle, hover, wide, menuData }: IProps) {
-    const module = Menu.name;
-    const category = Menu.name;
-
-    const { logger } = useAppContext();
 
     // in situ one list for !hover and !wide
     const [list, setList] = useState<IMenuDataItem[] | null>(null);
@@ -44,19 +38,14 @@ export default function Menu({ customStyle, hover, wide, menuData }: IProps) {
     }
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        const context = `${module}.${handleClick.name}`
         event.preventDefault();
 
         const dataValue = (event.target as HTMLElement).getAttribute('data-value');
-        logger.verbose(category, context, 'dataValue =', dataValue);
         if (dataValue !== "root") {
             return;
         }
 
-        logger.verbose(category, context, 'list =', list);
         if (!list) {
-            logger.verbose(category, context, 'menuData =', menuData);
-
             if (menuData.list !== undefined)
                 setList(menuData.list);
         }
@@ -93,12 +82,7 @@ export default function Menu({ customStyle, hover, wide, menuData }: IProps) {
         }
     }
 
-    //logger.debug(category, module, 'list =', list);
-
     // ------------------
-
-    //logger.debug(category, module, 'style =', style);
-    //logger.debug(category, module, 'defaultStyle =', defaultStyle);
 
     const rootClass = combineStyles(style.root_control, style.root_theme);
     const rootIconClass = style.root_icon;

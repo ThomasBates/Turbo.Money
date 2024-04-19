@@ -1,5 +1,5 @@
 
-import BankBankDataProvider from "data/axios/basic/BankBankDataProvider";
+import IBasicDataProvider from "data/interfaces/basic/IBasicDataProvider";
 
 import IBankBank from "models/bank/IBankBank";
 
@@ -9,7 +9,10 @@ import IBasicMainViewModel from "pages/basic/common/viewModels/IBasicMainViewMod
 import BankDetailsViewModel from "./BankBankDetailsViewModel";
 import BankEditViewModel from "./BankBankEditViewModel";
 
-export default function BankBankMainViewModel(): IBasicMainViewModel {
+export default function BankBankMainViewModel(
+    bankBankDataProvider: IBasicDataProvider<IBankBank>
+): IBasicMainViewModel {
+
     const initialBankBank: IBankBank = {
         id: 0,
         name: "",
@@ -22,7 +25,7 @@ export default function BankBankMainViewModel(): IBasicMainViewModel {
         title: "Banks",
         modeTitle: "Bank",
         entity: "BankBank",
-        dataProvider: BankBankDataProvider,
+        dataProvider: bankBankDataProvider,
         initialItem: initialBankBank,
         detailsViewModel: BankDetailsViewModel,
         editViewModel: BankEditViewModel

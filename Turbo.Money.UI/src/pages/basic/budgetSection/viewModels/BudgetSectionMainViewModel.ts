@@ -1,5 +1,5 @@
 
-import BudgetSectionDataProvider from "data/axios/basic/BudgetSectionDataProvider";
+import IBasicDataProvider from "data/interfaces/basic/IBasicDataProvider";
 
 import IBudgetSection from 'models/budget/IBudgetSection';
 
@@ -9,7 +9,10 @@ import IBasicMainViewModel from "pages/basic/common/viewModels/IBasicMainViewMod
 import BudgetSectionDetailsViewModel from "./BudgetSectionDetailsViewModel";
 import BudgetSectionEditViewModel from "./BudgetSectionEditViewModel";
 
-export default function BudgetSectionMainViewModel(): IBasicMainViewModel {
+export default function BudgetSectionMainViewModel(
+    budgetSectionDataProvider: IBasicDataProvider<IBudgetSection>
+): IBasicMainViewModel {
+
     const initialBudgetSection: IBudgetSection = {
         id: 0,
         name: "",
@@ -21,7 +24,7 @@ export default function BudgetSectionMainViewModel(): IBasicMainViewModel {
         title: "Budget Sections",
         modeTitle: "Budget Section",
         entity: "BudgetSection",
-        dataProvider: BudgetSectionDataProvider,
+        dataProvider: budgetSectionDataProvider,
         initialItem: initialBudgetSection,
         detailsViewModel: BudgetSectionDetailsViewModel,
         editViewModel: BudgetSectionEditViewModel

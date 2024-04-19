@@ -1,23 +1,21 @@
 import { useState } from 'react';
 
-import { useAppContext } from 'app/AppContextAccess';
+import IBankTransactionDataService from '../data/IBankTransactionDataService';
 
-import BankTransactionDataService from "../data/BankTransactionDataService";
 import IBankTransactionUploadViewModel from './IBankTransactionUploadViewModel';
 
-export default function BankTransactionUploadViewModel(): IBankTransactionUploadViewModel {
+export default function BankTransactionUploadViewModel(
+    bankTransactionDataService: IBankTransactionDataService
+): IBankTransactionUploadViewModel {
 
-    const { logger } = useAppContext();
     const [file, setFile] = useState<File | null>(null);
-
-    const bankTransactionDataService = BankTransactionDataService(logger)
 
     const canSubmit = () => {
         return file != null;
     }
 
     const submit = () => {
-        if (canSubmit()) {
+        if (file != null) {
             bankTransactionDataService.uploadFile(file);
         }
     };

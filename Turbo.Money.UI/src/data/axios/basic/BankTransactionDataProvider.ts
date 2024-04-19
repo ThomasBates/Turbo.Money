@@ -1,6 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import axios from "data/axios/AxiosCommon";
+
+import IBankTransactionDataProvider from "data/interfaces/basic/IBankTransactionDataProvider";
 
 import IBankTransaction from "models/bank/IBankTransaction";
 
@@ -8,13 +9,16 @@ import ILoggerService from 'services/logger/ILoggerService';
 
 import BasicDataProvider from "./BasicDataProvider";
 
-export default function BankTransactionDataProvider(logger: ILoggerService) {
+export default function BankTransactionDataProvider(
+    logger: ILoggerService
+): IBankTransactionDataProvider {
+
     const module = BankTransactionDataProvider.name;
     const category = 'Bank';
 
     const common = BasicDataProvider<IBankTransaction>("bankTransactions")
 
-    const uploadFile = async (file: any) => {
+    const uploadFile = async (file: File) => {
         const context = `${module}.${uploadFile.name}`;
 
         logger.debug(category, context, 'file =', file);

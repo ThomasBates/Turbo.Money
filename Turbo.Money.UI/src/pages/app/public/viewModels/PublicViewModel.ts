@@ -1,20 +1,22 @@
 import { useState } from 'react';
 
-import { useAppContext } from 'app/AppContextAccess';
-
 import IPostDataProvider from 'data/interfaces/services/IPostDataProvider';
 
 import IPost from 'models/post/IPost';
 
+import ILoggerService from 'services/logger/ILoggerService';
+
 import IPublicViewModel from './IPublicViewModel';
 
-export default function PublicViewModel(postDataProvider: IPostDataProvider): IPublicViewModel {
+export default function PublicViewModel(
+    logger: ILoggerService,
+    postDataProvider: IPostDataProvider
+): IPublicViewModel {
+
     const module = PublicViewModel.name;
     const category = 'Public';
 
     const [posts, setPosts] = useState<IPost[]>([]);
-
-    const { logger } = useAppContext();
 
     const initializeData = async () => {
         const context = `${module}.${initializeData.name}`;

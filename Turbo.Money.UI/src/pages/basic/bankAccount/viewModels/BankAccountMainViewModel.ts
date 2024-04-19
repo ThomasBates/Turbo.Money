@@ -1,34 +1,37 @@
 import { useState, useEffect } from "react";
 
-import { useAppContext } from 'app/AppContextAccess';
-
 import IModelItem, { compareItems } from "common/models/IModelItem";
 
-import BankBankDataProvider from "data/axios/basic/BankBankDataProvider";
-import BankAccountDataProvider from "data/axios/basic/BankAccountDataProvider";
+import IBasicDataProvider from "data/interfaces/basic/IBasicDataProvider";
 
-import BankAccount from "models/bank/IBankAccount";
+import IBankAccount from "models/bank/IBankAccount";
+import IBankBank from "models/bank/IBankBank";
 
 import BasicMainViewModel from "pages/basic/common/viewModels/BasicMainViewModel";
 import IBasicModeViewModelProps from "pages/basic/common/viewModels/IBasicModeViewModelProps";
 import IBasicMainViewModel from "pages/basic/common/viewModels/IBasicMainViewModel";
 
+import ILoggerService from "services/logger/ILoggerService";
+
 import BankAccountDetailsViewModel from "./BankAccountDetailsViewModel";
 import BankAccountEditViewModel from "./BankAccountEditViewModel";
 
-export default function BankAccountMainViewModel(): IBasicMainViewModel {
+export default function BankAccountMainViewModel(
+    logger: ILoggerService,
+    bankAccountDataProvider: IBasicDataProvider<IBankAccount>,
+    bankBankDataProvider: IBasicDataProvider<IBankBank>
+): IBasicMainViewModel {
+
     const module = BankAccountMainViewModel.name;
     const category = 'BankAccount';
 
-    const initialAccount: BankAccount = {
+    const initialAccount: IBankAccount = {
         id: 0,
         name: "",
         description: "",
         bankId: 0,
         number: ""
     };
-
-    const { logger } = useAppContext();
 
     const [banks, setBanks] = useState<IModelItem[]>([]);
 
@@ -39,7 +42,7 @@ export default function BankAccountMainViewModel(): IBasicMainViewModel {
     const retrieveAllBanks = async () => {
         const context = `${module}.${retrieveAllBanks.name}`;
         try {
-            const response = await BankBankDataProvider.getList();
+            const response = await bankBankDataProvider.getList();
             logger.debug(category, context, 'response.data =', response.data);
 
             const newBanks = response.data
@@ -67,7 +70,7 @@ export default function BankAccountMainViewModel(): IBasicMainViewModel {
         title: "Bank Accounts",
         modeTitle: "Bank Account",
         entity: "BankAccount",
-        dataProvider: BankAccountDataProvider,
+        dataProvider: bankAccountDataProvider,
         initialItem: initialAccount,
         detailsViewModel,
         editViewModel

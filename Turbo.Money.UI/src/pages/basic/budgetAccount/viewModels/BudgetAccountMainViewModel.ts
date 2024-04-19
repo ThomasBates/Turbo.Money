@@ -1,20 +1,27 @@
 import { useState, useEffect } from "react";
 
-import { useAppContext } from 'app/AppContextAccess';
-
 import IModelItem, { compareItems } from "common/models/IModelItem";
 
-import BudgetCategoryDataProvider from "data/axios/basic/BudgetCategoryDataProvider";
-import BudgetAccountDataProvider from "data/axios/basic/BudgetAccountDataProvider";
+import IBasicDataProvider from "data/interfaces/basic/IBasicDataProvider";
+
+import IBudgetAccount from "models/budget/IBudgetAccount";
+import IBudgetCategory from "models/budget/IBudgetCategory";
 
 import BasicMainViewModel from "pages/basic/common/viewModels/BasicMainViewModel";
 import IBasicModeViewModelProps from "pages/basic/common/viewModels/IBasicModeViewModelProps";
 import IBasicMainViewModel from "pages/basic/common/viewModels/IBasicMainViewModel";
 
+import ILoggerService from "services/logger/ILoggerService";
+
 import BudgetAccountDetailsViewModel from "./BudgetAccountDetailsViewModel";
 import BudgetAccountEditViewModel from "./BudgetAccountEditViewModel";
 
-export default function BudgetAccountMainViewModel(): IBasicMainViewModel {
+export default function BudgetAccountMainViewModel(
+    logger: ILoggerService,
+    budgetAccountDataProvider: IBasicDataProvider<IBudgetAccount>,
+    budgetCategoryDataProvider: IBasicDataProvider<IBudgetCategory>
+): IBasicMainViewModel {
+
     const module = BudgetAccountMainViewModel.name;
     const category = 'BudgetAccount';
 
@@ -28,8 +35,6 @@ export default function BudgetAccountMainViewModel(): IBasicMainViewModel {
         method: "",
     };
 
-    const { logger } = useAppContext();
-
     const [categories, setCategories] = useState<IModelItem[]>([]);
 
     useEffect(() => {
@@ -39,7 +44,7 @@ export default function BudgetAccountMainViewModel(): IBasicMainViewModel {
     const retrieveAllCategories = async () => {
         const context = `${module}.${retrieveAllCategories.name}`;
         try {
-            const response = await BudgetCategoryDataProvider.getList();
+            const response = await budgetCategoryDataProvider.getList();
             logger.debug(category, context, 'response.data =', response.data);
 
             const newCategories = response.data
@@ -67,7 +72,7 @@ export default function BudgetAccountMainViewModel(): IBasicMainViewModel {
         title: "Budget Accounts",
         modeTitle: "Budget Account",
         entity: "BudgetAccount",
-        dataProvider: BudgetAccountDataProvider,
+        dataProvider: budgetAccountDataProvider,
         initialItem: initialBudgetAccount,
         detailsViewModel,
         editViewModel

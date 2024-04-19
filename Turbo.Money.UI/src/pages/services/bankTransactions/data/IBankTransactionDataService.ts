@@ -1,4 +1,4 @@
 
 export default interface IBankTransactionDataService {
-    uploadFile: (file: File | null) => void;
+    uploadFile: (file: File) => void;
 }

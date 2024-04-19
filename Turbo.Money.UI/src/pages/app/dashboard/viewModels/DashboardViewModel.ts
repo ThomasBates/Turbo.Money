@@ -1,20 +1,23 @@
 import { useState } from 'react';
 
-import { useAppContext } from 'app/AppContextAccess';
-
 import IPostDataProvider from 'data/interfaces/services/IPostDataProvider';
 
 import IPost from 'models/post/IPost';
 
+import ILoggerService from 'services/logger/ILoggerService';
+import IUserService from 'services/user/IUserService';
+
 import IDashboardViewModel from './IDashboardViewModel';
 
-export default function DashboardViewModel(postDataProvider: IPostDataProvider): IDashboardViewModel {
+export default function DashboardViewModel(
+    logger: ILoggerService,
+    users: IUserService,
+    postDataProvider: IPostDataProvider
+): IDashboardViewModel {
     const module = DashboardViewModel.name;
     const category = 'Dashboard';
 
     const [posts, setPosts] = useState<IPost[]>([]);
-
-    const { logger, users } = useAppContext();
 
     const initializeData = async () => {
         const context = `${module}.${initializeData.name}`;

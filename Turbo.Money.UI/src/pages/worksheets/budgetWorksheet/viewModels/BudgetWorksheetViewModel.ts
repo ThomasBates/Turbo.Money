@@ -1,8 +1,6 @@
 
 import { useState } from "react";
 
-import { useAppContext } from 'app/AppContextAccess';
-
 import IModelItem from "common/models/IModelItem";
 
 import IBudgetSection from 'models/budget/IBudgetSection';
@@ -19,8 +17,9 @@ import IBasicEditViewModel from "pages/basic/common/viewModels/IBasicEditViewMod
 import IBasicModeViewModel from "pages/basic/common/viewModels/IBasicModeViewModel";
 import IBasicDetailsViewModel from "pages/basic/common/viewModels/IBasicDetailsViewModel";
 
+import ILoggerService from "services/logger/ILoggerService";
+
 import IBudgetWorksheetDataService from "../data/IBudgetWorksheetDataService";
-import BudgetWorksheetDataService from "../data/BudgetWorksheetDataService";
 
 import BudgetWorksheetSectionViewModel from "./BudgetWorksheetSectionViewModel";
 import IBudgetWorksheetViewModel from "./IBudgetWorksheetViewModel";
@@ -55,10 +54,10 @@ const modeViewModels: Record<string, IBasicModeViewModels> = {
     }
 }
 
-export default function BudgetWorksheetViewModel(): IBudgetWorksheetViewModel {
-
-    const { logger } = useAppContext();
-    const dataService: IBudgetWorksheetDataService = BudgetWorksheetDataService(logger);
+export default function BudgetWorksheetViewModel(
+    logger: ILoggerService,
+    dataService: IBudgetWorksheetDataService
+): IBudgetWorksheetViewModel {
 
     const [modeViewModelProps, setModeViewModelProps] = useState<null | IBasicModeViewModelProps>(null);
 

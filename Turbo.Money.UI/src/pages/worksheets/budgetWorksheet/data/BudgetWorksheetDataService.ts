@@ -2,10 +2,6 @@ import { useState } from "react";
 
 import IModelItem from "common/models/IModelItem";
 
-import BudgetSectionDataProvider from "data/axios/basic/BudgetSectionDataProvider";
-import BudgetCategoryDataProvider from "data/axios/basic/BudgetCategoryDataProvider";
-import BudgetAccountDataProvider from "data/axios/basic/BudgetAccountDataProvider";
-
 import IBudgetAccount from 'models/budget/IBudgetAccount';
 import IBudgetCategory from 'models/budget/IBudgetCategory';
 import IBudgetSection from 'models/budget/IBudgetSection';
@@ -13,11 +9,19 @@ import IBudgetSection from 'models/budget/IBudgetSection';
 import ILoggerService from "services/logger/ILoggerService";
 
 import IBudgetWorksheetDataService from "./IBudgetWorksheetDataService";
+import IBasicDataProvider from "../../../../data/interfaces/basic/IBasicDataProvider";
 
 type ListSetter = (f: (prevState: IModelItem[]) => IModelItem[]) => void;
 type ItemComparer = (item1: IModelItem, item2: IModelItem) => number;
 
-export default function BudgetWorksheetDataService(logger: ILoggerService): IBudgetWorksheetDataService {
+export default function BudgetWorksheetDataService(
+    logger: ILoggerService,
+    budgetAccountDataProvider: IBasicDataProvider<IBudgetAccount>,
+    budgetCategoryDataProvider: IBasicDataProvider<IBudgetCategory>,
+    budgetSectionDataProvider: IBasicDataProvider<IBudgetSection>,
+
+): IBudgetWorksheetDataService {
+
     const module = BudgetWorksheetDataService.name;
     const category = 'BudgetWorksheet';
 
@@ -51,7 +55,7 @@ export default function BudgetWorksheetDataService(logger: ILoggerService): IBud
     const retrieveSections = async () => {
         const context = `${module}.${retrieveSections.name}`;
         try {
-            const response = await BudgetSectionDataProvider.getAll();
+            const response = await budgetSectionDataProvider.getAll();
             logger.debug(category, context, 'response.data =', response.data);
 
             const sections = response.data
@@ -67,7 +71,7 @@ export default function BudgetWorksheetDataService(logger: ILoggerService): IBud
     const retrieveCategories = async () => {
         const context = `${module}.${retrieveCategories.name}`;
         try {
-            const response = await BudgetCategoryDataProvider.getAll();
+            const response = await budgetCategoryDataProvider.getAll();
             logger.debug(category, context, 'response.data =', response.data);
 
             const categories = response.data
@@ -83,7 +87,7 @@ export default function BudgetWorksheetDataService(logger: ILoggerService): IBud
     const retrieveAccounts = async () => {
         const context = `${module}.${retrieveAccounts.name}`;
         try {
-            const response = await BudgetAccountDataProvider.getAll();
+            const response = await budgetAccountDataProvider.getAll();
             logger.debug(category, context, 'response.data =', response.data);
 
             const accounts = response.data
@@ -108,16 +112,16 @@ export default function BudgetWorksheetDataService(logger: ILoggerService): IBud
                         case "read":
                             break;
                         case "created": {
-                            const response = await BudgetSectionDataProvider.create(section);
+                            const response = await budgetSectionDataProvider.create(section);
                             const createdSection = response.data;
                             createdIdMap.set(section.id, createdSection.id);
                             break;
                         }
                         case "updated":
-                            await BudgetSectionDataProvider.update(section.id, section);
+                            await budgetSectionDataProvider.update(section.id, section);
                             break;
                         case "deleted":
-                            await BudgetSectionDataProvider.remove(section.id);
+                            await budgetSectionDataProvider.remove(section.id);
                             deletedIdList.push(section.id);
                             break;
                     }
@@ -174,16 +178,16 @@ export default function BudgetWorksheetDataService(logger: ILoggerService): IBud
                         case "read":
                             break;
                         case "created": {
-                            const response = await BudgetCategoryDataProvider.create(category);
+                            const response = await budgetCategoryDataProvider.create(category);
                             const createdCategory = response.data;
                             createdIdMap.set(category.id, createdCategory.id);
                             break;
                         }
                         case "updated":
-                            await BudgetCategoryDataProvider.update(category.id, category);
+                            await budgetCategoryDataProvider.update(category.id, category);
                             break;
                         case "deleted":
-                            await BudgetCategoryDataProvider.remove(category.id);
+                            await budgetCategoryDataProvider.remove(category.id);
                             deletedIdList.push(category.id);
                             break;
                     }
@@ -237,13 +241,13 @@ export default function BudgetWorksheetDataService(logger: ILoggerService): IBud
                         case "read":
                             break;
                         case "created":
-                            await BudgetAccountDataProvider.create(account);
+                            await budgetAccountDataProvider.create(account);
                             break;
                         case "updated":
-                            await BudgetAccountDataProvider.update(account.id, account);
+                            await budgetAccountDataProvider.update(account.id, account);
                             break;
                         case "deleted":
-                            await BudgetAccountDataProvider.remove(account.id);
+                            await budgetAccountDataProvider.remove(account.id);
                             break;
                     }
                 })

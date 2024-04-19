@@ -2,8 +2,7 @@ import { useState } from "react";
 
 import IModelItem from "common/models/IModelItem";
 
-import BankBankDataProvider from "data/axios/basic/BankBankDataProvider";
-import BankAccountDataProvider from "data/axios/basic/BankAccountDataProvider";
+import IBasicDataProvider from "data/interfaces/basic/IBasicDataProvider";
 
 import IBankAccount from 'models/bank/IBankAccount';
 import IBankBank from 'models/bank/IBankBank';
@@ -16,7 +15,12 @@ import IBankWorksheetDataService from "./IBankWorksheetDataService";
 type ListSetter = (f: (prevState: IModelItem[]) => IModelItem[]) => void;
 type ItemComparer = (item1: IModelItem, item2: IModelItem) => number;
 
-export default function BankWorksheetDataService(logger: ILoggerService): IBankWorksheetDataService {
+export default function BankWorksheetDataService(
+    logger: ILoggerService,
+    bankAccountDataProvider: IBasicDataProvider<IBankAccount>,
+    bankBankDataProvider: IBasicDataProvider<IBankBank>
+): IBankWorksheetDataService {
+
     const module = BankWorksheetDataService.name;
     const category = 'BankWorksheet';
 
@@ -49,7 +53,7 @@ export default function BankWorksheetDataService(logger: ILoggerService): IBankW
     const retrieveBanks = async () => {
         const context = `${module}.${retrieveBanks.name}`;
         try {
-            const response = await BankBankDataProvider.getAll();
+            const response = await bankBankDataProvider.getAll();
             logger.debug(category, context, 'response.data =', response.data);
 
             const banks = response.data
@@ -65,7 +69,7 @@ export default function BankWorksheetDataService(logger: ILoggerService): IBankW
     const retrieveAccounts = async () => {
         const context = `${module}.${retrieveAccounts.name}`;
         try {
-            const response = await BankAccountDataProvider.getAll();
+            const response = await bankAccountDataProvider.getAll();
             logger.debug(category, context, 'response.data =', response.data);
 
             const accounts = response.data
@@ -90,16 +94,16 @@ export default function BankWorksheetDataService(logger: ILoggerService): IBankW
                         case "read":
                             break;
                         case "created": {
-                            const response = await BankBankDataProvider.create(bank);
+                            const response = await bankBankDataProvider.create(bank);
                             const createdBank = response.data;
                             createdIdMap.set(bank.id, createdBank.id);
                             break;
                         }
                         case "updated":
-                            await BankBankDataProvider.update(bank.id, bank);
+                            await bankBankDataProvider.update(bank.id, bank);
                             break;
                         case "deleted":
-                            await BankBankDataProvider.remove(bank.id);
+                            await bankBankDataProvider.remove(bank.id);
                             deletedIdList.push(bank.id);
                             break;
                     }
@@ -153,13 +157,13 @@ export default function BankWorksheetDataService(logger: ILoggerService): IBankW
                         case "read":
                             break;
                         case "created":
-                            await BankAccountDataProvider.create(account);
+                            await bankAccountDataProvider.create(account);
                             break;
                         case "updated":
-                            await BankAccountDataProvider.update(account.id, account);
+                            await bankAccountDataProvider.update(account.id, account);
                             break;
                         case "deleted":
-                            await BankAccountDataProvider.remove(account.id);
+                            await bankAccountDataProvider.remove(account.id);
                             break;
                     }
                 })

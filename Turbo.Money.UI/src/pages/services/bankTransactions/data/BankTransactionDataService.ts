@@ -1,13 +1,13 @@
 
-import BankTransactionDataProvider from "data/axios/basic/BankTransactionDataProvider";
+import IBankTransactionDataProvider from "data/interfaces/basic/IBankTransactionDataProvider";
 
-import ILoggerService from "services/logger/ILoggerService";
+import IBankTransactionDataService from "./IBankTransactionDataService";
 
-export default function BankTransactionDataService(logger: ILoggerService) {
+export default function BankTransactionDataService(
+    bankTransactionDataProvider: IBankTransactionDataProvider
+): IBankTransactionDataService {
 
-    const bankTransactionDataProvider = BankTransactionDataProvider(logger);
-
-    function uploadFile(file: File | null) {
+    function uploadFile(file: File) {
         bankTransactionDataProvider.uploadFile(file);
     }
 

@@ -12,13 +12,24 @@ import NavBar from 'components/navBar/NavBar';
 import SideBar from 'components/SideBar';
 import Footer from 'components/Footer';
 
+import BankAccountDataProvider from "data/axios/basic/BankAccountDataProvider";
+import BankBankDataProvider from "data/axios/basic/BankBankDataProvider";
+import BankTransactionDataProvider from "data/axios/basic/BankTransactionDataProvider";
+import BudgetSectionDataProvider from "data/axios/basic/BudgetSectionDataProvider";
+import BudgetCategoryDataProvider from "data/axios/basic/BudgetCategoryDataProvider";
+import BudgetAccountDataProvider from "data/axios/basic/BudgetAccountDataProvider";
 import PostDataProvider from 'data/axios/services/PostDataProvider';
+
+import BankTransactionDataService from "pages/services/bankTransactions/data/BankTransactionDataService";
+
 import DashboardViewModel from 'pages/app/dashboard/viewModels/DashboardViewModel';
 import DashboardView from 'pages/app/dashboard/views/DashboardView';
 
+import BankWorksheetDataService from "pages/worksheets/bankWorksheet/data/BankWorksheetDataService";
 import BankWorksheetViewModel from 'pages/worksheets/bankWorksheet/viewModels/BankWorksheetViewModel';
 import BankWorksheetView from 'pages/worksheets/bankWorksheet/views/BankWorksheetView';
 
+import BudgetWorksheetDataService from "pages/worksheets/budgetWorksheet/data/BudgetWorksheetDataService";
 import BudgetWorksheetViewModel from 'pages/worksheets/budgetWorksheet/viewModels/BudgetWorksheetViewModel';
 import BudgetWorksheetView from 'pages/worksheets/budgetWorksheet/views/BudgetWorksheetView';
 
@@ -70,39 +81,150 @@ export default function PrivateRouteData(app: AppContextType) {
             </div>,
         children: [
             //  home
-            { path: "/", element: < BudgetAccountMainView dataContext={() => BudgetAccountMainViewModel()} /> },
+            {
+                path: "/",
+                element: < BudgetAccountMainView dataContext={() =>
+                    BudgetAccountMainViewModel(
+                        app.logger,
+                        BudgetAccountDataProvider,
+                        BudgetCategoryDataProvider)} />
+            },
 
             //  dashboard
             {
-                path: "/dashboard", element: <DashboardView
-                    dataContext={() => DashboardViewModel(PostDataProvider(app.logger, app.errors))}
+                path: "/dashboard",
+                element: <DashboardView
+                    dataContext={() =>
+                        DashboardViewModel(
+                            app.logger,
+                            app.users,
+                            PostDataProvider(
+                                app.logger,
+                                app.errors)
+                        )
+                    }
                 />
             },
 
             //  Budget 
-            { path: "/BudgetWorksheetView", element: < BudgetWorksheetView dataContext={() => BudgetWorksheetViewModel()} /> },
-            { path: "/BudgetView", element: < BudgetView /> },
+            {
+                path: "/BudgetWorksheetView",
+                element: < BudgetWorksheetView dataContext={() =>
+                    BudgetWorksheetViewModel(
+                        app.logger,
+                        BudgetWorksheetDataService(
+                            app.logger,
+                            BudgetAccountDataProvider,
+                            BudgetCategoryDataProvider,
+                            BudgetSectionDataProvider
+                        )
+                    )
+                } />
+            },
+            {
+                path: "/BudgetView",
+                element: < BudgetView />
+            },
 
             //  Transactions
-            { path: "/TransactionEntry", element: < TransactionEntry /> },
-            { path: "/TransactionFileImport", element: < BankTransactionUploadView dataContext={() => BankTransactionUploadViewModel()} /> },
+            {
+                path: "/TransactionEntry",
+                element: < TransactionEntry />
+            },
+            {
+                path: "/TransactionFileImport",
+                element: < BankTransactionUploadView dataContext={() =>
+                    BankTransactionUploadViewModel(
+                        BankTransactionDataService(
+                            BankTransactionDataProvider(
+                                app.logger
+                            )
+                        )
+                    )
+                } />
+            },
 
             //  Reports
-            { path: "/ReportByPeriod", element: < ReportByPeriod /> },
-            { path: "/ReportByAccount", element: < ReportByAccount /> },
+            {
+                path: "/ReportByPeriod",
+                element: < ReportByPeriod />
+            },
+            {
+                path: "/ReportByAccount",
+                element: < ReportByAccount />
+            },
 
             //  Setup
-            { path: "/BankWorksheet", element: <BankWorksheetView dataContext = { () => BankWorksheetViewModel() } /> },
-            { path: "/BankBankView", element: < BankBankMainView dataContext={() => BankBankViewModel()} /> },
-            { path: "/BankAccountView", element: < BankAccountMainView dataContext={() => BankAccountMainViewModel()} /> },
+            {
+                path: "/BankWorksheet",
+                element: <BankWorksheetView dataContext={() =>
+                    BankWorksheetViewModel(
+                        app.logger,
+                        BankWorksheetDataService(
+                            app.logger,
+                            BankAccountDataProvider,
+                            BankBankDataProvider
+                        )
+                    )
+                } />
+            },
+            {
+                path: "/BankBankView",
+                element: < BankBankMainView dataContext={() =>
+                    BankBankViewModel(
+                        BankBankDataProvider
+                    )
+                } />
+            },
+            {
+                path: "/BankAccountView",
+                element: < BankAccountMainView dataContext={() =>
+                    BankAccountMainViewModel(
+                        app.logger,
+                        BankAccountDataProvider,
+                        BankBankDataProvider
+                    )
+                } />
+            },
 
-            { path: "/BudgetSectionView", element: < BudgetSectionMainView dataContext={() => BudgetSectionMainViewModel()} /> },
-            { path: "/BudgetCategoryView", element: < BudgetCategoryMainView dataContext={() => BudgetCategoryMainViewModel()} /> },
-            { path: "/BudgetAccountView", element: < BudgetAccountMainView dataContext={() => BudgetAccountMainViewModel()} /> },
+            {
+                path: "/BudgetSectionView",
+                element: < BudgetSectionMainView dataContext={() =>
+                    BudgetSectionMainViewModel(
+                        BudgetSectionDataProvider
+                    )
+                } />
+            },
+            {
+                path: "/BudgetCategoryView",
+                element: < BudgetCategoryMainView dataContext={() =>
+                    BudgetCategoryMainViewModel(
+                        app.logger,
+                        BudgetCategoryDataProvider,
+                        BudgetSectionDataProvider
+                    )
+                } />
+            },
+            {
+                path: "/BudgetAccountView",
+                element: < BudgetAccountMainView dataContext={() =>
+                    BudgetAccountMainViewModel(
+                        app.logger,
+                        BudgetAccountDataProvider,
+                        BudgetCategoryDataProvider
+                    )
+                } />
+            },
 
             //  about
-            { path: "/about", element: <About /> },
-            { path: "*", element: <NotFound /> },
+            {
+                path: "/about",
+                element: <About />
+            },
+            {
+                path: "*",
+                element: <NotFound />
+            },
         ],
     }];
 }
