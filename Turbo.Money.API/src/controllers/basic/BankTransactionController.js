@@ -58,7 +58,7 @@ module.exports = function BankTransactionController(logger, errors, business) {
 
     const upload = async (req, res) => {
         const context = `${module}.${upload.name}`;
-        const { user: userInfo } = jwt.decode(req.cookies.user);
+        const userCookie = jwt.decode(req.cookies.user);
         var busboy = require('busboy')({ headers: req.headers });
 
         logger.debug(category, context, '()');
@@ -66,7 +66,7 @@ module.exports = function BankTransactionController(logger, errors, business) {
         busboy.on('file', async function (fieldname, file, filename, encoding, mimetype) {
             logger.debug(category, context, 'busboy.onFile()');
 
-            const returnList = await business.importTransactions(userInfo, file);
+            const returnList = await business.importTransactions(userCookie, file);
             logger.debug(category, context, 'returnList =', returnList);
             if (errors.handle(context, res, 500, returnList.error))
                 return;

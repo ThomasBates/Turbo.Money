@@ -1,10 +1,10 @@
 
-import IViewProps from "common/views/IViewProps";
+import IFactoryViewProps from "common/views/IFactoryViewProps";
 
 import IBankTransactionUploadViewModel from "../viewModels/IBankTransactionUploadViewModel";
 
-export default function BankTransactionUploadView({ dataContext }: IViewProps) {
-    const viewModel = dataContext as IBankTransactionUploadViewModel
+export default function BankTransactionUploadView({ dataContext }: IFactoryViewProps) {
+    const viewModel = dataContext() as IBankTransactionUploadViewModel
 
     function handleFileChanged(event: React.ChangeEvent<HTMLInputElement>): void {
         if (event.currentTarget.files) {

@@ -90,16 +90,16 @@ module.exports = function BankTransactionData(logger, errors, table) {
         logger, errors, category, table,
         encode, decode, decodeList, validate);
 
-    const storeTransactions = async (transactions) => {
+    const storeTransactions = async (userCookie, transactions) => {
         let returnList = [];
 
         await Promise.all(
             transactions.map(async transaction => {
-                const existing = await getOneBySequence(transaction.sequence);
+                const existing = await getOneBySequence(userCookie, transaction.sequence);
                 if (!existing.error)  // if existing exists, continue.
                     return;
 
-                const returnObject = await common.create(transaction);
+                const returnObject = await common.create(userCookie, transaction);
                 if (!returnObject.error) {
                     returnList.push(returnObject);
                 }
@@ -110,16 +110,21 @@ module.exports = function BankTransactionData(logger, errors, table) {
     }
 
     // Find a single Bank transaction with a sequence number
-    const getOneBySequence = async (sequence) => {
+    const getOneBySequence = async (userCookie, sequence) => {
         const context = `${module}.${getOneBySequence.name}`;
 
         try {
-            const data = await table.findAll({ where: { sequence: sequence } })
+            const data = await table.findAll({
+                where: {
+                    UserFamilyId: userCookie.familyId,
+                    sequence: sequence
+                }
+            })
 
             if (!data || data.length == 0)
                 return errors.create(context, 'MissingData', `Cannot find transaction record with sequence="${sequence}".`);
 
-            return decode(data[0]);
+            return decode(userCookie, data[0]);
         } catch (ex) {
             logger.error(category, context, 'ex =', ex);
             return errors.create(context, 'Catch', ex.message);

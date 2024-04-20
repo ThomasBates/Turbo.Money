@@ -16,7 +16,7 @@ export default function BankTransactionDataProvider(
     const module = BankTransactionDataProvider.name;
     const category = 'Bank';
 
-    const common = BasicDataProvider<IBankTransaction>("bankTransactions")
+    const common = BasicDataProvider<IBankTransaction>("bankTransaction")
 
     const uploadFile = async (file: File) => {
         const context = `${module}.${uploadFile.name}`;
@@ -28,7 +28,7 @@ export default function BankTransactionDataProvider(
             formData.append("file", file);
 
             // make a POST request to the File Upload API with the FormData object and Rapid API headers
-            const response = await axios.post("bankTransactions/upload", formData);
+            const response = await axios.post("bankTransaction/upload", formData);
             logger.debug(category, context, 'response = ', response);
         } catch (ex) {
             logger.error(category, context, 'ex =', ex);

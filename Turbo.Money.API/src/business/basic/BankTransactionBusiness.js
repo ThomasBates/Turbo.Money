@@ -49,8 +49,9 @@ module.exports = function BankTransactionBusiness(logger, errors, data, bankAcco
         const ofxStatement = ofx.OFX.BANKMSGSRSV1.STMTTRNRS.STMTRS;
         const ofxTransactions = ofxStatement.BANKTRANLIST.STMTTRN;
 
+        logger.debug(category, context, 'ofxStatement.BANKACCTFROM =', ofxStatement.BANKACCTFROM);
         let account = await bankAccountData.getOneByNumber(userCookie, ofxStatement.BANKACCTFROM.ACCTID);
-        logger.error(category, context, 'account =', account);
+        logger.debug(category, context, 'account =', account);
         if (account.error)
             return errors.create(context, 'UserData', 'The bank account identified in the imported file is not registered in the application.');
 

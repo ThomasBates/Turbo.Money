@@ -83,15 +83,20 @@ module.exports = function BankAccountData(logger, errors, table) {
         encode, decode, decodeList, validate);
 
     // Find a single Bank account with an account number
-    const getOneByNumber = async (accountNumber) => {
+    const getOneByNumber = async (userCookie, accountNumber) => {
         const context = `${module}.${getOneByNumber.name}`;
         try {
-            let data = await table.findAll({ where: { number: accountNumber } })
+            let data = await table.findAll({
+                where: {
+                    UserFamilyId: userCookie.familyId,
+                    number: accountNumber
+                }
+            })
 
             if (!data || data.length == 0)
                 return { error: `Cannot find bank account with number=${accountNumber}.` };
 
-            return decode(data[0]);
+            return decode(userCookie, data[0]);
         } catch (ex) {
             logger.error(category, context, 'ex =', ex);
             return errors.create(context, 'Catch', ex.message);
