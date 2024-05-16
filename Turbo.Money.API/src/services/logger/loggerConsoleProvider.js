@@ -1,21 +1,6 @@
 
 module.exports = function loggerConsoleProvider() {
 
-    //  Use this for front-end, because it has access to 'window' properties.
-    //var isPerformanceSupported = (
-    //    window.performance &&
-    //    window.performance.now &&
-    //    window.performance.timing &&
-    //    window.performance.timing.navigationStart
-    //);
-    //function timeStampInMs() {
-    //    return (
-    //        isPerformanceSupported
-    //            ? window.performance.now() + window.performance.timing.navigationStart
-    //            : Date.now()
-    //    );
-    //}
-
     function getFullTimestamp() {
         const pad = (n, s = 2) => (`${new Array(s).fill(0)}${n}`).slice(-s);
         const d = new Date();

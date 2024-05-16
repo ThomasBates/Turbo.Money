@@ -5,7 +5,7 @@ module.exports = function BankController(logger, business) {
     const createSampleData = async (req, res) => {
         const userCookie = jwt.decode(req.cookies.user);
 
-        const result = await business.createSampleData(userCookie);
+        const result = await business.createSampleData(userCookie.familyId);
 
         return res.json(result);
     };

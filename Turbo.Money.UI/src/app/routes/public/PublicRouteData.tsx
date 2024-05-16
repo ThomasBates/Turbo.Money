@@ -24,9 +24,10 @@ import PublicViewModel from 'pages/app/public/viewModels/PublicViewModel';
 import PublicView from 'pages/app/public/views/PublicView';
 
 import About from 'pages/app/About';
-import ILoggerService from '../../../services/logger/ILoggerService';
-import IErrorService from '../../../services/errors/IErrorService';
-import IUserService from '../../../services/user/IUserService';
+
+import ILoggerService from 'services/logger/ILoggerService';
+import IErrorService from 'services/errors/IErrorService';
+import IUserService from 'services/user/IUserService';
 
 
 //  ----------------------------------------------------------------------------
@@ -74,8 +75,15 @@ export default function PublicRouteData(
             },
 
             // OAuth 2.0 sources will redirect here
-            { path: '/auth_callback', element: <AuthCallback /> },
-            { path: '/auth/callback_google_signin', element: <AuthCallback /> },  // google will redirect here
+            {
+                path: '/auth_callback',
+                element: <AuthCallback logger={loggerService} userService={userService} />
+            },
+            // google will redirect here
+            {
+                path: '/auth/callback_google_signin',
+                element: <AuthCallback logger={loggerService} userService={userService} />
+            },  
 
             {
                 path: "/signUpEmail",

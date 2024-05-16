@@ -23,7 +23,8 @@ export default function PrivateNavData(): IMenuData {
                 content: "Budget",
                 width: 170,
                 list: [
-                    { content: "Budget Worksheet", to: "/BudgetWorksheetView" },
+                    { content: "Budget Schedule", to: "/BudgetSchedule" },
+                    { content: "Budget Worksheet", to: "/BudgetWorksheet" },
                     { content: "View Budget", to: "/BudgetView", enabled: false }
                 ]
             },
@@ -54,8 +55,8 @@ export default function PrivateNavData(): IMenuData {
                         width: 210,
                         list: [
                             { content: "Bank Worksheet", to: "/BankWorksheet" },
-                            { content: "Bank Setup", to: "/BankBankView" },
-                            { content: "Bank Account Setup", to: "/BankAccountView" },
+                            { content: "Bank Setup", to: "/BankBank" },
+                            { content: "Bank Account Setup", to: "/BankAccount" },
                             { content: "Create Sample Bank Data", action: BankDataProvider().createSampleData },
                         ]
                     },
@@ -63,9 +64,9 @@ export default function PrivateNavData(): IMenuData {
                         content: "Setup Budget Data",
                         width: 230,
                         list: [
-                            { content: "Budget Section Setup", to: "/BudgetSectionView" },
-                            { content: "Budget Category Setup", to: "/BudgetCategoryView" },
-                            { content: "Budget Account Setup", to: "/BudgetAccountView" },
+                            { content: "Budget Section Setup", to: "/BudgetSection" },
+                            { content: "Budget Category Setup", to: "/BudgetCategory" },
+                            { content: "Budget Account Setup", to: "/BudgetAccount" },
                             { content: "Create Sample Budget Data", action: BudgetDataProvider().createSampleData },
                         ]
                     },

@@ -8,13 +8,19 @@ const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 
 const config = require('../config/config')[env];
+console.log('config =', config);
 
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
+//------------------------------------------------
+const loggerProvider = require("../../services/logger/loggerConsoleProvider")();
+const logger = require("../../services/logger/logger")(loggerProvider);
+//logger.enableSeverity('verbose');
+logger.enableCategory('Sequelize');
+config.logging = (msg) => logger.verbose('Sequelize', 'Sequelize.models', msg);
+//------------------------------------------------
+
+const sequelize = config.use_env_variable
+    ? new Sequelize(process.env[config.use_env_variable], config)
+    : new Sequelize(config.database, config.username, config.password, config);
 
 const db = {
     sequelize,
@@ -44,6 +50,21 @@ Object.keys(sequelize.models).forEach(modelName => {
         db[modelName].associate(db);
     }
 });
+
+if (!true) {
+    Object.keys(sequelize.models).forEach(modelName => {
+
+        const record = db[modelName].build({});
+        const prototype = Object.getPrototypeOf(record);
+        const propertyNames = Object.getOwnPropertyNames(prototype);
+        console.log('/*')
+        console.log(`${modelName}.propertyNames:`);
+        console.log(propertyNames);
+        console.log('*/')
+        console.log('')
+
+    });
+}
 
 //console.log('db =', db);
 

@@ -48,7 +48,7 @@ export default function BankAccountMainViewModel(
             logger.debug(category, context, 'response.data =', response.data);
 
             const newBanks = response.data
-                .map((bank:IModelItem) => ({
+                .map((bank: IModelItem) => ({
                     id: bank.id,
                     name: bank.name
                 }))

@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = (logger) => {
+module.exports = async (logger) => {
     const path = require('path');
     const { Umzug, SequelizeStorage } = require('umzug');
 
@@ -15,9 +15,7 @@ module.exports = (logger) => {
         logger: console,
     });
 
-    (async () => {
-        await umzug.up();
-    })();
+    await umzug.up();
 
     return db;
 }

@@ -2,6 +2,7 @@
 const { Model } = require('sequelize');
 
 /*
+UserRole.propertyNames:
 [
   'constructor',       '_customGetters',
   '_customSetters',    'validators',

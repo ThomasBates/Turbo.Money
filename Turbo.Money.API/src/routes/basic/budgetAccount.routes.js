@@ -1,4 +1,4 @@
 
 module.exports = (app, logger, errors, controller) => {
-    require("./common.routes")(app, logger, errors, controller, 'budgetAccount');
+    require("./commonPeriod.routes")(app, logger, errors, controller, 'budgetAccount');
 };

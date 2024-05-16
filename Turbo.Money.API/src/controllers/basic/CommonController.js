@@ -1,10 +1,11 @@
 
 module.exports = function CommonController(
-    logger, errors, category, business,
-    decode, encode, encodeList) {
+    logger, errors, business,
+    category, converter) {
     const module = CommonController.name;
 
     const jwt = require("jsonwebtoken");
+    const helper = require("../converters/ConverterHelper")(errors, converter);
 
     // Create and save a new object record
     const create = async (req, res) => {
@@ -12,21 +13,21 @@ module.exports = function CommonController(
         const userCookie = jwt.decode(req.cookies.user);
 
         logger.debug(category, context, 'req.body =', req.body);
-        const decodedObject = decode(req.body);
+        const decodedObject = helper.decodeObject(req.body, converter.validate, converter.decode);
         logger.debug(category, context, 'decodedObject =', decodedObject);
         if (errors.handle(context, res, 400, decodedObject.error))
             return;
 
-        const validation = await business.validate(userCookie, decodedObject);
+        const validation = await business.validate(userCookie.familyId, decodedObject);
         if (errors.handle(context, res, 400, validation.error))
             return;
 
-        const returnObject = await business.create(userCookie, decodedObject);
+        const returnObject = await business.create(userCookie.familyId, decodedObject);
         logger.debug(category, context, 'returnObject =', returnObject);
         if (errors.handle(context, res, 500, returnObject.error))
             return;
 
-        const encodedObject = encode(returnObject);
+        const encodedObject = helper.encodeObject(returnObject, converter.encode);
         logger.debug(category, context, 'encodedObject =', encodedObject);
         if (errors.handle(context, res, 500, encodedObject.error))
             return;
@@ -39,28 +40,16 @@ module.exports = function CommonController(
         const context = `${module}.${getAll.name}`;
         const userCookie = jwt.decode(req.cookies.user);
 
-        const returnList = await business.getAll(userCookie);
+        const returnList = await business.getAll(userCookie.familyId);
         logger.verbose(category, context, 'returnList =', returnList);
         if (errors.handle(context, res, 500, returnList.error))
             return;
 
-        let error = null;
-        let encodedList = returnList.list.map(businessObject => {
-            if (error)
-                return error;
-
-            const encodedObject = encode(businessObject);
-            if (encodedObject.error) {
-                error = errors.create(context, encodedObject.error.code, encodedObject);
-                return error;
-            }
-            return encodedObject;
-        });
-
-        if (errors.handle(context, res, 500, error))
+        const encodedList = helper.encodeList(returnList.list, converter.encode);
+        logger.verbose(category, context, 'encodedList =', encodedList);
+        if (errors.handle(context, res, 500, encodedList.error))
             return;
 
-        logger.verbose(category, context, 'encodedList =', encodedList);
         res.send(encodedList);
     };
 
@@ -69,12 +58,12 @@ module.exports = function CommonController(
         const context = `${module}.${getList.name}`;
         const userCookie = jwt.decode(req.cookies.user);
 
-        const returnList = await business.getList(userCookie);
+        const returnList = await business.getList(userCookie.familyId);
         logger.verbose(category, context, 'returnList =', returnList);
         if (errors.handle(context, res, 500, returnList.error))
             return;
 
-        const encodedList = encodeList(returnList.list);
+        const encodedList = helper.encodeList(returnList.list, converter.encodeBrief);
         logger.verbose(category, context, 'encodedList =', encodedList);
         if (errors.handle(context, res, 500, encodedList.error))
             return;
@@ -90,12 +79,12 @@ module.exports = function CommonController(
         const id = req.params.id;
         logger.debug(category, context, 'id =', id);
 
-        const businessObject = await business.getOne(userCookie, id);
+        const businessObject = await business.getOne(userCookie.familyId, id);
         logger.verbose(category, context, 'businessObject =', businessObject);
         if (errors.handle(context, res, 500, businessObject.error))
             return;
 
-        const encodedObject = encode(businessObject);
+        const encodedObject = helper.encodeObject(businessObject, converter.encode);
         logger.verbose(category, context, 'encodedObject =', encodedObject);
         if (errors.handle(context, res, 500, encodedObject.error))
             return;
@@ -111,21 +100,21 @@ module.exports = function CommonController(
         logger.debug(category, context, 'id =', id);
         logger.debug(category, context, 'req.body =', req.body);
 
-        const decodedObject = decode(req.body);
+        const decodedObject = helper.decodeObject(req.body, converter.validate, converter.decode);
         logger.debug(category, context, 'decodedObject =', decodedObject);
         if (errors.handle(context, res, 400, decodedObject.error))
             return;
 
-        const validation = await business.validate(userCookie, decodedObject);
+        const validation = await business.validate(userCookie.familyId, decodedObject);
         if (errors.handle(context, res, 400, validation.error))
             return;
 
-        const returnObject = await business.update(userCookie, decodedObject);
+        const returnObject = await business.update(userCookie.familyId, decodedObject);
         logger.debug(category, context, 'returnObject =', returnObject);
         if (errors.handle(context, res, 500, returnObject.error))
             return;
 
-        const encodedObject = encode(returnObject);
+        const encodedObject = helper.encodeObject(returnObject, converter.encode);
         logger.debug(category, context, 'encodedObject =', encodedObject);
         if (errors.handle(context, res, 500, encodedObject.error))
             return;
@@ -142,11 +131,11 @@ module.exports = function CommonController(
         const id = req.params.id;
         logger.debug(category, context, 'id =', id);
 
-        const deletedObject = await business.deleteById(userCookie, id);
+        const deletedObject = await business.deleteOne(userCookie.familyId, id);
         if (errors.handle(context, res, 500, deletedObject.error))
             return;
 
-        const encodedObject = encode(deletedObject);
+        const encodedObject = helper.encodeObject(deletedObject, converter.encode);
         if (errors.handle(context, res, 500, encodedObject.error))
             return;
 
@@ -158,24 +147,12 @@ module.exports = function CommonController(
         const context = `${module}.${deleteAll.name}`;
         const userCookie = jwt.decode(req.cookies.user);
 
-        const deletedList = await business.deleteAll(userCookie);
+        const deletedList = await business.deleteAll(userCookie.familyId);
         if (errors.handle(context, res, 500, deletedList.error))
             return;
 
-        let error = null;
-        let encodedList = deletedList.map(deletedObject => {
-            if (error)
-                return error;
-
-            const encodedObject = encode(deletedObject);
-            if (encodedObject.error) {
-                error = errors.create(context, encodedObject.error.code, encodedObject);
-                return error;
-            }
-            return encodedObject;
-        });
-
-        if (errors.handle(context, res, 500, error))
+        let encodedList = helper.encodeList(deletedList.list, converter.encode);
+        if (errors.handle(context, res, 500, encodedList.error))
             return;
 
         res.send(encodedList);

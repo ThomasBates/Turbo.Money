@@ -1,0 +1,55 @@
+
+/*  ------------------------------------------------------------------------  */
+
+.title {
+    color: #ffffff;
+    text-align: center;
+    text-shadow: 0 0 5px #ff0000;
+}
+
+.schedule_form {
+}
+
+.schedule_table {
+    background-color: #222;
+    width: 100%;
+    padding: 10px;
+}
+
+.schedule_label {
+    width: 50%;
+    text-align: right;
+    padding: 0 10px;
+}
+
+    .schedule_label::after {
+        content: ':';
+    }
+
+.schedule_control {
+    width: 100%;
+}
+
+/*  ------------------------------------------------------------------------  */
+
+.button_control {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #444;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.disabled_button_control {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #444;
+    border-radius: 10px;
+    opacity: 50%;
+    cursor: default;
+}
+
+.submit_button {
+    background-color: #030;
+    color: #ccc;
+}

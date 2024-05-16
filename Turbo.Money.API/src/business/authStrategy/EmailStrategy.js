@@ -16,7 +16,7 @@ module.exports = function EmailStrategy(logger, errors) {
 
     const jwt = require("jsonwebtoken");
 
-    const CommonStrategy = require('./CommonStrategy')(logger, strategy);
+    const CommonStrategy = require('./CommonStrategy')(logger, errors, strategy);
 
     function getSignInUrl() {
         return CommonStrategy.getSignInUrl();

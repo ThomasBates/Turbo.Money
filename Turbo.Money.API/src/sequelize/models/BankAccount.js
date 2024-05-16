@@ -1,6 +1,56 @@
 'use strict';
 const { Model } = require('sequelize');
 
+/*
+BankAccount.propertyNames:
+[
+  'constructor',
+  '_customGetters',
+  '_customSetters',
+  'validators',
+  '_hasCustomGetters',
+  '_hasCustomSetters',
+  'id',
+  'activeStart',
+  'activeEnd',
+  'name',
+  'description',
+  'number',
+  'createdAt',
+  'updatedAt',
+  'rawAttributes',
+  '_isAttribute',
+  'UserFamilyId',
+  'getUserFamily',
+  'setUserFamily',
+  'createUserFamily',
+  'BankBankId',
+  'getBankBank',
+  'setBankBank',
+  'createBankBank',
+  'getBankAccountPeriods',
+  'countBankAccountPeriods',
+  'hasBankAccountPeriod',
+  'hasBankAccountPeriods',
+  'setBankAccountPeriods',
+  'addBankAccountPeriod',
+  'addBankAccountPeriods',
+  'removeBankAccountPeriod',
+  'removeBankAccountPeriods',
+  'createBankAccountPeriod',
+  'getBankTransactions',
+  'countBankTransactions',
+  'hasBankTransaction',
+  'hasBankTransactions',
+  'setBankTransactions',
+  'addBankTransaction',
+  'addBankTransactions',
+  'removeBankTransaction',
+  'removeBankTransactions',
+  'createBankTransaction'
+]
+*/
+
 module.exports = (db) => {
     const sequelize = db.sequelize;
     const DataTypes = db.Sequelize.DataTypes;
@@ -18,10 +68,10 @@ module.exports = (db) => {
     }
 
     BankAccount.init({
-        activeFrom: {
+        activeStart: {
             type: DataTypes.DATE
         },
-        activeTo: {
+        activeEnd: {
             type: DataTypes.DATE
         },
         name: {
@@ -31,9 +81,6 @@ module.exports = (db) => {
             type: DataTypes.STRING
         },
         number: {
-            type: DataTypes.STRING
-        },
-        tag: {
             type: DataTypes.STRING
         },
     }, {

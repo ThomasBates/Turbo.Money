@@ -1,6 +1,28 @@
 'use strict';
 const { Model } = require('sequelize');
 
+/*
+BankBank.propertyNames:
+[
+  'constructor',       '_customGetters',
+  '_customSetters',    'validators',
+  '_hasCustomGetters', '_hasCustomSetters',
+  'id',                'activeStart',
+  'activeEnd',         'name',
+  'description',       'number',
+  'branch',            'createdAt',
+  'updatedAt',         'rawAttributes',
+  '_isAttribute',      'getBankAccounts',
+  'countBankAccounts', 'hasBankAccount',
+  'hasBankAccounts',   'setBankAccounts',
+  'addBankAccount',    'addBankAccounts',
+  'removeBankAccount', 'removeBankAccounts',
+  'createBankAccount', 'UserFamilyId',
+  'getUserFamily',     'setUserFamily',
+  'createUserFamily'
+]
+*/
+
 module.exports = (db) => {
     const sequelize = db.sequelize;
     const DataTypes = db.Sequelize.DataTypes;
@@ -15,10 +37,10 @@ module.exports = (db) => {
     }
 
     BankBank.init({
-        activeFrom: {
+        activeStart: {
             type: DataTypes.DATE
         },
-        activeTo: {
+        activeEnd: {
             type: DataTypes.DATE
         },
         name: {
@@ -31,9 +53,6 @@ module.exports = (db) => {
             type: DataTypes.STRING
         },
         branch: {
-            type: DataTypes.STRING
-        },
-        tag: {
             type: DataTypes.STRING
         },
     }, {

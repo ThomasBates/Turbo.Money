@@ -7,6 +7,7 @@ import BasicEditViewModel from "pages/basic/common/viewModels/BasicEditViewModel
 import IBasicModeViewModelProps from "pages/basic/common/viewModels/IBasicModeViewModelProps";
 
 import IBudgetAccountEditViewModel from "./IBudgetAccountEditViewModel";
+import { BudgetAccountType } from "../../../../models/budget/BudgetAccountType";
 
 
 export default function BudgetAccountEditViewModel(
@@ -16,11 +17,11 @@ export default function BudgetAccountEditViewModel(
     const account = item as IBudgetAccount;
 
     const amountTypes = [
-        { value: "min", text: "Minimum" },
-        { value: "fix", text: "Fixed" },
-        { value: "max", text: "Maximum" },
-        { value: "est", text: "Estimate" },
-        { value: "avg", text: "Average" }
+        { value: BudgetAccountType.minimum, text: "Minimum" },
+        { value: BudgetAccountType.fixed, text: "Fixed" },
+        { value: BudgetAccountType.maximum, text: "Maximum" },
+        { value: BudgetAccountType.estimate, text: "Estimate" },
+        { value: BudgetAccountType.average, text: "Average" }
     ];
 
     const common = BasicEditViewModel({

@@ -3,7 +3,7 @@ module.exports = function UserData(logger, errors, db) {
     const module = UserData.name;
     const category = "User";
 
-    const encode = (user) => {
+    const encodeUser = (user) => {
         const data = {
             //id: user.id,
             name: user.name,
@@ -19,7 +19,7 @@ module.exports = function UserData(logger, errors, db) {
         return data;
     }
 
-    const decode = (data) => {
+    const decodeUser = (data) => {
         const user = {
             id: data.id,
             name: data.name,
@@ -33,15 +33,6 @@ module.exports = function UserData(logger, errors, db) {
             }
         };
         return user;
-    }
-
-    const decodeList = (data) => {
-
-        const users = data.map(item => {
-            return { id: item.id, name: item.name }
-        });
-
-        return { list: users };
     }
 
     const validateUser = (user) => {
@@ -82,7 +73,7 @@ module.exports = function UserData(logger, errors, db) {
             return errors.create(context, 'InvalidData', validation);
 
         // transform business object to data object.
-        const encodedUser = encode(user);
+        const encodedUser = encodeUser(user);
         logger.debug(category, context, 'encodedUser =', encodedUser);
         if (encodedUser.error)
             return errors.create(context, 'InvalidData', encodedUser);
@@ -102,7 +93,7 @@ module.exports = function UserData(logger, errors, db) {
             logger.verbose(category, context, 'data =', data.toJSON());
 
             // transform returned data object to return business object.
-            const decodedUser = decode(data);
+            const decodedUser = decodeUser(data);
             logger.debug(category, context, 'decodedUser =', decodedUser);
             if (decodedUser.error)
                 return errors.create(context, 'InvalidData', decodedUser);
@@ -127,7 +118,7 @@ module.exports = function UserData(logger, errors, db) {
             logger.debug(category, context, 'data =', data.toJSON());
 
             if (data) {
-                return decode(data);
+                return decodeUser(data);
             }
 
             return errors.create(context, 'MissingData', `Cannot find data object with id=${id}.`);
@@ -150,12 +141,11 @@ module.exports = function UserData(logger, errors, db) {
                     },
                 }]
             });
-            logger.verbose(category, context, 'data =', userRecord);
-
             if (!userRecord)
                 return errors.create(context, 'MissingData', `Cannot find user object with source="${source}" and sourceId="${sourceId}".`);
+            logger.verbose(category, context, 'userRecord =', userRecord.toJSON());
 
-            const decodedUser = decode(userRecord);
+            const decodedUser = decodeUser(userRecord);
             logger.debug(category, context, 'decodedUser =', decodedUser);
 
             logger.debug(category, context, 'return', decodedUser);
@@ -179,7 +169,7 @@ module.exports = function UserData(logger, errors, db) {
 
         try {
             const userRecord = await db.user.findByPk(user.id);
-            logger.verbose(category, context, 'userRecord =', userRecord);
+            logger.verbose(category, context, 'userRecord =', userRecord.toJSON());
             if (!userRecord)
                 return errors.create(context, 'InvalidData', `Cannot find user object with id = ${user.id}".`);
 
@@ -187,7 +177,7 @@ module.exports = function UserData(logger, errors, db) {
             const familyRecords = await userRecord.getUserFamilies({
                 where: { id: familyId }
             });
-            logger.verbose(category, context, 'familyRecords =', familyRecords);
+            logger.verbose(category, context, 'familyRecords =', familyRecords.map(item => item.toJSON()));
             if (!familyRecords || familyRecords.length < 1)
                 return errors.create(context, 'InvalidData', `Cannot find family records where user id = ${userRecord.id} and family id = ${familyId}.`);
 
@@ -214,7 +204,7 @@ module.exports = function UserData(logger, errors, db) {
             return errors.create(context, 'InvalidData', validation);
 
         // transform business object to data object.
-        const encodedUser = encode(user);
+        const encodedUser = encodeUser(user);
         logger.debug(category, context, 'encodedUser =', encodedUser);
         if (encodedUser.error)
             return errors.create(context, 'InvalidData', encodedUser);
@@ -313,11 +303,11 @@ module.exports = function UserData(logger, errors, db) {
         try {
             // get user record
             const userRecord = await db.user.findByPk(userId);
-            logger.verbose(category, context, 'userRecord =', userRecord);
+            logger.verbose(category, context, 'userRecord =', userRecord.toJSON());
 
             // get family records
             const familyRecords = await userRecord.getUserFamilies();
-            logger.verbose(category, context, 'familyRecords =', familyRecords);
+            logger.verbose(category, context, 'familyRecords =', familyRecords.map(item => item.toJSON()));
 
             if (familyRecords.length == 0) 
                 return errors.create(context, 'InvalidData', "No UserFamily records found.");
@@ -342,26 +332,28 @@ module.exports = function UserData(logger, errors, db) {
             }
 
             // get role and grants for selected family record.
-            const familyRoleRecord = await userRecord.getUserFamilyRoles({
+            const familyRoleRecords = await userRecord.getUserFamilyRoles({
                 where: { UserFamilyId: selectedFamilyRecord.id }
             });
-            logger.verbose(category, context, 'familyRoleRecord =', familyRoleRecord);
+            logger.verbose(category, context, 'familyRoleRecord =', familyRoleRecords.map(item => item.toJSON()));
 
-            const roleRecord = await familyRoleRecord[0].getUserRole();
-            logger.verbose(category, context, 'roleRecord =', roleRecord);
+            const roleRecord = await familyRoleRecords[0].getUserRole();
+            logger.verbose(category, context, 'roleRecord =', roleRecord.toJSON());
 
             const grantRecords = await roleRecord.getUserGrants();
-            logger.verbose(category, context, 'grantRecords =', grantRecords);
+            logger.verbose(category, context, 'grantRecords =', grantRecords.map(item => item.toJSON()));
 
             const grantList = grantRecords.map(record => record.name);
             logger.verbose(category, context, 'grantList =', grantList);
 
-            user = {
+            const user = {
+                id: userRecord.id,
                 name: userRecord.name,
                 picture: userRecord.picture,
                 subscription: userRecord.subscription,
                 familyNames,
                 selectedFamily: {
+                    id: selectedFamilyRecord.id,
                     name: selectedFamilyRecord.name,
                     isInitial: selectedFamilyRecord.isInitial,
                     role: {
@@ -389,13 +381,13 @@ module.exports = function UserData(logger, errors, db) {
         try {
             // get user record
             const userRecord = await db.user.findByPk(user.id);
-            logger.verbose(category, context, 'userRecord =', userRecord);
+            logger.verbose(category, context, 'userRecord =', userRecord.toJSON());
             if (!userRecord)
                 return errors.create(context, 'InvalidData', `Cannot find user record where user id = ${user.id}.`);
 
             // get family records
             const familyRecords = await userRecord.getUserFamilies();
-            logger.verbose(category, context, 'familyRecords =', familyRecords);
+            logger.verbose(category, context, 'familyRecords =', familyRecords.map(item => item.toJSON()));
             if (!familyRecords || familyRecords.length < 1)
                 return errors.create(context, 'InvalidData', `Cannot find family records for user id = ${userRecord.id}.`);
 

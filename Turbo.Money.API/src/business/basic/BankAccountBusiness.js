@@ -4,27 +4,27 @@ module.exports = function BankAccountBusiness(logger, errors, data) {
     const category = 'Business';
 
     // Validate bank account data
-    const validate = async (userCookie, testAccount) => {
+    const validate = async (familyId, testAccount) => {
         const context = `${module}.${validate.name}`;
         logger.debug(category, context, 'testAccount =', testAccount);
 
-        const accounts = await data.getList(userCookie);
-        logger.debug(category, context, 'accounts =', accounts);
+        const accountList = await data.getList(familyId);
+        logger.debug(category, context, 'accountList =', accountList);
 
-        if (accounts.error)
-            return errors.create(context, accounts.error.code, accounts);
+        if (accountList.error)
+            return errors.create(context, accountList.error.code, accountList);
 
-        if (!accounts || !accounts.list || accounts.length == 0)
+        if (!accountList || !accountList.list || accountList.length == 0)
             return {};
 
-        let matching = accounts.list.find(account =>
+        let matching = accountList.list.find(account =>
             account.name.toUpperCase() == testAccount.name.toUpperCase() &&
             account.id != testAccount.id);
         logger.debug(category, context, 'matching =', matching);
         if (matching)
             return errors.create(context, 'InvalidData', "Bank Account name must be unique.");
 
-        matching = accounts.list.some(account =>
+        matching = accountList.list.some(account =>
             account.bankId == testAccount.bankId &&
             account.number == testAccount.number &&
             account.id != testAccount.id);

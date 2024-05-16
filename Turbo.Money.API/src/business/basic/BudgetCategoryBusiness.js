@@ -4,20 +4,19 @@ module.exports = function BudgetCategoryBusiness(logger, errors, data) {
     const category = 'Business';
 
     // Validate Budget Category data
-    const validate = async (userCookie, testCategory) => {
+    const validate = async (familyId, periodId, testCategory) => {
         const context = `${module}.${validate.name}`;
         logger.debug(category, context, 'testCategory =', testCategory);
 
-        const categories = await data.getList(userCookie);
-        logger.debug(category, context, 'categories =', categories);
+        const categoryList = await data.getListForPeriod(familyId, periodId);
+        logger.debug(category, context, 'categoryList =', categoryList);
+        if (categoryList.error)
+            return errors.create(context, categoryList.error.code, categoryList);
 
-        if (categories.error)
-            return errors.create(context, categories.error.code, categories);
-
-        if (!categories || !categories.list || categories.length == 0)
+        if (!categoryList || !categoryList.list || categoryList.length == 0)
             return {};
 
-        let matching = categories.list.find(category =>
+        let matching = categoryList.list.find(category =>
             category.name.toUpperCase() == testCategory.name.toUpperCase() &&
             category.id != testCategory.id);
         logger.debug(category, context, 'matching =', matching);
@@ -27,6 +26,6 @@ module.exports = function BudgetCategoryBusiness(logger, errors, data) {
         return {};
     }
 
-    const common = require('./CommonBusiness')(logger, errors, data);
+    const common = require('./CommonPeriodBusiness')(logger, errors, data);
     return { ...common, validate };
 }

@@ -14,8 +14,6 @@ export default function DashboardView({ dataContext }: IFactoryViewProps) {
         })();
     }, []);
 
-    //viewModel = viewModel(viewModelArgs);
-
     return (
         <div>
             <h1 className='tb-page-title'>It's My Money</h1>
@@ -24,10 +22,14 @@ export default function DashboardView({ dataContext }: IFactoryViewProps) {
             <img src={viewModel.user?.picture} alt={viewModel.user?.name} />
             <br />
             <div>
-                {viewModel.posts.map((post) => <div key={post.title}>
+                {viewModel.posts ? (
+                    viewModel.posts.map((post) => <div key={post.title}>
                     <h5>{post.title}</h5>
                     <p>{post.body}</p>
-                </div>)}
+                    </div>)
+                ) : (
+                    <p>No posts.</p>
+                )}
             </div>
         </div>
     )

@@ -3,9 +3,9 @@ module.exports = function BankData(logger, errors, db) {
     const module = BankData.name;
     const category = 'Bank';
 
-    const createSampleData = async (userCookie, banks, bankAccounts) => {
+    const createSampleData = async (familyId, banks, bankAccounts) => {
         const context = `${module}.${createSampleData.name}`;
-        logger.debug(category, context, 'userCookie =', userCookie);
+        logger.debug(category, context, 'familyId =', familyId);
 
         try {
 
@@ -15,7 +15,7 @@ module.exports = function BankData(logger, errors, db) {
                         name: bank.name,
                         number: bank.number,
                         branch: bank.branch,
-                        UserFamilyId: userCookie.familyId,
+                        UserFamilyId: familyId,
                     });
                     bank.id = data.id;
                 })
@@ -28,7 +28,7 @@ module.exports = function BankData(logger, errors, db) {
                         name: account.name,
                         BankBankId: bank.id,
                         number: account.number,
-                        UserFamilyId: userCookie.familyId,
+                        UserFamilyId: familyId,
                     });
                 })
             );

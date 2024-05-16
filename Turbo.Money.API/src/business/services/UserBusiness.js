@@ -92,6 +92,30 @@ module.exports = function UserBusiness(logger, errors, data) {
 
     //  Exported Functions  ------------------------------------------------------------------------
 
+    const createSampleData = async () => {
+        const context = `${module}.${createSampleData.name}`;
+        logger.debug(category, context, '***************************************************');
+
+        let sampleUser = await data.getUserByAuthorization({
+            source: 'email',
+            sourceId: 'sample'
+        });
+        logger.debug(category, context, 'sampleUser =', sampleUser);
+        if (!sampleUser.error)
+            return getUserFamilyRoleGrants(sampleUser.id);
+
+        if (sampleUser.error.code !== 'MissingData')
+            return errors.create(context, sampleUser.error.code, sampleUser);
+
+        const signInResult = await signIn('email', 'signUp', {
+            name: 'Sample User',
+            email: 'sample',
+            password: 'sample',
+        });
+        logger.debug(category, context, 'signInResult =', signInResult);
+        return signInResult.user;
+    }
+
     const getSignInUrl = (source, mode) => {
         const context = `${module}.${getSignInUrl.name}`;
         logger.debug(category, context, '***************************************************');
@@ -271,12 +295,12 @@ module.exports = function UserBusiness(logger, errors, data) {
         const user = await data.getUserByAuthorization(userCookie);
         logger.debug(category, context, 'user =', user);
         if (user.error)
-            return errors.create(user.error.code, user);
+            return errors.create(context, user.error.code, user);
 
         const family = await data.getUserFamily(user, userCookie.familyId);
         logger.debug(category, context, 'family =', family);
         if (family.error)
-            return errors.create(family.error.code, family);
+            return errors.create(context, family.error.code, family);
 
         return {}
     }
@@ -289,7 +313,7 @@ module.exports = function UserBusiness(logger, errors, data) {
         logger.debug(category, context, 'existingUser =', existingUser);
         if (existingUser.error) {
             if (existingUser.error.code !== 'MissingData')
-                return errors.create(context, existingUser.error.code, existingUser.error);
+                return errors.create(context, existingUser.error.code, existingUser);
         }
         else {
             return errors.create(context, 'DataExists', "User already exists.");
@@ -402,6 +426,7 @@ module.exports = function UserBusiness(logger, errors, data) {
     }
 
     return {
+        createSampleData,
         getSignedIn,
         getSignInUrl,
         signIn,

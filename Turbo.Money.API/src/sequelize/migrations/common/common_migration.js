@@ -27,3 +27,10 @@ module.exports = function CommonMigration(getMigrationCommands, getRollbackComma
             execute(migration.context, getRollbackCommands),
     };
 }
+
+/*
+Replace the code in the bottom of the migration file with this line:
+
+module.exports = require('./common/common_migration')(migrationCommands, rollbackCommands);
+
+*/

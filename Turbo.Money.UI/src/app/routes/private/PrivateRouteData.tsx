@@ -23,15 +23,20 @@ import BankTransactionDataService from "pages/services/bankTransactions/data/Ban
 import DashboardViewModel from 'pages/app/dashboard/viewModels/DashboardViewModel';
 import DashboardView from 'pages/app/dashboard/views/DashboardView';
 
+import BudgetScheduleDataProvider from 'data/axios/basic/BudgetScheduleDataProvider';
+import BudgetScheduleViewModel from 'pages/services/budgetSchedule/viewModels/BudgetScheduleViewModel';
+import BudgetScheduleView from 'pages/services/budgetSchedule/views/BudgetScheduleView';
+
+import BudgetDataProvider from 'data/axios/services/BudgetDataProvider';
+import BudgetWorksheetDataService from "pages/worksheets/budgetWorksheet/data/BudgetWorksheetDataService";
+import BudgetWorksheetMainViewModel from 'pages/worksheets/budgetWorksheet/viewModels/BudgetWorksheetMainViewModel';
+import BudgetWorksheetMainView from 'pages/worksheets/budgetWorksheet/views/BudgetWorksheetMainView';
+
+import BudgetView from 'pages/worksheets/BudgetView';
+
 import BankWorksheetDataService from "pages/worksheets/bankWorksheet/data/BankWorksheetDataService";
 import BankWorksheetViewModel from 'pages/worksheets/bankWorksheet/viewModels/BankWorksheetViewModel';
 import BankWorksheetView from 'pages/worksheets/bankWorksheet/views/BankWorksheetView';
-
-import BudgetWorksheetDataService from "pages/worksheets/budgetWorksheet/data/BudgetWorksheetDataService";
-import BudgetWorksheetViewModel from 'pages/worksheets/budgetWorksheet/viewModels/BudgetWorksheetViewModel';
-import BudgetWorksheetView from 'pages/worksheets/budgetWorksheet/views/BudgetWorksheetView';
-
-import BudgetView from 'pages/worksheets/BudgetView';
 
 import TransactionEntry from 'pages/services/TransactionEntry';
 
@@ -114,15 +119,23 @@ export default function PrivateRouteData(
 
             //  Budget 
             {
-                path: "/BudgetWorksheetView",
-                element: < BudgetWorksheetView dataContext={() =>
-                    BudgetWorksheetViewModel(
+                path: "/BudgetSchedule",
+                element: < BudgetScheduleView dataContext={() =>
+                    BudgetScheduleViewModel(
+                        loggerService,
+                        errorService,
+                        BudgetScheduleDataProvider
+                    )
+                } />
+            },
+            {
+                path: "/BudgetWorksheet",
+                element: < BudgetWorksheetMainView dataContext={() =>
+                    BudgetWorksheetMainViewModel(
                         loggerService,
                         BudgetWorksheetDataService(
                             loggerService,
-                            BudgetAccountDataProvider,
-                            BudgetCategoryDataProvider,
-                            BudgetSectionDataProvider
+                            BudgetDataProvider()
                         )
                     )
                 } />
@@ -175,7 +188,7 @@ export default function PrivateRouteData(
                 } />
             },
             {
-                path: "/BankBankView",
+                path: "/BankBank",
                 element: < BankBankMainView dataContext={() =>
                     BankBankViewModel(
                         loggerService,
@@ -185,7 +198,7 @@ export default function PrivateRouteData(
                 } />
             },
             {
-                path: "/BankAccountView",
+                path: "/BankAccount",
                 element: < BankAccountMainView dataContext={() =>
                     BankAccountMainViewModel(
                         loggerService,
@@ -197,7 +210,7 @@ export default function PrivateRouteData(
             },
 
             {
-                path: "/BudgetSectionView",
+                path: "/BudgetSection",
                 element: < BudgetSectionMainView dataContext={() =>
                     BudgetSectionMainViewModel(
                         loggerService,
@@ -207,7 +220,7 @@ export default function PrivateRouteData(
                 } />
             },
             {
-                path: "/BudgetCategoryView",
+                path: "/BudgetCategory",
                 element: < BudgetCategoryMainView dataContext={() =>
                     BudgetCategoryMainViewModel(
                         loggerService,
@@ -218,7 +231,7 @@ export default function PrivateRouteData(
                 } />
             },
             {
-                path: "/BudgetAccountView",
+                path: "/BudgetAccount",
                 element: < BudgetAccountMainView dataContext={() =>
                     BudgetAccountMainViewModel(
                         loggerService,

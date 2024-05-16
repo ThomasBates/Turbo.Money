@@ -1,6 +1,6 @@
 
 import IBankBank from "models/bank/IBankBank";
 
-import BasicDataProvider from "./BasicDataProvider";
+import CommonDataProvider from "./CommonDataProvider";
 
-export default BasicDataProvider<IBankBank>("bankBank");
+export default CommonDataProvider<IBankBank>("bankBank");

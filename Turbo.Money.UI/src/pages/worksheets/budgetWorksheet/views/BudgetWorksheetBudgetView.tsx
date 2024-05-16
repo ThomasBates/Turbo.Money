@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import ICommonStyle from "common/views/ICommonStyle";
-import IFactoryViewProps from "common/views/IFactoryViewProps";
+import IStyledFactoryViewProps from "common/views/IStyledFactoryViewProps";
 
 import Modal from 'controls/modal/Modal';
 
@@ -17,13 +17,12 @@ import IBasicModeViewModel from "pages/basic/common/viewModels/IBasicModeViewMod
 import BudgetWorksheetMenu from '../components/BudgetWorksheetMenu';
 
 import IBudgetWorksheetSectionViewModel from "../viewModels/IBudgetWorksheetSectionViewModel";
-import IBudgetWorksheetViewModel from "../viewModels/IBudgetWorksheetViewModel";
+import IBudgetWorksheetBudgetViewModel from "../viewModels/IBudgetWorksheetBudgetViewModel";
 
 import BudgetWorksheetSectionView from "./BudgetWorksheetSectionView";
 import IBudgetWorksheetModeViews from "./IBudgetWorksheetModeViews";
 
 import basicStyleModule from 'pages/basic/common/views/BasicMainView.module.css';
-import styleModule from "./BudgetWorksheet.module.css";
 
 const modeViews: Record<string, IBudgetWorksheetModeViews> = {
     BudgetSection: {
@@ -58,15 +57,14 @@ const ModeView = ({ modeViewModel, style }: IModeViewProps) => {
     );
 }
 
-export default function BudgetWorksheetView({ dataContext }: IFactoryViewProps) {
+export default function BudgetWorksheetBudgetView({ style, dataContext }: IStyledFactoryViewProps) {
 
-    const viewModel = dataContext() as IBudgetWorksheetViewModel;
-    const style = styleModule as ICommonStyle;
+    const viewModel = dataContext() as IBudgetWorksheetBudgetViewModel;
     const basicStyle = basicStyleModule as ICommonStyle;
 
-    useEffect(() => {
-        viewModel.loadBudgetData();
-    }, []);
+    //useEffect(() => {
+    //    viewModel.loadBudgetWorksheet();
+    //}, [viewModel, viewModel.selectedPeriod]);
 
     const query = window.matchMedia("(min-width:641px)");
     const [wide, setWide] = useState(query.matches);
@@ -78,11 +76,17 @@ export default function BudgetWorksheetView({ dataContext }: IFactoryViewProps) 
         content: "root",
         tooltip: "Budget Actions",
         list: [
-            { action: viewModel.loadBudgetData, icon: "load_icon", content: "Reload Budget", },
-            { action: viewModel.saveBudgetData, icon: "save_icon", content: "Save Budget",},
+            { action: viewModel.loadBudgetWorksheet, icon: "load_icon", content: "Reload Budget", },
+            { action: viewModel.saveBudgetWorksheet, icon: "save_icon", content: "Save Budget",},
             { action: viewModel.addSection, icon: "add_icon", content: "Create new budget section", },
         ]
     };
+
+    const isDeficit = viewModel.status === 'deficit';
+    const statusText = (wide ? "Budget " : "") + (isDeficit ? 'Deficit' : 'Surplus');
+    const currencyStyle = isDeficit ? style.deficit_currency : style.surplus_currency;
+    const textStyle = isDeficit ? style.deficit_text : style.surplus_text;
+
 
     return (
         <>
@@ -90,12 +94,9 @@ export default function BudgetWorksheetView({ dataContext }: IFactoryViewProps) 
                 <table className={style.table}> 
                     <tbody>
                         <tr>
-                            <td colSpan={6} className={style.title}><h1>{viewModel.title}</h1></td>
-                        </tr>
-                        <tr>
                             <td colSpan={3}></td>
-                            <td className={style.currency}>{viewModel.total}</td>
-                            <td className={style.text}>{(wide ? "Budget " : "") + viewModel.status}</td>
+                            <td className={currencyStyle}>{viewModel.total}</td>
+                            <td className={textStyle}>{statusText}</td>
                             <td className={style.buttons}>
                                 <BudgetWorksheetMenu menuData={menuData} />
                             </td>
@@ -112,8 +113,8 @@ export default function BudgetWorksheetView({ dataContext }: IFactoryViewProps) 
 
                         <tr>
                             <td colSpan={3}></td>
-                            <td className={style.currency}>{viewModel.total}</td>
-                            <td className={style.text}>{(wide ? "Budget " : "") + viewModel.status}</td>
+                            <td className={currencyStyle}>{viewModel.total}</td>
+                            <td className={textStyle}>{statusText}</td>
                             <td className={style.buttons}>
                                 <BudgetWorksheetMenu menuData={menuData} />
                             </td>

@@ -1,7 +1,7 @@
 
 module.exports = function BankBusiness(logger, data) {
 
-    const createSampleData = async (userCookie) => {
+    const createSampleData = async (familyId) => {
 
         let banks = [
             { name: "National Bank", number: "001", branch: "00001" },
@@ -14,7 +14,7 @@ module.exports = function BankBusiness(logger, data) {
             { name: "Credit Card", bankName: "Credit Card Company", number: "1234010012349876" }
         ];
 
-        return await data.createSampleData(userCookie, banks, bankAccounts);
+        return await data.createSampleData(familyId, banks, bankAccounts);
     };
 
     return {

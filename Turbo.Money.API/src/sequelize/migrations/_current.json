@@ -10,28 +10,24 @@
                     "field": "id",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "activeFrom": {
-                    "field": "active_from",
+                "activeStart": {
+                    "field": "active_start",
                     "seqType": "Sequelize.DATE"
                 },
-                "activeTo": {
-                    "field": "active_to",
+                "activeEnd": {
+                    "field": "active_end",
                     "seqType": "Sequelize.DATE"
                 },
                 "name": {
                     "field": "name",
                     "seqType": "Sequelize.STRING"
                 },
-                "number": {
-                    "field": "number",
-                    "seqType": "Sequelize.STRING"
-                },
                 "description": {
                     "field": "description",
                     "seqType": "Sequelize.STRING"
                 },
-                "tag": {
-                    "field": "tag",
+                "number": {
+                    "field": "number",
                     "seqType": "Sequelize.STRING"
                 },
                 "createdAt": {
@@ -69,6 +65,70 @@
             },
             "indexes": []
         },
+        "bank_account_periods": {
+            "tableName": "bank_account_periods",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "openingBalance": {
+                    "field": "opening_balance",
+                    "seqType": "Sequelize.DECIMAL(10, 2).UNSIGNED"
+                },
+                "closingBalance": {
+                    "field": "closing_balance",
+                    "seqType": "Sequelize.DECIMAL(10, 2).UNSIGNED"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "UserFamilyId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "user_families",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "user_family_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "BankAccountId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "bank_accounts",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "bank_account_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "BudgetPeriodId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "budget_periods",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "budget_period_id",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
         "bank_banks": {
             "tableName": "bank_banks",
             "schema": {
@@ -79,16 +139,20 @@
                     "field": "id",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "activeFrom": {
-                    "field": "active_from",
+                "activeStart": {
+                    "field": "active_start",
                     "seqType": "Sequelize.DATE"
                 },
-                "activeTo": {
-                    "field": "active_to",
+                "activeEnd": {
+                    "field": "active_end",
                     "seqType": "Sequelize.DATE"
                 },
                 "name": {
                     "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "description": {
+                    "field": "description",
                     "seqType": "Sequelize.STRING"
                 },
                 "number": {
@@ -97,14 +161,6 @@
                 },
                 "branch": {
                     "field": "branch",
-                    "seqType": "Sequelize.STRING"
-                },
-                "description": {
-                    "field": "description",
-                    "seqType": "Sequelize.STRING"
-                },
-                "tag": {
-                    "field": "tag",
                     "seqType": "Sequelize.STRING"
                 },
                 "createdAt": {
@@ -165,10 +221,6 @@
                     "field": "double_entry_id",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "tag": {
-                    "field": "tag",
-                    "seqType": "Sequelize.STRING"
-                },
                 "createdAt": {
                     "allowNull": false,
                     "field": "created_at",
@@ -214,14 +266,6 @@
                     "field": "id",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "activeFrom": {
-                    "field": "active_from",
-                    "seqType": "Sequelize.DATE"
-                },
-                "activeTo": {
-                    "field": "active_to",
-                    "seqType": "Sequelize.DATE"
-                },
                 "name": {
                     "field": "name",
                     "seqType": "Sequelize.STRING"
@@ -229,6 +273,10 @@
                 "description": {
                     "field": "description",
                     "seqType": "Sequelize.STRING"
+                },
+                "displayOrder": {
+                    "field": "display_order",
+                    "seqType": "Sequelize.INTEGER"
                 },
                 "amount": {
                     "field": "amount",
@@ -242,13 +290,13 @@
                     "field": "method",
                     "seqType": "Sequelize.STRING"
                 },
-                "displayOrder": {
-                    "field": "display_order",
-                    "seqType": "Sequelize.INTEGER"
+                "openingBalance": {
+                    "field": "opening_balance",
+                    "seqType": "Sequelize.DECIMAL(10, 2).UNSIGNED"
                 },
-                "tag": {
-                    "field": "tag",
-                    "seqType": "Sequelize.STRING"
+                "closingBalance": {
+                    "field": "closing_balance",
+                    "seqType": "Sequelize.DECIMAL(10, 2).UNSIGNED"
                 },
                 "createdAt": {
                     "allowNull": false,
@@ -269,6 +317,17 @@
                     "onDelete": "SET NULL",
                     "onUpdate": "CASCADE",
                     "field": "user_family_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "BudgetPeriodId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "budget_periods",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "budget_period_id",
                     "seqType": "Sequelize.INTEGER"
                 },
                 "BudgetCategoryId": {
@@ -295,14 +354,6 @@
                     "field": "id",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "activeFrom": {
-                    "field": "active_from",
-                    "seqType": "Sequelize.DATE"
-                },
-                "activeTo": {
-                    "field": "active_to",
-                    "seqType": "Sequelize.DATE"
-                },
                 "name": {
                     "field": "name",
                     "seqType": "Sequelize.STRING"
@@ -314,10 +365,6 @@
                 "displayOrder": {
                     "field": "display_order",
                     "seqType": "Sequelize.INTEGER"
-                },
-                "tag": {
-                    "field": "tag",
-                    "seqType": "Sequelize.STRING"
                 },
                 "createdAt": {
                     "allowNull": false,
@@ -340,6 +387,17 @@
                     "field": "user_family_id",
                     "seqType": "Sequelize.INTEGER"
                 },
+                "BudgetPeriodId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "budget_periods",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "budget_period_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
                 "BudgetSectionId": {
                     "allowNull": true,
                     "references": {
@@ -354,6 +412,120 @@
             },
             "indexes": []
         },
+        "budget_periods": {
+            "tableName": "budget_periods",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "activeStart": {
+                    "field": "active_start",
+                    "seqType": "Sequelize.DATE"
+                },
+                "activeEnd": {
+                    "field": "active_end",
+                    "seqType": "Sequelize.DATE"
+                },
+                "name": {
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "description": {
+                    "field": "description",
+                    "seqType": "Sequelize.STRING"
+                },
+                "isSandbox": {
+                    "default": false,
+                    "field": "is_sandbox",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "isSealed": {
+                    "default": false,
+                    "field": "is_sealed",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "UserFamilyId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "user_families",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "user_family_id",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "budget_schedules": {
+            "tableName": "budget_schedules",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "type": {
+                    "field": "type",
+                    "seqType": "Sequelize.STRING"
+                },
+                "multiple": {
+                    "field": "multiple",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "weekDay": {
+                    "field": "week_day",
+                    "seqType": "Sequelize.STRING"
+                },
+                "monthDays": {
+                    "field": "month_days",
+                    "seqType": "Sequelize.STRING"
+                },
+                "yearDates": {
+                    "field": "year_dates",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "UserFamilyId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "user_families",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "user_family_id",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
         "budget_sections": {
             "tableName": "budget_sections",
             "schema": {
@@ -363,14 +535,6 @@
                     "autoIncrement": true,
                     "field": "id",
                     "seqType": "Sequelize.INTEGER"
-                },
-                "activeFrom": {
-                    "field": "active_from",
-                    "seqType": "Sequelize.DATE"
-                },
-                "activeTo": {
-                    "field": "active_to",
-                    "seqType": "Sequelize.DATE"
                 },
                 "name": {
                     "field": "name",
@@ -388,9 +552,70 @@
                     "field": "display_order",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "tag": {
-                    "field": "tag",
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "UserFamilyId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "user_families",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "user_family_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "BudgetPeriodId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "budget_periods",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "budget_period_id",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "budget_transactions": {
+            "tableName": "budget_transactions",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "timeStamp": {
+                    "field": "time_stamp",
+                    "seqType": "Sequelize.DATE"
+                },
+                "description": {
+                    "field": "description",
                     "seqType": "Sequelize.STRING"
+                },
+                "amount": {
+                    "field": "amount",
+                    "seqType": "Sequelize.DECIMAL(10, 2)"
+                },
+                "sequence": {
+                    "field": "sequence",
+                    "seqType": "Sequelize.STRING"
+                },
+                "doubleEntryId": {
+                    "field": "double_entry_id",
+                    "seqType": "Sequelize.INTEGER"
                 },
                 "createdAt": {
                     "allowNull": false,
@@ -411,6 +636,39 @@
                     "onDelete": "SET NULL",
                     "onUpdate": "CASCADE",
                     "field": "user_family_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "BudgetPeriodId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "budget_periods",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "budget_period_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "BudgetAccountId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "budget_accounts",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "budget_account_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "BankTransactionId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "bank_transactions",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "bank_transaction_id",
                     "seqType": "Sequelize.INTEGER"
                 }
             },
@@ -474,12 +732,12 @@
                     "field": "id",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "activeFrom": {
-                    "field": "active_from",
+                "activeStart": {
+                    "field": "active_start",
                     "seqType": "Sequelize.DATE"
                 },
-                "activeTo": {
-                    "field": "active_to",
+                "activeEnd": {
+                    "field": "active_end",
                     "seqType": "Sequelize.DATE"
                 },
                 "name": {
@@ -490,10 +748,6 @@
                 "isInitial": {
                     "field": "is_initial",
                     "seqType": "Sequelize.BOOLEAN"
-                },
-                "tag": {
-                    "field": "tag",
-                    "seqType": "Sequelize.STRING"
                 },
                 "createdAt": {
                     "allowNull": false,
@@ -659,12 +913,12 @@
                     "field": "id",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "activeFrom": {
-                    "field": "active_from",
+                "activeStart": {
+                    "field": "active_start",
                     "seqType": "Sequelize.DATE"
                 },
-                "activeTo": {
-                    "field": "active_to",
+                "activeEnd": {
+                    "field": "active_end",
                     "seqType": "Sequelize.DATE"
                 },
                 "name": {
@@ -686,10 +940,6 @@
                     "field": "subscription",
                     "seqType": "Sequelize.STRING"
                 },
-                "tag": {
-                    "field": "tag",
-                    "seqType": "Sequelize.STRING"
-                },
                 "createdAt": {
                     "allowNull": false,
                     "field": "created_at",
@@ -706,6 +956,6 @@
     },
     "path": "D:\\Development\\Turbo.Money\\Turbo.Money.API\\src\\sequelize\\migrations\\_current.json",
     "backupPath": "D:\\Development\\Turbo.Money\\Turbo.Money.API\\src\\sequelize\\migrations\\_current_bak.json",
-    "exists": true,
-    "revision": 3
+    "exists": false,
+    "revision": 1
 }

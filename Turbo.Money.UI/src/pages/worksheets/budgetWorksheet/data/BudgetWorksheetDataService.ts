@@ -2,277 +2,66 @@ import { useState } from "react";
 
 import IModelItem from "common/models/IModelItem";
 
+import IBudgetDataProvider from "data/interfaces/services/IBudgetDataProvider";
+
 import IBudgetAccount from 'models/budget/IBudgetAccount';
 import IBudgetCategory from 'models/budget/IBudgetCategory';
+import IBudgetPeriod from "models/budget/IBudgetPeriod";
 import IBudgetSection from 'models/budget/IBudgetSection';
+import IBudgetWorksheet from "models/budget/IBudgetWorksheet";
 
 import ILoggerService from "services/logger/ILoggerService";
 
 import IBudgetWorksheetDataService from "./IBudgetWorksheetDataService";
-import IBasicDataProvider from "../../../../data/interfaces/basic/IBasicDataProvider";
-
-type ListSetter = (f: (prevState: IModelItem[]) => IModelItem[]) => void;
-type ItemComparer = (item1: IModelItem, item2: IModelItem) => number;
 
 export default function BudgetWorksheetDataService(
     logger: ILoggerService,
-    budgetAccountDataProvider: IBasicDataProvider<IBudgetAccount>,
-    budgetCategoryDataProvider: IBasicDataProvider<IBudgetCategory>,
-    budgetSectionDataProvider: IBasicDataProvider<IBudgetSection>,
-
+    dataProvider: IBudgetDataProvider,
 ): IBudgetWorksheetDataService {
 
     const module = BudgetWorksheetDataService.name;
     const category = 'BudgetWorksheet';
 
-    const [sectionList, setSectionList] = useState<IModelItem[]>([]);
-    const [categoryList, setCategoryList] = useState<IModelItem[]>([]);
-    const [accountList, setAccountList] = useState<IModelItem[]>([]);
+    const [worksheet, setWorksheet] = useState<null | IBudgetWorksheet>(null);
 
-    const compareItems = (item1: IModelItem, item2: IModelItem) => {
-        if (item1.direction && item2.direction) {
-            if (item1.direction > item2.direction) {
-                return 1;
-            }
-            if (item1.direction < item2.direction) {
-                return -1;
-            }
-        }
+    //  Exported Data Access ---------------------------------------------------
 
-        const name1 = item1.name.toUpperCase();
-        const name2 = item2.name.toUpperCase();
-        if (name1 > name2) {
-            return 1;
-        }
-        if (name1 < name2) {
-            return -1;
-        }
-        return 0;
-    }
-
-    //  Data Access ------------------------------------------------------------
-
-    const retrieveSections = async () => {
-        const context = `${module}.${retrieveSections.name}`;
+    const getBudgetPeriodList = async (): Promise<IBudgetPeriod[]> => {
+        const context = `${module}.${getBudgetPeriodList.name}`;
         try {
-            const response = await budgetSectionDataProvider.getAll();
+            const response = await dataProvider.getBudgetPeriodList();
             logger.debug(category, context, 'response.data =', response.data);
-
-            const sections = response.data
-                .map((section: IModelItem) => ({ ...section, state: "read" }))
-                .sort(compareItems);
-            setSectionList(sections);
-
+            return response.data;
         } catch (ex) {
             logger.error(category, context, 'ex =', ex);
+            return [];
         }
     };
 
-    const retrieveCategories = async () => {
-        const context = `${module}.${retrieveCategories.name}`;
+    const loadBudgetWorksheet = async (periodId: number) => {
+        const context = `${module}.${loadBudgetWorksheet.name}`;
+        logger.debug(category, context, 'periodId =', periodId);
         try {
-            const response = await budgetCategoryDataProvider.getAll();
+            const response = await dataProvider.loadBudgetWorksheet(periodId);
             logger.debug(category, context, 'response.data =', response.data);
-
-            const categories = response.data
-                .map((category: IModelItem) => ({ ...category, state: "read" }))
-                .sort(compareItems);
-            setCategoryList(categories);
-
+            setWorksheet(response.data);
         } catch (ex) {
             logger.error(category, context, 'ex =', ex);
         }
     };
 
-    const retrieveAccounts = async () => {
-        const context = `${module}.${retrieveAccounts.name}`;
-        try {
-            const response = await budgetAccountDataProvider.getAll();
-            logger.debug(category, context, 'response.data =', response.data);
+    const saveBudgetWorksheet = async () => {
+        if (!worksheet)
+            return;
 
-            const accounts = response.data
-                .map((account: IModelItem) => ({ ...account, state: "read" }))
-                .sort(compareItems);
-            setAccountList(accounts);
+        await dataProvider.saveBudgetWorksheet(worksheet);
 
-        } catch (ex) {
-            logger.error(category, context, 'ex =', ex);
-        }
-    };
-
-    const saveSections = async (sections: IModelItem[]) => {
-        const context = `${module}.${saveSections.name}`;
-        const createdIdMap = new Map();
-        const deletedIdList: number[] = [];
-
-        try {
-            await Promise.all(
-                sections.map(async section => {
-                    switch (section.state) {
-                        case "read":
-                            break;
-                        case "created": {
-                            const response = await budgetSectionDataProvider.create(section);
-                            const createdSection = response.data;
-                            createdIdMap.set(section.id, createdSection.id);
-                            break;
-                        }
-                        case "updated":
-                            await budgetSectionDataProvider.update(section.id, section);
-                            break;
-                        case "deleted":
-                            await budgetSectionDataProvider.remove(section.id);
-                            deletedIdList.push(section.id);
-                            break;
-                    }
-                })
-            );
-        } catch (ex) {
-            logger.error(category, context, 'ex =', ex);
-        }
-
-        let categories = categoryList;
-
-        if (createdIdMap.size > 0) {
-            categories = categories.map(item => {
-                const category = item as IBudgetCategory;
-                if (category.sectionId && category.sectionId > 0)
-                    return category;
-
-                const newId = createdIdMap.get(category.sectionId);
-                if (newId) {
-                    return {
-                        ...category,
-                        sectionId: newId
-                    };
-                }
-                return category;
-            });
-        }
-
-        if (deletedIdList.length > 0) {
-            categories = categories.map(item => {
-                const category = item as IBudgetCategory;
-                if (category.sectionId && deletedIdList.includes(category.sectionId)) {
-                    return {
-                        ...category,
-                        state: "deleted"
-                    };
-                }
-                return category;
-            });
-        }
-
-        return categories;
-    };
-
-    const saveCategories = async (categories: IModelItem[]) => {
-        const context = `${module}.${saveCategories.name}`;
-        const createdIdMap = new Map();
-        const deletedIdList: number[] = [];
-
-        try {
-            await Promise.all(
-                categories.map(async category => {
-                    switch (category.state) {
-                        case "read":
-                            break;
-                        case "created": {
-                            const response = await budgetCategoryDataProvider.create(category);
-                            const createdCategory = response.data;
-                            createdIdMap.set(category.id, createdCategory.id);
-                            break;
-                        }
-                        case "updated":
-                            await budgetCategoryDataProvider.update(category.id, category);
-                            break;
-                        case "deleted":
-                            await budgetCategoryDataProvider.remove(category.id);
-                            deletedIdList.push(category.id);
-                            break;
-                    }
-                })
-            );
-        } catch (ex) {
-            logger.error(category, context, 'ex =', ex);
-        }
-
-        let accounts = accountList;
-
-        if (createdIdMap.size > 0) {
-            accounts = accounts.map(item => {
-                const account = item as IBudgetAccount;
-                if (account.categoryId && account.categoryId > 0)
-                    return account;
-
-                const newId = createdIdMap.get(account.categoryId);
-                if (newId) {
-                    return {
-                        ...account,
-                        categoryId: newId
-                    };
-                }
-                return account;
-            });
-        }
-
-        if (deletedIdList.length > 0) {
-            accounts = accounts.map(item => {
-                const account = item as IBudgetAccount;
-                if (account.categoryId && deletedIdList.includes(account.categoryId)) {
-                    return {
-                        ...account,
-                        state: "deleted"
-                    };
-                }
-                return account;
-            });
-        }
-
-        return accounts;
-    };
-
-    const saveAccounts = async (accounts: IModelItem[]) => {
-        const context = `${module}.${saveAccounts.name}`;
-        try {
-            await Promise.all(
-                accounts.map(async account => {
-                    switch (account.state) {
-                        case "read":
-                            break;
-                        case "created":
-                            await budgetAccountDataProvider.create(account);
-                            break;
-                        case "updated":
-                            await budgetAccountDataProvider.update(account.id, account);
-                            break;
-                        case "deleted":
-                            await budgetAccountDataProvider.remove(account.id);
-                            break;
-                    }
-                })
-            );
-        } catch (ex) {
-            logger.error(category, context, 'ex =', ex);
-        }
-    };
-
-    const loadBudgetData = async () => {
-        await retrieveSections();
-        await retrieveCategories();
-        await retrieveAccounts();
-    };
-
-    const saveBudgetData = async () => {
-        const categories = await saveSections(sectionList);
-        const accounts = await saveCategories(categories);
-        await saveAccounts(accounts);
-        await loadBudgetData();
+        await loadBudgetWorksheet(worksheet.period.id);
     };
 
     //  Generic Items ----------------------------------------------------------
 
-    const createItem = (createdItem: IModelItem, list: IModelItem[], setList: ListSetter, compareItems: ItemComparer) => {
+    const createItem = (createdItem: IModelItem, list: IModelItem[]) => {
         const minId = list.reduce((min, item) => {
             return min < item.id ? min : item.id;
         }, 0);
@@ -281,38 +70,31 @@ export default function BudgetWorksheetDataService(
             id: minId - 1,
             state: "created"
         };
-        setList(prevList => [...prevList, createdItem].sort(compareItems));
+        list.push(createdItem);
     };
 
-    const updateItem = (updatedItem: IModelItem, setList: ListSetter, compareItems: ItemComparer) => {
-        setList(prevList => prevList.map(item => {
-            if (item.id == updatedItem.id) {
-                return {
-                    ...updatedItem,
-                    state: updatedItem.state == "created" ? "created" : "updated"
-                };
-            }
-            return item;
-        }).sort(compareItems));
+    const updateItem = (updatedItem: IModelItem, list: IModelItem[]) => {
+        const item = list.find(item => item.id == updatedItem.id);
+        if (item)
+            Object.assign(item, {
+                ...updatedItem,
+                state: updatedItem.state == "created" ? "created" : "updated"
+            });
     }
 
-    const deleteItem = (deletedItem: IModelItem, setList: ListSetter) => {
-        setList(prevList => prevList.map(item => {
-            if (item.id == deletedItem.id) {
-                return {
-                    ...item,
-                    state: "deleted"
-                };
-            }
-            return item;
-        }));
+    const deleteItem = (deletedItem: IModelItem, list: IModelItem[]) => {
+        const item = list.find(item => item.id == deletedItem.id);
+        if (item)
+            Object.assign(item, {
+                ...deletedItem,
+                state: "deleted"
+            });
     };
 
     const extractItem = (item: IModelItem): IModelItem => {
         const result: IModelItem = {
             id: -1,
             name: "",
-            description: "",
         }
         for (const key in item) {
             if (key == "state")
@@ -351,85 +133,115 @@ export default function BudgetWorksheetDataService(
     //  Budget Sections --------------------------------------------------------
 
     const createBudgetSection = (createdSection: IBudgetSection): void => {
-        createItem(createdSection as IModelItem, sectionList, setSectionList, compareItems);
+        if (!worksheet)
+            return;
+        createItem(createdSection as IModelItem, worksheet.sectionList);
     };
 
     const updateBudgetSection = (updatedSection: IBudgetSection): void => {
-        updateItem(updatedSection as IModelItem, setSectionList, compareItems);
+        if (!worksheet)
+            return;
+        updateItem(updatedSection as IModelItem, worksheet.sectionList);
     };
 
     const deleteBudgetSection = (deletedSection: IBudgetSection): void => {
-        deleteItem(deletedSection as IModelItem, setSectionList);
+        if (!worksheet)
+            return;
+        deleteItem(deletedSection as IModelItem, worksheet.sectionList);
     };
 
-    const readBudgetSection = (id: number): IBudgetSection => {
-        return readItem(id, sectionList) as IBudgetSection;
+    const readBudgetSection = (id: number): null | IBudgetSection => {
+        if (!worksheet)
+            return null;
+        return readItem(id, worksheet.sectionList) as IBudgetSection;
     };
 
     const listBudgetSections = (): IBudgetSection[] => {
-        return listItems(sectionList) as IBudgetSection[];
+        if (!worksheet)
+            return [];
+        return listItems(worksheet.sectionList) as IBudgetSection[];
     };
 
     const listBudgetSectionNames = (): IModelItem[] => {
-        return listItemNames(sectionList);
+        if (!worksheet)
+            return [];
+        return listItemNames(worksheet.sectionList);
     };
 
     //  Budget Categories ------------------------------------------------------
 
     const createBudgetCategory = (createdCategory: IBudgetCategory): void => {
-        createItem(createdCategory as IModelItem, categoryList, setCategoryList, compareItems);
+        if (!worksheet)
+            return;
+        createItem(createdCategory as IModelItem, worksheet.categoryList);
     };
 
     const updateBudgetCategory = (updatedCategory: IBudgetCategory): void => {
-        updateItem(updatedCategory as IModelItem, setCategoryList, compareItems);
+        if (!worksheet)
+            return;
+        updateItem(updatedCategory as IModelItem, worksheet.categoryList);
     };
 
     const deleteBudgetCategory = (deletedCategory: IBudgetCategory): void => {
-        deleteItem(deletedCategory as IModelItem, setCategoryList);
+        if (!worksheet)
+            return;
+        deleteItem(deletedCategory as IModelItem, worksheet.categoryList);
     };
 
-    const readBudgetCategory = (id: number): IBudgetCategory => {
-        return readItem(id, categoryList) as IBudgetCategory;
+    const readBudgetCategory = (id: number): null | IBudgetCategory => {
+        if (!worksheet)
+            return null;
+        return readItem(id, worksheet.categoryList) as IBudgetCategory;
     };
 
     const listBudgetCategories = (parentSection?: IBudgetSection): IBudgetCategory[] => {
-        return listItems(categoryList, "sectionId", parentSection as IModelItem) as IBudgetCategory[];
+        if (!worksheet)
+            return [];
+        return listItems(worksheet.categoryList, "sectionId", parentSection as IModelItem) as IBudgetCategory[];
     };
 
     const listBudgetCategoryNames = (): IModelItem[] => {
-        const context = `${module}.${listBudgetCategoryNames.name}`
-        const names = listItemNames(categoryList);
-        logger.debug(category, context, 'names =', names);
-        return names;
+        if (!worksheet)
+            return [];
+        return listItemNames(worksheet.categoryList);
     };
 
     //  Budget Accounts --------------------------------------------------------
 
     const createBudgetAccount = (createdAccount: IBudgetAccount): void => {
-        createItem(createdAccount as IModelItem, accountList, setAccountList, compareItems);
+        if (!worksheet)
+            return;
+        createItem(createdAccount as IModelItem, worksheet.accountList);
     };
 
     const updateBudgetAccount = (updatedAccount: IBudgetAccount): void => {
-        updateItem(updatedAccount as IModelItem, setAccountList, compareItems);
+        if (!worksheet)
+            return;
+        updateItem(updatedAccount as IModelItem, worksheet.accountList);
     };
 
     const deleteBudgetAccount = (deletedAccount: IBudgetAccount): void => {
-        deleteItem(deletedAccount as IModelItem, setAccountList);
+        if (!worksheet)
+            return;
+        deleteItem(deletedAccount as IModelItem, worksheet.accountList);
     };
 
-    const readBudgetAccount = (id: number): IBudgetAccount => {
-        return readItem(id, accountList) as IBudgetAccount;
+    const readBudgetAccount = (id: number): null | IBudgetAccount => {
+        if (!worksheet)
+            return null;
+        return readItem(id, worksheet.accountList) as IBudgetAccount;
     };
 
     const listBudgetAccounts = (parentCategory?: IBudgetCategory): IBudgetAccount[] => {
-        return listItems(accountList, "categoryId", parentCategory as IModelItem) as IBudgetAccount[];
+        if (!worksheet)
+            return [];
+        return listItems(worksheet.accountList, "categoryId", parentCategory as IModelItem) as IBudgetAccount[];
     };
 
     const listBudgetAccountNames = (): IModelItem[] => {
-        const context = `${module}.${listBudgetAccountNames.name}`
-        const names = listItemNames(accountList);
-        logger.debug(category, context, 'names =', names);
-        return names;
+        if (!worksheet)
+            return [];
+        return listItemNames(worksheet.accountList);
     };
 
     //  Totals -----------------------------------------------------------------
@@ -464,10 +276,10 @@ export default function BudgetWorksheetDataService(
         if (item.state == "deleted")
             return 0;
 
-        if (!accountList || !accountList.length)
+        if (!worksheet || !worksheet.accountList.length)
             return 0;
 
-        const categoryTotal = accountList
+        const categoryTotal = worksheet.accountList
             .filter(account => account.categoryId == category.id)
             .reduce((total, account) =>
                 Number(total) + calcAccountTotal(account as IBudgetAccount), 0);
@@ -483,10 +295,10 @@ export default function BudgetWorksheetDataService(
         if (item.state == "deleted")
             return 0;
 
-        if (!categoryList || !categoryList.length)
+        if (!worksheet || !worksheet.categoryList.length)
             return 0;
 
-        const sectionTotal = categoryList
+        const sectionTotal = worksheet.categoryList
             .filter(category => category.sectionId == section.id)
             .reduce((total, category) =>
                 Number(total) + calcCategoryTotal(category as IBudgetCategory), 0);
@@ -495,10 +307,10 @@ export default function BudgetWorksheetDataService(
     };
 
     const calcBudgetTotal = () => {
-        if (!sectionList || !sectionList.length)
+        if (!worksheet || !worksheet.sectionList.length)
             return 0;
 
-        const budgetTotal = sectionList.reduce((total, section) => {
+        const budgetTotal = worksheet.sectionList.reduce((total, section) => {
             const sectionTotal = calcSectionTotal(section as IBudgetSection);
             if (section.direction == "in")
                 return Number(total) + Number(sectionTotal);
@@ -520,8 +332,8 @@ export default function BudgetWorksheetDataService(
     const getBudgetStatus = () => {
         const total = calcBudgetTotal();
         if (total < 0)
-            return 'Deficit';
-        return 'Surplus';
+            return 'deficit';
+        return 'surplus';
     };
 
     const getBudgetSectionTotal = (section: IBudgetSection) => {
@@ -537,8 +349,11 @@ export default function BudgetWorksheetDataService(
     };
 
     return {
-        loadBudgetData,
-        saveBudgetData,
+
+        getBudgetPeriodList,
+
+        loadBudgetWorksheet,
+        saveBudgetWorksheet,
 
         createBudgetSection,
         updateBudgetSection,

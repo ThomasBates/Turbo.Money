@@ -1,6 +1,7 @@
 
 import IModelItem from 'common/models/IModelItem';
 
+import { BudgetAccountType } from 'models/budget/BudgetAccountType';
 import IBudgetAccount from 'models/budget/IBudgetAccount';
 
 import IBasicModeViewModelProps from 'pages/basic/common/viewModels/IBasicModeViewModelProps';
@@ -18,12 +19,12 @@ export default function BudgetWorksheetAccountViewModel(
     setModeItem: (item: IModelItem | null) => void,
     setModeViewModelProps: (props: null | IBasicModeViewModelProps) => void): IBudgetWorksheetAccountViewModel {
 
-    const amountTypes: Record<string, string> = {
-        "min": "Minimum",
-        "fix": "Fixed",
-        "max": "Maximum",
-        "est": "Estimate",
-        "avg": "Average"
+    const amountTypes: Record<BudgetAccountType, string> = {
+        [BudgetAccountType.minimum]: "Minimum",
+        [BudgetAccountType.fixed]: "Fixed",
+        [BudgetAccountType.maximum]: "Maximum",
+        [BudgetAccountType.estimate]: "Estimate",
+        [BudgetAccountType.average]: "Average"
     };
     const typeName = account && amountTypes[account.type];
 

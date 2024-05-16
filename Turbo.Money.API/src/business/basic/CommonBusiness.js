@@ -1,32 +1,32 @@
 
 module.exports = function CommonBusiness(logger, errors, data) {
 
-    const create = async (userCookie, businessObject) => {
-        return await data.create(userCookie, businessObject);
+    const create = async (familyId, businessObject) => {
+        return await data.create(familyId, businessObject);
     }
 
-    const getAll = async (userCookie) => {
-        return await data.getAll(userCookie);
+    const getAll = async (familyId) => {
+        return await data.getAll(familyId);
     }
 
-    const getList = async (userCookie) => {
-        return await data.getList(userCookie);
+    const getList = async (familyId) => {
+        return await data.getList(familyId);
     }
 
-    const getOne = async (userCookie, id) => {
-        return await data.getOne(userCookie, id);
+    const getOne = async (familyId, id) => {
+        return await data.getOne(familyId, id);
     }
 
-    const update = async (userCookie, businessObject) => {
-        return await data.update(userCookie, businessObject);
+    const update = async (familyId, businessObject) => {
+        return await data.update(familyId, businessObject);
     }
 
-    const deleteById = async (userCookie, id) => {
-        return await data.deleteOne(userCookie, id);
+    const deleteOne = async (familyId, id) => {
+        return await data.deleteOne(familyId, id);
     }
 
-    const deleteAll = async (userCookie) => {
-        return await data.deleteAll(userCookie);
+    const deleteAll = async (familyId) => {
+        return await data.deleteAll(familyId);
     }
 
     return {
@@ -35,7 +35,7 @@ module.exports = function CommonBusiness(logger, errors, data) {
         getList,
         getOne,
         update,
-        deleteById,
+        deleteOne,
         deleteAll
     };
 }

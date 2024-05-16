@@ -7,6 +7,7 @@ import BasicDetailsViewModel from "pages/basic/common/viewModels/BasicDetailsVie
 import IBasicModeViewModelProps from "pages/basic/common/viewModels/IBasicModeViewModelProps";
 
 import IBudgetAccountDetailsViewModel from "./IBudgetAccountDetailsViewModel";
+import { BudgetAccountType } from "../../../../models/budget/BudgetAccountType";
 
 export default function BudgetAccountDetailsViewModel(
     { title, entity, mode, item, parentList, onSubmitted, onCancelled }: IBasicModeViewModelProps
@@ -18,12 +19,12 @@ export default function BudgetAccountDetailsViewModel(
     const categoryName = matching ? matching.name :
         account ? `category id = ${account.categoryId}` : "<null>";
 
-    const amountTypes: Record<string,string> = {
-        "min": "Minimum",
-        "fix": "Fixed",
-        "max": "Maximum",
-        "est": "Estimate",
-        "avg": "Average"
+    const amountTypes: Record<BudgetAccountType,string> = {
+        [BudgetAccountType.minimum]: "Minimum",
+        [BudgetAccountType.fixed]: "Fixed",
+        [BudgetAccountType.maximum]: "Maximum",
+        [BudgetAccountType.estimate]: "Estimate",
+        [BudgetAccountType.average]: "Average"
     };
     const typeName = account && amountTypes[account.type];
 

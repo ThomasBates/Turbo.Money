@@ -2,48 +2,48 @@
 const { Model } = require('sequelize');
 
 /*
+UserUser.propertyNames:
 [
-    'constructor',
-    '_customGetters',
-    '_customSetters',
-    'validators',
-    '_hasCustomGetters',
-    '_hasCustomSetters',
-    'id',
-    'activeFrom',
-    'activeTo',
-    'name',
-    'email',
-    'picture',
-    'subscription',
-    'tag',
-    'createdAt',
-    'updatedAt',
-    'rawAttributes',
-    '_isAttribute',
-    'getUserAuthorization',
-    'setUserAuthorization',
-    'createUserAuthorization',
-    'getUserFamilies',
-    'countUserFamilies',
-    'hasUserFamily',
-    'hasUserFamilies',
-    'setUserFamilies',
-    'addUserFamily',
-    'addUserFamilies',
-    'removeUserFamily',
-    'removeUserFamilies',
-    'createUserFamily',
-    'getUserFamilyRoles',
-    'countUserFamilyRoles',
-    'hasUserFamilyRole',
-    'hasUserFamilyRoles',
-    'setUserFamilyRoles',
-    'addUserFamilyRole',
-    'addUserFamilyRoles',
-    'removeUserFamilyRole',
-    'removeUserFamilyRoles',
-    'createUserFamilyRole'
+  'constructor',
+  '_customGetters',
+  '_customSetters',
+  'validators',
+  '_hasCustomGetters',
+  '_hasCustomSetters',
+  'id',
+  'activeStart',
+  'activeEnd',
+  'name',
+  'email',
+  'picture',
+  'subscription',
+  'createdAt',
+  'updatedAt',
+  'rawAttributes',
+  '_isAttribute',
+  'getUserAuthorization',
+  'setUserAuthorization',
+  'createUserAuthorization',
+  'getUserFamilies',
+  'countUserFamilies',
+  'hasUserFamily',
+  'hasUserFamilies',
+  'setUserFamilies',
+  'addUserFamily',
+  'addUserFamilies',
+  'removeUserFamily',
+  'removeUserFamilies',
+  'createUserFamily',
+  'getUserFamilyRoles',
+  'countUserFamilyRoles',
+  'hasUserFamilyRole',
+  'hasUserFamilyRoles',
+  'setUserFamilyRoles',
+  'addUserFamilyRole',
+  'addUserFamilyRoles',
+  'removeUserFamilyRole',
+  'removeUserFamilyRoles',
+  'createUserFamilyRole'
 ]
 */
 
@@ -59,10 +59,10 @@ module.exports = (db) => {
     }
 
     UserUser.init({
-        activeFrom: {
+        activeStart: {
             type: DataTypes.DATE
         },
-        activeTo: {
+        activeEnd: {
             type: DataTypes.DATE
         },
         name: {
@@ -78,9 +78,6 @@ module.exports = (db) => {
             type: DataTypes.STRING
         },
         subscription: {
-            type: DataTypes.STRING
-        },
-        tag: {
             type: DataTypes.STRING
         },
     }, {

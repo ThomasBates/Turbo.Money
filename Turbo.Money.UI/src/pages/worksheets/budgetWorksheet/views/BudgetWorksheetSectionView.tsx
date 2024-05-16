@@ -9,7 +9,7 @@ import IBudgetWorksheetSectionViewModel from "../viewModels/IBudgetWorksheetSect
 
 import BudgetWorksheetCategoryView from "./BudgetWorksheetCategoryView";
 
-export default function BudgetWorksheetSectionView({ dataContext, style }: IStyledViewProps) {
+export default function BudgetWorksheetSectionView({ style, dataContext }: IStyledViewProps) {
 
     const viewModel = dataContext as IBudgetWorksheetSectionViewModel;
 

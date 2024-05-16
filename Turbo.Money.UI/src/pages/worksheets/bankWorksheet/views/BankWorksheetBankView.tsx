@@ -8,7 +8,7 @@ import IBankWorksheetBankViewModel from "../viewModels/IBankWorksheetBankViewMod
 
 import BankWorksheetAccountView from "./BankWorksheetAccountView";
 
-export default function BankWorksheetBankView({ dataContext, style }: IStyledViewProps) {
+export default function BankWorksheetBankView({ style, dataContext }: IStyledViewProps) {
 
     const viewModel = dataContext as IBankWorksheetBankViewModel;
 

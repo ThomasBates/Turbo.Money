@@ -6,55 +6,11 @@ module.exports = function BankTransactionController(logger, errors, business) {
 
     const jwt = require("jsonwebtoken");
 
-    const decode = (data) => {
-        const context = `${module}.${decode.name}`;
-
-        if (!data)
-            return errors.create(context, 'ParseError', "data is not defined.");
-
-        if (!data.accountNumber)
-            return errors.create(context, 'ParseError', "data.accountNumber is not defined.");
-
-        if (!data.timeStamp)
-            return errors.create(context, 'ParseError', "data.timeStamp is not defined.");
-
-        if (!data.description)
-            return errors.create(context, 'ParseError', "data.description must be a number.");
-
-        if (!data.amount)
-            return errors.create(context, 'ParseError', "data.amount is not defined.");
-
-        const transaction = {
-            id: data.id,
-            accountNumber: data.accountNumber,
-            timeStamp: data.timeStamp,
-            description: data.description,
-            amount: data.amount
-        };
-
-        return transaction;
-    }
-
-    const encode = (transaction) => {
-        return transaction;
-    }
-
-    const encodeList = (transactionList) => {
-        let dataList = transactionList.map(transaction => {
-            return {
-                id: transaction.id,
-                accountNumber: data.accountNumber,
-                timeStamp: data.timeStamp,
-                description: data.description,
-                amount: data.amount
-            }
-        });
-        return { list: dataList };
-    }
+    const converter = require("../converters/BankTransactionConverter")(errors);
 
     const common = require("./CommonController")(
-        logger, errors, category, business,
-        decode, encode, encodeList);
+        logger, errors, business,
+        category, converter);
 
     const upload = async (req, res) => {
         const context = `${module}.${upload.name}`;
@@ -66,7 +22,7 @@ module.exports = function BankTransactionController(logger, errors, business) {
         busboy.on('file', async function (fieldname, file, filename, encoding, mimetype) {
             logger.debug(category, context, 'busboy.onFile()');
 
-            const returnList = await business.importTransactions(userCookie, file);
+            const returnList = await business.importTransactions(userCookie.familyId, file);
             logger.debug(category, context, 'returnList =', returnList);
             if (errors.handle(context, res, 500, returnList.error))
                 return;

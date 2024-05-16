@@ -1,13 +1,12 @@
 
+import IDataProviderResponse from "common/data/IDataProviderResponse";
 import IModelItem from "common/models/IModelItem";
 
-import IBasicDataProviderResponse from "./IBasicDataProviderResponse";
-
 export default interface IBasicDataProvider<EntityT> {
-    create(data: object): Promise<IBasicDataProviderResponse<EntityT>>;
-    get(id: number): Promise<IBasicDataProviderResponse<EntityT>>;
-    getAll(): Promise<IBasicDataProviderResponse<EntityT[]>>;
-    getList(): Promise<IBasicDataProviderResponse<IModelItem[]>>;
-    update(id: number, data: object): Promise<IBasicDataProviderResponse<EntityT>>;
-    remove(id: number): Promise<IBasicDataProviderResponse<EntityT>>;
+    create(data: object): Promise<IDataProviderResponse<EntityT>>;
+    get(id: number): Promise<IDataProviderResponse<EntityT>>;
+    getAll(): Promise<IDataProviderResponse<EntityT[]>>;
+    getList(): Promise<IDataProviderResponse<IModelItem[]>>;
+    update(id: number, data: object): Promise<IDataProviderResponse<EntityT>>;
+    remove(id: number): Promise<IDataProviderResponse<EntityT>>;
 }

@@ -3,7 +3,7 @@ export default interface IModelItem {
     id: number;
     name: string;
 
-    [key: string]: string | string[] | number | boolean;
+    [key: string]: string | string[] | number | boolean | Date;
 }
 
 export function compareItems(item1: IModelItem, item2: IModelItem) {

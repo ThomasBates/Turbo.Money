@@ -2,7 +2,8 @@
 const { Model } = require('sequelize');
 
 /*
- [
+UserFamilyRole.propertyNames:
+[
   'constructor',       '_customGetters',
   '_customSetters',    'validators',
   '_hasCustomGetters', '_hasCustomSetters',
@@ -38,16 +39,6 @@ module.exports = (db) => {
 
             db.UserFamilyRole.join.UserRole = db.UserFamilyRole.belongsTo(db.UserRole, {});
             db.UserRole.join.UserFamilyRole = db.UserRole.hasOne(db.UserFamilyRole, {});
-        }
-
-        static dumpPropertyNames(record) {
-            const prototype = Object.getPrototypeOf(record);
-            const propertyNames = Object.getOwnPropertyNames(prototype);
-            console.log('/*')
-            console.log(`UserFamilyRole.propertyNames:`);
-            console.log(propertyNames);
-            console.log('*/')
-            console.log('')
         }
     }
 

@@ -4,40 +4,25 @@ module.exports = function BankTransactionBusiness(logger, errors, data, bankAcco
     const category = 'Business';
 
     // Validate bank transaction data
-    const validate = async (userCookie, testTransaction) => {
+    const validate = async (familyId, testTransaction) => {
         const context = `${module}.${validate.name}`;
         logger.debug(category, context, 'testTransaction =', testTransaction);
 
-        const accounts = await bankAccountData.getList(userCookie);
-        logger.debug(category, context, 'accounts =', accounts);
-        if (accounts.error) {
-            return errors.create(context, accounts.error.code, accounts.error);
-        }
-        if (!accounts || !accounts.list || accounts.list.length == 0) {
-            return errors.create(context, 'UserData', 'No bank accounts. Bank accounts must be created before loading bank transactions.');
+        const accountList = await bankAccountData.getList(familyId);
+        logger.debug(category, context, 'accountList =', accountList);
+
+        if (accountList.error) {
+            return errors.create(context, accountList.error.code, accountList.error);
         }
 
-        //let matching = accounts.find(account =>
-        //    account.name.toUpperCase() == testTransaction.name.toUpperCase() &&
-        //    account.id != testTransaction.id);
-        //logger.debug(category, context, 'matching =', matching);
-        //if (matching) {
-        //    return "Validation Error: Bank account name must be unique.";
-        //}
-
-        //matching = accounts.some(account =>
-        //    account.bankId == testTransaction.bankId &&
-        //    account.number == testTransaction.number &&
-        //    account.id != testTransaction.id);
-        //logger.debug(category, context, 'matching =', matching);
-        //if (matching) {
-        //    return "Validation Error: Bank account bankId+number must be unique.";
-        //}
+        if (!accountList || !accountList.list || accountList.list.length == 0) {
+            return errors.create(context, 'InvalidData', 'No bank accounts. Bank accounts must be created before loading bank transactions.');
+        }
 
         return {};
     }
 
-    const importTransactions = async (userCookie, file) => {
+    const importTransactions = async (familyId, file) => {
         const context = `${module}.${importTransactions.name}`;
         logger.debug(category, context, '()');
 
@@ -50,10 +35,10 @@ module.exports = function BankTransactionBusiness(logger, errors, data, bankAcco
         const ofxTransactions = ofxStatement.BANKTRANLIST.STMTTRN;
 
         logger.debug(category, context, 'ofxStatement.BANKACCTFROM =', ofxStatement.BANKACCTFROM);
-        let account = await bankAccountData.getOneByNumber(userCookie, ofxStatement.BANKACCTFROM.ACCTID);
+        let account = await bankAccountData.getOneByNumber(familyId, ofxStatement.BANKACCTFROM.ACCTID);
         logger.debug(category, context, 'account =', account);
         if (account.error)
-            return errors.create(context, 'UserData', 'The bank account identified in the imported file is not registered in the application.');
+            return errors.create(context, 'InvalidData', 'The bank account identified in the imported file is not registered in the application.');
 
         let transactions = [];
 
@@ -68,7 +53,7 @@ module.exports = function BankTransactionBusiness(logger, errors, data, bankAcco
             transactions.push(transaction);
         }
 
-        return await data.storeTransactions(userCookie, transactions);
+        return await data.storeTransactions(familyId, transactions);
     }
 
     async function ofxToObject(file) {

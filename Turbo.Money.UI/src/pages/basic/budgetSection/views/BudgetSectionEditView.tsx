@@ -26,9 +26,9 @@ export default function BudgetSectionEditView({ style, dataContext }: IStyledVie
                 isValid={viewModel.isValidDescription}
                 setProperty={viewModel.setProperty} />
             <BasicEditSelectControl style={style}
-                name='categoryId'
+                name='direction'
                 label='Income/Expenses'
-                value={viewModel.section.categoryId}
+                value={viewModel.section.direction}
                 isValid={viewModel.isValidDirection}
                 options={[
                     { value: 'out', text: 'Expenses' },

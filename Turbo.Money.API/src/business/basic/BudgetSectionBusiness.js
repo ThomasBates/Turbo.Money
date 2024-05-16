@@ -4,23 +4,22 @@ module.exports = function BudgetSectionBusiness(logger, errors, data) {
     const category = 'Business';
 
     // Validate Budget Section data
-    const validate = async (userCookie, testSection) => {
+    const validate = async (familyId, periodId, testSection) => {
         const context = `${module}.${validate.name}`;
         logger.debug(category, context, 'testSection =', testSection);
 
         if (testSection.direction != 1 && testSection.direction != -1)
             return errors.create(context, 'InvalidData', "Budget Section direction must be -1 (for income) or 1 (for expenses)");
 
-        const sections = await data.getList(userCookie);
-        logger.debug(category, context, 'sections =', sections);
+        const sectionList = await data.getListForPeriod(familyId, periodId);
+        logger.debug(category, context, 'sectionList =', sectionList);
+        if (sectionList.error)
+            return errors.create(context, sectionList.error.code, sectionList);
 
-        if (sections.error)
-            return errors.create(context, sections.error.code, sections);
-
-        if (!sections || !sections.list || sections.length == 0)
+        if (!sectionList || !sectionList.list || sectionList.length == 0)
             return {};
 
-        let matching = sections.list.find(section =>
+        let matching = sectionList.list.find(section =>
             section.name.toUpperCase() == testSection.name.toUpperCase() &&
             section.id != testSection.id);
         logger.debug(category, context, 'matching =', matching);
@@ -30,6 +29,6 @@ module.exports = function BudgetSectionBusiness(logger, errors, data) {
         return {};
     }
 
-    const common = require('./CommonBusiness')(logger, errors, data);
+    const common = require('./CommonPeriodBusiness')(logger, errors, data);
     return { ...common, validate };
 }

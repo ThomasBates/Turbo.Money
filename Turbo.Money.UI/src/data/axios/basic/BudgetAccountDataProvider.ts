@@ -1,6 +1,6 @@
 
 import IBudgetAccount from "models/budget/IBudgetAccount";
 
-import BasicDataProvider from "./BasicDataProvider";
+import CommonPeriodDataProvider from "./CommonPeriodDataProvider";
 
-export default BasicDataProvider<IBudgetAccount>("budgetAccount");
+export default CommonPeriodDataProvider<IBudgetAccount>("budgetAccount");

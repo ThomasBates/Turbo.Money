@@ -4,6 +4,7 @@ import { useState } from "react";
 import IModelItem from "common/models/IModelItem";
 
 import IBudgetSection from 'models/budget/IBudgetSection';
+import IBudgetPeriod from 'models/budget/IBudgetPeriod';
 
 import BudgetAccountDetailsViewModel from "pages/basic/budgetAccount/viewModels/BudgetAccountDetailsViewModel";
 import BudgetAccountEditViewModel from "pages/basic/budgetAccount/viewModels/BudgetAccountEditViewModel";
@@ -22,7 +23,7 @@ import ILoggerService from "services/logger/ILoggerService";
 import IBudgetWorksheetDataService from "../data/IBudgetWorksheetDataService";
 
 import BudgetWorksheetSectionViewModel from "./BudgetWorksheetSectionViewModel";
-import IBudgetWorksheetViewModel from "./IBudgetWorksheetViewModel";
+import IBudgetWorksheetBudgetViewModel from "./IBudgetWorksheetBudgetViewModel";
 
 interface IBasicModeViewModels {
     add: (props: IBasicModeViewModelProps) => IBasicEditViewModel;
@@ -54,16 +55,18 @@ const modeViewModels: Record<string, IBasicModeViewModels> = {
     }
 }
 
-export default function BudgetWorksheetViewModel(
+export default function BudgetWorksheetBudgetViewModel(
     logger: ILoggerService,
-    dataService: IBudgetWorksheetDataService
-): IBudgetWorksheetViewModel {
+    dataService: IBudgetWorksheetDataService,
+    selectedPeriod: null | IBudgetPeriod,
+): IBudgetWorksheetBudgetViewModel {
 
     const [modeViewModelProps, setModeViewModelProps] = useState<null | IBasicModeViewModelProps>(null);
+    //const [selectedPeriod, setSelectedPeriod] = useState<null | IBudgetPeriod>(null);
 
-    const [, setModeItem] = useState<IModelItem|null>(null);
+    const [, setModeItem] = useState<null | IModelItem>(null);
 
-    const internalSetModeItem = (item: IModelItem|null): void => {
+    const internalSetModeItem = (item: IModelItem | null): void => {
         setModeItem(item);
         setModeViewModelProps(prevProps => prevProps
             ? {
@@ -71,7 +74,7 @@ export default function BudgetWorksheetViewModel(
                 item: item
             }
             : prevProps);
-    };
+    }
 
     const internalSetModeViewModelProps = (props: null | IBasicModeViewModelProps): void => {
         setModeViewModelProps(props);
@@ -85,12 +88,13 @@ export default function BudgetWorksheetViewModel(
             internalSetModeItem,
             internalSetModeViewModelProps));
 
-    const loadBudgetData = async () => {
-        await dataService.loadBudgetData();
+    const loadBudgetWorksheet = async () => {
+        if (selectedPeriod && selectedPeriod.id > 0)
+            await dataService.loadBudgetWorksheet(selectedPeriod.id);
     };
 
-    const saveBudgetData = async () => {
-        await dataService.saveBudgetData();
+    const saveBudgetWorksheet = async () => {
+        await dataService.saveBudgetWorksheet();
     };
 
     const addSection = () => {
@@ -127,13 +131,15 @@ export default function BudgetWorksheetViewModel(
 
     return {
         title: "Budget Worksheet",
+        selectedPeriod,
         sectionViewModels,
         modeViewModel,
         total: dataService.getBudgetTotalAbsolute(),
         status: dataService.getBudgetStatus(),
 
-        loadBudgetData,
-        saveBudgetData,
+        //setSelectedPeriod,
+        loadBudgetWorksheet,
+        saveBudgetWorksheet,
         addSection
     }
 }

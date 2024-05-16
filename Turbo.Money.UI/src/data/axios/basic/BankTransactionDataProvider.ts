@@ -7,7 +7,7 @@ import IBankTransaction from "models/bank/IBankTransaction";
 
 import ILoggerService from 'services/logger/ILoggerService';
 
-import BasicDataProvider from "./BasicDataProvider";
+import CommonDataProvider from "./CommonDataProvider";
 
 export default function BankTransactionDataProvider(
     logger: ILoggerService
@@ -16,7 +16,7 @@ export default function BankTransactionDataProvider(
     const module = BankTransactionDataProvider.name;
     const category = 'Bank';
 
-    const common = BasicDataProvider<IBankTransaction>("bankTransaction")
+    const common = CommonDataProvider<IBankTransaction>("bankTransaction")
 
     const uploadFile = async (file: File) => {
         const context = `${module}.${uploadFile.name}`;

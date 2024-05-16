@@ -1,6 +1,21 @@
 'use strict';
 const { Model } = require('sequelize');
 
+/*
+UserAuthorization.propertyNames:
+[
+  'constructor',       '_customGetters',
+  '_customSetters',    'validators',
+  '_hasCustomGetters', '_hasCustomSetters',
+  'id',                'source',
+  'sourceId',          'passwordHash',
+  'createdAt',         'updatedAt',
+  'rawAttributes',     '_isAttribute',
+  'UserUserId',        'getUserUser',
+  'setUserUser',       'createUserUser'
+]
+*/
+
 module.exports = (db) => {
     const sequelize = db.sequelize;
     const DataTypes = db.Sequelize.DataTypes;

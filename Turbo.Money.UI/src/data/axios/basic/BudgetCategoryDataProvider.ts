@@ -1,6 +1,6 @@
 
 import IBudgetCategory from "models/budget/IBudgetCategory";
 
-import BasicDataProvider from "./BasicDataProvider";
+import CommonPeriodDataProvider from "./CommonPeriodDataProvider";
 
-export default BasicDataProvider<IBudgetCategory>("budgetCategory");
+export default CommonPeriodDataProvider<IBudgetCategory>("budgetCategory");

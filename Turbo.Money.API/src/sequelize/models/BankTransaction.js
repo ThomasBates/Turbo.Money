@@ -1,6 +1,47 @@
 'use strict';
 const { Model } = require('sequelize');
 
+/*
+BankTransaction.propertyNames:
+[
+  'constructor',
+  '_customGetters',
+  '_customSetters',
+  'validators',
+  '_hasCustomGetters',
+  '_hasCustomSetters',
+  'id',
+  'timeStamp',
+  'description',
+  'amount',
+  'balance',
+  'sequence',
+  'doubleEntryId',
+  'createdAt',
+  'updatedAt',
+  'rawAttributes',
+  '_isAttribute',
+  'UserFamilyId',
+  'getUserFamily',
+  'setUserFamily',
+  'createUserFamily',
+  'BankAccountId',
+  'getBankAccount',
+  'setBankAccount',
+  'createBankAccount',
+  'getBudgetTransactions',
+  'countBudgetTransactions',
+  'hasBudgetTransaction',
+  'hasBudgetTransactions',
+  'setBudgetTransactions',
+  'addBudgetTransaction',
+  'addBudgetTransactions',
+  'removeBudgetTransaction',
+  'removeBudgetTransactions',
+  'createBudgetTransaction'
+]
+*/
+
 module.exports = (db) => {
     const sequelize = db.sequelize;
     const DataTypes = db.Sequelize.DataTypes;
@@ -35,9 +76,6 @@ module.exports = (db) => {
         },
         doubleEntryId: {
             type: DataTypes.INTEGER
-        },
-        tag: {
-            type: DataTypes.STRING
         },
     }, {
         sequelize,

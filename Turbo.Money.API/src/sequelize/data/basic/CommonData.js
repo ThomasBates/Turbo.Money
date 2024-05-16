@@ -1,37 +1,88 @@
 
 module.exports = function CommonData(
     logger, errors, category, table,
-    encode, decode, decodeList, validate) {
+    validate, encode, decode, decodeBrief) {
     const module = CommonData.name;
 
-    // Create and save a new record
-    const create = async (userCookie, businessObject) => {
-        const context = `${module}.${create.name}`;
-        logger.debug(category, context, 'businessObject =', businessObject);
+    //  Local functions  -------------------------------------------------------
+
+    const encodeObject = (familyId, businessObject) => {
+        const context = `${module}.${encodeObject.name}`;
+
+        if (!businessObject)
+            return errors.create(context, 'InvalidArgument', 'businessObject is not defined');
 
         // Validate incoming business object.
         let validation = validate(businessObject);
         if (validation.error)
             return errors.create(context, 'InvalidData', validation);
 
-        // transform business object to data object.
         const encodedObject = encode(businessObject);
+        encodedObject.UserFamilyId = familyId;
+        return encodedObject;
+    }
+
+    const decodeObject = (familyId, dataObject) => {
+        const context = `${module}.${decodeObject.name}`;
+
+        if (!dataObject)
+            return errors.create(context, 'InvalidArgument', 'dataObject is not defined');
+
+        if (dataObject.UserFamilyId !== familyId)
+            return errors.create(context, 'SecurityBreach', `data's family (${dataObject.UserFamilyId}) is not user's family (${familyId}).`);
+
+        return decode(dataObject);
+    }
+
+    const decodeList = (familyId, dataList, decodeItem) => {
+        const context = `${module}.${decodeList.name}`;
+
+        if (!dataList || dataList.length == 0)
+            return { list: [] };
+
+        let error;
+        const returnList = dataList.map(dataItem => {
+            if (error)
+                return error;
+
+            if (dataItem.UserFamilyId !== familyId) {
+                error = errors.create(context, 'SecurityBreach', `item's family (${dataList.UserFamilyId}) is not user's family (${familyId}).`);
+                return error;
+            }
+
+            return decodeItem(dataItem);
+        });
+
+        if (error)
+            return error;
+
+        return { list: returnList };
+    }
+
+    //  Exported functions  ----------------------------------------------------
+
+    // Create and save a new record
+    const create = async (familyId, businessObject) => {
+        const context = `${module}.${create.name}`;
+        logger.debug(category, context, 'familyId =', familyId);
+        logger.debug(category, context, 'businessObject =', businessObject);
+
+        // transform business object to data object.
+        const encodedObject = encodeObject(familyId, businessObject);
         logger.debug(category, context, 'encodedObject =', encodedObject);
         if (encodedObject.error)
-            return errors.create(context, 'InvalidData', encodedObject);
-
-        encodedObject.UserFamilyId = userCookie.familyId;
+            return errors.create(context, encodedObject.error.code, encodedObject);
 
         // Create record for business object in the database
         try {
-            let data = await table.create(encodedObject);
-            logger.debug(category, context, 'data =', data.toJSON());
+            let createdObject = await table.create(encodedObject);
+            logger.debug(category, context, 'createdObject =', createdObject.toJSON());
 
             // transform returned data object to return business object.
-            const decodedObject = decode(userCookie, data.dataValues);
+            const decodedObject = decodeObject(familyId, createdObject);
             logger.debug(category, context, 'decodedObject =', decodedObject);
             if (decodedObject.error)
-                return errors.create(context, 'InvalidData', decodedObject);
+                return errors.create(context, decodedObject.error.code, decodedObject);
 
             return decodedObject;
         } catch (ex) {
@@ -41,35 +92,22 @@ module.exports = function CommonData(
     };
 
     // Retrieve all records from the table.
-    const getAll = async (userCookie) => {
+    const getAll = async (familyId) => {
         const context = `${module}.${getAll.name}`;
+        logger.debug(category, context, 'familyId =', familyId);
+
         try {
             let dataList = await table.findAll({
-                where: { UserFamilyId: userCookie.familyId }
+                where: { UserFamilyId: familyId }
             });
-            //logger.verbose(category, context, 'data =', data);
+            logger.verbose(category, context, 'dataList =', dataList.map(item => item.toJSON()));
 
-            let error;
-            let returnList;
+            const decodedList = decodeList(familyId, dataList, decode);
+            logger.verbose(category, context, 'decodedList =', decodedList);
+            if (decodedList.error)
+                return errors.create(context, decodedList.error.code, decodedList);
 
-            returnList = dataList.map(dataItem => {
-                if (error)
-                    return error;
-
-                const item = decode(userCookie, dataItem);
-                if (item.error) {
-                    error = errors.create(context, 'InvalidData', item);
-                    return error;
-                }
-
-                return item;
-            })
-
-            if (error) 
-                return error;
-
-            logger.verbose(category, context, 'returnList =', returnList);
-            return { list: returnList };
+            return decodedList;
         } catch (ex) {
             logger.error(category, context, 'ex =', ex);
             return errors.create(context, 'Catch', ex.message);
@@ -77,20 +115,22 @@ module.exports = function CommonData(
     };
 
     // Retrieve all records from the table.
-    const getList = async (userCookie) => {
+    const getList = async (familyId) => {
         const context = `${module}.${getList.name}`;
+        logger.debug(category, context, 'familyId =', familyId);
+
         try {
-            let data = await table.findAll({
-                where: { UserFamilyId: userCookie.familyId }
+            let dataList = await table.findAll({
+                where: { UserFamilyId: familyId }
             });
-            //logger.verbose(category, context, 'data =', data);
+            logger.verbose(category, context, 'dataList =', dataList.map(item => item.toJSON()));
 
-            const returnList = decodeList(userCookie, data);
-            logger.verbose(category, context, 'returnList =', returnList);
-            if (returnList.error)
-                return errors.create(context, 'InvalidData', returnList);
+            const decodedList = decodeList(familyId, dataList, decodeBrief);
+            logger.verbose(category, context, 'decodedList =', decodedList);
+            if (decodedList.error)
+                return errors.create(context, decodedList.error.code, decodedList);
 
-            return returnList;
+            return decodedList;
         } catch (ex) {
             logger.error(category, context, 'ex =', ex);
             return errors.create(context, 'Catch', ex.message);
@@ -98,15 +138,24 @@ module.exports = function CommonData(
     };
 
     // Find a single record with an id
-    const getOne = async (userCookie, id) => {
+    const getOne = async (familyId, id) => {
         const context = `${module}.${getOne.name}`;
-        try {
-            let data = await table.findByPk(id);
+        logger.debug(category, context, 'familyId =', familyId);
+        logger.debug(category, context, 'id =', id);
 
-            if (!data)
+        try {
+            let dataObject = await table.findByPk(id);
+
+            if (!dataObject)
                 return errors.create(context, 'MissingData', `Cannot find data object with id=${id}.`);
 
-            return decode(userCookie, data);
+            // transform returned data object to return business object.
+            const decodedObject = decodeObject(familyId, dataObject);
+            logger.debug(category, context, 'decodedObject =', decodedObject);
+            if (decodedObject.error)
+                return errors.create(context, decodedObject.error.code, decodedObject);
+
+            return decodedObject;
         } catch (ex) {
             logger.error(category, context, 'ex =', ex);
             return errors.create(context, 'Catch', ex.message);
@@ -114,22 +163,16 @@ module.exports = function CommonData(
     };
 
     // Update a record by the id in the request
-    const update = async (userCookie, businessObject) => {
+    const update = async (familyId, businessObject) => {
         const context = `${module}.${update.name}`;
+        logger.debug(category, context, 'familyId =', familyId);
         logger.debug(category, context, 'businessObject =', businessObject);
 
-        // Validate incoming business object.
-        let validation = validate(businessObject);
-        if (validation.error)
-            return errors.create(context, 'InvalidData', validation);
-
         // transform business object to data object.
-        const encodedObject = encode(businessObject);
+        const encodedObject = encodeObject(familyId, businessObject);
         logger.debug(category, context, 'encodedObject =', encodedObject);
         if (encodedObject.error)
-            return errors.create(context, 'InvalidData', encodedObject);
-
-        encodedObject.UserFamilyId = userCookie.familyId;
+            return errors.create(context, encodedObject.error.code, encodedObject);
 
         try {
             await table.update(encodedObject,
@@ -137,7 +180,7 @@ module.exports = function CommonData(
                     where: { id: businessObject.id }
                 });
 
-            return await getOne(userCookie, businessObject.id);
+            return await getOne(familyId, businessObject.id);
         } catch (ex) {
             logger.error(category, context, 'ex =', ex);
             return errors.create(context, 'Catch', ex.message);
@@ -145,16 +188,22 @@ module.exports = function CommonData(
     };
 
     // Delete a record with the specified id in the request
-    const deleteOne = async (userCookie, id) => {
+    const deleteOne = async (familyId, id) => {
         const context = `${module}.${deleteOne.name}`;
+        logger.debug(category, context, 'familyId =', familyId);
+        logger.debug(category, context, 'id =', id);
 
-        const returnObject = await getOne(userCookie, id);
+        const returnObject = await getOne(familyId, id);
+        logger.debug(category, context, 'returnObject =', returnObject);
         if (returnObject.error)
-            logger.warning(category, context, 'returnObject =', returnObject);
+            return errors.create(context, returnObject.error.code, returnObject);
 
         try {
             await table.destroy({
-                where: { id: id }
+                where: {
+                    id: id,
+                    UserFamilyId: familyId,
+                }
             });
 
             return returnObject;
@@ -165,16 +214,20 @@ module.exports = function CommonData(
     };
 
     // Delete all records from the table.
-    const deleteAll = async (userCookie) => {
+    const deleteAll = async (familyId) => {
         const context = `${module}.${deleteAll.name}`;
+        logger.debug(category, context, 'familyId =', familyId);
 
-        const returnList = await getAll(userCookie);
+        const returnList = await getAll(familyId);
+        logger.debug(category, context, 'returnList =', returnList);
         if (returnList.error)
-            logger.warning(category, context, 'returnList =', returnList);
+            return errors.create(context, returnList.error.code, returnList);
 
         try {
             await table.destroy({
-                where: { UserFamilyId: userCookie.familyId },
+                where: {
+                    UserFamilyId: familyId,
+                },
                 truncate: false
             });
 
