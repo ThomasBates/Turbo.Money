@@ -25,7 +25,7 @@ const Sequelize = require("sequelize");
 const info = {
   revision: 1,
   name: "initial_model",
-  created: "2024-05-16T14:32:28.507Z",
+  created: "2024-05-27T23:32:33.303Z",
   comment: "",
 };
 
@@ -149,18 +149,18 @@ const migrationCommands = (transaction) => [
           primaryKey: true,
           allowNull: false,
         },
-        activeStart: { type: Sequelize.DATE, field: "active_start" },
-        activeEnd: { type: Sequelize.DATE, field: "active_end" },
         name: { type: Sequelize.STRING, field: "name" },
         description: { type: Sequelize.STRING, field: "description" },
+        start: { type: Sequelize.DATE, field: "start" },
+        end: { type: Sequelize.DATE, field: "end" },
         isSandbox: {
           type: Sequelize.BOOLEAN,
           field: "is_sandbox",
           default: false,
         },
-        isSealed: {
+        isClosed: {
           type: Sequelize.BOOLEAN,
-          field: "is_sealed",
+          field: "is_closed",
           default: false,
         },
         createdAt: {

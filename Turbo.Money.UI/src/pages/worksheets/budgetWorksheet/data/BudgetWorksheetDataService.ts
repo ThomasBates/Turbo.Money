@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import IModelItem from "common/models/IModelItem";
 
+import IBasicDataProvider from "data/interfaces/basic/IBasicDataProvider";
 import IBudgetDataProvider from "data/interfaces/services/IBudgetDataProvider";
 
 import IBudgetAccount from 'models/budget/IBudgetAccount';
@@ -11,27 +12,42 @@ import IBudgetSection from 'models/budget/IBudgetSection';
 import IBudgetWorksheet from "models/budget/IBudgetWorksheet";
 
 import ILoggerService from "services/logger/ILoggerService";
+import { formatCurrency } from "services/tools/tools";
 
 import IBudgetWorksheetDataService from "./IBudgetWorksheetDataService";
 
 export default function BudgetWorksheetDataService(
     logger: ILoggerService,
+    periodDataProvider: IBasicDataProvider<IBudgetPeriod>,
     dataProvider: IBudgetDataProvider,
 ): IBudgetWorksheetDataService {
 
     const module = BudgetWorksheetDataService.name;
     const category = 'BudgetWorksheet';
 
+    const [periodList, setPeriodList] = useState<IBudgetPeriod[]>([]);
     const [worksheet, setWorksheet] = useState<null | IBudgetWorksheet>(null);
 
     //  Exported Data Access ---------------------------------------------------
 
-    const getBudgetPeriodList = async (): Promise<IBudgetPeriod[]> => {
-        const context = `${module}.${getBudgetPeriodList.name}`;
+    const loadBudgetPeriods = async (periodSet?: string): Promise<IBudgetPeriod[]> => {
+        const context = `${module}.${loadBudgetPeriods.name}`;
         try {
             const response = await dataProvider.getBudgetPeriodList();
             logger.debug(category, context, 'response.data =', response.data);
-            return response.data;
+
+            setPeriodList(response.data);
+
+            if (!periodSet)
+                return response.data;
+
+            const isSandbox = (periodSet == 'sandbox');
+            const isClosed = (periodSet == 'closed');
+
+            return response.data.filter((period: IBudgetPeriod) =>
+                period.isSandbox == isSandbox &&
+                period.isClosed == isClosed);
+
         } catch (ex) {
             logger.error(category, context, 'ex =', ex);
             return [];
@@ -128,6 +144,76 @@ export default function BudgetWorksheetDataService(
                     name: item.name,
                 }
             });
+    };
+
+    //  Budget Periods --------------------------------------------------------
+
+    const createBudgetPeriod = async (createdPeriod: IBudgetPeriod): Promise<null | IBudgetPeriod> => {
+        const context = `${module}.${createBudgetPeriod.name}`;
+
+        if (!createdPeriod) {
+            logger.error(category, context, 'createdPeriod is undefined.');
+            return null;
+        }
+
+        try {
+            const response = await periodDataProvider.create(createdPeriod);
+            logger.debug(category, context, 'response.data =', response.data);
+            createItem(response.data as IModelItem, periodList);
+            return response.data as IBudgetPeriod;
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+            return null;
+        }
+    };
+
+    const updateBudgetPeriod = async (updatedPeriod: IBudgetPeriod): Promise<null | IBudgetPeriod> => {
+        const context = `${module}.${updateBudgetPeriod.name}`;
+
+        if (!updatedPeriod || !updatedPeriod.id) {
+            logger.error(category, context, 'createdPeriod is undefined.');
+            return null;
+        }
+
+        try {
+            const response = await periodDataProvider.update(updatedPeriod.id, updatedPeriod);
+            logger.debug(category, context, 'response.data =', response.data);
+            updateItem(response.data as IModelItem, periodList);
+            return response.data as IBudgetPeriod;
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+            return null;
+        }
+    };
+
+    const deleteBudgetPeriod = async (deletedPeriod: IBudgetPeriod): Promise<void> => {
+        const context = `${module}.${deleteBudgetPeriod.name}`;
+
+        deleteItem(deletedPeriod as IModelItem, periodList);
+
+        if (!deletedPeriod || !deletedPeriod.id) {
+            logger.error(category, context, 'period cannot be deleted.');
+            return;
+        }
+
+        try {
+            const response = await periodDataProvider.remove(deletedPeriod.id);
+            logger.debug(category, context, 'response.data =', response.data);
+        } catch (ex) {
+            logger.error(category, context, 'ex =', ex);
+        }
+    };
+
+    const readBudgetPeriod = async (id: number): Promise<null | IBudgetPeriod> => {
+        return readItem(id, periodList) as IBudgetPeriod;
+    };
+
+    const listBudgetPeriods = (): IBudgetPeriod[] => {
+        return listItems(periodList) as IBudgetPeriod[];
+    };
+
+    const listBudgetPeriodNames = (): IModelItem[] => {
+        return listItemNames(periodList);
     };
 
     //  Budget Sections --------------------------------------------------------
@@ -246,17 +332,6 @@ export default function BudgetWorksheetDataService(
 
     //  Totals -----------------------------------------------------------------
 
-    const getCurrencyFormat = (number: number) => {
-        const value = Number(number);
-
-        const localeFormat = new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD'
-        });
-
-        return localeFormat.format(value);
-    };
-
     const calcAccountTotal = (account: IBudgetAccount) => {
         if (!account)
             return 0;
@@ -321,12 +396,12 @@ export default function BudgetWorksheetDataService(
     };
 
     const getBudgetTotal = () => {
-        return getCurrencyFormat(calcBudgetTotal());
+        return formatCurrency(calcBudgetTotal());
     };
 
     const getBudgetTotalAbsolute = (): string => {
         const total = calcBudgetTotal();
-        return getCurrencyFormat(Math.abs(total));
+        return formatCurrency(Math.abs(total));
     };
 
     const getBudgetStatus = () => {
@@ -337,23 +412,29 @@ export default function BudgetWorksheetDataService(
     };
 
     const getBudgetSectionTotal = (section: IBudgetSection) => {
-        return getCurrencyFormat(calcSectionTotal(section));
+        return formatCurrency(calcSectionTotal(section));
     };
 
     const getBudgetCategoryTotal = (category: IBudgetCategory) => {
-        return getCurrencyFormat(calcCategoryTotal(category));
+        return formatCurrency(calcCategoryTotal(category));
     };
 
     const getBudgetAccountTotal = (account: IBudgetAccount) => {
-        return getCurrencyFormat(calcAccountTotal(account));
+        return formatCurrency(calcAccountTotal(account));
     };
 
     return {
 
-        getBudgetPeriodList,
-
+        loadBudgetPeriods,
         loadBudgetWorksheet,
         saveBudgetWorksheet,
+
+        createBudgetPeriod,
+        updateBudgetPeriod,
+        deleteBudgetPeriod,
+        readBudgetPeriod,
+        listBudgetPeriods,
+        listBudgetPeriodNames,
 
         createBudgetSection,
         updateBudgetSection,

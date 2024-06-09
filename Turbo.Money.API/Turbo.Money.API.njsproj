@@ -93,10 +93,7 @@
     <Content Include="src\sequelize\data\basic\BudgetTransactionData.js" />
     <Content Include="src\sequelize\data\basic\CommonPeriodData.js" />
     <Content Include="src\sequelize\data\basic\CommonData.js" />
-    <Content Include="src\sequelize\data\services\converters\BudgetPeriodDataConverter - Copy.js" />
-    <Content Include="src\sequelize\data\services\converters\BudgetTransactionDataConverter.js" />
-    <Content Include="src\sequelize\data\services\converters\BudgetPeriodDataConverter.js" />
-    <Content Include="src\sequelize\migrations\20240516143228_initial_model.js" />
+    <Content Include="src\sequelize\migrations\00000000000000_initial_model.js" />
     <Content Include="src\sequelize\models\BankAccountPeriod.js" />
     <Content Include="src\sequelize\models\BudgetSchedule.js" />
     <Content Include="src\sequelize\models\BudgetTransaction.js" />
@@ -128,11 +125,7 @@
     <Content Include="src\sequelize\config\config.js" />
     <Content Include="src\sequelize\data\services\UserData.js" />
     <Content Include="src\sequelize\data\basic\BankTransactionData.js" />
-    <Content Include="src\sequelize\data\services\converters\BudgetAccountDataConverter.js" />
     <Content Include="src\sequelize\data\basic\BankAccountData.js" />
-    <Content Include="src\sequelize\data\services\converters\BudgetSectionDataConverter.js" />
-    <Content Include="src\sequelize\data\services\converters\BudgetCategoryDataConverter.js" />
-    <Content Include="src\sequelize\data\services\converters\ConverterHelper.js" />
     <Content Include="src\sequelize\data\basic\BankBankData.js" />
     <Content Include="src\sequelize\data\index.js" />
     <Content Include="src\sequelize\index.js" />
@@ -177,7 +170,6 @@
     <Folder Include="src\controllers\converters\" />
     <Folder Include="src\controllers\services\" />
     <Folder Include="src\app\" />
-    <Folder Include="src\sequelize\data\services\converters\" />
     <Folder Include="src\services\errors\" />
     <Folder Include="src\services\" />
     <Folder Include="src\routes\basic\" />

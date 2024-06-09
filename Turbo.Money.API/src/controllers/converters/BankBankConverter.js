@@ -5,10 +5,10 @@ module.exports = function BankBankConverter(errors) {
     const validate = (data) => {
         const context = `${module}.${validate.name}`;
 
-        if (!data.id)
-            return errors.create(context, 'ParseError', "data.id is not defined.");
-        if (isNaN(data.id))
-            return errors.create(context, 'ParseError', "data.id must be a number.");
+        //if (!data.id)
+        //    return errors.create(context, 'ParseError', "data.id is not defined.");
+        //if (isNaN(data.id))
+        //    return errors.create(context, 'ParseError', "data.id must be a number.");
 
         //if (!data.name)
         //    return errors.create(context, 'ParseError', "data.name is not defined.");

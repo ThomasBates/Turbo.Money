@@ -24,6 +24,7 @@ export default function PrivateNavData(): IMenuData {
                 width: 170,
                 list: [
                     { content: "Budget Schedule", to: "/BudgetSchedule" },
+                    { content: "Budget Periods", to: "/BudgetPeriod" },
                     { content: "Budget Worksheet", to: "/BudgetWorksheet" },
                     { content: "View Budget", to: "/BudgetView", enabled: false }
                 ]

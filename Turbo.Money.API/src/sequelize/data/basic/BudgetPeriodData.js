@@ -5,11 +5,11 @@ module.exports = function BudgetPeriodData(logger, errors, table) {
     const validate = (period) => {
         //const context = `${module}.${validate.name}`;
 
-        //if (!period.activeStart)
-        //    return errors.create(context, 'InvalidData', "Period activeStart can not be empty!");
+        //if (!period.start)
+        //    return errors.create(context, 'InvalidData', "Period start can not be empty!");
 
-        //if (!period.activeEnd)
-        //    return errors.create(context, 'InvalidData', "Period activeEnd can not be empty!");
+        //if (!period.end)
+        //    return errors.create(context, 'InvalidData', "Period end can not be empty!");
 
         return {}
     }
@@ -17,24 +17,24 @@ module.exports = function BudgetPeriodData(logger, errors, table) {
     const encode = (period) => {
         return {
             //id: period.id,
-            activeStart: period.activeStart,
-            activeEnd: period.activeEnd,
+            start: period.start,
+            end: period.end,
             name: period.name,
             description: period.description,
             isSandbox: period.isSandbox,
-            isSealed: period.isSealed,
+            isClosed: period.isClosed,
         };
     }
 
     const decode = (data) => {
         return {
             id: data.id,
-            activeStart: data.activeStart,
-            activeEnd: data.activeEnd,
+            start: data.start,
+            end: data.end,
             name: data.name,
             description: data.description,
             isSandbox: data.isSandbox,
-            isSealed: data.isSealed,
+            isClosed: data.isClosed,
         };
     }
 

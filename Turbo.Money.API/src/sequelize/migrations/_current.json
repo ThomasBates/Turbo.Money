@@ -422,14 +422,6 @@
                     "field": "id",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "activeStart": {
-                    "field": "active_start",
-                    "seqType": "Sequelize.DATE"
-                },
-                "activeEnd": {
-                    "field": "active_end",
-                    "seqType": "Sequelize.DATE"
-                },
                 "name": {
                     "field": "name",
                     "seqType": "Sequelize.STRING"
@@ -438,14 +430,22 @@
                     "field": "description",
                     "seqType": "Sequelize.STRING"
                 },
+                "start": {
+                    "field": "start",
+                    "seqType": "Sequelize.DATE"
+                },
+                "end": {
+                    "field": "end",
+                    "seqType": "Sequelize.DATE"
+                },
                 "isSandbox": {
                     "default": false,
                     "field": "is_sandbox",
                     "seqType": "Sequelize.BOOLEAN"
                 },
-                "isSealed": {
+                "isClosed": {
                     "default": false,
-                    "field": "is_sealed",
+                    "field": "is_closed",
                     "seqType": "Sequelize.BOOLEAN"
                 },
                 "createdAt": {

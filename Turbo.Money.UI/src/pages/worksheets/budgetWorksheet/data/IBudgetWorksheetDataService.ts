@@ -8,9 +8,16 @@ import IBudgetPeriod from 'models/budget/IBudgetPeriod';
 
 export default interface IBudgetWorksheetDataService {
 
-    getBudgetPeriodList: () => Promise<IBudgetPeriod[]>;
+    loadBudgetPeriods: (periodSet?: string) => Promise<IBudgetPeriod[]>;
     loadBudgetWorksheet: (periodId: number) => Promise<void>;
     saveBudgetWorksheet: () => Promise<void>;
+
+    createBudgetPeriod: (item: IBudgetPeriod) => Promise<null | IBudgetPeriod>;
+    updateBudgetPeriod: (item: IBudgetPeriod) => Promise<null | IBudgetPeriod>;
+    deleteBudgetPeriod: (item: IBudgetPeriod) => Promise<void>;
+    readBudgetPeriod: (id: number) => Promise<null | IBudgetPeriod>;
+    listBudgetPeriods: () => IBudgetPeriod[];
+    listBudgetPeriodNames: () => IModelItem[];
 
     createBudgetSection: (item: IBudgetSection) => void;
     updateBudgetSection: (item: IBudgetSection) => void;

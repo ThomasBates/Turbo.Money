@@ -16,7 +16,11 @@ const modeViews: IBasicModeViews = {
 }
 
 export default function BankBankMainView({ dataContext }: IFactoryViewProps) {
+
     return (
-        <BasicMainView dataContext={dataContext} modeViews={modeViews} />
+        <BasicMainView
+            dataContext={dataContext}
+            modeViews={modeViews} />
     );
 }
+

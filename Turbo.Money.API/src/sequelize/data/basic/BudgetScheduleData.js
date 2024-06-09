@@ -1,13 +1,9 @@
 
 module.exports = function BudgetScheduleData(logger, errors, table) {
     const module = BudgetScheduleData.name;
-    const category = 'BudgetSchedule';
-
-    const scheduleConverter = require("../services/converters/BudgetScheduleDataConverter")(errors);
-    const helper = require('../services/converters/ConverterHelper')(logger, errors);
 
     const validate = (schedule) => {
-        const context = `${module}.${validate.name}`;
+        //const context = `${module}.${validate.name}`;
 
         //if (!schedule.direction)
         //    return errors.create(context, 'InvalidData', 'Schedule direction can not be empty!');

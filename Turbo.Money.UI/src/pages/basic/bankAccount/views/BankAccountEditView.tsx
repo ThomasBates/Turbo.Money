@@ -35,7 +35,7 @@ export default function BankAccountEditView({ style, dataContext }: IStyledViewP
             <BasicEditInputControl style={style}
                 name='number'
                 label='Account Number'
-                value={viewModel.account.name}
+                value={viewModel.account.number}
                 isValid={viewModel.isValidNumber}
                 setProperty={viewModel.setProperty} />
         </BasicEditView>

@@ -1,6 +1,7 @@
 
 import IModelItem from "common/models/IModelItem";
 import ICommonStyle from "common/views/ICommonStyle";
+import ISelectOption from "common/views/ISelectOption";
 
 interface IProps {
     style: ICommonStyle;
@@ -8,7 +9,7 @@ interface IProps {
     label: string;
     value?: string | string[] | number;
     isValid?: boolean;
-    options: IModelItem[] | {value:string,text:string}[];
+    options: IModelItem[] | ISelectOption[];
     defaultOption?: string;
     setProperty: (name: string, value: string | string[] | number) => void;
 }

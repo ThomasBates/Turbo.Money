@@ -1,10 +1,6 @@
 
 module.exports = function BudgetSectionData(logger, errors, table) {
     const module = BudgetSectionData.name;
-    const category = 'BudgetSection';
-
-    const sectionConverter = require("../services/converters/BudgetSectionDataConverter")(errors);
-    const helper = require('../services/converters/ConverterHelper')(logger, errors);
 
     const validate = (section) => {
         const context = `${module}.${validate.name}`;

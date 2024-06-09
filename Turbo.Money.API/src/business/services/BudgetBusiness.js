@@ -38,7 +38,7 @@ module.exports = function BudgetBusiness(logger, errors, data) {
             periodDescription = `Sample Budget Data ${i}`;
         }
 
-        const period = { id: -1, name: periodName, description: periodDescription, isSandbox: true, isSealed: false };
+        const period = { id: -1, name: periodName, description: periodDescription, isSandbox: true, isClosed: false };
 
         const sectionList = [
             { id: -1, periodId: -1, displayOrder: 1, name: "Income", description: "Income", direction: -1 },
@@ -280,6 +280,49 @@ module.exports = function BudgetBusiness(logger, errors, data) {
         return await data.budgetPeriod.getOne(familyId, periodId);
     }
 
+    const copyBudgetWorksheet = async (familyId, periodId, templateId) => {
+        const context = `${module}.${copyBudgetWorksheet.name}`;
+
+        const period = await data.budgetPeriod.getOne(familyId, periodId);
+        logger.debug(category, context, 'period =', period);
+        if (period.error)
+            return errors.create(context, period.error.code, period);
+
+        const template = await loadBudgetWorksheet(familyId, templateId);
+        logger.debug(category, context, 'worksheet =', template);
+        if (template.error)
+            return errors.create(context, template.error.code, template);
+
+        const state = 'created';
+        const sectionList = template.sectionList.map(section => ({
+            ...section,
+            id: -section.id,
+            periodId,
+            state,
+        }));
+        const categoryList = template.categoryList.map(category => ({
+            ...category,
+            id: -category.id,
+            sectionId: -category.sectionId,
+            state,
+        }));
+        const accountList = template.accountList.map(account => ({
+            ...account,
+            id: -account.id,
+            categoryId: -account.categoryId,
+            state,
+        }));
+
+        const worksheet = {
+            period: { ...period, state: 'read' },
+            sectionList,
+            categoryList,
+            accountList,
+        };
+
+        return await saveBudgetWorksheet(familyId, worksheet);
+    }
+
     // -------------------------------------------------------------------------
 
     const deleteWorksheetObjects = async (familyId, worksheet) => {
@@ -374,5 +417,6 @@ module.exports = function BudgetBusiness(logger, errors, data) {
         getBudgetPeriodList,
         loadBudgetWorksheet,
         saveBudgetWorksheet,
+        copyBudgetWorksheet,
     };
 }

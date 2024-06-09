@@ -10,6 +10,31 @@ import BasicButton from './BasicButton';
 import IBasicMainViewProps from './IBasicMainViewProps';
 
 import defaultStyleModule from './BasicMainView.module.css';
+import IBasicListItemProps from './IBasicListItemProps';
+
+const DefaultListHeader = () => {
+    return (<></>);
+}
+
+const DefaultTableHeader = () => {
+    return (<></>);
+}
+
+const DefaultListItem = ({ listItem }: IBasicListItemProps) => {
+    return (
+        <td>
+            {listItem.name}
+        </td>
+    )
+}
+
+const DefaultTableFooter = () => {
+    return (<></>);
+}
+
+const DefaultListFooter = () => {
+    return (<></>);
+}
 
 interface IModeViewProps extends IStyledViewProps {
     SelectedModeView: (props: IStyledViewProps) => JSX.Element;
@@ -21,7 +46,15 @@ const ModeView = ({ SelectedModeView, style, dataContext }: IModeViewProps) => {
     );
 }
 
-export default function BasicMainView({ dataContext, customStyle, modeViews }: IBasicMainViewProps) {
+export default function BasicMainView({
+    dataContext,
+    customStyle,
+    modeViews,
+    CustomListHeader,
+    CustomTableHeader,
+    CustomListItem,
+    CustomTableFooter,
+    CustomListFooter}: IBasicMainViewProps) {
 
     const viewModel = dataContext() as IBasicMainViewModel;
     const style = mergeStyles(customStyle, defaultStyleModule);
@@ -31,40 +64,55 @@ export default function BasicMainView({ dataContext, customStyle, modeViews }: I
         viewModel.loadData();
     }, []);
 
+    const itemControl = viewModel.canSelectItem
+        ? style.list_item_control
+        : style.disabled_list_item_control;
+
+    const ListHeader = CustomListHeader ?? DefaultListHeader;
+    const TableHeader = CustomTableHeader ?? DefaultTableHeader;
+    const ListItem = CustomListItem ?? DefaultListItem;
+    const TableFooter = CustomTableFooter ?? DefaultTableFooter;
+    const ListFooter = CustomListFooter ?? DefaultListFooter;
+
     return (
         <div className={style.main_form}>
             <h1 className={combineStyles(style.title_panel, style.title)}>{viewModel.title}</h1>
             <div className={style.main_panel}>
                 <div className={style.list_panel}>
 
-                    <ul className={combineStyles(style.list_control, style.list)}>
-                        {viewModel.list &&
-                            viewModel.list.map((listItem, index) => {
+                    <ListHeader style={style} dataContext={viewModel} />
 
-                                const itemControl = viewModel.canSelectItem
-                                    ? style.list_item_control
-                                    : style.disabled_list_item_control;
-                                const itemTheme = viewModel.canSelectItem
-                                    ? (index === viewModel.selectedIndex
-                                        ? style.enabled_selected_list_item
-                                        : style.enabled_unselected_list_item)
-                                    : (index === viewModel.selectedIndex
-                                        ? style.disabled_selected_list_item
-                                        : style.disabled_unselected_list_item);
-                                const className = combineStyles(itemControl, itemTheme);
+                    <table className={combineStyles(style.table_control, style.table_theme)}>
+                        <TableHeader style={style} dataContext={viewModel} />
+                        <tbody>
+                            {viewModel.list &&
+                                viewModel.list.map((listItem, index) => {
 
-                                return (
-                                    <li
-                                        className={className}
-                                        onClick={() => viewModel.selectItem(listItem)}
-                                        key={index}
-                                    //disabled={!viewModel.canSelectItem}
-                                    >
-                                        {listItem.name}
-                                    </li>
-                                );
-                            })}
-                    </ul>
+                                    const itemTheme = viewModel.canSelectItem
+                                        ? (index === viewModel.selectedIndex
+                                            ? style.enabled_selected_list_item
+                                            : style.enabled_unselected_list_item)
+                                        : (index === viewModel.selectedIndex
+                                            ? style.disabled_selected_list_item
+                                            : style.disabled_unselected_list_item);
+                                    const className = combineStyles(itemControl, itemTheme);
+
+                                    return (
+                                        <tr
+                                            className={className}
+                                            onClick={() => viewModel.selectItem(listItem)}
+                                            key={index}
+                                            //disabled={!viewModel.canSelectItem}
+                                        >
+                                            <ListItem listItem={listItem} />
+                                        </tr>
+                                    );
+                                })}
+                        </tbody>
+                        <TableFooter style={style} dataContext={viewModel} />
+                    </table>
+
+                    <ListFooter style={style} dataContext={viewModel} />
 
                     <div className={style.button_panel}>
                         <BasicButton style={style}
@@ -76,12 +124,12 @@ export default function BasicMainView({ dataContext, customStyle, modeViews }: I
                             variant='edit'
                             label='Edit'
                             onClick={viewModel.editItem}
-                            disabled={!viewModel.canEditItem}/>
+                            disabled={!viewModel.canEditItem} />
                         <BasicButton style={style}
                             variant='delete'
                             label='Delete'
                             onClick={viewModel.deleteItem}
-                            disabled={!viewModel.canDeleteItem}/>
+                            disabled={!viewModel.canDeleteItem} />
                     </div>
                 </div>
 

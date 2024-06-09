@@ -1,34 +1,33 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from 'react';
 
-import IModelItem, { compareItems } from "common/models/IModelItem";
+import IBasicDataProvider from 'data/interfaces/basic/IBasicDataProvider';
 
-import IBasicDataProvider from "data/interfaces/basic/IBasicDataProvider";
+import IBudgetPeriod from 'models/budget/IBudgetPeriod';
 
-import ILoggerService from "services/logger/ILoggerService";
-import IErrorService from "services/errors/IErrorService";
+import ILoggerService from 'services/logger/ILoggerService';
+import IErrorService from 'services/errors/IErrorService';
 
-import IBasicMainViewModel from "./IBasicMainViewModel";
-import IBasicModeViewModel from "./IBasicModeViewModel";
-import IBasicDetailsViewModel from "./IBasicDetailsViewModel";
-import IBasicEditViewModel from "./IBasicEditViewModel";
-import IBasicModeViewModelProps from "./IBasicModeViewModelProps";
+import IBudgetPeriodMainViewModel from './IBudgetPeriodMainViewModel';
+import IModelItem, { compareItems } from '../../../../common/models/IModelItem';
+import IBasicModeViewModel from '../../common/viewModels/IBasicModeViewModel';
 
-export default function BasicMainViewModel(
+export default function BudgetPeriodMainViewModel(
     logger: ILoggerService,
     errors: IErrorService,
-    dataProvider: IBasicDataProvider<IModelItem>,
+    dataProvider: IBasicDataProvider<IBudgetPeriod>
+): IBudgetPeriodMainViewModel {
+    const module = BudgetPeriodMainViewModel.name;
+    const category = 'BudgetPeriod';
 
-    title: string,
-    modeTitle: string,
-    entity: string,
-    initialItem: IModelItem,
-
-    detailsViewModel: (props: IBasicModeViewModelProps) => IBasicDetailsViewModel,
-    editViewModel: (props: IBasicModeViewModelProps) => IBasicEditViewModel
-): IBasicMainViewModel {
-
-    const module = BasicMainViewModel.name;
-    const category = 'Basic';
+    const initialItem: IBudgetPeriod = {
+        id: -1,
+        name: '',
+        description: '',
+        start: new Date(),
+        end: new Date(),
+        isSandbox: true,
+        isClosed: false,
+    };
 
     const [list, setList] = useState<IModelItem[]>([]);
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
@@ -57,7 +56,6 @@ export default function BasicMainViewModel(
         const context = `${module}.${retrieveAllItems.name}`;
         try {
             const response = await dataProvider.getList();
-            //logger.debug(category, context, 'response =', response);
             logger.debug(category, context, 'response.data =', response.data);
 
             const newList = response.data.sort(compareItems);
@@ -86,10 +84,9 @@ export default function BasicMainViewModel(
 
     const createModeItem = async () => {
         const context = `${module}.${createModeItem.name}`;
-        if (!modeItem)
-            return errors.createError(context, 'NullData', 'modeItem is null');
-
         try {
+            if (!modeItem)
+                return errors.createError(context, 'NullData', 'modeItem is null');
             const response = await dataProvider.create(modeItem);
             logger.debug(category, context, 'response.data =', response.data);
             return response.data;
@@ -313,7 +310,7 @@ export default function BasicMainViewModel(
     }
 
     return {
-        title,
+        title: 'Budget Period',
         list,
         selectedIndex,
         mode,

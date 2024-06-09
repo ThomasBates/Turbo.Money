@@ -3,10 +3,6 @@ module.exports = function BudgetData(logger, errors, db) {
     const module = BudgetData.name;
     const category = "Budget";
 
-    const periodConverter = require("./converters/BudgetPeriodDataConverter")(errors);
-    //const worksheetConverter = require("./converters/BudgetWorksheetDataConverter")(errors);
-    const helper = require('./converters/ConverterHelper')(logger, errors);
-
     const createSampleData = async (familyId, worksheet) => {
         const context = `${module}.${createSampleData.name}`;
 
@@ -84,7 +80,7 @@ module.exports = function BudgetData(logger, errors, db) {
                 name: period.name,
                 description: period.description,
                 isSandbox: period.isSandbox,
-                isSealed: period.isSealed,
+                isClosed: period.isClosed,
             }
 
             return decodedBudgetPeriod;
@@ -95,66 +91,7 @@ module.exports = function BudgetData(logger, errors, db) {
         }
     };
 
-    const loadWorksheet = async (familyId, periodId) => {
-        const context = `${module}.${loadWorksheet.name}`;
-
-        try {
-            logger.verbose(category, context, 'periodId =', periodId);
-            const period = await db.budget.period.findByPk(periodId);
-            if (!period)
-                return errors.create(context, 'MissingData', `Cannot find budget period with id=${periodId}.`);
-            logger.verbose(category, context, 'period =', period);
-            if (period.UserFamilyId != familyId)
-                return errors.create(context, 'SecurityBreach', `period's family (${period.UserFamilyId}) is not user's family (${familyId}).`);
-
-            const decodedPeriod = helper.decodeObject(familyId, period, periodConverter.decode);
-            if (decodedPeriod.error)
-                return errors.create(context, decodedPeriod.error.code, decodedPeriod);
-
-            const sectionList = await period.getBudgetSections();
-            const decodedSectionList = helper.decodeList(familyId, sectionList, sectionConverter.decode);
-            if (decodedSectionList.error)
-                return errors.create(context, decodedSectionList.error.code, decodedSectionList);
-
-            const categoryList = await period.getBudgetCategories();
-            const decodedCategoryList = helper.decodeList(familyId, categoryList, categoryConverter.decode);
-            if (decodedCategoryList.error)
-                return errors.create(context, decodedCategoryList.error.code, decodedCategoryList);
-
-            const accountList = await period.getBudgetAccounts();
-            const decodedAccountList = helper.decodeList(familyId, accountList, accountConverter.decode);
-            if (decodedAccountList.error)
-                return errors.create(context, decodedAccountList.error.code, decodedAccountList);
-
-            return {
-                period: decodedPeriod,
-                sectionList: decodedSectionList,
-                categoryList: decodedCategoryList,
-                accountList: decodedAccountList,
-            }
-
-        } catch (ex) {
-            logger.error(category, context, 'ex =', ex);
-            return errors.create(context, 'Catch', ex.message);
-        }
-
-        return worksheet;
-    }
-
-    const saveWorksheet = async (familyId, worksheet) => {
-        const context = `${module}.${loadWorksheet.name}`;
-
-        const status = await data.saveWorksheet(familyId, worksheet);
-        logger.debug(category, context, 'status =', status);
-        if (status.error)
-            return errors.create(context, status.error.code, status);
-
-        return status;
-    }
-
     return {
         createSampleData,
-        loadWorksheet,
-        saveWorksheet,
     };
 }

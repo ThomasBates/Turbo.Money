@@ -68,7 +68,7 @@ module.exports = function CommonController(
         if (errors.handle(context, res, 500, encodedList.error))
             return;
 
-        res.send(encodedList.list);
+        res.send(encodedList);
     };
 
     // Find a single object with an id

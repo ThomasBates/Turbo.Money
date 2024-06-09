@@ -27,6 +27,10 @@ import BudgetScheduleDataProvider from 'data/axios/basic/BudgetScheduleDataProvi
 import BudgetScheduleViewModel from 'pages/services/budgetSchedule/viewModels/BudgetScheduleViewModel';
 import BudgetScheduleView from 'pages/services/budgetSchedule/views/BudgetScheduleView';
 
+import BudgetPeriodDataProvider from 'data/axios/basic/BudgetPeriodDataProvider';
+import BudgetPeriodMainViewModel from 'pages/basic/budgetPeriod/viewModels/BudgetPeriodMainViewModel';
+import BudgetPeriodMainView from 'pages/basic/budgetPeriod/views/BudgetPeriodMainView';
+
 import BudgetDataProvider from 'data/axios/services/BudgetDataProvider';
 import BudgetWorksheetDataService from "pages/worksheets/budgetWorksheet/data/BudgetWorksheetDataService";
 import BudgetWorksheetMainViewModel from 'pages/worksheets/budgetWorksheet/viewModels/BudgetWorksheetMainViewModel';
@@ -46,7 +50,7 @@ import BankTransactionUploadView from 'pages/services/bankTransactions/views/Ban
 import ReportByPeriod from 'pages/reports/views/ReportByPeriod';
 import ReportByAccount from 'pages/reports/views/ReportByAccount';
 
-import BankBankViewModel from 'pages/basic/bankBank/viewModels/BankBankMainViewModel';
+import BankBankMainViewModel from 'pages/basic/bankBank/viewModels/BankBankMainViewModel';
 import BankBankMainView from 'pages/basic/bankBank/views/BankBankMainView';
 
 import BankAccountMainViewModel from 'pages/basic/bankAccount/viewModels/BankAccountMainViewModel';
@@ -129,12 +133,23 @@ export default function PrivateRouteData(
                 } />
             },
             {
+                path: "/BudgetPeriod",
+                element: < BudgetPeriodMainView dataContext={() =>
+                    BudgetPeriodMainViewModel(
+                        loggerService,
+                        errorService,
+                        BudgetPeriodDataProvider
+                    )
+                } />
+            },
+            {
                 path: "/BudgetWorksheet",
                 element: < BudgetWorksheetMainView dataContext={() =>
                     BudgetWorksheetMainViewModel(
                         loggerService,
                         BudgetWorksheetDataService(
                             loggerService,
+                            BudgetPeriodDataProvider,
                             BudgetDataProvider()
                         )
                     )
@@ -190,7 +205,7 @@ export default function PrivateRouteData(
             {
                 path: "/BankBank",
                 element: < BankBankMainView dataContext={() =>
-                    BankBankViewModel(
+                    BankBankMainViewModel(
                         loggerService,
                         errorService,
                         BankBankDataProvider

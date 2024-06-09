@@ -38,3 +38,31 @@ export function mergeStyles(customStyle: ICommonStyle | undefined, defaultStyle:
 export function combineStyles(...args: (string | undefined)[]): string {
     return args.filter(arg => arg != undefined).join(" ");
 }
+
+export function formatCurrency(number: number) {
+    const value = Number(number);
+
+    const localeFormat = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+    });
+
+    return localeFormat.format(value);
+};
+
+export function formatDate(date: string) {
+    const value = new Date(date);
+    const tzMin = value.getTimezoneOffset();
+    value.setTime(value.getTime() + (tzMin*60*1000));
+
+    return value.toLocaleDateString();
+
+    //const localeFormat = new Intl.DateTimeFormat('en-US', {
+    //    dateStyle: 'long',
+    //    //timeStyle: 'long',
+    //    //timeZone: 'GMT-6',
+    //    //timeZoneName: 'long',
+    //});
+
+    //return localeFormat.format(value);
+}

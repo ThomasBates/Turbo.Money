@@ -1,10 +1,6 @@
 
 module.exports = function BudgetAccountData(logger, errors, table) {
     const module = BudgetAccountData.name;
-    const loggerCategory = 'BudgetAccount';
-
-    const accountConverter = require("../services/converters/BudgetAccountDataConverter")(errors);
-    const helper = require('../services/converters/ConverterHelper')(logger, errors);
 
     const validate = (account) => {
         const context = `${module}.${validate.name}`;

@@ -62,23 +62,23 @@ module.exports = (db) => {
     }
 
     BudgetPeriod.init({
-        activeStart: {
-            type: DataTypes.DATE
-        },
-        activeEnd: {
-            type: DataTypes.DATE
-        },
         name: {
             type: DataTypes.STRING
         },
         description: {
             type: DataTypes.STRING
         },
+        start: {
+            type: DataTypes.DATE
+        },
+        end: {
+            type: DataTypes.DATE
+        },
         isSandbox: {
             type: DataTypes.BOOLEAN,
             default: false
         },
-        isSealed: {
+        isClosed: {
             type: DataTypes.BOOLEAN,
             default: false
         },
